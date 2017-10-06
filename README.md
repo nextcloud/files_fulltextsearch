@@ -4,5 +4,7 @@
 
 ### Note:
 
-PRE-ALPHA - DO NOT INSTALL.
+PRE-ALPHA - DO NOT INSTALL ON PROD.
+
+Core app: https://github.com/nextcloud/nextant/tree/fullnextsearch
 
