@@ -4,7 +4,20 @@
 
 ### Note:
 
-PRE-ALPHA - DO NOT INSTALL ON PROD.
+**ALPHA - DO NOT INSTALL ON PROD ENVIRONMENT.**  
 
-Core app: https://github.com/nextcloud/nextant/tree/fullnextsearch
+[**FullNextSearch**](https://github.com/nextcloud/nextant/tree/fullnextsearch) allows you to index and search the content of your cloud.  
 
+This app is a module that will retrieve the content of the files from the cloud in order index them using **FullNextSearch**, please have a look to the [README of the core app](https://github.com/nextcloud/nextant/blob/fullnextsearch/README.md) first
+
+
+
+### Installation
+
+You can download the app from the store, or download the source from the git repository and copy it in **apps/**.  
+
+
+
+### Configuration
+
+no configuration yet.
