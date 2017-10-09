@@ -141,7 +141,7 @@ class FilesService {
 	/**
 	 * @param SearchDocument $document
 	 */
-	public function getViewerPathFromDocument(SearchDocument $document) {
+	public function setDocumentInfo(SearchDocument $document) {
 
 		$viewerId = $document->getAccess()
 							 ->getViewer();
@@ -156,7 +156,30 @@ class FilesService {
 		$file = array_shift($viewerFiles);
 
 		// TODO: better way to do this : we remove the '/userId/files/'
-		$document->setTitle(MiscService::noEndSlash(substr($file->getPath(), 7 + strlen($viewerId))));
+		$path = MiscService::noEndSlash(substr($file->getPath(), 7 + strlen($viewerId)));
+		$document->setInfo('path', $path);
+		$document->setInfo('filename', $file->getName());
+	}
+
+
+	/**
+	 * @param SearchDocument $document
+	 */
+	public function setDocumentTitle(SearchDocument $document) {
+		$document->setTitle($document->getInfo('path'));
+	}
+
+
+	/**
+	 * @param SearchDocument $document
+	 */
+	public function setDocumentLink(SearchDocument $document) {
+
+		$path = $document->getInfo('path');
+		$dir = substr($path, 0, -strlen($document->getInfo('filename')));
+		$filename = $document->getInfo('filename');
+
+		$document->setLink('/index.php/apps/files/?dir=' . $dir . '&scrollto=' . $filename);
 	}
 
 

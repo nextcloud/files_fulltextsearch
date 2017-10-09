@@ -28,10 +28,10 @@
 namespace OCA\Files_FullNextSearch\Provider;
 
 use OCA\Files_FullNextSearch\AppInfo\Application;
+use OCA\Files_FullNextSearch\Model\FilesDocument;
 use OCA\FullNextSearch\Exceptions\NoResultException;
 use OCA\FullNextSearch\INextSearchProvider;
 use OCA\FullNextSearch\Model\SearchResult;
-use OCA\Files_FullNextSearch\Model\FilesDocument;
 use OCA\Files_FullNextSearch\Service\FilesService;
 use OCA\Files_FullNextSearch\Service\MiscService;
 
@@ -108,8 +108,11 @@ class FilesProvider implements INextSearchProvider {
 	 * {@inheritdoc}
 	 */
 	public function parseSearchResult(SearchResult $searchResult) {
+		
 		foreach ($searchResult->getDocuments() as $document) {
-			$this->filesService->getViewerPathFromDocument($document);
+			$this->filesService->setDocumentInfo($document);
+			$this->filesService->setDocumentTitle($document);
+			$this->filesService->setDocumentLink($document);
 		}
 	}
 
