@@ -30,6 +30,7 @@ namespace OCA\Files_FullNextSearch\Provider;
 use OCA\Files_FullNextSearch\AppInfo\Application;
 use OCA\Files_FullNextSearch\Model\FilesDocument;
 use OCA\FullNextSearch\Exceptions\NoResultException;
+use OCA\FullNextSearch\INextSearchPlatform;
 use OCA\FullNextSearch\INextSearchProvider;
 use OCA\FullNextSearch\Model\SearchResult;
 use OCA\Files_FullNextSearch\Service\FilesService;
@@ -77,8 +78,13 @@ class FilesProvider implements INextSearchProvider {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function initUser($userId) {
+	public function init(INextSearchPlatform $platform, $userId) {
 		$this->files = $this->filesService->getFilesFromUser($userId);
+
+		if ($platform->getId() === 'elastic_search')
+		{
+			//$platform->addMapping();
+		}
 	}
 
 
@@ -108,7 +114,7 @@ class FilesProvider implements INextSearchProvider {
 	 * {@inheritdoc}
 	 */
 	public function parseSearchResult(SearchResult $searchResult) {
-		
+
 		foreach ($searchResult->getDocuments() as $document) {
 			$this->filesService->setDocumentInfo($document);
 			$this->filesService->setDocumentTitle($document);
