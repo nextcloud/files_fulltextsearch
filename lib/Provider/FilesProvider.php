@@ -49,7 +49,7 @@ class FilesProvider implements INextSearchProvider {
 	private $files = [];
 
 	/**
-	 * {@inheritdoc}
+	 * return unique id of the provider
 	 */
 	public function getId() {
 		return 'files';
@@ -57,7 +57,7 @@ class FilesProvider implements INextSearchProvider {
 
 
 	/**
-	 * {@inheritdoc}
+	 * return name of the provider
 	 */
 	public function getName() {
 		return 'Files';
@@ -65,9 +65,11 @@ class FilesProvider implements INextSearchProvider {
 
 
 	/**
-	 * {@inheritdoc}
+	 * called when loading all providers.
+	 *
+	 * Loading some containers.
 	 */
-	public function load() {
+	public function loadProvider() {
 		$app = new Application();
 
 		$container = $app->getContainer();
@@ -75,24 +77,19 @@ class FilesProvider implements INextSearchProvider {
 		$this->miscService = $container->query(MiscService::class);
 	}
 
+
 	/**
-	 * {@inheritdoc}
+	 * Called on the creation of a new Index.
+	 *
 	 */
-	public function init(INextSearchPlatform $platform, $userId) {
+	public function initializeIndex(INextSearchPlatform $platform, $userId) {
 		$this->files = $this->filesService->getFilesFromUser($userId);
 
-		if ($platform->getId() === 'elastic_search')
-		{
+		if ($platform->getId() === 'elastic_search') {
 			//$platform->addMapping();
 		}
 	}
 
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function end() {
-	}
 
 	/**
 	 * {@inheritdoc}
@@ -110,10 +107,26 @@ class FilesProvider implements INextSearchProvider {
 	}
 
 
+
 	/**
-	 * {@inheritdoc}
+	 * Called when index is over.
 	 */
-	public function parseSearchResult(SearchResult $searchResult) {
+	public function finalizeIndex() {
+		$this->files = [];
+	}
+
+
+	/**
+	 * not used yet
+	 */
+	public function unloadProvider() {
+	}
+
+
+
+	/**
+	 */
+	public function improveSearchResult(SearchResult $searchResult) {
 
 		foreach ($searchResult->getDocuments() as $document) {
 			$this->filesService->setDocumentInfo($document);
@@ -123,29 +136,4 @@ class FilesProvider implements INextSearchProvider {
 	}
 
 
-	/**
-	 * Called when user is not needed anymore.
-	 */
-	public function endUser() {
-		$this->files = [];
-	}
-
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function unload() {
-	}
-
-
-	/**
-	 * this method is only call when using elastic search platform
-	 *
-	 * @param array $map
-	 *
-	 * @return array
-	 */
-	public function improveMappingForElasticSearch($map) {
-		return $map;
-	}
 }
