@@ -2,20 +2,20 @@
 <info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>files_fullnextsearch</id>
-	<name>Full Next Search - Files</name>
-	<summary>Summary of Full Next Search - Files</summary>
+	<name>Full Next Search - Index Files (ALPHA)</name>
+	<summary>Index your users' files on Full Next Search</summary>
 	<description><![CDATA[
 
-	Description of Full Next Search - Files
+	ALPHA - DO NOT INSTALL ON PRODUCTION NEXTCLOUD
 
 ]]>
 	</description>
-	<version>0.0.2</version>
+	<version>0.1.0</version>
 	<licence>agpl</licence>
 	<author>Maxence Lange</author>
 	<namespace>Files_FullNextSearch</namespace>
 	<documentation>
-		<admin>https://github.com/daita/fullnextsearch/wiki</admin>
+		<admin>https://github.com/nextcloud/nextant/blob/fullnextsearch/INSTALL.md</admin>
 	</documentation>
 	<category>tools</category>
 	<website>https://github.com/daita/fullnextsearch</website>

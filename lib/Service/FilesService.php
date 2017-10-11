@@ -30,6 +30,7 @@ namespace OCA\Files_FullNextSearch\Service;
 
 use OC\Share\Constants;
 use OC\Share\Share;
+use OCA\Files_FullNextSearch\Provider\FilesProvider;
 use OCA\FullNextSearch\Model\DocumentAccess;
 use OCA\FullNextSearch\Model\SearchDocument;
 use OCA\Files_FullNextSearch\Model\FilesDocument;
@@ -107,7 +108,7 @@ class FilesService {
 	 * @return FilesDocument
 	 */
 	private function generateFilesIndexFromFile(Node $file) {
-		$document = new FilesDocument($file->getId());
+		$document = new FilesDocument(FilesProvider::FILES_PROVIDER_ID, $file->getId());
 
 		$document->setType($file->getType())
 				 ->setOwner(
@@ -144,7 +145,7 @@ class FilesService {
 	public function setDocumentInfo(SearchDocument $document) {
 
 		$viewerId = $document->getAccess()
-							 ->getViewer();
+							 ->getViewerId();
 
 		$viewerFiles = $this->rootFolder->getUserFolder($viewerId)
 										->getById($document->getId());

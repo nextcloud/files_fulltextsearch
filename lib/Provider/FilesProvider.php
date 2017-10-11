@@ -40,6 +40,8 @@ use OCA\FullNextSearch\Model\SearchResult;
 class FilesProvider implements INextSearchProvider {
 
 
+	const FILES_PROVIDER_ID = 'files';
+
 	/** @var FilesService */
 	private $filesService;
 
@@ -56,7 +58,7 @@ class FilesProvider implements INextSearchProvider {
 	 * return unique id of the provider
 	 */
 	public function getId() {
-		return 'files';
+		return self::FILES_PROVIDER_ID;
 	}
 
 
