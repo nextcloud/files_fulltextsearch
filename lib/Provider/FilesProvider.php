@@ -29,12 +29,13 @@ namespace OCA\Files_FullNextSearch\Provider;
 
 use OCA\Files_FullNextSearch\AppInfo\Application;
 use OCA\Files_FullNextSearch\Model\FilesDocument;
+use OCA\Files_FullNextSearch\Service\FilesService;
+use OCA\Files_FullNextSearch\Service\MiscService;
 use OCA\FullNextSearch\Exceptions\NoResultException;
 use OCA\FullNextSearch\INextSearchPlatform;
 use OCA\FullNextSearch\INextSearchProvider;
+use OCA\FullNextSearch\Model\SearchDocument;
 use OCA\FullNextSearch\Model\SearchResult;
-use OCA\Files_FullNextSearch\Service\FilesService;
-use OCA\Files_FullNextSearch\Service\MiscService;
 
 class FilesProvider implements INextSearchProvider {
 
@@ -47,6 +48,9 @@ class FilesProvider implements INextSearchProvider {
 
 	/** @var FilesDocument[] */
 	private $files = [];
+
+	/** @var int */
+	private $sizeIndexTotal = 0;
 
 	/**
 	 * return unique id of the provider
@@ -81,10 +85,15 @@ class FilesProvider implements INextSearchProvider {
 	/**
 	 * Called on the creation of a new Index.
 	 *
+	 * We list all the files for userId
+	 *
+	 * @param INextSearchPlatform $platform
+	 * @param string $userId
 	 */
 	public function initializeIndex(INextSearchPlatform $platform, $userId) {
 		$this->files = $this->filesService->getFilesFromUser($userId);
 
+		$this->sizeIndexTotal = sizeof($this->files);
 		if ($platform->getId() === 'elastic_search') {
 			//$platform->addMapping();
 		}
@@ -92,7 +101,33 @@ class FilesProvider implements INextSearchProvider {
 
 
 	/**
-	 * {@inheritdoc}
+	 * return the number of document left to index
+	 *
+	 * @return int
+	 */
+	public function getSizeIndexLeft() {
+		return sizeof($this->files);
+	}
+
+
+	/**
+	 * return the total number of documents to index
+	 *
+	 * @return int
+	 */
+	public function getSizeIndexTotal() {
+		return $this->sizeIndexTotal;
+	}
+
+
+	/**
+	 * generate documents prior to the indexing.
+	 * throw NoResultException if no more result
+	 *
+	 * @param int $chunkSize
+	 *
+	 * @return SearchDocument[]
+	 * @throws NoResultException
 	 */
 	public function generateDocuments($chunkSize) {
 
@@ -105,7 +140,6 @@ class FilesProvider implements INextSearchProvider {
 
 		return $result;
 	}
-
 
 
 	/**
@@ -123,8 +157,12 @@ class FilesProvider implements INextSearchProvider {
 	}
 
 
-
 	/**
+	 * after a search, improve results
+	 *
+	 * @param SearchResult $searchResult
+	 *
+	 * @return mixed|void
 	 */
 	public function improveSearchResult(SearchResult $searchResult) {
 
