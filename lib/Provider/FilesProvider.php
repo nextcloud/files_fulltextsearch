@@ -31,10 +31,9 @@ use OCA\Files_FullNextSearch\AppInfo\Application;
 use OCA\Files_FullNextSearch\Model\FilesDocument;
 use OCA\Files_FullNextSearch\Service\FilesService;
 use OCA\Files_FullNextSearch\Service\MiscService;
-use OCA\FullNextSearch\Exceptions\NoResultException;
 use OCA\FullNextSearch\INextSearchPlatform;
 use OCA\FullNextSearch\INextSearchProvider;
-use OCA\FullNextSearch\Model\SearchDocument;
+use OCA\FullNextSearch\Model\IndexDocument;
 use OCA\FullNextSearch\Model\SearchResult;
 
 class FilesProvider implements INextSearchProvider {
@@ -47,12 +46,6 @@ class FilesProvider implements INextSearchProvider {
 
 	/** @var MiscService */
 	private $miscService;
-
-	/** @var FilesDocument[] */
-	private $files = [];
-
-	/** @var int */
-	private $sizeIndexTotal = 0;
 
 	/**
 	 * return unique id of the provider
@@ -85,43 +78,24 @@ class FilesProvider implements INextSearchProvider {
 
 
 	/**
-	 * Called on the creation of a new Index.
+	 * returns all indexable document for a user.
+	 * There is no need to fill the document with content at this point.
 	 *
-	 * We list all the files for userId
+	 * $platform is provided if the mapping needs to be changed.
 	 *
 	 * @param INextSearchPlatform $platform
 	 * @param string $userId
 	 *
-	 * @return SearchDocument[]
+	 * @return IndexDocument[]
 	 */
-	public function initializeIndex(INextSearchPlatform $platform, $userId) {
+	public function generateIndexableDocuments(INextSearchPlatform $platform, $userId) {
 		$files = $this->filesService->getFilesFromUser($userId);
 
-		return $files;
-//		$this->sizeIndexTotal = sizeof($this->files);
 //		if ($platform->getId() === 'elastic_search') {
 //			//$platform->addMapping();
 //		}
-	}
 
-
-	/**
-	 * return the number of document left to index
-	 *
-	 * @return int
-	 */
-	public function getSizeIndexLeft() {
-		return sizeof($this->files);
-	}
-
-
-	/**
-	 * return the total number of documents to index
-	 *
-	 * @return int
-	 */
-	public function getSizeIndexTotal() {
-		return $this->sizeIndexTotal;
+		return $files;
 	}
 
 
@@ -129,11 +103,11 @@ class FilesProvider implements INextSearchProvider {
 	 * generate documents prior to the indexing.
 	 * throw NoResultException if no more result
 	 *
-	 * @param SearchDocument[] $chunk
+	 * @param IndexDocument[] $chunk
 	 *
-	 * @return SearchDocument[]
+	 * @return IndexDocument[]
 	 */
-	public function generateDocuments($chunk) {
+	public function fillIndexDocuments($chunk) {
 
 		/** @var FilesDocument[] $chunk */
 		$result = $this->filesService->generateDocuments($chunk);
@@ -141,13 +115,6 @@ class FilesProvider implements INextSearchProvider {
 		return $result;
 	}
 
-
-	/**
-	 * Called when index is over.
-	 */
-	public function finalizeIndex() {
-		$this->files = [];
-	}
 
 
 	/**

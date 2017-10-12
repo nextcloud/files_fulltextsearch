@@ -32,7 +32,7 @@ use OC\Share\Constants;
 use OC\Share\Share;
 use OCA\Files_FullNextSearch\Provider\FilesProvider;
 use OCA\FullNextSearch\Model\DocumentAccess;
-use OCA\FullNextSearch\Model\SearchDocument;
+use OCA\FullNextSearch\Model\IndexDocument;
 use OCA\Files_FullNextSearch\Model\FilesDocument;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
@@ -91,7 +91,7 @@ class FilesService {
 		$result = [];
 
 		foreach ($files as $file) {
-			$result[] = $this->generateFilesIndexFromFile($file);
+			$result[] = $this->generateFilesDocumentFromFile($file);
 			if ($file->getType() === FileInfo::TYPE_FOLDER) {
 				/** @var $file Folder */
 				$result = array_merge($result, $this->getFilesFromDirectory($userId, $file));
@@ -107,7 +107,7 @@ class FilesService {
 	 *
 	 * @return FilesDocument
 	 */
-	private function generateFilesIndexFromFile(Node $file) {
+	private function generateFilesDocumentFromFile(Node $file) {
 		$document = new FilesDocument(FilesProvider::FILES_PROVIDER_ID, $file->getId());
 
 		$document->setType($file->getType())
@@ -144,9 +144,9 @@ class FilesService {
 
 
 	/**
-	 * @param SearchDocument $document
+	 * @param IndexDocument $document
 	 */
-	public function setDocumentInfo(SearchDocument $document) {
+	public function setDocumentInfo(IndexDocument $document) {
 
 		$viewerId = $document->getAccess()
 							 ->getViewerId();
@@ -168,17 +168,17 @@ class FilesService {
 
 
 	/**
-	 * @param SearchDocument $document
+	 * @param IndexDocument $document
 	 */
-	public function setDocumentTitle(SearchDocument $document) {
+	public function setDocumentTitle(IndexDocument $document) {
 		$document->setTitle($document->getInfo('path'));
 	}
 
 
 	/**
-	 * @param SearchDocument $document
+	 * @param IndexDocument $document
 	 */
-	public function setDocumentLink(SearchDocument $document) {
+	public function setDocumentLink(IndexDocument $document) {
 
 		$path = $document->getInfo('path');
 		$dir = substr($path, 0, -strlen($document->getInfo('filename')));
@@ -197,11 +197,11 @@ class FilesService {
 
 		$index = [];
 		foreach ($files as $file) {
-			if (!($file instanceof FilesDocument) || $file->getType() === FileInfo::TYPE_FOLDER) {
+			if (!($file instanceof FilesDocument)) {
 				continue;
 			}
 
-			$this->extractContentFromFile($file);
+			$this->generateDocumentFromFile($file);
 			$index[] = $file;
 		}
 
@@ -214,15 +214,16 @@ class FilesService {
 	 *
 	 * @return FilesDocument
 	 */
-	private function extractContentFromFile(FilesDocument $document) {
+	private function generateDocumentFromFile(FilesDocument $document) {
 		$userFolder = $this->rootFolder->getUserFolder($document->getOwner());
 		$file = $userFolder->get($document->getPath());
-		if ($file->getType() === FileInfo::TYPE_FILE) {
 
+		$access = $this->getDocumentAccessFromFile($file);
+		$document->setAccess($access);
+		$document->setTitle($document->getPath());
+
+		if ($file->getType() === FileInfo::TYPE_FILE) {
 			/** @var File $file */
-			$access = $this->getDocumentAccessFromFile($file);
-			$document->setAccess($access);
-			$document->setTitle($document->getPath());
 
 			$this->extractContentFromFileText($document, $file);
 			//$this->extractContentFromFilePDF($document, $file);
@@ -246,11 +247,11 @@ class FilesService {
 
 
 	/**
-	 * @param File $file
+	 * @param Node $file
 	 *
 	 * @return DocumentAccess
 	 */
-	private function getDocumentAccessFromFile(File $file) {
+	private function getDocumentAccessFromFile(Node $file) {
 		$access = new DocumentAccess(
 			$file->getOwner()
 				 ->getUID()
