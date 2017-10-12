@@ -115,6 +115,7 @@ class FilesService {
 					 $file->getOwner()
 						  ->getUID()
 				 )
+				 ->setModifiedTime($file->getMTime())
 				 ->setMimetype($file->getMimetype());
 
 		$this->completeFileDocument($document);
@@ -123,6 +124,9 @@ class FilesService {
 	}
 
 
+	/**
+	 * @param FilesDocument $document
+	 */
 	private function completeFileDocument(FilesDocument $document) {
 
 		$ownerFiles = $this->rootFolder->getUserFolder($document->getOwner())
@@ -193,7 +197,7 @@ class FilesService {
 
 		$index = [];
 		foreach ($files as $file) {
-			if ($file->getType() === FileInfo::TYPE_FOLDER) {
+			if (!($file instanceof FilesDocument) || $file->getType() === FileInfo::TYPE_FOLDER) {
 				continue;
 			}
 

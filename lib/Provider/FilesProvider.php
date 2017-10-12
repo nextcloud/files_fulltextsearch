@@ -91,14 +91,17 @@ class FilesProvider implements INextSearchProvider {
 	 *
 	 * @param INextSearchPlatform $platform
 	 * @param string $userId
+	 *
+	 * @return SearchDocument[]
 	 */
 	public function initializeIndex(INextSearchPlatform $platform, $userId) {
-		$this->files = $this->filesService->getFilesFromUser($userId);
+		$files = $this->filesService->getFilesFromUser($userId);
 
-		$this->sizeIndexTotal = sizeof($this->files);
-		if ($platform->getId() === 'elastic_search') {
-			//$platform->addMapping();
-		}
+		return $files;
+//		$this->sizeIndexTotal = sizeof($this->files);
+//		if ($platform->getId() === 'elastic_search') {
+//			//$platform->addMapping();
+//		}
 	}
 
 
@@ -126,19 +129,14 @@ class FilesProvider implements INextSearchProvider {
 	 * generate documents prior to the indexing.
 	 * throw NoResultException if no more result
 	 *
-	 * @param int $chunkSize
+	 * @param SearchDocument[] $chunk
 	 *
 	 * @return SearchDocument[]
-	 * @throws NoResultException
 	 */
-	public function generateDocuments($chunkSize) {
+	public function generateDocuments($chunk) {
 
-		if (sizeof($this->files) === 0) {
-			throw new NoResultException();
-		}
-
-		$toIndex = array_splice($this->files, 0, $chunkSize);
-		$result = $this->filesService->generateDocuments($toIndex);
+		/** @var FilesDocument[] $chunk */
+		$result = $this->filesService->generateDocuments($chunk);
 
 		return $result;
 	}
