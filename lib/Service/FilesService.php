@@ -31,6 +31,7 @@ namespace OCA\Files_FullNextSearch\Service;
 use OC\Share\Constants;
 use OC\Share\Share;
 use OCA\Files_FullNextSearch\Provider\FilesProvider;
+use OCA\FullNextSearch\INextSearchPlatform;
 use OCA\FullNextSearch\Model\DocumentAccess;
 use OCA\FullNextSearch\Model\IndexDocument;
 use OCA\Files_FullNextSearch\Model\FilesDocument;
@@ -233,9 +234,8 @@ class FilesService {
 
 		if ($file->getType() === FileInfo::TYPE_FILE) {
 			/** @var File $file */
-
 			$this->extractContentFromFileText($document, $file);
-			//$this->extractContentFromFilePDF($document, $file);
+			$this->extractContentFromFilePDF($document, $file);
 		}
 
 		return $document;
@@ -247,10 +247,27 @@ class FilesService {
 	 * @param File $file
 	 */
 	private function extractContentFromFileText(FilesDocument $document, File $file) {
+
 		if (substr($document->getMimetype(), 0, 5) !== 'text/') {
 			return;
 		}
 
+		// on simple text file, elastic search+attachment pipeline can still detect language, useful ?
+		//		$document->setInfo('_pipeline', 'files_attachment');
+		$document->setContent($file->getContent());
+	}
+
+
+	/**
+	 * @param FilesDocument $document
+	 * @param File $file
+	 */
+	private function extractContentFromFilePDF(FilesDocument $document, File $file) {
+		if ($document->getMimetype() !== 'application/pdf') {
+			return;
+		}
+
+		$document->setInfo('_pipeline', 'files_attachment');
 		$document->setContent($file->getContent());
 	}
 

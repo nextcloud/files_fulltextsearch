@@ -29,6 +29,7 @@ namespace OCA\Files_FullNextSearch\Provider;
 
 use OCA\Files_FullNextSearch\AppInfo\Application;
 use OCA\Files_FullNextSearch\Model\FilesDocument;
+use OCA\Files_FullNextSearch\Service\ElasticSearchService;
 use OCA\Files_FullNextSearch\Service\FilesService;
 use OCA\Files_FullNextSearch\Service\MiscService;
 use OCA\FullNextSearch\INextSearchPlatform;
@@ -44,8 +45,12 @@ class FilesProvider implements INextSearchProvider {
 	/** @var FilesService */
 	private $filesService;
 
+	/** @var ElasticSearchService */
+	private $elasticSearchService;
+
 	/** @var MiscService */
 	private $miscService;
+
 
 	/**
 	 * return unique id of the provider
@@ -73,6 +78,7 @@ class FilesProvider implements INextSearchProvider {
 
 		$container = $app->getContainer();
 		$this->filesService = $container->query(FilesService::class);
+		$this->elasticSearchService = $container->query(ElasticSearchService::class);
 		$this->miscService = $container->query(MiscService::class);
 	}
 
@@ -83,17 +89,12 @@ class FilesProvider implements INextSearchProvider {
 	 *
 	 * $platform is provided if the mapping needs to be changed.
 	 *
-	 * @param INextSearchPlatform $platform
 	 * @param string $userId
 	 *
 	 * @return IndexDocument[]
 	 */
-	public function generateIndexableDocuments(INextSearchPlatform $platform, $userId) {
+	public function generateIndexableDocuments($userId) {
 		$files = $this->filesService->getFilesFromUser($userId);
-
-//		if ($platform->getId() === 'elastic_search') {
-//			//$platform->addMapping();
-//		}
 
 		return $files;
 	}
@@ -115,6 +116,28 @@ class FilesProvider implements INextSearchProvider {
 		return $result;
 	}
 
+
+	/**
+	 * @param INextSearchPlatform $platform
+	 */
+	public function onInitializingIndex(INextSearchPlatform $platform) {
+		$this->elasticSearchService->onInitializingIndex($platform);
+	}
+
+	/**
+	 * @param INextSearchPlatform $platform
+	 * @param IndexDocument $document
+	 */
+	public function onIndexingDocument(INextSearchPlatform $platform, IndexDocument $document) {
+		$this->elasticSearchService->onIndexingDocument($platform, $document);
+	}
+
+	/**
+	 * @param INextSearchPlatform $platform
+	 */
+	public function onRemovingIndex(INextSearchPlatform $platform) {
+		$this->elasticSearchService->onRemovingIndex($platform);
+	}
 
 
 	/**
