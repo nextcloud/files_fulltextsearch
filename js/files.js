@@ -71,7 +71,7 @@ Files.prototype = {
 		});
 
 		elements.template_entry = self.generateTemplateEntry();
-		// nextSearch.setEntryTemplateId(elements.template_entry, self);
+		nextSearch.setEntryTemplateId(elements.template_entry, self);
 		nextSearch.setResultContainerId(elements.search_result);
 	},
 
@@ -108,7 +108,7 @@ Files.prototype = {
 
 	initSearch: function () {
 		var search = elements.search_input.val();
-		if (search.length < 4) {
+		if (search.length < 3) {
 			return false;
 		}
 
