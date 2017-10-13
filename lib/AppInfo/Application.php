@@ -27,18 +27,53 @@
 
 namespace OCA\Files_FullNextSearch\AppInfo;
 
+use OCA\Files_FullNextSearch\Provider\FilesProvider;
+use OCA\FullNextSearch\Api\v1\NextSearch;
+use OCP\App\IAppManager;
 use OCP\AppFramework\App;
+use OCP\IUserSession;
+use OCP\Util;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Application extends App {
 
-	const APP_NAME = 'Files_FullNextSearch';
+	const APP_NAME = 'files_fullnextsearch';
 
 	/**
 	 * @param array $params
 	 */
 	public function __construct(array $params = array()) {
 		parent::__construct(self::APP_NAME, $params);
+	}
 
+
+	public function registerFilesSearch() {
+		$container = $this->getContainer();
+
+		/** @var IUserSession $userSession */
+		$userSession = $container->query(IUserSession::class);
+		/** @var EventDispatcherInterface $dispatcher */
+		$dispatcher = \OC::$server->getEventDispatcher();
+
+		/** @var IAppManager $appManager */
+		$appManager = $container->query(IAppManager::class);
+
+		if (!$userSession->isLoggedIn()) {
+			return;
+		}
+
+		$user = $userSession->getUser();
+
+		if ($appManager->isEnabledForUser('circles', $user->getUID())
+			&& (NextSearch::isProviderIndexed(FilesProvider::FILES_PROVIDER_ID))) {
+
+			$dispatcher->addListener(
+				'OCA\Files::loadAdditionalScripts', function() {
+				NextSearch::addJavascriptAPI();
+				Util::addScript(Application::APP_NAME, 'files');
+			}
+			);
+		}
 	}
 
 	public function registerSettingsAdmin() {

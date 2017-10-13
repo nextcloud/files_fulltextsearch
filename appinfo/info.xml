@@ -13,6 +13,9 @@
 	<version>0.1.0</version>
 	<licence>agpl</licence>
 	<author>Maxence Lange</author>
+	<types>
+		<filesystem />
+	</types>
 	<namespace>Files_FullNextSearch</namespace>
 	<documentation>
 		<admin>https://github.com/nextcloud/nextant/blob/fullnextsearch/INSTALL.md</admin>
