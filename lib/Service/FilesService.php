@@ -88,17 +88,21 @@ class FilesService {
 	public function getFilesFromDirectory($userId, Folder $node) {
 		$files = $node->getDirectoryListing();
 
-		$result = [];
+		$documents = [];
 
 		foreach ($files as $file) {
-			$result[] = $this->generateFilesDocumentFromFile($file);
+			$document = $this->generateFilesDocumentFromFile($file);
+			if ($document !== null) {
+				$documents[] = $document;
+			}
+
 			if ($file->getType() === FileInfo::TYPE_FOLDER) {
 				/** @var $file Folder */
-				$result = array_merge($result, $this->getFilesFromDirectory($userId, $file));
+				$documents = array_merge($documents, $this->getFilesFromDirectory($userId, $file));
 			}
 		}
 
-		return $result;
+		return $documents;
 	}
 
 
@@ -108,6 +112,11 @@ class FilesService {
 	 * @return FilesDocument
 	 */
 	private function generateFilesDocumentFromFile(Node $file) {
+		if ($file->getStorage()
+				 ->isLocal() === false) {
+			return null;
+		}
+
 		$document = new FilesDocument(FilesProvider::FILES_PROVIDER_ID, $file->getId());
 
 		$document->setType($file->getType())
