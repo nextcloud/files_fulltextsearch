@@ -47,16 +47,14 @@ class Application extends App {
 	}
 
 
+	/**
+	 *
+	 */
 	public function registerFilesSearch() {
 		$container = $this->getContainer();
 
 		/** @var IUserSession $userSession */
 		$userSession = $container->query(IUserSession::class);
-		/** @var EventDispatcherInterface $dispatcher */
-		$dispatcher = \OC::$server->getEventDispatcher();
-
-		/** @var IAppManager $appManager */
-		$appManager = $container->query(IAppManager::class);
 
 		if (!$userSession->isLoggedIn()) {
 			return;
@@ -64,18 +62,32 @@ class Application extends App {
 
 		$user = $userSession->getUser();
 
-		if ($appManager->isEnabledForUser('circles', $user->getUID())
+		if ($container->query(IAppManager::class)
+					  ->isEnabledForUser('circles', $user->getUID())
 			&& (NextSearch::isProviderIndexed(FilesProvider::FILES_PROVIDER_ID))) {
 
-			$dispatcher->addListener(
-				'OCA\Files::loadAdditionalScripts', function() {
-				NextSearch::addJavascriptAPI();
-				Util::addScript(Application::APP_NAME, 'files');
-			}
-			);
+			$this->includeNextSearch();
 		}
 	}
 
+
+	/**
+	 *
+	 */
+	private function includeNextSearch() {
+		\OC::$server->getEventDispatcher()
+					->addListener(
+						'OCA\Files::loadAdditionalScripts', function() {
+						NextSearch::addJavascriptAPI();
+						Util::addScript(Application::APP_NAME, 'files');
+					}
+					);
+	}
+
+
+	/**
+	 *
+	 */
 	public function registerSettingsAdmin() {
 		\OCP\App::registerAdmin(self::APP_NAME, 'lib/admin');
 	}
