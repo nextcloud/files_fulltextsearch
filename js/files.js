@@ -62,11 +62,18 @@ Files.prototype = {
 		elements.search_input.on('input', function () {
 
 			self.resetSearch();
-			if (elements.searchTimeout === null && self.initSearch()) {
+
+			if (elements.searchTimeout === null && self.initSearch(false)) {
 				elements.searchTimeout = _.delay(function () {
-					self.initSearch();
+					self.initSearch(false);
 					elements.searchTimeout = null;
-				}, 1000);
+				}, 2000);
+			}
+		});
+
+		$(document).keypress(function (e) {
+			if (e.which === 13) {
+				self.initSearch(true);
 			}
 		});
 
@@ -106,9 +113,10 @@ Files.prototype = {
 	},
 
 
-	initSearch: function () {
+	initSearch: function (force) {
 		var search = elements.search_input.val();
-		if (search.length < 3) {
+
+		if (!force && search.length < 3) {
 			return false;
 		}
 
@@ -123,7 +131,7 @@ Files.prototype = {
 			elements.search_result.fadeIn(150);
 		});
 
-		console.log('ok');
+		console.log('> ' + JSON.stringify(result));
 	},
 
 
