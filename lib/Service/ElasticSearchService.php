@@ -73,7 +73,7 @@ class ElasticSearchService {
 	 * @param INextSearchPlatform $platform
 	 * @param array $arr
 	 */
-	public function onIndexingDocument(INextSearchPlatform $platform, $arr) {
+	public function onIndexingDocument(INextSearchPlatform $platform, &$arr) {
 		if ($platform->getId() !== 'elastic_search') {
 			return;
 		}
@@ -84,13 +84,19 @@ class ElasticSearchService {
 	 * @param INextSearchPlatform $platform
 	 * @param array $arr
 	 */
-	public function onSearchingQuery(INextSearchPlatform $platform, $arr) {
+	public function onSearchingQuery(INextSearchPlatform $platform, &$arr) {
 		if ($platform->getId() !== 'elastic_search') {
 			return;
 		}
 
-		\OC::$server->getLogger()
-					->log(4, 'Query: ' . json_encode($arr));
+		array_push(
+			$arr['params']['body']['query']['bool']['must']['bool']['should'],
+			[
+				'match' => [
+					'share_names.' . $arr['requester'] => $arr['query']
+				]
+			]
+		);
 	}
 
 

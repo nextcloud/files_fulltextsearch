@@ -301,7 +301,10 @@ class FilesService {
 	 */
 	private function getShareNamesFromFile(Node $file) {
 		$shareNames = [];
-	//	$shareNames['cult'] = $this->getPathFromViewerId($file->getId(), 'cult');
+
+
+		// TODO: cycle on share and generate shareNames !
+		//$shareNames['user'] = $this->getPathFromViewerId($file->getId(), 'user');
 
 		return $shareNames;
 	}

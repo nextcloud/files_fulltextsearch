@@ -128,7 +128,7 @@ class FilesProvider implements INextSearchProvider {
 	 * @param INextSearchPlatform $platform
 	 * @param array $arr
 	 */
-	public function onIndexingDocument(INextSearchPlatform $platform, $arr) {
+	public function onIndexingDocument(INextSearchPlatform $platform, &$arr) {
 		$this->elasticSearchService->onIndexingDocument($platform, $arr);
 	}
 
@@ -143,7 +143,7 @@ class FilesProvider implements INextSearchProvider {
 	 * @param INextSearchPlatform $platform
 	 * @param array $arr
 	 */
-	public function onSearchingQuery(INextSearchPlatform $platform, $arr) {
+	public function onSearchingQuery(INextSearchPlatform $platform, &$arr) {
 		$this->elasticSearchService->onSearchingQuery($platform, $arr);
 	}
 
