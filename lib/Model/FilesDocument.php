@@ -43,9 +43,6 @@ class FilesDocument extends IndexDocument {
 	/** @var string */
 	private $path;
 
-	/** @var string */
-	private $filename;
-
 
 	/**
 	 * @param string $owner
@@ -122,24 +119,5 @@ class FilesDocument extends IndexDocument {
 		return $this->path;
 	}
 
-
-	/**
-	 * @param $name
-	 *
-	 * @internal param string $path
-	 * @return $this
-	 */
-	public function setFilename($name) {
-		$this->filename = $name;
-
-		return $this;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getFilename() {
-		return $this->filename;
-	}
 
 }

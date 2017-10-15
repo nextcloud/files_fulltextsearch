@@ -56,18 +56,6 @@ class ElasticSearchService {
 		if ($platform->getId() !== 'elastic_search') {
 			return;
 		}
-
-		$ingest = $this->generateFilesAttachment();
-
-		try {
-			$platform->getClient()
-					 ->ingest()
-					 ->getPipeline($this->generateFilesAttachment(false));
-		} catch (\Exception $e) {
-			$platform->getClient()
-					 ->ingest()
-					 ->putPipeline($ingest);
-		}
 	}
 
 
@@ -78,67 +66,32 @@ class ElasticSearchService {
 		if ($platform->getId() !== 'elastic_search') {
 			return;
 		}
+	}
 
-		try {
-			$platform->getClient()
-					 ->ingest()
-					 ->deletePipeline($this->generateFilesAttachment(false));
-		} catch (\Exception $e) {
+
+	/**
+	 * @param INextSearchPlatform $platform
+	 * @param array $arr
+	 */
+	public function onIndexingDocument(INextSearchPlatform $platform, $arr) {
+		if ($platform->getId() !== 'elastic_search') {
+			return;
 		}
 	}
 
 
 	/**
 	 * @param INextSearchPlatform $platform
-	 * @param IndexDocument $document
+	 * @param array $arr
 	 */
-	public function onIndexingDocument(INextSearchPlatform $platform, IndexDocument $document) {
+	public function onSearchingQuery(INextSearchPlatform $platform, $arr) {
 		if ($platform->getId() !== 'elastic_search') {
 			return;
 		}
 
-		if ($document->getInfo('_pipeline') !== 'files_attachment') {
-			return;
-		}
-
-		$index = $document->getInfo('__current_index');
-		$index['pipeline'] = 'files_attachment';
-		$index['body']['content'] = base64_encode($index['body']['content']);
-		$document->setInfo('__current_index', $index);
+		\OC::$server->getLogger()
+					->log(4, 'Query: ' . json_encode($arr));
 	}
 
-
-	/**
-	 * @param bool $complete
-	 *
-	 * @return array
-	 */
-	private function generateFilesAttachment($complete = true) {
-
-		$params = ['id' => 'files_attachment'];
-
-		if ($complete === false) {
-			return $params;
-		}
-
-		$params['body'] = [
-			'description' => 'attachment',
-			'processors'  => [
-				[
-					'attachment' => [
-						'field'         => 'content',
-						'indexed_chars' => -1
-					],
-					'set'        => [
-						'field' => 'content',
-						'value' => '{{ attachment.content }}'
-					],
-					'remove'     => ['field' => 'attachment.content']
-				]
-			]
-		];
-
-		return $params;
-	}
 
 }

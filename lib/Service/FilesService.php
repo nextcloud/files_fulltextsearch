@@ -30,11 +30,10 @@ namespace OCA\Files_FullNextSearch\Service;
 
 use OC\Share\Constants;
 use OC\Share\Share;
+use OCA\Files_FullNextSearch\Model\FilesDocument;
 use OCA\Files_FullNextSearch\Provider\FilesProvider;
-use OCA\FullNextSearch\INextSearchPlatform;
 use OCA\FullNextSearch\Model\DocumentAccess;
 use OCA\FullNextSearch\Model\IndexDocument;
-use OCA\Files_FullNextSearch\Model\FilesDocument;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
@@ -128,28 +127,30 @@ class FilesService {
 				 ->setModifiedTime($file->getMTime())
 				 ->setMimetype($file->getMimetype());
 
-		$this->completeFileDocument($document);
-
 		return $document;
 	}
 
 
 	/**
-	 * @param FilesDocument $document
+	 * @param int $fileId
+	 * @param string $viewerId
+	 *
+	 * @return string
 	 */
-	private function completeFileDocument(FilesDocument $document) {
+	private function getPathFromViewerId($fileId, $viewerId) {
 
-		$ownerFiles = $this->rootFolder->getUserFolder($document->getOwner())
-									   ->getById($document->getId());
+		$ownerFiles = $this->rootFolder->getUserFolder($viewerId)
+									   ->getById($fileId);
 
 		if (sizeof($ownerFiles) === 0) {
-			return;
+			return '';
 		}
 		$file = array_shift($ownerFiles);
 
 		// TODO: better way to do this : we remove the 'files/'
-		$document->setPath(substr($file->getInternalPath(), 6))
-				 ->setFilename($file->getName());
+		$path = substr($file->getInternalPath(), 6);
+
+		return $path;
 	}
 
 
@@ -199,20 +200,22 @@ class FilesService {
 
 
 	/**
-	 * @param FilesDocument[] $files
+	 * @param FilesDocument[] $documents
 	 *
 	 * @return FilesDocument[]
 	 */
-	public function generateDocuments($files) {
+	public function generateDocuments($documents) {
 
 		$index = [];
-		foreach ($files as $file) {
-			if (!($file instanceof FilesDocument)) {
+		foreach ($documents as $document) {
+			if (!($document instanceof FilesDocument)) {
 				continue;
 			}
 
-			$this->generateDocumentFromFile($file);
-			$index[] = $file;
+			$document->setPath($this->getPathFromViewerId($document->getId(), $document->getOwner()));
+
+			$this->generateDocumentFromFile($document);
+			$index[] = $document;
 		}
 
 		return $index;
@@ -228,8 +231,8 @@ class FilesService {
 		$userFolder = $this->rootFolder->getUserFolder($document->getOwner());
 		$file = $userFolder->get($document->getPath());
 
-		$access = $this->getDocumentAccessFromFile($file);
-		$document->setAccess($access);
+		$document->setAccess($this->getDocumentAccessFromFile($file));
+		$document->setInfo('share_names', $this->getShareNamesFromFile($file));
 		$document->setTitle($document->getPath());
 
 		if ($file->getType() === FileInfo::TYPE_FILE) {
@@ -253,8 +256,7 @@ class FilesService {
 		}
 
 		// on simple text file, elastic search+attachment pipeline can still detect language, useful ?
-		//		$document->setInfo('_pipeline', 'files_attachment');
-		$document->setContent($file->getContent());
+		$document->setContent($file->getContent(), IndexDocument::NOT_ENCODED);
 	}
 
 
@@ -267,8 +269,7 @@ class FilesService {
 			return;
 		}
 
-		$document->setInfo('_pipeline', 'files_attachment');
-		$document->setContent($file->getContent());
+		$document->setContent(base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64);
 	}
 
 
@@ -290,6 +291,19 @@ class FilesService {
 		$access->setLinks($links);
 
 		return $access;
+	}
+
+
+	/**
+	 * @param Node $file
+	 *
+	 * @return array
+	 */
+	private function getShareNamesFromFile(Node $file) {
+		$shareNames = [];
+	//	$shareNames['cult'] = $this->getPathFromViewerId($file->getId(), 'cult');
+
+		return $shareNames;
 	}
 
 
