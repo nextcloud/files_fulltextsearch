@@ -327,7 +327,7 @@ class FilesService {
 		foreach ($shares as $user) {
 			$shareNames[$user] = $this->getPathFromViewerId($file->getId(), $user);
 		}
-		
+
 		return $shareNames;
 	}
 
@@ -367,8 +367,11 @@ class FilesService {
 
 		$users = $groups = $circles = $links = [];
 		$shares = Share::getAllSharesForFileId($fileId);
-
 		foreach ($shares as $share) {
+			if ($share['parent'] !== null) {
+				continue;
+			}
+
 			$this->parseUsersShares($share, $users);
 			$this->parseUsersGroups($share, $groups);
 			$this->parseUsersCircles($share, $circles);
