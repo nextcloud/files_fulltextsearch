@@ -39,11 +39,19 @@ use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\IUserManager;
+use OCP\Share\IManager;
 
 class FilesService {
 
 	/** @var IRootFolder */
 	private $rootFolder;
+
+	/** @var IUserManager */
+	private $userManager;
+
+	/** @var IManager */
+	private $shareManager;
 
 	/** @var MiscService */
 	private $miscService;
@@ -53,12 +61,20 @@ class FilesService {
 	 * ProviderService constructor.
 	 *
 	 * @param IRootFolder $rootFolder
+	 * @param IUserManager $userManager
+	 * @param IManager $shareManager
 	 * @param MiscService $miscService
 	 *
 	 * @internal param IProviderFactory $factory
 	 */
-	function __construct(IRootFolder $rootFolder, MiscService $miscService) {
+	function __construct(
+		IRootFolder $rootFolder, IUserManager $userManager, IManager $shareManager,
+		MiscService $miscService
+	) {
 		$this->rootFolder = $rootFolder;
+		$this->userManager = $userManager;
+		$this->shareManager = $shareManager;
+
 		$this->miscService = $miscService;
 	}
 
@@ -142,16 +158,17 @@ class FilesService {
 	 */
 	private function getPathFromViewerId($fileId, $viewerId) {
 
-		$ownerFiles = $this->rootFolder->getUserFolder($viewerId)
-									   ->getById($fileId);
+		$viewerFiles = $this->rootFolder->getUserFolder($viewerId)
+										->getById($fileId);
 
-		if (sizeof($ownerFiles) === 0) {
+		if (sizeof($viewerFiles) === 0) {
 			return '';
 		}
-		$file = array_shift($ownerFiles);
 
-		// TODO: better way to do this : we remove the 'files/'
-		$path = substr($file->getInternalPath(), 6);
+		$file = array_shift($viewerFiles);
+
+		// TODO: better way to do this : we remove the '/userid/files/'
+		$path = MiscService::noEndSlash(substr($file->getPath(), 8 + strlen($viewerId)));
 
 		return $path;
 	}
@@ -306,15 +323,46 @@ class FilesService {
 		$shareNames = [];
 
 
-		$shares = \OC::$server->getShareManager()
-							  ->getAccessList($file);
-		// TODO: cycle on share and generate shareNames !
-		//$shareNames['user'] = $this->getPathFromViewerId($file->getId(), 'user');
-
+		$shares = $this->getAllSharesFromFile($file);
+		foreach ($shares as $user) {
+			$shareNames[$user] = $this->getPathFromViewerId($file->getId(), $user);
+		}
+		
 		return $shareNames;
 	}
 
 
+	/**
+	 * @param Node $file
+	 *
+	 * @return array
+	 */
+	private function getAllSharesFromFile(Node $file) {
+		$result = [];
+
+		$shares = $this->shareManager->getAccessList($file);
+
+		if (!array_key_exists('users', $shares)) {
+			return $result;
+		}
+
+		foreach ($shares['users'] as $user) {
+			if (in_array($user, $result) || $this->userManager->get($user) === null) {
+				continue;
+			}
+
+			array_push($result, $user);
+		}
+
+		return $result;
+	}
+
+
+	/**
+	 * @param $fileId
+	 *
+	 * @return array
+	 */
 	private function getSharesFromFileId($fileId) {
 
 		$users = $groups = $circles = $links = [];
