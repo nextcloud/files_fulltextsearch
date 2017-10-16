@@ -86,10 +86,13 @@ class FilesService {
 	 * @return FilesDocument[]
 	 */
 	public function getFilesFromDirectory($userId, Folder $node) {
-		$files = $node->getDirectoryListing();
-
 		$documents = [];
 
+		if ($node->nodeExists('.noindex')) {
+			return $documents;
+		}
+
+		$files = $node->getDirectoryListing();
 		foreach ($files as $file) {
 			$document = $this->generateFilesDocumentFromFile($file);
 			if ($document !== null) {
@@ -303,6 +306,8 @@ class FilesService {
 		$shareNames = [];
 
 
+		$shares = \OC::$server->getShareManager()
+							  ->getAccessList($file);
 		// TODO: cycle on share and generate shareNames !
 		//$shareNames['user'] = $this->getPathFromViewerId($file->getId(), 'user');
 
@@ -321,7 +326,6 @@ class FilesService {
 			$this->parseUsersCircles($share, $circles);
 			$this->parseUsersLinks($share, $links);
 		}
-
 
 		return [$users, $groups, $circles, $links];
 	}
