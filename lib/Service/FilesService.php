@@ -441,18 +441,5 @@ class FilesService {
 		}
 	}
 
-
-	/**
-	 * @param FilesDocument $document
-	 * @param File $file
-	 */
-//	private function extractContentFromFilePDF(FilesDocument $document, File $file) {
-//		if ($document->getMimetype() !== 'application/pdf') {
-//			return;
-//		}
-//
-//		$content = $file->getContent();
-//		$content = base64_encode($content);
-//		$document->setContent($content);
-//	}
+	
 }

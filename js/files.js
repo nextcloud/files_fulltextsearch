@@ -34,6 +34,7 @@ var elements = {
 	searchTimeout: null,
 	old_files: null,
 	old_searchbox: null,
+	search_icon: null,
 	search_input: null,
 	search_result: null,
 	template_entry: null
@@ -54,10 +55,14 @@ Files.prototype = {
 		elements.old_searchbox = $('#searchbox');
 		elements.old_searchbox.hide();
 
+
 		elements.search_result = $('<div>');
 		elements.search_result.insertBefore(elements.old_files);
 		elements.search_input = $('<input>');
 		elements.search_input.insertBefore(elements.old_searchbox);
+
+		elements.search_icon = $('<div>', {class: 'icon-fullnextsearch'});
+		elements.search_icon.insertBefore(elements.search_input);
 
 		elements.search_input.on('input', function () {
 
