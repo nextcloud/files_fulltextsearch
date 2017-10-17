@@ -120,4 +120,12 @@ class FilesDocument extends IndexDocument {
 	}
 
 
+	public function __destruct() {
+		parent::__destruct();
+
+		unset($this->owner);
+		unset($this->type);
+		unset($this->mimetype);
+		unset($this->path);
+	}
 }
