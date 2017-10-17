@@ -63,7 +63,7 @@ class Application extends App {
 		$user = $userSession->getUser();
 
 		if ($container->query(IAppManager::class)
-					  ->isEnabledForUser('circles', $user->getUID())
+					  ->isEnabledForUser('fullnextsearch', $user->getUID())
 			&& (NextSearch::isProviderIndexed(FilesProvider::FILES_PROVIDER_ID))) {
 
 			$this->includeNextSearch();
