@@ -27,13 +27,13 @@
 
 namespace OCA\Files_FullNextSearch\AppInfo;
 
+use OCA\Files_FullNextSearch\Hooks\FilesHooks;
 use OCA\Files_FullNextSearch\Provider\FilesProvider;
 use OCA\FullNextSearch\Api\v1\NextSearch;
 use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\IUserSession;
 use OCP\Util;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class Application extends App {
 
@@ -44,6 +44,31 @@ class Application extends App {
 	 */
 	public function __construct(array $params = array()) {
 		parent::__construct(self::APP_NAME, $params);
+
+		self::registerHooks();
+	}
+
+
+	/**
+	 * Register Hooks
+	 */
+	public function registerHooks() {
+		Util::connectHook('OC_Filesystem', 'post_create', FilesHooks::class, 'onNewFile');
+		Util::connectHook('OC_Filesystem', 'post_update', FilesHooks::class, 'onFileUpdate');
+		Util::connectHook('OC_Filesystem', 'post_rename', FilesHooks::class, 'onFileRename');
+		Util::connectHook('OC_Filesystem', 'delete', FilesHooks::class, 'onFileTrash');
+//		Util::connectHook(
+//			'\OCA\Files_Trashbin\Trashbin', 'post_restore', FilesHooks::class, 'onFileRestored'
+//		);
+//		Util::connectHook('\OCP\Trashbin', 'preDelete', FilesHooks::class, 'onFileDelete');
+		Util::connectHook('OCP\Share', 'post_shared', FilesHooks::class, 'onFileShare');
+		Util::connectHook('OCP\Share', 'post_unshare', FilesHooks::class, 'onFileUnshare');
+
+//		$eventDispatcher = $this->getContainer()->getServer()->getEventDispatcher();
+//		$eventDispatcher->addListener('OCP\Share::preUnshare', [FilesHooks::class, 'onFileUnshare']);
+
+
+
 	}
 
 
