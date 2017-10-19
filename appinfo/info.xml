@@ -10,11 +10,11 @@
 
 ]]>
 	</description>
-	<version>0.1.1</version>
+	<version>0.1.2</version>
 	<licence>agpl</licence>
 	<author>Maxence Lange</author>
 	<types>
-		<filesystem />
+		<filesystem/>
 	</types>
 	<namespace>Files_FullNextSearch</namespace>
 	<documentation>
@@ -24,8 +24,7 @@
 	<website>https://github.com/daita/fullnextsearch</website>
 	<bugs>https://github.com/daita/fullnextsearch/issues</bugs>
 	<repository>https://github.com/daita/fullnextsearch.git</repository>
-	<!--<screenshot>-->
-	<!--</screenshot>-->
+	<!--<screenshot></screenshot>-->
 	<dependencies>
 		<nextcloud min-version="12" max-version="13"/>
 	</dependencies>
@@ -38,6 +37,5 @@
 	<fullnextsearch>
 		<provider>OCA\Files_FullNextSearch\Provider\FilesProvider</provider>
 	</fullnextsearch>
-
 
 </info>

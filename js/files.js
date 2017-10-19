@@ -38,12 +38,12 @@ var elements = {
 };
 
 
-const Files = function () {
+const Files_FullNextSearch = function () {
 	this.init();
 };
 
 
-Files.prototype = {
+Files_FullNextSearch.prototype = {
 
 	init: function () {
 		var self = this;
@@ -121,10 +121,10 @@ Files.prototype = {
 };
 
 
-OCA.NextSearch.Files = Files;
+OCA.NextSearch.Files = Files_FullNextSearch;
 
 $(document).ready(function () {
-	OCA.NextSearch.navigate = new Files();
+	OCA.NextSearch.navigate = new Files_FullNextSearch();
 });
 
 
