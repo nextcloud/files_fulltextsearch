@@ -95,9 +95,9 @@ class FilesHooks {
 	 *
 	 * @param array $params
 	 */
-	public static function fileShare($params) {
+	public static function onFileShare($params) {
 		self::getController()
-			->onFileShare($params);
+			->onFileShare($params['itemSource']);
 	}
 
 	/**
@@ -105,10 +105,10 @@ class FilesHooks {
 	 *
 	 * @param array $params
 	 */
-	public static function fileUnshare($params) {
+	public static function onFileUnshare($params) {
 //		if (key_exists('itemSource', $params)) {
 		self::getController()
-			->onFileUnshare($params);
+			->onFileUnshare($params['itemSource']);
 //		}
 	}
 }
