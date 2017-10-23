@@ -34,6 +34,7 @@ use OCA\Files_FullNextSearch\Service\FilesService;
 use OCA\Files_FullNextSearch\Service\MiscService;
 use OCA\FullNextSearch\INextSearchPlatform;
 use OCA\FullNextSearch\INextSearchProvider;
+use OCA\FullNextSearch\Model\Index;
 use OCA\FullNextSearch\Model\IndexDocument;
 use OCA\FullNextSearch\Model\SearchResult;
 
@@ -114,6 +115,16 @@ class FilesProvider implements INextSearchProvider {
 		$result = $this->filesService->generateDocuments($chunk);
 
 		return $result;
+	}
+
+
+	/**
+	 * @param Index $index
+	 *
+	 * @return IndexDocument
+	 */
+	public function updateDocument(Index $index) {
+		return $this->filesService->updateDocument($index);
 	}
 
 

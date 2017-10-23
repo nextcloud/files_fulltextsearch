@@ -31,11 +31,10 @@ use OCA\FullNextSearch\Model\IndexDocument;
 
 class FilesDocument extends IndexDocument {
 
-	const STATUS_FILE_RENAME = 1024;
-	const STATUS_FILE_SHARES = 2048;
+	const STATUS_FILE_ACCESS = 1024;
 
 	/** @var string */
-	private $owner;
+	private $ownerId;
 
 	/** @var string */
 	private $type;
@@ -48,12 +47,12 @@ class FilesDocument extends IndexDocument {
 
 
 	/**
-	 * @param string $owner
+	 * @param string $ownerId
 	 *
 	 * @return $this
 	 */
-	public function setOwner($owner) {
-		$this->owner = $owner;
+	public function setOwnerId($ownerId) {
+		$this->ownerId = $ownerId;
 
 		return $this;
 	}
@@ -61,8 +60,8 @@ class FilesDocument extends IndexDocument {
 	/**
 	 * @return string
 	 */
-	public function getOwner() {
-		return $this->owner;
+	public function getOwnerId() {
+		return $this->ownerId;
 	}
 
 
@@ -126,7 +125,7 @@ class FilesDocument extends IndexDocument {
 	public function __destruct() {
 		parent::__destruct();
 
-		unset($this->owner);
+		unset($this->ownerId);
 		unset($this->type);
 		unset($this->mimetype);
 		unset($this->path);

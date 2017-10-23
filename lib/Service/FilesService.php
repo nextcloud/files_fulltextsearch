@@ -32,6 +32,7 @@ use OC\Share\Constants;
 use OC\Share\Share;
 use OCA\Files_FullNextSearch\Model\FilesDocument;
 use OCA\Files_FullNextSearch\Provider\FilesProvider;
+use OCA\FullNextSearch\Exceptions\FilesNotFoundException;
 use OCA\FullNextSearch\Model\DocumentAccess;
 use OCA\FullNextSearch\Model\Index;
 use OCA\FullNextSearch\Model\IndexDocument;
@@ -140,7 +141,7 @@ class FilesService {
 		$document = new FilesDocument(FilesProvider::FILES_PROVIDER_ID, $file->getId());
 
 		$document->setType($file->getType())
-				 ->setOwner(
+				 ->setOwnerId(
 					 $file->getOwner()
 						  ->getUID()
 				 )
@@ -245,9 +246,9 @@ class FilesService {
 				continue;
 			}
 
-			$document->setPath($this->getPathFromViewerId($document->getId(), $document->getOwner()));
+			$document->setPath($this->getPathFromViewerId($document->getId(), $document->getOwnerId()));
 
-			$this->generateDocumentFromFile($document);
+			$this->updateDocumentFromFilesDocument($document);
 			$index[] = $document;
 		}
 
@@ -256,17 +257,51 @@ class FilesService {
 
 
 	/**
-	 * @param FilesDocument $document
+	 * @param Index $index
 	 *
 	 * @return FilesDocument
 	 */
-	private function generateDocumentFromFile(FilesDocument $document) {
-		$userFolder = $this->rootFolder->getUserFolder($document->getOwner());
+	public function updateDocument(Index $index) {
+		return $this->generateDocumentFromIndex($index);
+	}
+
+
+	/**
+	 * @param FilesDocument $document
+	 */
+	private function updateDocumentFromFilesDocument(FilesDocument $document) {
+		$userFolder = $this->rootFolder->getUserFolder($document->getOwnerId());
 		$file = $userFolder->get($document->getPath());
 
+		$this->updateDocumentFromFile($document, $file);
+	}
+
+
+	private function updateDocumentFromFile(FilesDocument $document, Node $file) {
 		$this->updateAccessFromFile($document, $file);
-		$this->updateSharesNameFromFile($document, $file);
 		$this->updateContentFromFile($document, $file);
+	}
+
+
+	/**
+	 * @param Index $index
+	 *
+	 * @return FilesDocument
+	 * @throws FilesNotFoundException
+	 */
+	private function generateDocumentFromIndex(Index $index) {
+		$files = $this->rootFolder->getUserFolder($index->getOwnerId())
+								  ->getById($index->getDocumentId());
+
+		if (sizeof($files) === 0) {
+			throw new FilesNotFoundException();
+		}
+		$file = array_shift($files);
+
+		$document = $this->generateFilesDocumentFromFile($file);
+		$document->setIndex($index);
+
+		$this->updateDocumentFromFile($document, $file);
 
 		return $document;
 	}
@@ -280,29 +315,18 @@ class FilesService {
 
 		$index = $document->getIndex();
 		if (!$index->isStatus(Index::STATUS_INDEX_THIS)
-			&& !$index->isStatus(FilesDocument::STATUS_FILE_SHARES)) {
+			&& !$index->isStatus(FilesDocument::STATUS_FILE_ACCESS)) {
 			return;
 		}
 
 		$document->setAccess($this->getDocumentAccessFromFile($file));
-	}
-
-
-	/**
-	 * @param FilesDocument $document
-	 * @param Node $file
-	 */
-	private function updateSharesNameFromFile(FilesDocument $document, Node $file) {
-
-		$index = $document->getIndex();
-		if (!$index->isStatus(Index::STATUS_INDEX_THIS)
-			&& !$index->isStatus(FilesDocument::STATUS_FILE_RENAME)) {
-			return;
-		}
-
 		$document->setInfo('share_names', $this->getShareNamesFromFile($file));
+		$document->getIndex()
+				 ->setOwnerId(
+					 $document->getAccess()
+							  ->getOwnerId()
+				 );
 	}
-
 
 
 	/**
