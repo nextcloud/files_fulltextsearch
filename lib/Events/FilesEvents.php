@@ -75,7 +75,6 @@ class FilesEvents {
 	 */
 	public function onFileUpdate($path) {
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
-
 		NextSearch::updateIndexStatus('files', $file->getId(), Index::STATUS_INDEX_THIS);
 	}
 
@@ -85,7 +84,6 @@ class FilesEvents {
 	 */
 	public function onFileRename($target) {
 		$file = $this->filesService->getFileFromPath($this->userId, $target);
-
 		NextSearch::updateIndexStatus('files', $file->getId(), FilesDocument::STATUS_FILE_ACCESS);
 	}
 
@@ -95,7 +93,13 @@ class FilesEvents {
 	 */
 	public function onFileTrash($path) {
 		// check if trashbin does not exist. -> onFileDelete
-		$this->miscService->log('> ON FILE TRASH ' . json_encode($path));
+		// we do not index trashbin
+
+		$file = $this->filesService->getFileFromPath($this->userId, $path);
+		NextSearch::updateIndexStatus('files', $file->getId(), Index::STATUS_REMOVE_DOCUMENT);
+
+
+		//$this->miscService->log('> ON FILE TRASH ' . json_encode($path));
 	}
 
 
@@ -103,8 +107,8 @@ class FilesEvents {
 	 * @param string $path
 	 */
 	public function onFileRestore($path) {
-		$this->miscService->log('> ON FILE RESTORE ' . json_encode($path));
-
+		$file = $this->filesService->getFileFromPath($this->userId, $path);
+		NextSearch::updateIndexStatus('files', $file->getId(), Index::STATUS_INDEX_THIS);
 	}
 
 
@@ -112,12 +116,8 @@ class FilesEvents {
 	 * @param string $path
 	 */
 	public function onFileDelete($path) {
-		$file = $this->filesService->getFileFromPath($this->userId, $path);
-
-		$index = new Index('files', $file->getId());
-		$index->setStatus(Index::STATUS_DOCUMENT_REMOVE);
-
-		NextSearch::updateIndex($index);
+//		$file = $this->filesService->getFileFromPath($this->userId, $path);
+//		NextSearch::updateIndexStatus('files', $file->getId(), Index::STATUS_REMOVE_DOCUMENT);
 	}
 
 
