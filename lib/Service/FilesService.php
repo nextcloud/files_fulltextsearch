@@ -264,7 +264,8 @@ class FilesService {
 		$userFolder = $this->rootFolder->getUserFolder($document->getOwner());
 		$file = $userFolder->get($document->getPath());
 
-		$this->updateMetaFromFile($document, $file);
+		$this->updateAccessFromFile($document, $file);
+		$this->updateSharesNameFromFile($document, $file);
 		$this->updateContentFromFile($document, $file);
 
 		return $document;
@@ -275,18 +276,33 @@ class FilesService {
 	 * @param FilesDocument $document
 	 * @param Node $file
 	 */
-	private function updateMetaFromFile(FilesDocument $document, Node $file) {
+	private function updateAccessFromFile(FilesDocument $document, Node $file) {
 
 		$index = $document->getIndex();
 		if (!$index->isStatus(Index::STATUS_INDEX_THIS)
-			&& !$index->isStatus(FilesDocument::STATUS_FILE_ACCESS)) {
+			&& !$index->isStatus(FilesDocument::STATUS_FILE_SHARES)) {
 			return;
 		}
 
 		$document->setAccess($this->getDocumentAccessFromFile($file));
-		$document->setInfo('share_names', $this->getShareNamesFromFile($file));
-		$document->setTitle($document->getPath());
 	}
+
+
+	/**
+	 * @param FilesDocument $document
+	 * @param Node $file
+	 */
+	private function updateSharesNameFromFile(FilesDocument $document, Node $file) {
+
+		$index = $document->getIndex();
+		if (!$index->isStatus(Index::STATUS_INDEX_THIS)
+			&& !$index->isStatus(FilesDocument::STATUS_FILE_RENAME)) {
+			return;
+		}
+
+		$document->setInfo('share_names', $this->getShareNamesFromFile($file));
+	}
+
 
 
 	/**
@@ -300,6 +316,8 @@ class FilesService {
 			|| $file->getType() !== FileInfo::TYPE_FILE) {
 			return;
 		}
+
+		$document->setTitle($document->getPath());
 
 		/** @var File $file */
 		$this->extractContentFromFileText($document, $file);

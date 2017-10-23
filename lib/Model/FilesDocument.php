@@ -31,7 +31,8 @@ use OCA\FullNextSearch\Model\IndexDocument;
 
 class FilesDocument extends IndexDocument {
 
-	const STATUS_FILE_ACCESS = 1024;
+	const STATUS_FILE_RENAME = 1024;
+	const STATUS_FILE_SHARES = 2048;
 
 	/** @var string */
 	private $owner;

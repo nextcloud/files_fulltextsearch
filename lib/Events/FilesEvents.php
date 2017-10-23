@@ -84,7 +84,7 @@ class FilesEvents {
 	 */
 	public function onFileRename($target) {
 		$file = $this->filesService->getFileFromPath($this->userId, $target);
-		NextSearch::updateIndexStatus('files', $file->getId(), FilesDocument::STATUS_FILE_ACCESS);
+		NextSearch::updateIndexStatus('files', $file->getId(), FilesDocument::STATUS_FILE_RENAME);
 	}
 
 
@@ -125,7 +125,7 @@ class FilesEvents {
 	 * @param string $fileId
 	 */
 	public function onFileShare($fileId) {
-		NextSearch::updateIndexStatus('files', $fileId, FilesDocument::STATUS_FILE_ACCESS);
+		NextSearch::updateIndexStatus('files', $fileId, FilesDocument::STATUS_FILE_SHARES);
 
 	}
 
@@ -134,7 +134,7 @@ class FilesEvents {
 	 * @param string $fileId
 	 */
 	public function onFileUnshare($fileId) {
-		NextSearch::updateIndexStatus('files', $fileId, FilesDocument::STATUS_FILE_ACCESS);
+		NextSearch::updateIndexStatus('files', $fileId, FilesDocument::STATUS_FILE_SHARES);
 	}
 }
 
