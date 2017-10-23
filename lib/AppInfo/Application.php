@@ -57,10 +57,10 @@ class Application extends App {
 		Util::connectHook('OC_Filesystem', 'post_update', FilesHooks::class, 'onFileUpdate');
 		Util::connectHook('OC_Filesystem', 'post_rename', FilesHooks::class, 'onFileRename');
 		Util::connectHook('OC_Filesystem', 'delete', FilesHooks::class, 'onFileTrash');
-//		Util::connectHook(
-//			'\OCA\Files_Trashbin\Trashbin', 'post_restore', FilesHooks::class, 'onFileRestored'
-//		);
-//		Util::connectHook('\OCP\Trashbin', 'preDelete', FilesHooks::class, 'onFileDelete');
+		Util::connectHook(
+			'\OCA\Files_Trashbin\Trashbin', 'post_restore', FilesHooks::class, 'onFileRestore'
+		);
+		Util::connectHook('\OCP\Trashbin', 'preDelete', FilesHooks::class, 'onFileDelete');
 		Util::connectHook('OCP\Share', 'post_shared', FilesHooks::class, 'onFileShare');
 		Util::connectHook('OCP\Share', 'post_unshare', FilesHooks::class, 'onFileUnshare');
 

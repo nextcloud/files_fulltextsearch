@@ -30,6 +30,8 @@ namespace OCA\Files_FullNextSearch\Model;
 use OCA\FullNextSearch\Model\IndexDocument;
 
 class FilesDocument extends IndexDocument {
+	
+	const STATUS_FILE_ACCESS = 256;
 
 	/** @var string */
 	private $owner;

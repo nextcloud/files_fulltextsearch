@@ -27,7 +27,11 @@
 
 namespace OCA\Files_FullNextSearch\Events;
 
+use OCA\Files_FullNextSearch\Model\FilesDocument;
+use OCA\Files_FullNextSearch\Service\FilesService;
 use OCA\Files_FullNextSearch\Service\MiscService;
+use OCA\FullNextSearch\Api\v1\NextSearch;
+use OCA\FullNextSearch\Model\Index;
 
 class FilesEvents {
 
@@ -35,11 +39,23 @@ class FilesEvents {
 	/** @var string */
 	private $userId;
 
+	/** @var FilesService */
+	private $filesService;
+
 	/** @var MiscService */
 	private $miscService;
 
-	public function __construct($userId, MiscService $miscService) {
+	/**
+	 * FilesEvents constructor.
+	 *
+	 * @param string $userId
+	 * @param FilesService $filesService
+	 * @param MiscService $miscService
+	 */
+	public function __construct($userId, FilesService $filesService, MiscService $miscService) {
+
 		$this->userId = $userId;
+		$this->filesService = $filesService;
 		$this->miscService = $miscService;
 	}
 
@@ -49,8 +65,8 @@ class FilesEvents {
 	 */
 	public function onNewFile($path) {
 
-		$this->miscService->log('> ON FILE CREATE ' . json_encode($path));
-
+		$file = $this->filesService->getFileFromPath($this->userId, $path);
+		NextSearch::updateIndexStatus('files', $file->getId(), Index::STATUS_INDEX_THIS);
 	}
 
 
@@ -58,8 +74,9 @@ class FilesEvents {
 	 * @param string $path
 	 */
 	public function onFileUpdate($path) {
-		$this->miscService->log('> ON FILE UPDATE' . json_encode($path));
+		$file = $this->filesService->getFileFromPath($this->userId, $path);
 
+		NextSearch::updateIndexStatus('files', $file->getId(), Index::STATUS_INDEX_THIS);
 	}
 
 
@@ -67,9 +84,9 @@ class FilesEvents {
 	 * @param string $target
 	 */
 	public function onFileRename($target) {
+		$file = $this->filesService->getFileFromPath($this->userId, $target);
 
-		$this->miscService->log('> ON FILE RENAME ' . json_encode($target));
-
+		NextSearch::updateIndexStatus('files', $file->getId(), FilesDocument::STATUS_FILE_ACCESS);
 	}
 
 
@@ -85,31 +102,39 @@ class FilesEvents {
 	/**
 	 * @param string $path
 	 */
-	public function onFileDelete($path) {
-		$this->miscService->log('> ON FILE DELETE' . json_encode($path));
+	public function onFileRestore($path) {
+		$this->miscService->log('> ON FILE RESTORE ' . json_encode($path));
+
 	}
 
 
 	/**
 	 * @param string $path
 	 */
-	public function onFileRestore($path) {
-		$this->miscService->log('> ON FILE RESTORE ' . json_encode($path));
+	public function onFileDelete($path) {
+		$file = $this->filesService->getFileFromPath($this->userId, $path);
 
+		$index = new Index('files', $file->getId());
+		$index->setStatus(Index::STATUS_DOCUMENT_REMOVE);
+
+		NextSearch::updateIndex($index);
 	}
+
 
 	/**
 	 * @param string $fileId
 	 */
 	public function onFileShare($fileId) {
-		$this->miscService->log('> ON FILE SHARE' . json_encode($fileId));
+		NextSearch::updateIndexStatus('files', $fileId, FilesDocument::STATUS_FILE_ACCESS);
+
 	}
+
 
 	/**
 	 * @param string $fileId
 	 */
 	public function onFileUnshare($fileId) {
-		$this->miscService->log('> ON FILE UNSHARE' . json_encode($fileId));
+		NextSearch::updateIndexStatus('files', $fileId, FilesDocument::STATUS_FILE_ACCESS);
 	}
 }
 

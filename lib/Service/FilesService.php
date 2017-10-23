@@ -33,12 +33,14 @@ use OC\Share\Share;
 use OCA\Files_FullNextSearch\Model\FilesDocument;
 use OCA\Files_FullNextSearch\Provider\FilesProvider;
 use OCA\FullNextSearch\Model\DocumentAccess;
+use OCA\FullNextSearch\Model\Index;
 use OCA\FullNextSearch\Model\IndexDocument;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 
@@ -151,6 +153,18 @@ class FilesService {
 
 
 	/**
+	 * @param $userId
+	 * @param $path
+	 *
+	 * @return Node
+	 */
+	public function getFileFromPath($userId, $path) {
+		return $this->rootFolder->getUserFolder($userId)
+								->get($path);
+	}
+
+
+	/**
 	 * @param int $fileId
 	 * @param string $viewerId
 	 *
@@ -251,17 +265,46 @@ class FilesService {
 		$userFolder = $this->rootFolder->getUserFolder($document->getOwner());
 		$file = $userFolder->get($document->getPath());
 
+		$this->updateMetaFromFile($document, $file);
+		$this->updateContentFromFile($document, $file);
+
+		return $document;
+	}
+
+
+	/**
+	 * @param FilesDocument $document
+	 * @param Node $file
+	 */
+	private function updateMetaFromFile(FilesDocument $document, Node $file) {
+
+		$index = $document->getIndex();
+		if (!$index->isStatus(Index::STATUS_INDEX_THIS)
+			&& !$index->isStatus(FilesDocument::STATUS_FILE_ACCESS)) {
+			return;
+		}
+
 		$document->setAccess($this->getDocumentAccessFromFile($file));
 		$document->setInfo('share_names', $this->getShareNamesFromFile($file));
 		$document->setTitle($document->getPath());
+	}
 
-		if ($file->getType() === FileInfo::TYPE_FILE) {
-			/** @var File $file */
-			$this->extractContentFromFileText($document, $file);
-			$this->extractContentFromFilePDF($document, $file);
+
+	/**
+	 * @param FilesDocument $document
+	 * @param Node $file
+	 */
+	private function updateContentFromFile(FilesDocument $document, Node $file) {
+
+		if (!$document->getIndex()
+					  ->isStatus(Index::STATUS_INDEX_THIS)
+			|| $file->getType() !== FileInfo::TYPE_FILE) {
+			return;
 		}
 
-		return $document;
+		/** @var File $file */
+		$this->extractContentFromFileText($document, $file);
+		$this->extractContentFromFilePDF($document, $file);
 	}
 
 
@@ -441,5 +484,5 @@ class FilesService {
 		}
 	}
 
-	
+
 }

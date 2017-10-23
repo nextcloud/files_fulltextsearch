@@ -77,7 +77,7 @@ class FilesHooks {
 	 */
 	public static function onFileDelete($params) {
 		self::getController()
-			->onFileDelete($params);
+			->onFileDelete($params['path']);
 	}
 
 	/**
@@ -87,7 +87,7 @@ class FilesHooks {
 	 */
 	public static function onFileRestore($params) {
 		self::getController()
-			->onFileRestore($params);
+			->onFileRestore($params['filePath']);
 	}
 
 	/**
