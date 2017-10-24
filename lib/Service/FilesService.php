@@ -355,7 +355,8 @@ class FilesService {
 	 */
 	private function extractContentFromFileText(FilesDocument $document, File $file) {
 
-		if (substr($document->getMimetype(), 0, 5) !== 'text/') {
+		if ($document->getMimeType() !== 'application/octet-stream'
+			&& substr($document->getMimetype(), 0, 5) !== 'text/') {
 			return;
 		}
 
