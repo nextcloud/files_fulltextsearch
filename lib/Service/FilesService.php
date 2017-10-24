@@ -32,7 +32,7 @@ use OC\Share\Constants;
 use OC\Share\Share;
 use OCA\Files_FullNextSearch\Model\FilesDocument;
 use OCA\Files_FullNextSearch\Provider\FilesProvider;
-use OCA\FullNextSearch\Exceptions\FilesNotFoundException;
+use OCA\Files_FullNextSearch\Exceptions\FilesNotFoundException;
 use OCA\FullNextSearch\Model\DocumentAccess;
 use OCA\FullNextSearch\Model\Index;
 use OCA\FullNextSearch\Model\IndexDocument;
@@ -294,8 +294,13 @@ class FilesService {
 								  ->getById($index->getDocumentId());
 
 		if (sizeof($files) === 0) {
-			throw new FilesNotFoundException();
+			$index->setStatus(Index::STATUS_REMOVE_DOCUMENT);
+			$document = new FilesDocument($index->getProviderId(), $index->getDocumentId());
+			$document->setIndex($index);
+
+			return $document;
 		}
+
 		$file = array_shift($files);
 
 		$document = $this->generateFilesDocumentFromFile($file);

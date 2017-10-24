@@ -25,7 +25,7 @@
  *
  */
 
-namespace OCA\FullNextSearch\Exceptions;
+namespace OCA\Files_FullNextSearch\Exceptions;
 
 class FilesNotFoundException extends \Exception {
 
