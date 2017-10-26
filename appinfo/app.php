@@ -30,4 +30,4 @@ namespace OCA\Files_FullNextSearch\AppInfo;
 $app = new Application();
 
 $app->registerFilesSearch();
-$app->registerSettingsAdmin();
+//$app->registerSettingsAdmin();

@@ -45,7 +45,7 @@ class Application extends App {
 	public function __construct(array $params = array()) {
 		parent::__construct(self::APP_NAME, $params);
 
-		self::registerHooks();
+		$this->registerHooks();
 	}
 
 
@@ -63,12 +63,6 @@ class Application extends App {
 		Util::connectHook('\OCP\Trashbin', 'preDelete', FilesHooks::class, 'onFileDelete');
 		Util::connectHook('OCP\Share', 'post_shared', FilesHooks::class, 'onFileShare');
 		Util::connectHook('OCP\Share', 'post_unshare', FilesHooks::class, 'onFileUnshare');
-
-//		$eventDispatcher = $this->getContainer()->getServer()->getEventDispatcher();
-//		$eventDispatcher->addListener('OCP\Share::preUnshare', [FilesHooks::class, 'onFileUnshare']);
-
-
-
 	}
 
 
@@ -88,9 +82,8 @@ class Application extends App {
 		$user = $userSession->getUser();
 
 		if ($container->query(IAppManager::class)
-					  ->isEnabledForUser('fullnextsearch', $user->getUID())
+					  ->isEnabledForUser('fullnextsearch', $user)
 			&& (NextSearch::isProviderIndexed(FilesProvider::FILES_PROVIDER_ID))) {
-
 			$this->includeNextSearch();
 		}
 	}
