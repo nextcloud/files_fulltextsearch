@@ -55,6 +55,9 @@ class FilesService {
 	/** @var IManager */
 	private $shareManager;
 
+	/** @var ConfigService */
+	private $configService;
+
 	/** @var MiscService */
 	private $miscService;
 
@@ -65,18 +68,20 @@ class FilesService {
 	 * @param IRootFolder $rootFolder
 	 * @param IUserManager $userManager
 	 * @param IManager $shareManager
+	 * @param ConfigService $configService
 	 * @param MiscService $miscService
 	 *
 	 * @internal param IProviderFactory $factory
 	 */
 	function __construct(
 		IRootFolder $rootFolder, IUserManager $userManager, IManager $shareManager,
-		MiscService $miscService
+		ConfigService $configService, MiscService $miscService
 	) {
 		$this->rootFolder = $rootFolder;
 		$this->userManager = $userManager;
 		$this->shareManager = $shareManager;
 
+		$this->configService = $configService;
 		$this->miscService = $miscService;
 	}
 
@@ -153,14 +158,34 @@ class FilesService {
 
 
 	/**
-	 * @param $userId
-	 * @param $path
+	 * @param string $userId
+	 * @param string $path
 	 *
 	 * @return Node
 	 */
 	public function getFileFromPath($userId, $path) {
 		return $this->rootFolder->getUserFolder($userId)
 								->get($path);
+	}
+
+
+	/**
+	 * @param string $userId
+	 * @param int $fileId
+	 *
+	 * @return Node
+	 */
+	public function getFileFromId($userId, $fileId) {
+		$files = $this->rootFolder->getUserFolder($userId)
+								  ->getById($fileId);
+
+		if (sizeof($files) === 0) {
+			return null;
+		}
+
+		$file = array_shift($files);
+
+		return $file;
 	}
 
 
@@ -234,6 +259,42 @@ class FilesService {
 
 
 	/**
+	 * @param int $fileId
+	 *
+	 * @return string
+	 */
+	private function getWebdavId($fileId) {
+		$instanceId = $this->configService->getSystemValue('instanceid');
+
+		return sprintf("%08s", $fileId) . $instanceId;
+	}
+
+
+	/**
+	 * @param IndexDocument $document
+	 */
+	public function setDocumentMore(IndexDocument $document) {
+
+		$access = $document->getAccess();
+		$file = $this->getFileFromId($access->getViewerId(), $document->getId());
+
+		$more = [
+			'webdav'             => $this->getWebdavId($document->getId()),
+			'path'               => $file->getPath(),
+			'timestamp'          => $file->getMTime(), // FIXME: get the creation date of the file
+			'mimetype'           => $file->getMimetype(),
+			'modified_timestamp' => $file->getMTime(),
+			'etag'               => $file->getEtag(),
+			'permissions'        => $file->getPermissions(),
+			'size'               => $file->getSize(),
+			'favorite'           => false // FIXME: get the favorite status
+		];
+
+		$document->setMore($more);
+	}
+
+
+	/**
 	 * @param FilesDocument[] $documents
 	 *
 	 * @return FilesDocument[]
@@ -290,18 +351,15 @@ class FilesService {
 	 * @throws FilesNotFoundException
 	 */
 	private function generateDocumentFromIndex(Index $index) {
-		$files = $this->rootFolder->getUserFolder($index->getOwnerId())
-								  ->getById($index->getDocumentId());
 
-		if (sizeof($files) === 0) {
+		$file = $this->getFileFromId($index->getOwnerId(), $index->getDocumentId());
+		if ($file === null) {
 			$index->setStatus(Index::STATUS_REMOVE_DOCUMENT);
 			$document = new FilesDocument($index->getProviderId(), $index->getDocumentId());
 			$document->setIndex($index);
 
 			return $document;
 		}
-
-		$file = array_shift($files);
 
 		$document = $this->generateFilesDocumentFromFile($file);
 		$document->setIndex($index);

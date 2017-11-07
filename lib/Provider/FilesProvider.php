@@ -179,6 +179,7 @@ class FilesProvider implements INextSearchProvider {
 			$this->filesService->setDocumentInfo($document);
 			$this->filesService->setDocumentTitle($document);
 			$this->filesService->setDocumentLink($document);
+			$this->filesService->setDocumentMore($document);
 		}
 	}
 

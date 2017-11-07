@@ -153,6 +153,17 @@ class ConfigService {
 		return $this->config->setUserValue($userId, Application::APP_NAME, $key, $value);
 	}
 
+
+	/**
+	 * @param string $key
+	 *
+	 * @return mixed
+	 */
+	public function getSystemValue($key) {
+		return $this->config->getSystemValue($key);
+	}
+
+
 	/**
 	 * return the cloud version.
 	 * if $complete is true, return a string x.y.z
