@@ -278,9 +278,12 @@ class FilesService {
 		$access = $document->getAccess();
 		$file = $this->getFileFromId($access->getViewerId(), $document->getId());
 
+		// TODO: better way to do this : we remove the '/userid/files/'
+		$path = MiscService::noEndSlash(substr($file->getPath(), 7 + strlen($access->getViewerId())));
+
 		$more = [
 			'webdav'             => $this->getWebdavId($document->getId()),
-			'path'               => $file->getPath(),
+			'path'               => $path,
 			'timestamp'          => $file->getMTime(), // FIXME: get the creation date of the file
 			'mimetype'           => $file->getMimetype(),
 			'modified_timestamp' => $file->getMTime(),
