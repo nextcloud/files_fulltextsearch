@@ -70,7 +70,7 @@ class MiscService {
 			$path = substr($path, 0, -1);
 		}
 
-		return $path;
+		return trim($path);
 	}
 
 }
