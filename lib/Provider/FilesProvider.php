@@ -36,6 +36,7 @@ use OCA\FullNextSearch\INextSearchPlatform;
 use OCA\FullNextSearch\INextSearchProvider;
 use OCA\FullNextSearch\Model\Index;
 use OCA\FullNextSearch\Model\IndexDocument;
+use OCA\FullNextSearch\Model\Runner;
 use OCA\FullNextSearch\Model\SearchResult;
 
 class FilesProvider implements INextSearchProvider {
@@ -53,6 +54,10 @@ class FilesProvider implements INextSearchProvider {
 	private $miscService;
 
 
+	/** @var Runner */
+	private $runner;
+
+
 	/**
 	 * return unique id of the provider
 	 */
@@ -66,6 +71,10 @@ class FilesProvider implements INextSearchProvider {
 	 */
 	public function getName() {
 		return 'Files';
+	}
+
+	public function setRunner(Runner $runner) {
+		$this->runner = $runner;
 	}
 
 
@@ -95,7 +104,7 @@ class FilesProvider implements INextSearchProvider {
 	 * @return IndexDocument[]
 	 */
 	public function generateIndexableDocuments($userId) {
-		$files = $this->filesService->getFilesFromUser($userId);
+		$files = $this->filesService->getFilesFromUser($this->runner, $userId);
 
 		return $files;
 	}

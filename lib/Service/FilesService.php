@@ -36,12 +36,14 @@ use OCA\Files_FullNextSearch\Exceptions\FilesNotFoundException;
 use OCA\FullNextSearch\Model\DocumentAccess;
 use OCA\FullNextSearch\Model\Index;
 use OCA\FullNextSearch\Model\IndexDocument;
+use OCA\FullNextSearch\Model\Runner;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IUserManager;
+use OCP\Lock\LockedException;
 use OCP\Share\IManager;
 
 class FilesService {
@@ -87,28 +89,30 @@ class FilesService {
 
 
 	/**
+	 * @param Runner $runner
 	 * @param string $userId
 	 *
 	 * @return FilesDocument[]
 	 */
-	public function getFilesFromUser($userId) {
+	public function getFilesFromUser(Runner $runner, $userId) {
 		/** @var Folder $root */
 		$root = \OC::$server->getUserFolder($userId)
 							->get('/');
 
-		$result = $this->getFilesFromDirectory($userId, $root);
+		$result = $this->getFilesFromDirectory($runner, $userId, $root);
 
 		return $result;
 	}
 
 
 	/**
+	 * @param Runner $runner
 	 * @param string $userId
 	 * @param Folder $node
 	 *
 	 * @return FilesDocument[]
 	 */
-	public function getFilesFromDirectory($userId, Folder $node) {
+	public function getFilesFromDirectory(Runner $runner, $userId, Folder $node) {
 		$documents = [];
 
 		if ($node->nodeExists('.noindex')) {
@@ -117,6 +121,7 @@ class FilesService {
 
 		$files = $node->getDirectoryListing();
 		foreach ($files as $file) {
+			$runner->update('getFilesFromDirectory');
 			$document = $this->generateFilesDocumentFromFile($file);
 			if ($document !== null) {
 				$documents[] = $document;
@@ -124,7 +129,7 @@ class FilesService {
 
 			if ($file->getType() === FileInfo::TYPE_FOLDER) {
 				/** @var $file Folder */
-				$documents = array_merge($documents, $this->getFilesFromDirectory($userId, $file));
+				$documents = array_merge($documents, $this->getFilesFromDirectory($runner, $userId, $file));
 			}
 		}
 
@@ -312,7 +317,13 @@ class FilesService {
 
 			$document->setPath($this->getPathFromViewerId($document->getId(), $document->getOwnerId()));
 
-			$this->updateDocumentFromFilesDocument($document);
+			try {
+				$this->updateDocumentFromFilesDocument($document);
+			} catch (LockedException $e) {
+				// TODO - update $document with a error status !
+				echo 'LOCKED: ' . $e->getMessage() . "\n";
+			}
+
 			$index[] = $document;
 		}
 
