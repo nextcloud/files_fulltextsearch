@@ -412,14 +412,14 @@ class FilesService {
 	 */
 	private function updateContentFromFile(FilesDocument $document, Node $file) {
 
+		$document->setTitle($document->getPath());
+
 		if (!$document->getIndex()
 					  ->isStatus(Index::STATUS_INDEX_THIS)
 			|| $file->getType() !== FileInfo::TYPE_FILE) {
 			return;
 		}
-
-		$document->setTitle($document->getPath());
-
+		
 		/** @var File $file */
 		$this->extractContentFromFileText($document, $file);
 		$this->extractContentFromFilePDF($document, $file);
