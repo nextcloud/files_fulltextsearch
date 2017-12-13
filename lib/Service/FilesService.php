@@ -30,6 +30,7 @@ namespace OCA\Files_FullNextSearch\Service;
 
 use OC\Share\Constants;
 use OC\Share\Share;
+use OCA\Files_FullNextSearch\Exceptions\FileIsNotIndexeableException;
 use OCA\Files_FullNextSearch\Model\FilesDocument;
 use OCA\Files_FullNextSearch\Provider\FilesProvider;
 use OCA\Files_FullNextSearch\Exceptions\FilesNotFoundException;
@@ -129,7 +130,8 @@ class FilesService {
 
 			if ($file->getType() === FileInfo::TYPE_FOLDER) {
 				/** @var $file Folder */
-				$documents = array_merge($documents, $this->getFilesFromDirectory($runner, $userId, $file));
+				$documents =
+					array_merge($documents, $this->getFilesFromDirectory($runner, $userId, $file));
 			}
 		}
 
@@ -141,11 +143,12 @@ class FilesService {
 	 * @param Node $file
 	 *
 	 * @return FilesDocument
+	 * @throws FileIsNotIndexeableException
 	 */
 	private function generateFilesDocumentFromFile(Node $file) {
 		if ($file->getStorage()
 				 ->isLocal() === false) {
-			return null;
+			throw new FileIsNotIndexeableException();
 		}
 
 		$document = new FilesDocument(FilesProvider::FILES_PROVIDER_ID, $file->getId());
@@ -283,6 +286,10 @@ class FilesService {
 		$access = $document->getAccess();
 		$file = $this->getFileFromId($access->getViewerId(), $document->getId());
 
+		if ($file === null) {
+			return;
+		}
+
 		// TODO: better way to do this : we remove the '/userid/files/'
 		$path = MiscService::noEndSlash(substr($file->getPath(), 7 + strlen($access->getViewerId())));
 
@@ -337,7 +344,13 @@ class FilesService {
 	 * @return FilesDocument
 	 */
 	public function updateDocument(Index $index) {
-		return $this->generateDocumentFromIndex($index);
+		try {
+			$document = $this->generateDocumentFromIndex($index);
+
+			return $document;
+		} catch (FileIsNotIndexeableException $e) {
+			return null;
+		}
 	}
 
 
@@ -419,7 +432,7 @@ class FilesService {
 			|| $file->getType() !== FileInfo::TYPE_FILE) {
 			return;
 		}
-		
+
 		/** @var File $file */
 		$this->extractContentFromFileText($document, $file);
 		$this->extractContentFromFilePDF($document, $file);
