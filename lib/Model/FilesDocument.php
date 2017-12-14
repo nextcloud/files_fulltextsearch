@@ -37,6 +37,9 @@ class FilesDocument extends IndexDocument {
 	private $ownerId;
 
 	/** @var string */
+	private $viewerId;
+
+	/** @var string */
 	private $type;
 
 	/** @var string */
@@ -62,6 +65,25 @@ class FilesDocument extends IndexDocument {
 	 */
 	public function getOwnerId() {
 		return $this->ownerId;
+	}
+
+
+	/**
+	 * @param string $viewerId
+	 *
+	 * @return $this
+	 */
+	public function setViewerId($viewerId) {
+		$this->viewerId = $viewerId;
+
+		return $this;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getViewerId() {
+		return $this->viewerId;
 	}
 
 

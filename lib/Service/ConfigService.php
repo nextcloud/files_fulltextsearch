@@ -33,9 +33,14 @@ use OCP\Util;
 
 class ConfigService {
 
+	const INDEX_NON_LOCAL = 'index_non_local';
+	const INDEX_ENCRYPTED = 'index_encrypted';
 
 	private $defaults = [
+		self::INDEX_NON_LOCAL => '0',
+		self::INDEX_ENCRYPTED => '0'
 	];
+
 
 	/** @var IConfig */
 	private $config;

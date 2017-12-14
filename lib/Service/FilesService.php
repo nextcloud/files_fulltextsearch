@@ -30,10 +30,10 @@ namespace OCA\Files_FullNextSearch\Service;
 
 use OC\Share\Constants;
 use OC\Share\Share;
-use OCA\Files_FullNextSearch\Exceptions\FileIsNotIndexeableException;
+use OCA\Files_FullNextSearch\Exceptions\FileIsNotIndexableException;
+use OCA\Files_FullNextSearch\Exceptions\FilesNotFoundException;
 use OCA\Files_FullNextSearch\Model\FilesDocument;
 use OCA\Files_FullNextSearch\Provider\FilesProvider;
-use OCA\Files_FullNextSearch\Exceptions\FilesNotFoundException;
 use OCA\FullNextSearch\Model\DocumentAccess;
 use OCA\FullNextSearch\Model\Index;
 use OCA\FullNextSearch\Model\IndexDocument;
@@ -61,6 +61,9 @@ class FilesService {
 	/** @var ConfigService */
 	private $configService;
 
+	/** @var ExternalFilesService */
+	private $externalFilesService;
+
 	/** @var MiscService */
 	private $miscService;
 
@@ -72,19 +75,22 @@ class FilesService {
 	 * @param IUserManager $userManager
 	 * @param IManager $shareManager
 	 * @param ConfigService $configService
+	 * @param ExternalFilesService $externalFilesService
 	 * @param MiscService $miscService
 	 *
 	 * @internal param IProviderFactory $factory
 	 */
 	function __construct(
 		IRootFolder $rootFolder, IUserManager $userManager, IManager $shareManager,
-		ConfigService $configService, MiscService $miscService
+		ConfigService $configService, ExternalFilesService $externalFilesService,
+		MiscService $miscService
 	) {
 		$this->rootFolder = $rootFolder;
 		$this->userManager = $userManager;
 		$this->shareManager = $shareManager;
 
 		$this->configService = $configService;
+		$this->externalFilesService = $externalFilesService;
 		$this->miscService = $miscService;
 	}
 
@@ -97,8 +103,8 @@ class FilesService {
 	 */
 	public function getFilesFromUser(Runner $runner, $userId) {
 		/** @var Folder $root */
-		$root = \OC::$server->getUserFolder($userId)
-							->get('/');
+		$root = $files = $this->rootFolder->getUserFolder($userId)
+										  ->get('/');
 
 		$result = $this->getFilesFromDirectory($runner, $userId, $root);
 
@@ -123,9 +129,11 @@ class FilesService {
 		$files = $node->getDirectoryListing();
 		foreach ($files as $file) {
 			$runner->update('getFilesFromDirectory');
-			$document = $this->generateFilesDocumentFromFile($file);
-			if ($document !== null) {
+			try {
+				$document = $this->generateFilesDocumentFromFile($file, $userId);
 				$documents[] = $document;
+			} catch (FileIsNotIndexableException $e) {
+				/** goto next file */
 			}
 
 			if ($file->getType() === FileInfo::TYPE_FOLDER) {
@@ -142,26 +150,30 @@ class FilesService {
 	/**
 	 * @param Node $file
 	 *
+	 * @param string $viewerId
+	 *
 	 * @return FilesDocument
-	 * @throws FileIsNotIndexeableException
 	 */
-	private function generateFilesDocumentFromFile(Node $file) {
-		if ($file->getStorage()
-				 ->isLocal() === false) {
-			throw new FileIsNotIndexeableException();
-		}
+	private function generateFilesDocumentFromFile(Node $file, $viewerId = '') {
 
+		$this->fileMustBeIndexable($file);
 		$document = new FilesDocument(FilesProvider::FILES_PROVIDER_ID, $file->getId());
 
+		$ownerId = $file->getOwner()
+						->getUID();
+
 		$document->setType($file->getType())
-				 ->setOwnerId(
-					 $file->getOwner()
-						  ->getUID()
-				 )
+				 ->setOwnerId($ownerId)
+				 ->setViewerId($viewerId)
 				 ->setModifiedTime($file->getMTime())
 				 ->setMimetype($file->getMimetype());
 
 		return $document;
+	}
+
+
+	private function fileMustBeIndexable(Node $file) {
+		$this->externalFilesService->externalFileMustBeIndexable($file);
 	}
 
 
@@ -184,6 +196,7 @@ class FilesService {
 	 * @return Node
 	 */
 	public function getFileFromId($userId, $fileId) {
+
 		$files = $this->rootFolder->getUserFolder($userId)
 								  ->getById($fileId);
 
@@ -322,12 +335,14 @@ class FilesService {
 				continue;
 			}
 
-			$document->setPath($this->getPathFromViewerId($document->getId(), $document->getOwnerId()));
+			$document->setPath($this->getPathFromViewerId($document->getId(), $document->getViewerId()));
 
 			try {
 				$this->updateDocumentFromFilesDocument($document);
 			} catch (LockedException $e) {
-				// TODO - update $document with a error status !
+				// TODO - update $document with a error status instead of just ignore !
+				$document->getIndex()
+						 ->setStatus(Index::STATUS_INDEX_IGNORE);
 				echo 'LOCKED: ' . $e->getMessage() . "\n";
 			}
 
@@ -348,7 +363,7 @@ class FilesService {
 			$document = $this->generateDocumentFromIndex($index);
 
 			return $document;
-		} catch (FileIsNotIndexeableException $e) {
+		} catch (FileIsNotIndexableException $e) {
 			return null;
 		}
 	}
@@ -358,10 +373,16 @@ class FilesService {
 	 * @param FilesDocument $document
 	 */
 	private function updateDocumentFromFilesDocument(FilesDocument $document) {
-		$userFolder = $this->rootFolder->getUserFolder($document->getOwnerId());
+		$userFolder = $this->rootFolder->getUserFolder($document->getViewerId());
 		$file = $userFolder->get($document->getPath());
 
-		$this->updateDocumentFromFile($document, $file);
+		try {
+			$this->updateDocumentFromFile($document, $file);
+		} catch (FileIsNotIndexableException $e) {
+			$document->getIndex()
+					 ->setStatus(Index::STATUS_INDEX_IGNORE);
+		}
+
 	}
 
 
@@ -388,7 +409,7 @@ class FilesService {
 			return $document;
 		}
 
-		$document = $this->generateFilesDocumentFromFile($file);
+		$document = $this->generateFilesDocumentFromFile($file, $index->getOwnerId());
 		$document->setIndex($index);
 
 		$this->updateDocumentFromFile($document, $file);
@@ -474,6 +495,7 @@ class FilesService {
 	 * @return DocumentAccess
 	 */
 	private function getDocumentAccessFromFile(Node $file) {
+
 		$access = new DocumentAccess(
 			$file->getOwner()
 				 ->getUID()
@@ -484,6 +506,8 @@ class FilesService {
 		$access->setGroups($groups);
 		$access->setCircles($circles);
 		$access->setLinks($links);
+
+		$this->externalFilesService->completeDocumentAccessWithMountShares($access, $file);
 
 		return $access;
 	}
@@ -542,6 +566,8 @@ class FilesService {
 
 		$users = $groups = $circles = $links = [];
 		$shares = Share::getAllSharesForFileId($fileId);
+
+		echo json_encode($shares);
 		foreach ($shares as $share) {
 			if ($share['parent'] !== null) {
 				continue;

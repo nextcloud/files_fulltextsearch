@@ -26,7 +26,7 @@
 	<repository>https://github.com/daita/fullnextsearch.git</repository>
 	<!--<screenshot></screenshot>-->
 	<dependencies>
-		<nextcloud min-version="12" max-version="13"/>
+		<nextcloud min-version="12" max-version="14"/>
 	</dependencies>
 
 	<fullnextsearch>

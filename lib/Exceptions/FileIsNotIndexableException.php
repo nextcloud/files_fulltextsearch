@@ -27,7 +27,7 @@
 
 namespace OCA\Files_FullNextSearch\Exceptions;
 
-class FileIsNotIndexeableException extends \Exception {
+class FileIsNotIndexableException extends \Exception {
 
 }
 
