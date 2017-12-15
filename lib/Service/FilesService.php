@@ -442,6 +442,9 @@ class FilesService {
 					 $document->getAccess()
 							  ->getOwnerId()
 				 );
+
+		$this->externalFilesService->updateDocumentWithExternalFiles($document, $file);
+
 	}
 
 
@@ -512,8 +515,6 @@ class FilesService {
 		$access->setCircles($circles);
 		$access->setLinks($links);
 
-		$this->externalFilesService->completeDocumentAccessWithMountShares($access, $file);
-
 		return $access;
 	}
 
@@ -572,7 +573,6 @@ class FilesService {
 		$users = $groups = $circles = $links = [];
 		$shares = Share::getAllSharesForFileId($fileId);
 
-		echo json_encode($shares);
 		foreach ($shares as $share) {
 			if ($share['parent'] !== null) {
 				continue;

@@ -11,6 +11,7 @@ namespace OCA\Files_FullNextSearch\Service;
 
 use OCA\Files_FullNextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullNextSearch\Model\ExternalMount;
+use OCA\Files_FullNextSearch\Model\FilesDocument;
 use OCA\FullNextSearch\Model\DocumentAccess;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -98,27 +99,58 @@ class ExternalFilesService {
 
 
 	/**
-	 * @param DocumentAccess $access
+	 * @param FilesDocument $document
 	 * @param Node $file
 	 *
 	 * @throws FileIsNotIndexableException
 	 */
-	public function completeDocumentAccessWithMountShares(DocumentAccess &$access, Node $file) {
+	public function updateDocumentWithExternalFiles(FilesDocument &$document, Node $file) {
 
 		if ($file->getStorage()
 				 ->isLocal() === true) {
 			return;
 		}
 
+		$document->addTag('external');
 		$mount = $this->getExternalMount($file);
+		$access = $document->getAccess();
 
-		$access->addUsers($mount->getUsers());
-		$access->addGroups($mount->getGroups());
+		if ($this->isMountFullGlobal($mount)) {
+			$access->addUsers(['__all']);
+		} else {
+			$access->addUsers($mount->getUsers());
+			$access->addGroups($mount->getGroups());
+//		 	$access->addCircles($mount->getCircles());
+		}
 
 		// twist 'n tweak.
 		if (!$mount->isGlobal()) {
 			$access->setOwnerId($mount->getUsers()[0]);
 		}
+
+		$document->setAccess($access);
+	}
+
+
+	/**
+	 * @param ExternalMount $mount
+	 *
+	 * @return bool
+	 */
+	public function isMountFullGlobal(ExternalMount $mount) {
+		if (sizeof($mount->getGroups()) > 0) {
+			return false;
+		}
+
+		if (sizeof($mount->getUsers()) !== 1) {
+			return false;
+		}
+
+		if ($mount->getUsers()[0] === 'all') {
+			return true;
+		}
+
+		return false;
 	}
 
 
