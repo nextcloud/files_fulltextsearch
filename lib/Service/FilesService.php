@@ -49,6 +49,9 @@ use OCP\Share\IManager;
 
 class FilesService {
 
+	const DOCUMENT_TYPE = 'files';
+
+
 	/** @var IRootFolder */
 	private $rootFolder;
 
@@ -102,11 +105,13 @@ class FilesService {
 	 * @return FilesDocument[]
 	 */
 	public function getFilesFromUser(Runner $runner, $userId) {
-		/** @var Folder $root */
-		$root = $files = $this->rootFolder->getUserFolder($userId)
-										  ->get('/');
 
-		$result = $this->getFilesFromDirectory($runner, $userId, $root);
+		$this->externalFilesService->initExternalFilesForUser($userId);
+
+		/** @var Folder $files */
+		$files = $this->rootFolder->getUserFolder($userId)
+								  ->get('/');
+		$result = $this->getFilesFromDirectory($runner, $userId, $files);
 
 		return $result;
 	}

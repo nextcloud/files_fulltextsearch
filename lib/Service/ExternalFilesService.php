@@ -9,7 +9,10 @@
 namespace OCA\Files_FullNextSearch\Service;
 
 
+use OCA\Files_FullNextSearch\Db\MountRequest;
+use OCA\Files_FullNextSearch\Exceptions\ExternalMountNotFoundException;
 use OCA\Files_FullNextSearch\Exceptions\FileIsNotIndexableException;
+use OCA\Files_FullNextSearch\Model\ExternalMount;
 use OCA\FullNextSearch\Model\DocumentAccess;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -18,6 +21,8 @@ use OCP\Share\IManager;
 
 class ExternalFilesService {
 
+
+	const DOCUMENT_TYPE = 'external_files';
 
 	/** @var IRootFolder */
 	private $rootFolder;
@@ -28,11 +33,18 @@ class ExternalFilesService {
 	/** @var IManager */
 	private $shareManager;
 
+	/** @var MountRequest */
+	private $mountRequest;
+
 	/** @var ConfigService */
 	private $configService;
 
 	/** @var MiscService */
 	private $miscService;
+
+
+	/** @var ExternalMount[] */
+	private $externalMounts = [];
 
 
 	/**
@@ -41,48 +53,38 @@ class ExternalFilesService {
 	 * @param IRootFolder $rootFolder
 	 * @param IUserManager $userManager
 	 * @param IManager $shareManager
+	 * @param MountRequest $mountRequest
 	 * @param ConfigService $configService
 	 * @param MiscService $miscService
 	 */
 	function __construct(
 		IRootFolder $rootFolder, IUserManager $userManager, IManager $shareManager,
-		ConfigService $configService, MiscService $miscService
+		MountRequest $mountRequest, ConfigService $configService, MiscService $miscService
 	) {
 		$this->rootFolder = $rootFolder;
 		$this->userManager = $userManager;
 		$this->shareManager = $shareManager;
 
+		$this->mountRequest = $mountRequest;
 		$this->configService = $configService;
 		$this->miscService = $miscService;
 	}
 
 
 	/**
-	 * @param DocumentAccess $access
-	 * @param Node $file
-	 *
-	 * @throws FileIsNotIndexableException
+	 * @param string $userId
 	 */
-	public function completeDocumentAccessWithMountShares(DocumentAccess &$access, Node $file) {
+	public function initExternalFilesForUser($userId) {
+		$this->externalMounts = [];
+		if (!\OCP\App::isEnabled('files_external')) {
+			return;
+		}
 
-//		if ($file->getStorage()
-//				 ->isLocal() === true) {
-//			return;
-//		}
-//
-//		$mountId = $file->getMountPoint()
-//						->getMountId();
-//
-//		echo 'GET INFO !??? ' . $mountId;
-//		if ($mountId === null) {
-//			echo '############### NOT INDEXEABLE !!' . "
-//		\n";
-//			throw new FileIsNotIndexableException();
-//		}
-		echo ' GET INFO FROM DB' . "\n";
+		if ($this->configService->getAppValue(ConfigService::INDEX_NON_LOCAL) !== '1') {
+			return;
+		}
 
-		//	$this->request
-
+		$this->externalMounts = $this->getExternalMountsForUser($userId);
 	}
 
 
@@ -98,78 +100,75 @@ class ExternalFilesService {
 			return;
 		}
 
-		if ($this->configService->getAppValue(ConfigService::INDEX_NON_LOCAL) !== '1') {
-			throw new FileIsNotIndexableException();
+		$this->getExternalMount($file);
+	}
+
+
+	/**
+	 * @param DocumentAccess $access
+	 * @param Node $file
+	 *
+	 * @throws FileIsNotIndexableException
+	 */
+	public function completeDocumentAccessWithMountShares(DocumentAccess &$access, Node $file) {
+
+		if ($file->getStorage()
+				 ->isLocal() === true) {
+			return;
 		}
 
-		$mountId = $file->getMountPoint()
-						->getMountId();
-		if ($mountId === null) {
-			throw new FileIsNotIndexableException();
+		$mount = $this->getExternalMount($file);
+
+		$access->addUsers($mount->getUsers());
+		$access->addGroups($mount->getGroups());
+
+		// twist 'n tweak.
+		if (!$mount->isGlobal()) {
+			$access->setOwnerId($mount->getUsers()[0]);
 		}
 	}
 
 
+	/**
+	 * @param Node $file
+	 *
+	 * @return ExternalMount
+	 * @throws FileIsNotIndexableException
+	 */
+	private function getExternalMount(Node $file) {
 
-//	private function initUserExternalMountPoints()
-//	{
-//		if ($this->configService->getAppValue('index_files_external') !== '1')
-//			return false;
-//
-//		if (! \OCP\App::isEnabled('files_external'))
-//			return false;
-//
-//		$data = array();
-//		$mounts = \OC_Mount_Config::getAbsoluteMountPoints($this->userId);
-//		foreach ($mounts as $mountPoint => $mount) {
-//			$data[] = array(
-//				'id' => $mount['id'],
-//				'path' => $mountPoint,
-//				'shares' => $mount['applicable'],
-//				'personal' => $mount['personal']
-//			);
-//		}
-//
-//		$this->externalMountPoint = $data;
-//	}
+		foreach ($this->externalMounts as $mount) {
+			if (strpos($file->getPath(), $mount->getPath()) === 0) {
+				return $mount;
+			}
+		}
+
+		throw new FileIsNotIndexableException();
+	}
 
 
-//	private static function getShareRightsFromExternalMountPoint($mountPoints, $path, &$data, &$entry)
-//	{
-//		if (! $entry->isExternal())
-//			return false;
-//
-//		if (! key_exists('share_users', $data))
-//			$data['share_users'] = array();
-//		if (! key_exists('share_groups', $data))
-//			$data['share_groups'] = array();
-//
-//		$edited = false;
-//		foreach ($mountPoints as $mount) {
-//			if ($mount['path'] !== $path)
-//				continue;
-//
-//			$edited = true;
-//			if (! $mount['personal']) {
-//				$entry->setOwner('__global');
-//				if (sizeof($mount['shares']['users']) == 1 && sizeof($mount['shares']['groups']) == 0 && $mount['shares']['users'][0] == 'all' && (! in_array('__all', $data['share_groups']))) {
-//					array_push($data['share_groups'], '__all');
-//					continue;
-//				}
-//			}
-//
-//			foreach ($mount['shares']['users'] as $share_user) {
-//				if ($share_user != $entry->getOwner() && ! in_array($share_user, $data['share_users']))
-//					array_push($data['share_users'], $share_user);
-//			}
-//
-//			foreach ($mount['shares']['groups'] as $share_group) {
-//				if (! in_array($share_group, $data['share_groups']))
-//					array_push($data['share_groups'], $share_group);
-//			}
-//		}
-//
-//		return $edited;
-//	}
+	/**
+	 * @param $userId
+	 *
+	 * @return ExternalMount[]
+	 */
+	private function getExternalMountsForUser($userId) {
+
+		$externalMounts = [];
+
+		// TODO: deprecated - use UserGlobalStoragesService::getStorages() and UserStoragesService::getStorages()
+		$mounts = \OC_Mount_Config::getAbsoluteMountPoints($userId);
+		foreach ($mounts as $mountPoint => $mount) {
+			$externalMount = new ExternalMount();
+			$externalMount->setId($mount['id'])
+						  ->setPath($mountPoint)
+						  ->setGroups($mount['applicable']['groups'])
+						  ->setUsers($mount['applicable']['users'])
+						  ->setGlobal((!$mount['personal']));
+			$externalMounts[] = $externalMount;
+		}
+
+		return $externalMounts;
+	}
 
 }
