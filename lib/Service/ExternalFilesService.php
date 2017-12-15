@@ -9,8 +9,6 @@
 namespace OCA\Files_FullNextSearch\Service;
 
 
-use OCA\Files_FullNextSearch\Db\MountRequest;
-use OCA\Files_FullNextSearch\Exceptions\ExternalMountNotFoundException;
 use OCA\Files_FullNextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullNextSearch\Model\ExternalMount;
 use OCA\FullNextSearch\Model\DocumentAccess;
@@ -33,9 +31,6 @@ class ExternalFilesService {
 	/** @var IManager */
 	private $shareManager;
 
-	/** @var MountRequest */
-	private $mountRequest;
-
 	/** @var ConfigService */
 	private $configService;
 
@@ -53,19 +48,17 @@ class ExternalFilesService {
 	 * @param IRootFolder $rootFolder
 	 * @param IUserManager $userManager
 	 * @param IManager $shareManager
-	 * @param MountRequest $mountRequest
 	 * @param ConfigService $configService
 	 * @param MiscService $miscService
 	 */
 	function __construct(
 		IRootFolder $rootFolder, IUserManager $userManager, IManager $shareManager,
-		MountRequest $mountRequest, ConfigService $configService, MiscService $miscService
+		ConfigService $configService, MiscService $miscService
 	) {
 		$this->rootFolder = $rootFolder;
 		$this->userManager = $userManager;
 		$this->shareManager = $shareManager;
 
-		$this->mountRequest = $mountRequest;
 		$this->configService = $configService;
 		$this->miscService = $miscService;
 	}
