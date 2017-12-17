@@ -435,8 +435,9 @@ class FilesService {
 			return;
 		}
 
-		$document->setAccess($this->getDocumentAccessFromFile($file));
-		$document->setInfo('share_names', $this->getShareNamesFromFile($file));
+		$access = $this->getDocumentAccessFromFile($file);
+		$document->setAccess($access);
+		$document->setInfo('share_names', $this->getShareNamesFromFile($file, $access));
 		$document->getIndex()
 				 ->setOwnerId(
 					 $document->getAccess()
@@ -521,14 +522,20 @@ class FilesService {
 
 	/**
 	 * @param Node $file
+	 * @param DocumentAccess $access
 	 *
 	 * @return array
 	 */
-	private function getShareNamesFromFile(Node $file) {
+	private function getShareNamesFromFile(Node $file, DocumentAccess $access) {
 		$shareNames = [];
 
+		if ($file->getStorage()
+				 ->isLocal() === false) {
+			$shares = $this->externalFilesService->getAllSharesFromExternalFile($access);
+		} else {
+			$shares = $this->getAllSharesFromFile($file);
+		}
 
-		$shares = $this->getAllSharesFromFile($file);
 		foreach ($shares as $user) {
 			$shareNames[$user] = $this->getPathFromViewerId($file->getId(), $user);
 		}
@@ -546,7 +553,6 @@ class FilesService {
 		$result = [];
 
 		$shares = $this->shareManager->getAccessList($file);
-
 		if (!array_key_exists('users', $shares)) {
 			return $result;
 		}

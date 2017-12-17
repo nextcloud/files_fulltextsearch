@@ -99,6 +99,19 @@ class ExternalFilesService {
 
 
 	/**
+	 * @param DocumentAccess $access
+	 *
+	 * @return array
+	 */
+	public function getAllSharesFromExternalFile(DocumentAccess $access) {
+		$result = $access->getUsers();
+
+		// TODO: get users from groups & circles.
+		return $result;
+	}
+
+
+	/**
 	 * @param FilesDocument $document
 	 * @param Node $file
 	 *
