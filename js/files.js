@@ -115,7 +115,7 @@ Files_FullNextSearch.prototype = {
 		elements.search_result.fadeOut(150, function () {
 			elements.old_files.fadeIn(150);
 		});
-	},
+	}
 
 
 };

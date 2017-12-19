@@ -32,9 +32,10 @@ use Exception;
 use OC\Share\Constants;
 use OC\Share\Share;
 use OCA\Files_FullNextSearch\Exceptions\FileIsNotIndexableException;
-use OCA\Files_FullNextSearch\Exceptions\FilesNotFoundException;
 use OCA\Files_FullNextSearch\Model\FilesDocument;
 use OCA\Files_FullNextSearch\Provider\FilesProvider;
+use OCA\FullNextSearch\Exceptions\InterruptException;
+use OCA\FullNextSearch\Exceptions\TickDoesNotExistException;
 use OCA\FullNextSearch\Model\DocumentAccess;
 use OCA\FullNextSearch\Model\Index;
 use OCA\FullNextSearch\Model\IndexDocument;
@@ -42,8 +43,11 @@ use OCA\FullNextSearch\Model\Runner;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
+use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 
@@ -103,6 +107,10 @@ class FilesService {
 	 * @param string $userId
 	 *
 	 * @return FilesDocument[]
+	 * @throws InterruptException
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws TickDoesNotExistException
 	 */
 	public function getFilesFromUser(Runner $runner, $userId) {
 
@@ -123,6 +131,10 @@ class FilesService {
 	 * @param Folder $node
 	 *
 	 * @return FilesDocument[]
+	 * @throws InterruptException
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws TickDoesNotExistException
 	 */
 	public function getFilesFromDirectory(Runner $runner, $userId, Folder $node) {
 		$documents = [];
@@ -158,6 +170,9 @@ class FilesService {
 	 * @param string $viewerId
 	 *
 	 * @return FilesDocument
+	 * @throws FileIsNotIndexableException
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	private function generateFilesDocumentFromFile(Node $file, $viewerId = '') {
 
@@ -177,6 +192,12 @@ class FilesService {
 	}
 
 
+	/**
+	 * @param Node $file
+	 *
+	 * @throws FileIsNotIndexableException
+	 * @throws NotFoundException
+	 */
 	private function fileMustBeIndexable(Node $file) {
 		$this->externalFilesService->externalFileMustBeIndexable($file);
 	}
@@ -187,6 +208,7 @@ class FilesService {
 	 * @param string $path
 	 *
 	 * @return Node
+	 * @throws NotFoundException
 	 */
 	public function getFileFromPath($userId, $path) {
 		return $this->rootFolder->getUserFolder($userId)
@@ -298,6 +320,9 @@ class FilesService {
 
 	/**
 	 * @param IndexDocument $document
+	 *
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function setDocumentMore(IndexDocument $document) {
 
@@ -363,6 +388,9 @@ class FilesService {
 	 * @param Index $index
 	 *
 	 * @return FilesDocument
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
 	 */
 	public function updateDocument(Index $index) {
 		try {
@@ -377,6 +405,10 @@ class FilesService {
 
 	/**
 	 * @param FilesDocument $document
+	 *
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
 	 */
 	private function updateDocumentFromFilesDocument(FilesDocument $document) {
 		$userFolder = $this->rootFolder->getUserFolder($document->getViewerId());
@@ -392,6 +424,15 @@ class FilesService {
 	}
 
 
+	/**
+	 * @param FilesDocument $document
+	 * @param Node $file
+	 *
+	 * @throws FileIsNotIndexableException
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
+	 */
 	private function updateDocumentFromFile(FilesDocument $document, Node $file) {
 		$this->updateAccessFromFile($document, $file);
 		$this->updateContentFromFile($document, $file);
@@ -402,7 +443,10 @@ class FilesService {
 	 * @param Index $index
 	 *
 	 * @return FilesDocument
-	 * @throws FilesNotFoundException
+	 * @throws FileIsNotIndexableException
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
 	 */
 	private function generateDocumentFromIndex(Index $index) {
 
@@ -427,6 +471,10 @@ class FilesService {
 	/**
 	 * @param FilesDocument $document
 	 * @param Node $file
+	 *
+	 * @throws FileIsNotIndexableException
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	private function updateAccessFromFile(FilesDocument $document, Node $file) {
 
@@ -453,6 +501,8 @@ class FilesService {
 	/**
 	 * @param FilesDocument $document
 	 * @param Node $file
+	 *
+	 * @throws NotPermittedException
 	 */
 	private function updateContentFromFile(FilesDocument $document, Node $file) {
 
@@ -473,6 +523,8 @@ class FilesService {
 	/**
 	 * @param FilesDocument $document
 	 * @param File $file
+	 *
+	 * @throws NotPermittedException
 	 */
 	private function extractContentFromFileText(FilesDocument $document, File $file) {
 
@@ -489,6 +541,8 @@ class FilesService {
 	/**
 	 * @param FilesDocument $document
 	 * @param File $file
+	 *
+	 * @throws NotPermittedException
 	 */
 	private function extractContentFromFilePDF(FilesDocument $document, File $file) {
 		if ($document->getMimetype() !== 'application/pdf') {
@@ -503,6 +557,8 @@ class FilesService {
 	 * @param Node $file
 	 *
 	 * @return DocumentAccess
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	private function getDocumentAccessFromFile(Node $file) {
 
@@ -526,6 +582,8 @@ class FilesService {
 	 * @param DocumentAccess $access
 	 *
 	 * @return array
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	private function getShareNamesFromFile(Node $file, DocumentAccess $access) {
 		$shareNames = [];

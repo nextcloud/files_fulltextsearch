@@ -27,7 +27,12 @@
 
 namespace OCA\Files_FullNextSearch\AppInfo;
 
+use OCP\AppFramework\QueryException;
+
 $app = new Application();
 
-$app->registerFilesSearch();
+try {
+	$app->registerFilesSearch();
+} catch (QueryException $e) {
+}
 //$app->registerSettingsAdmin();

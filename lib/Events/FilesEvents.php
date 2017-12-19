@@ -32,6 +32,9 @@ use OCA\Files_FullNextSearch\Service\FilesService;
 use OCA\Files_FullNextSearch\Service\MiscService;
 use OCA\FullNextSearch\Api\v1\NextSearch;
 use OCA\FullNextSearch\Model\Index;
+use OCP\AppFramework\QueryException;
+use OCP\Files\InvalidPathException;
+use OCP\Files\NotFoundException;
 
 class FilesEvents {
 
@@ -62,6 +65,10 @@ class FilesEvents {
 
 	/**
 	 * @param string $path
+	 *
+	 * @throws QueryException
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function onNewFile($path) {
 
@@ -73,6 +80,10 @@ class FilesEvents {
 
 	/**
 	 * @param string $path
+	 *
+	 * @throws QueryException
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function onFileUpdate($path) {
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
@@ -82,6 +93,10 @@ class FilesEvents {
 
 	/**
 	 * @param string $target
+	 *
+	 * @throws NotFoundException
+	 * @throws QueryException
+	 * @throws InvalidPathException
 	 */
 	public function onFileRename($target) {
 		$file = $this->filesService->getFileFromPath($this->userId, $target);
@@ -91,6 +106,10 @@ class FilesEvents {
 
 	/**
 	 * @param string $path
+	 *
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws QueryException
 	 */
 	public function onFileTrash($path) {
 		// check if trashbin does not exist. -> onFileDelete
@@ -106,6 +125,10 @@ class FilesEvents {
 
 	/**
 	 * @param string $path
+	 *
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws QueryException
 	 */
 	public function onFileRestore($path) {
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
@@ -124,6 +147,8 @@ class FilesEvents {
 
 	/**
 	 * @param string $fileId
+	 *
+	 * @throws QueryException
 	 */
 	public function onFileShare($fileId) {
 		NextSearch::updateIndexStatus('files', $fileId, FilesDocument::STATUS_FILE_ACCESS);
@@ -133,6 +158,8 @@ class FilesEvents {
 
 	/**
 	 * @param string $fileId
+	 *
+	 * @throws QueryException
 	 */
 	public function onFileUnshare($fileId) {
 		NextSearch::updateIndexStatus('files', $fileId, FilesDocument::STATUS_FILE_ACCESS);

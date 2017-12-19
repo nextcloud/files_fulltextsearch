@@ -32,6 +32,7 @@ use OCA\Files_FullNextSearch\Provider\FilesProvider;
 use OCA\FullNextSearch\Api\v1\NextSearch;
 use OCP\App\IAppManager;
 use OCP\AppFramework\App;
+use OCP\AppFramework\QueryException;
 use OCP\IUserSession;
 use OCP\Util;
 
@@ -68,6 +69,7 @@ class Application extends App {
 
 	/**
 	 *
+	 * @throws QueryException
 	 */
 	public function registerFilesSearch() {
 		$container = $this->getContainer();

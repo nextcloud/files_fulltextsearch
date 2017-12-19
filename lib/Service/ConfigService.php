@@ -29,6 +29,7 @@ namespace OCA\Files_FullNextSearch\Service;
 
 use OCA\Files_FullNextSearch\AppInfo\Application;
 use OCP\IConfig;
+use OCP\PreConditionNotMetException;
 use OCP\Util;
 
 class ConfigService {
@@ -128,6 +129,7 @@ class ConfigService {
 	 * @param string $value
 	 *
 	 * @return string
+	 * @throws PreConditionNotMetException
 	 */
 	public function setUserValue($key, $value) {
 		return $this->config->setUserValue($this->userId, Application::APP_NAME, $key, $value);
@@ -153,6 +155,7 @@ class ConfigService {
 	 * @param string $value
 	 *
 	 * @return string
+	 * @throws PreConditionNotMetException
 	 */
 	public function setValueForUser($userId, $key, $value) {
 		return $this->config->setUserValue($userId, Application::APP_NAME, $key, $value);

@@ -32,12 +32,18 @@ use OCA\Files_FullNextSearch\Model\FilesDocument;
 use OCA\Files_FullNextSearch\Service\ElasticSearchService;
 use OCA\Files_FullNextSearch\Service\FilesService;
 use OCA\Files_FullNextSearch\Service\MiscService;
+use OCA\FullNextSearch\Exceptions\InterruptException;
+use OCA\FullNextSearch\Exceptions\TickDoesNotExistException;
 use OCA\FullNextSearch\INextSearchPlatform;
 use OCA\FullNextSearch\INextSearchProvider;
 use OCA\FullNextSearch\Model\Index;
 use OCA\FullNextSearch\Model\IndexDocument;
 use OCA\FullNextSearch\Model\Runner;
 use OCA\FullNextSearch\Model\SearchResult;
+use OCP\AppFramework\QueryException;
+use OCP\Files\InvalidPathException;
+use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 
 class FilesProvider implements INextSearchProvider {
 
@@ -82,6 +88,8 @@ class FilesProvider implements INextSearchProvider {
 	 * called when loading all providers.
 	 *
 	 * Loading some containers.
+	 *
+	 * @throws QueryException
 	 */
 	public function loadProvider() {
 		$app = new Application();
@@ -102,6 +110,10 @@ class FilesProvider implements INextSearchProvider {
 	 * @param string $userId
 	 *
 	 * @return IndexDocument[]
+	 * @throws InterruptException
+	 * @throws TickDoesNotExistException
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function generateIndexableDocuments($userId) {
 		$files = $this->filesService->getFilesFromUser($this->runner, $userId);
@@ -131,6 +143,9 @@ class FilesProvider implements INextSearchProvider {
 	 * @param Index $index
 	 *
 	 * @return IndexDocument
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
 	 */
 	public function updateDocument(Index $index) {
 		return $this->filesService->updateDocument($index);
@@ -181,6 +196,8 @@ class FilesProvider implements INextSearchProvider {
 	 * @param SearchResult $searchResult
 	 *
 	 * @return mixed|void
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 */
 	public function improveSearchResult(SearchResult $searchResult) {
 

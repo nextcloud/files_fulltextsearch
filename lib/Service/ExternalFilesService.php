@@ -13,8 +13,10 @@ use OCA\Files_FullNextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullNextSearch\Model\ExternalMount;
 use OCA\Files_FullNextSearch\Model\FilesDocument;
 use OCA\FullNextSearch\Model\DocumentAccess;
+use OCP\App;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 
@@ -70,7 +72,7 @@ class ExternalFilesService {
 	 */
 	public function initExternalFilesForUser($userId) {
 		$this->externalMounts = [];
-		if (!\OCP\App::isEnabled('files_external')) {
+		if (!App::isEnabled('files_external')) {
 			return;
 		}
 
@@ -86,6 +88,7 @@ class ExternalFilesService {
 	 * @param Node $file
 	 *
 	 * @throws FileIsNotIndexableException
+	 * @throws NotFoundException
 	 */
 	public function externalFileMustBeIndexable(Node $file) {
 
@@ -120,6 +123,7 @@ class ExternalFilesService {
 	 * @param Node $file
 	 *
 	 * @throws FileIsNotIndexableException
+	 * @throws NotFoundException
 	 */
 	public function updateDocumentWithExternalFiles(FilesDocument &$document, Node $file) {
 
