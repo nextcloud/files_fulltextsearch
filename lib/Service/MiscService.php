@@ -65,12 +65,22 @@ class MiscService {
 	}
 
 
-	public static function noEndSlash($path) {
+	/**
+	 * @param string $path
+	 * @param bool $trim
+	 *
+	 * @return string
+	 */
+	public static function noEndSlash($path, $trim = false) {
 		if (substr($path, -1) === '/') {
 			$path = substr($path, 0, -1);
 		}
 
-		return trim($path);
+		if ($trim) {
+			$path = trim($path);
+		}
+
+		return $path;
 	}
 
 }

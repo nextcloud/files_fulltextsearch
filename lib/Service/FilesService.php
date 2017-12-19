@@ -28,6 +28,7 @@
 namespace OCA\Files_FullNextSearch\Service;
 
 
+use Exception;
 use OC\Share\Constants;
 use OC\Share\Share;
 use OCA\Files_FullNextSearch\Exceptions\FileIsNotIndexableException;
@@ -44,7 +45,6 @@ use OCP\Files\Folder;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IUserManager;
-use OCP\Lock\LockedException;
 use OCP\Share\IManager;
 
 class FilesService {
@@ -335,6 +335,7 @@ class FilesService {
 	public function generateDocuments($documents) {
 
 		$index = [];
+
 		foreach ($documents as $document) {
 			if (!($document instanceof FilesDocument)) {
 				continue;
@@ -344,11 +345,11 @@ class FilesService {
 
 			try {
 				$this->updateDocumentFromFilesDocument($document);
-			} catch (LockedException $e) {
+			} catch (Exception $e) {
 				// TODO - update $document with a error status instead of just ignore !
 				$document->getIndex()
 						 ->setStatus(Index::STATUS_INDEX_IGNORE);
-				echo 'LOCKED: ' . $e->getMessage() . "\n";
+				echo 'Exception: ' . json_encode($e->getTrace()) . ' - ' . $e->getMessage() . "\n";
 			}
 
 			$index[] = $document;
