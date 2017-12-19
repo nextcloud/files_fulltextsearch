@@ -106,6 +106,10 @@ class ExternalFilesService {
 	public function getAllSharesFromExternalFile(DocumentAccess $access) {
 		$result = $access->getUsers();
 
+		if ($access->getOwnerId() !== '') {
+			array_push($result, $access->getOwnerId());
+		}
+
 		// TODO: get users from groups & circles.
 		return $result;
 	}
