@@ -6,11 +6,11 @@
 	<summary>Index your users' files on Full Next Search</summary>
 	<description><![CDATA[
 
-	ALPHA - DO NOT INSTALL ON PRODUCTION NEXTCLOUD
+		ALPHA - DO NOT INSTALL ON PRODUCTION NEXTCLOUD
 
-]]>
+	]]>
 	</description>
-	<version>0.1.2</version>
+	<version>0.1.3</version>
 	<licence>agpl</licence>
 	<author>Maxence Lange</author>
 	<types>
@@ -28,6 +28,10 @@
 	<dependencies>
 		<nextcloud min-version="12" max-version="14"/>
 	</dependencies>
+
+	<settings>
+		<admin>OCA\Files_FullNextSearch\Settings\Admin</admin>
+	</settings>
 
 	<fullnextsearch>
 		<provider>OCA\Files_FullNextSearch\Provider\FilesProvider</provider>

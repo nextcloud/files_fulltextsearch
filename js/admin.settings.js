@@ -1,5 +1,4 @@
-<?php
-/**
+/*
  * FullNextSearch - Full Text Search your Nextcloud.
  *
  * This file is licensed under the Affero General Public License version 3 or
@@ -25,10 +24,33 @@
  *
  */
 
-return [
-	'routes' => [
-		['name' => 'Settings#getSettingsAdmin', 'url' => '/admin/settings', 'verb' => 'GET']
-	]
-];
+/** global: OCA */
+/** global: files_elements */
 
 
+
+
+var files_settings = {
+
+	config: null,
+
+	refreshSettingPage: function () {
+
+		$.ajax({
+			method: 'GET',
+			url: OC.generateUrl('/apps/files_fullnextsearch/admin/settings')
+		}).done(function (res) {
+			files_settings.updateSettingPage(res);
+		});
+
+	},
+
+	updateSettingPage: function (result) {
+
+		files_elements.files_external.val(result.files_external).fadeTo(300, 1);
+
+		console.log(JSON.stringify(result));
+
+	}
+
+};

@@ -65,6 +65,22 @@ class ConfigService {
 		$this->miscService = $miscService;
 	}
 
+
+	/**
+	 * @return array
+	 */
+	public function getConfig() {
+		$keys = array_keys($this->defaults);
+		$data = [];
+
+		foreach ($keys as $k) {
+			$data[$k] = $this->getAppValue($k);
+		}
+
+		return $data;
+	}
+
+
 	/**
 	 * Get a value by key
 	 *
