@@ -23,7 +23,7 @@ Util::addStyle(Application::APP_NAME, 'admin');
 				<em>Index the content of external files.</em>
 			</div>
 			<div class="div-table-col">
-				<input type="checkbox" id="files_external" value="1" class="hidden"/>
+				<input type="checkbox" id="files_external" value="1"/>
 			</div>
 		</div>
 

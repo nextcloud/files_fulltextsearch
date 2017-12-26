@@ -76,7 +76,7 @@ class ExternalFilesService {
 			return;
 		}
 
-		if ($this->configService->getAppValue(ConfigService::INDEX_NON_LOCAL) !== '1') {
+		if ($this->configService->getAppValue(ConfigService::FILES_EXTERNAL) !== '1') {
 			return;
 		}
 

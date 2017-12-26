@@ -34,12 +34,12 @@ use OCP\Util;
 
 class ConfigService {
 
-	const INDEX_NON_LOCAL = 'index_non_local';
-	const INDEX_ENCRYPTED = 'index_encrypted';
+	const FILES_EXTERNAL = 'files_external';
+	const FILES_ENCRYPTED = 'files_encrypted';
 
 	private $defaults = [
-		self::INDEX_NON_LOCAL => '0',
-		self::INDEX_ENCRYPTED => '0'
+		self::FILES_EXTERNAL  => '0',
+		self::FILES_ENCRYPTED => '0'
 	];
 
 
@@ -78,6 +78,20 @@ class ConfigService {
 		}
 
 		return $data;
+	}
+
+
+	/**
+	 * @param array $save
+	 */
+	public function setConfig($save) {
+		$keys = array_keys($this->defaults);
+
+		foreach ($keys as $k) {
+			if (array_key_exists($k, $save)) {
+				$this->setAppValue($k, $save[$k]);
+			}
+		}
 	}
 
 

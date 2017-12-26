@@ -46,11 +46,28 @@ var files_settings = {
 	},
 
 	updateSettingPage: function (result) {
+		files_elements.files_external.prop('checked', (result.files_external === '1'));
 
-		files_elements.files_external.val(result.files_external).fadeTo(300, 1);
+		fns_admin_settings.tagSettingsAsSaved(files_elements.files_div);
+	},
 
-		console.log(JSON.stringify(result));
+
+	saveSettings: function () {
+
+		var data = {
+			files_external: (files_elements.files_external.is(':checked')) ? 1 : 0
+		};
+		$.ajax({
+			method: 'POST',
+			url: OC.generateUrl('/apps/files_fullnextsearch/admin/settings'),
+			data: {
+				data: data
+			}
+		}).done(function (res) {
+			files_settings.updateSettingPage(res);
+		});
 
 	}
+
 
 };

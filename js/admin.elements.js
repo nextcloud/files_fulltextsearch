@@ -29,12 +29,18 @@
 
 
 var files_elements = {
-	elasticsearch_host: null,
-	elasticsearch_index: null,
+	files_div: null,
+	files_external: null,
 
 
 	init: function () {
-		files_elements.files_external= $('#files_external');
+		files_elements.files_div = $('#files');
+		files_elements.files_external = $('#files_external');
+
+		files_elements.files_external.on('change', function () {
+			fns_admin_settings.tagSettingsAsNotSaved($(this));
+			files_settings.saveSettings();
+		});
 	}
 };
 
