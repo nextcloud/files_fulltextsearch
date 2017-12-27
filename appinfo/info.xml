@@ -6,11 +6,11 @@
 	<summary>Index your users' files on Full Next Search</summary>
 	<description><![CDATA[
 
-		ALPHA - DO NOT INSTALL ON PRODUCTION NEXTCLOUD
+Files_FullNextSearch is a Provider-App for FullNextSearch to index your users' files.
 
 	]]>
 	</description>
-	<version>0.1.3</version>
+	<version>0.3.0</version>
 	<licence>agpl</licence>
 	<author>Maxence Lange</author>
 	<types>
@@ -18,12 +18,12 @@
 	</types>
 	<namespace>Files_FullNextSearch</namespace>
 	<documentation>
-		<admin>https://github.com/nextcloud/nextant/blob/fullnextsearch/INSTALL.md</admin>
+		<admin>https://github.com/nextcloud/files_fullnextsearch/wiki</admin>
 	</documentation>
 	<category>tools</category>
-	<website>https://github.com/daita/fullnextsearch</website>
-	<bugs>https://github.com/daita/fullnextsearch/issues</bugs>
-	<repository>https://github.com/daita/fullnextsearch.git</repository>
+	<website>https://github.com/nextcloud/files_fullnextsearch</website>
+	<bugs>https://github.com/nextcloud/files_fullnextsearch/issues</bugs>
+	<repository>https://github.com/nextcloud/files_fullnextsearch.git</repository>
 	<!--<screenshot></screenshot>-->
 	<dependencies>
 		<nextcloud min-version="12" max-version="14"/>

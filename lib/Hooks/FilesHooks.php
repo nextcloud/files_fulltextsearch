@@ -21,7 +21,7 @@ class FilesHooks {
 	 * @return FilesEvents
 	 * @throws QueryException
 	 */
-	static protected function getController() {
+	protected static function getController() {
 		$app = new Application();
 
 		return $app->getContainer()
@@ -66,6 +66,7 @@ class FilesHooks {
 	 *
 	 * @throws NotFoundException
 	 * @throws QueryException
+	 * @throws InvalidPathException
 	 */
 	public static function onFileRename($params) {
 		self::getController()

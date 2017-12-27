@@ -1,6 +1,6 @@
 # Changelog
 
 
-### ALPHA v0.1.1
+### BETA v0.3.0
 
-- Initial release to Nextcloud appstore
+- first Beta

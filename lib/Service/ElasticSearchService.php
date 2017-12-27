@@ -37,13 +37,13 @@ class ElasticSearchService {
 
 
 	/**
-	 * ProviderService constructor.
+	 * ElasticSearchService constructor.
 	 *
 	 * @param MiscService $miscService
 	 *
 	 * @internal param IProviderFactory $factory
 	 */
-	function __construct(MiscService $miscService) {
+	public function __construct(MiscService $miscService) {
 		$this->miscService = $miscService;
 	}
 

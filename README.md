@@ -1,23 +1,16 @@
-# files_fullnextsearch
+# Files_FullNextSearch
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/daita/files_fullnextsearch/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/daita/files_fullnextsearch/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/files_fullnextsearch/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/files_fullnextsearch/?branch=master)
 
-### Note:
+**BETA VERSION**  
 
-**ALPHA - DO NOT INSTALL ON PROD ENVIRONMENT.**  
+_Files_FullNextSearch_ is an extension app to the FullNextSearch framework
 
-[**FullNextSearch**](https://github.com/nextcloud/nextant/tree/fullnextsearch) allows you to index and search the content of your cloud.  
-
-This app is a module that will retrieve the content of the files from the cloud in order index them using **FullNextSearch**, please have a look to the [README of the core app](https://github.com/nextcloud/nextant/blob/fullnextsearch/README.md) first
+It allows you to index the content of your users' files.
 
 
 
-### Installation
+### Documentation
 
-You can download the app from the store, or download the source from the git repository and copy it in **apps/**.  
+[Can be found on the Wiki](https://github.com/nextcloud/files_fullnextsearch/wiki)
 
-
-
-### Configuration
-
-no configuration yet.

@@ -142,7 +142,7 @@ class FilesProvider implements INextSearchProvider {
 	/**
 	 * @param Index $index
 	 *
-	 * @return IndexDocument
+	 * @return IndexDocument|null
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException

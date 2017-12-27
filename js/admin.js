@@ -25,6 +25,9 @@
  */
 
 /** global: OCA */
+/** global: files_elements */
+/** global: files_settings */
+
 
 (function () {
 

@@ -76,7 +76,7 @@ class FilesService {
 
 
 	/**
-	 * ProviderService constructor.
+	 * FilesService constructor.
 	 *
 	 * @param IRootFolder $rootFolder
 	 * @param IUserManager $userManager
@@ -87,7 +87,7 @@ class FilesService {
 	 *
 	 * @internal param IProviderFactory $factory
 	 */
-	function __construct(
+	public function __construct(
 		IRootFolder $rootFolder, IUserManager $userManager, IManager $shareManager,
 		ConfigService $configService, ExternalFilesService $externalFilesService,
 		MiscService $miscService

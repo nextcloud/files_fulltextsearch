@@ -24,9 +24,9 @@
  *
  */
 
-/** global: OCA */
+/** global: OC */
 /** global: files_elements */
-
+/** global: fns_admin_settings */
 
 
 

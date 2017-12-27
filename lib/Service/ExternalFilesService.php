@@ -46,7 +46,7 @@ class ExternalFilesService {
 
 
 	/**
-	 * ProviderService constructor.
+	 * ExternalFilesService constructor.
 	 *
 	 * @param IRootFolder $rootFolder
 	 * @param IUserManager $userManager
@@ -54,7 +54,7 @@ class ExternalFilesService {
 	 * @param ConfigService $configService
 	 * @param MiscService $miscService
 	 */
-	function __construct(
+	public function __construct(
 		IRootFolder $rootFolder, IUserManager $userManager, IManager $shareManager,
 		ConfigService $configService, MiscService $miscService
 	) {
