@@ -97,6 +97,10 @@ class ExternalFilesService {
 			return;
 		}
 
+		if (!$this->configService->optionIsSelected(ConfigService::FILES_EXTERNAL)) {
+			throw new FileIsNotIndexableException();
+		}
+
 		$this->getExternalMount($file);
 	}
 

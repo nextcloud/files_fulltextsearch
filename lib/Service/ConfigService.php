@@ -134,6 +134,19 @@ class ConfigService {
 		return $this->config->deleteAppValue(Application::APP_NAME, $key);
 	}
 
+
+	/**
+	 * return if option is enabled.
+	 *
+	 * @param $key
+	 *
+	 * @return bool
+	 */
+	public function optionIsSelected($key) {
+		return ($this->getAppValue($key) === '1');
+	}
+
+
 	/**
 	 * Get a user value by key
 	 *

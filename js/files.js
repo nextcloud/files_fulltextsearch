@@ -95,7 +95,7 @@ Files_FullNextSearch.prototype = {
 			elements.search_result.fadeIn(150);
 		});
 
-		console.log('> ' + JSON.stringify(result));
+		// console.log('> ' + JSON.stringify(result));
 	},
 
 
