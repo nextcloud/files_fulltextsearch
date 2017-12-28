@@ -29,7 +29,7 @@
 /** global: files_settings */
 
 
-(function () {
+$(document).ready(function () {
 
 
 	/**
@@ -46,4 +46,4 @@
 	OCA.NextSearchAdmin.files = FnsFiles;
 	OCA.NextSearchAdmin.files.settings = new FnsFiles();
 
-})();
+});
