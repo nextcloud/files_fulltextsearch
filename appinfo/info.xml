@@ -2,7 +2,7 @@
 <info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>files_fullnextsearch</id>
-	<name>Full Next Search - Index Files (ALPHA)</name>
+	<name>Full Next Search - Index Files (BETA)</name>
 	<summary>Index your users' files on Full Next Search</summary>
 	<description><![CDATA[
 
