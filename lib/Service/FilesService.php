@@ -534,7 +534,10 @@ class FilesService {
 		}
 
 		// on simple text file, elastic search+attachment pipeline can still detect language, useful ?
-		$document->setContent($file->getContent(), IndexDocument::NOT_ENCODED);
+//		$document->setContent($file->getContent(), IndexDocument::NOT_ENCODED);
+
+		// We try to avoid error with some base encoding of the document:
+		$document->setContent(base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64);
 	}
 
 
