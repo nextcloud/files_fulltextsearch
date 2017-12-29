@@ -81,7 +81,11 @@ class Admin implements ISettings {
 	 * @return string the section ID, e.g. 'sharing'
 	 */
 	public function getSection() {
-		return FullNextSearch::APP_NAME;
+		if (class_exists(FullNextSearch::class)) {
+			return FullNextSearch::APP_NAME;
+		}
+
+		return 'fullnextsearch';
 	}
 
 
