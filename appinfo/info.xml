@@ -10,7 +10,7 @@ Files_FullNextSearch is a Provider-App for FullNextSearch to index your users' f
 
 	]]>
 	</description>
-	<version>0.3.0</version>
+	<version>0.3.1</version>
 	<licence>agpl</licence>
 	<author>Maxence Lange</author>
 	<types>
