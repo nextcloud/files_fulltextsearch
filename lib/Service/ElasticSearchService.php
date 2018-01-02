@@ -29,6 +29,7 @@ namespace OCA\Files_FullNextSearch\Service;
 
 
 use OCA\FullNextSearch\INextSearchPlatform;
+use OCA\FullNextSearch\Model\SearchRequest;
 
 class ElasticSearchService {
 
@@ -88,8 +89,10 @@ class ElasticSearchService {
 			return;
 		}
 
+		/** @var SearchRequest $request */
+		$request = $arr['request'];
 		$query = [];
-		$words = explode(' ', $arr['query']);
+		$words = explode(' ', $request->getSearch());
 		foreach ($words as $word) {
 			array_push(
 				$query, ['wildcard' => ['share_names.' . $arr['requester'] => '*' . $word . '*']]
