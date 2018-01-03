@@ -90,13 +90,13 @@ Files_FullNextSearch.prototype = {
 	},
 
 
-	searchResult: function (result) {
-		elements.old_files.fadeOut(150, function () {
-			elements.search_result.fadeIn(150);
-		});
-
-		// console.log('> ' + JSON.stringify(result));
-	},
+	// searchResult: function (result) {
+	// 	elements.old_files.fadeOut(150, function () {
+	// 		elements.search_result.fadeIn(150);
+	// 	});
+	//
+	// 	// console.log('> ' + JSON.stringify(result));
+	// },
 
 
 	onEntryGenerated: function (entry) {
