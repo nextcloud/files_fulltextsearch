@@ -40,6 +40,7 @@ use OCA\FullNextSearch\Model\Index;
 use OCA\FullNextSearch\Model\IndexDocument;
 use OCA\FullNextSearch\Model\Runner;
 use OCA\FullNextSearch\Model\SearchResult;
+use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\QueryException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
@@ -79,8 +80,22 @@ class FilesProvider implements INextSearchProvider {
 		return 'Files';
 	}
 
+
+	public function getAppId() {
+		return Application::APP_NAME;
+	}
+
+
 	public function setRunner(Runner $runner) {
 		$this->runner = $runner;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getOptionsTemplate() {
+		return 'options.panel';
 	}
 
 
