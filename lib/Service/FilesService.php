@@ -493,8 +493,26 @@ class FilesService {
 							  ->getOwnerId()
 				 );
 
+		$this->updateDocumentWithLocalFiles($document, $file);
 		$this->externalFilesService->updateDocumentWithExternalFiles($document, $file);
 
+	}
+
+
+	/**
+	 * @param FilesDocument $document
+	 * @param Node $file
+	 *
+	 * @throws NotFoundException
+	 */
+	private function updateDocumentWithLocalFiles(FilesDocument $document, Node $file) {
+
+		if ($file->getStorage()
+				 ->isLocal() === false) {
+			return;
+		}
+
+		$document->addTag('local');
 	}
 
 
