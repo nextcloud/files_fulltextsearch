@@ -43,7 +43,7 @@
 				<span class="leftcol">Within local files:</span>
 			</div>
 			<div class="div-table-col">
-				<input type="checkbox" id="files_local" checked value="1"/>
+				<input type="checkbox" id="files_local" value="1"/>
 			</div>
 		</div>
 
@@ -52,11 +52,11 @@
 				<span class="leftcol">Within external files:</span>
 			</div>
 			<div class="div-table-col">
-				<input type="checkbox" id="files_external" checked value="1"/>
+				<input type="checkbox" id="files_external" value="1"/>
 			</div>
 		</div>
 
-		<div class="div-table-row">f
+		<div class="div-table-row">
 			<div class="div-table-col div-table-col-left">
 				<span class="leftcol">Filter by file extension:</span>
 			</div>
