@@ -92,9 +92,6 @@ class ElasticSearchService {
 
 		$this->searchQueryShareNames($request, $arr);
 		$this->searchQueryShareOptions($request, $arr);
-
-
-		$this->miscService->log('>>>>>> ' . json_encode($arr));
 	}
 
 
