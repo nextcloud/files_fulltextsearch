@@ -82,20 +82,24 @@ class ElasticSearchService {
 
 	/**
 	 * @param INextSearchPlatform $platform
+	 * @param SearchRequest $request
 	 * @param array $arr
 	 */
-	public function onSearchingQuery(INextSearchPlatform $platform, &$arr) {
+	public function onSearchingQuery(INextSearchPlatform $platform, SearchRequest $request, &$arr) {
 		if ($platform->getId() !== 'elastic_search') {
 			return;
 		}
 
-		/** @var SearchRequest $request */
-		$request = $arr['request'];
+		$this->searchQueryShareNames($request, $arr);
+	}
+
+
+	public function searchQueryShareNames(SearchRequest $request, &$arr) {
 		$query = [];
 		$words = explode(' ', $request->getSearch());
 		foreach ($words as $word) {
 			array_push(
-				$query, ['wildcard' => ['share_names.' . $arr['requester'] => '*' . $word . '*']]
+				$query, ['wildcard' => ['share_names.' . $request->getAuthor() => '*' . $word . '*']]
 			);
 		}
 

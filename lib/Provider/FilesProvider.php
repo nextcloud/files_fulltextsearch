@@ -39,6 +39,7 @@ use OCA\FullNextSearch\INextSearchProvider;
 use OCA\FullNextSearch\Model\Index;
 use OCA\FullNextSearch\Model\IndexDocument;
 use OCA\FullNextSearch\Model\Runner;
+use OCA\FullNextSearch\Model\SearchRequest;
 use OCA\FullNextSearch\Model\SearchResult;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\QueryException;
@@ -191,10 +192,11 @@ class FilesProvider implements INextSearchProvider {
 
 	/**
 	 * @param INextSearchPlatform $platform
+	 * @param SearchRequest $request
 	 * @param array $arr
 	 */
-	public function onSearchingQuery(INextSearchPlatform $platform, &$arr) {
-		$this->elasticSearchService->onSearchingQuery($platform, $arr);
+	public function onSearchingQuery(INextSearchPlatform $platform, SearchRequest $request, &$arr) {
+		$this->elasticSearchService->onSearchingQuery($platform, $request, $arr);
 	}
 
 
