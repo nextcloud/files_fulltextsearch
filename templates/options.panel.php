@@ -65,14 +65,14 @@
 			</div>
 		</div>
 
-		<div class="div-table-row">
-			<div class="div-table-col div-table-col-left">
-				<span class="leftcol">Limit to current folder:</span>
-			</div>
-			<div class="div-table-col">
-				<input type="checkbox" id="files_withindir" value="1"/>
-			</div>
-		</div>
+<!--		<div class="div-table-row">-->
+<!--			<div class="div-table-col div-table-col-left">-->
+<!--				<span class="leftcol">Limit to current folder:</span>-->
+<!--			</div>-->
+<!--			<div class="div-table-col">-->
+<!--				<input type="checkbox" id="files_withindir" value="1"/>-->
+<!--			</div>-->
+<!--		</div>-->
 
 	</div>
 
