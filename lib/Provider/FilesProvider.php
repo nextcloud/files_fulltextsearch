@@ -32,6 +32,7 @@ use OCA\Files_FullNextSearch\Model\FilesDocument;
 use OCA\Files_FullNextSearch\Service\ElasticSearchService;
 use OCA\Files_FullNextSearch\Service\FilesService;
 use OCA\Files_FullNextSearch\Service\MiscService;
+use OCA\Files_FullNextSearch\Service\SearchService;
 use OCA\FullNextSearch\Exceptions\InterruptException;
 use OCA\FullNextSearch\Exceptions\TickDoesNotExistException;
 use OCA\FullNextSearch\INextSearchPlatform;
@@ -54,6 +55,9 @@ class FilesProvider implements INextSearchProvider {
 
 	/** @var FilesService */
 	private $filesService;
+
+	/** @var SearchService */
+	private $searchService;
 
 	/** @var ElasticSearchService */
 	private $elasticSearchService;
@@ -112,6 +116,7 @@ class FilesProvider implements INextSearchProvider {
 
 		$container = $app->getContainer();
 		$this->filesService = $container->query(FilesService::class);
+		$this->searchService = $container->query(SearchService::class);
 		$this->elasticSearchService = $container->query(ElasticSearchService::class);
 		$this->miscService = $container->query(MiscService::class);
 	}
@@ -208,11 +213,20 @@ class FilesProvider implements INextSearchProvider {
 
 
 	/**
+	 * before a search, improve the request
+	 *
+	 * @param SearchRequest $request
+	 */
+	public function improveSearchRequest(SearchRequest $request) {
+		$this->searchService->improveSearchRequest($request);
+	}
+
+
+	/**
 	 * after a search, improve results
 	 *
 	 * @param SearchResult $searchResult
 	 *
-	 * @return mixed|void
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */

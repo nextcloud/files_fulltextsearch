@@ -91,10 +91,18 @@ class ElasticSearchService {
 		}
 
 		$this->searchQueryShareNames($request, $arr);
+		$this->searchQueryShareOptions($request, $arr);
+
+
+		$this->miscService->log('>>>>>> ' . json_encode($arr));
 	}
 
 
-	public function searchQueryShareNames(SearchRequest $request, &$arr) {
+	/**
+	 * @param SearchRequest $request
+	 * @param array $arr
+	 */
+	private function searchQueryShareNames(SearchRequest $request, &$arr) {
 		$query = [];
 		$words = explode(' ', $request->getSearch());
 		foreach ($words as $word) {
@@ -104,6 +112,30 @@ class ElasticSearchService {
 		}
 
 		array_push($arr['params']['body']['query']['bool']['must']['bool']['should'], $query);
+	}
+
+
+	/**
+	 * @param SearchRequest $request
+	 * @param array $arr
+	 */
+	private function searchQueryShareOptions(SearchRequest $request, &$arr) {
+		$this->searchQueryShareOptionsExtension($request, $arr);
+	}
+
+
+	private function searchQueryShareOptionsExtension(SearchRequest $request, &$arr) {
+		$extension = $request->getOption('files_extension');
+		if ($extension === '') {
+			return;
+		}
+
+		$query = [
+			['wildcard' => ['share_names.' . $request->getAuthor() => '*' . $extension]],
+			['wildcard' => ['title' => '*' . $extension]]
+		];
+
+		$arr['params']['body']['query']['bool']['filter'][]['bool']['should'] = $query;
 	}
 
 
