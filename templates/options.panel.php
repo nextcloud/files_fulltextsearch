@@ -1,12 +1,12 @@
 <?php
 /**
- * Files_FullNextSearch - Index your files
+ * Files_FullTextSearch - Index the content of your files
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2017
+ * @copyright 2018
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@
  *
  */
 
-//use OCA\Files_FullNextSearch\AppInfo\Application;
+//use OCA\Files_FullTextSearch\AppInfo\Application;
 //use OCP\Util;
 //
 //Util::addScript(Application::APP_NAME, 'admin.elements');
