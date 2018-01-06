@@ -1,11 +1,11 @@
 /*
- * FullNextSearch - Full Text Search your Nextcloud.
+ * Files_FullTextSearch - Index the content of your files
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2017
+ * @copyright 2018
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,13 +21,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *
  */
 
 
 /** global: OCA */
 
-const nextSearch = OCA.NextSearch.api;
+const fullTextSearch = OCA.FullTextSearch.api;
 
 
 var elements = {
@@ -38,12 +37,12 @@ var elements = {
 };
 
 
-const Files_FullNextSearch = function () {
+const Files_FullTextSearch = function () {
 	this.init();
 };
 
 
-Files_FullNextSearch.prototype = {
+Files_FullTextSearch.prototype = {
 
 	init: function () {
 		var self = this;
@@ -66,9 +65,9 @@ Files_FullNextSearch.prototype = {
 		// });
 
 		elements.template_entry = self.generateTemplateEntry();
-		nextSearch.setEntryTemplateId(elements.template_entry, self);
-		nextSearch.setResultContainerId(elements.search_result);
-		nextSearch.addSearchBar('files');
+		fullTextSearch.setEntryTemplateId(elements.template_entry, self);
+		fullTextSearch.setResultContainerId(elements.search_result);
+		fullTextSearch.addSearchBar('files');
 	},
 
 
@@ -121,10 +120,10 @@ Files_FullNextSearch.prototype = {
 };
 
 
-OCA.NextSearch.Files = Files_FullNextSearch;
+OCA.FullTextSearch.Files = Files_FullTextSearch;
 
 $(document).ready(function () {
-	OCA.NextSearch.navigate = new Files_FullNextSearch();
+	OCA.FullTextSearch.navigate = new Files_FullTextSearch();
 });
 
 

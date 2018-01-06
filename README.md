@@ -1,10 +1,10 @@
-# Files_FullNextSearch
+# Files_FullTextSearch
 
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/files_fullnextsearch/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/files_fullnextsearch/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/nextcloud/files_fulltextsearch/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/nextcloud/files_fulltextsearch/?branch=master)
 
 **BETA VERSION**  
 
-_Files_FullNextSearch_ is an extension app to the FullNextSearch framework
+_Files_FullTextSearch_ is an extension app to the FullTextSearch framework
 
 It allows you to index the content of your users' files.
 
@@ -12,5 +12,5 @@ It allows you to index the content of your users' files.
 
 ### Documentation
 
-[Can be found on the Wiki](https://github.com/nextcloud/files_fullnextsearch/wiki)
+[Can be found on the Wiki](https://github.com/nextcloud/files_fulltextsearch/wiki)
 

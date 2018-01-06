@@ -1,12 +1,12 @@
 <?php
 /**
- * FullNextSearch - Full Text Search your Nextcloud.
+ * Files_FullTextSearch - Index the content of your files
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2017
+ * @copyright 2018
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,33 +22,32 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *
  */
 
-namespace OCA\Files_FullNextSearch\Provider;
+namespace OCA\Files_FullTextSearch\Provider;
 
-use OCA\Files_FullNextSearch\AppInfo\Application;
-use OCA\Files_FullNextSearch\Model\FilesDocument;
-use OCA\Files_FullNextSearch\Service\ElasticSearchService;
-use OCA\Files_FullNextSearch\Service\FilesService;
-use OCA\Files_FullNextSearch\Service\MiscService;
-use OCA\Files_FullNextSearch\Service\SearchService;
-use OCA\FullNextSearch\Exceptions\InterruptException;
-use OCA\FullNextSearch\Exceptions\TickDoesNotExistException;
-use OCA\FullNextSearch\INextSearchPlatform;
-use OCA\FullNextSearch\INextSearchProvider;
-use OCA\FullNextSearch\Model\Index;
-use OCA\FullNextSearch\Model\IndexDocument;
-use OCA\FullNextSearch\Model\Runner;
-use OCA\FullNextSearch\Model\SearchRequest;
-use OCA\FullNextSearch\Model\SearchResult;
+use OCA\Files_FullTextSearch\AppInfo\Application;
+use OCA\Files_FullTextSearch\Model\FilesDocument;
+use OCA\Files_FullTextSearch\Service\ElasticSearchService;
+use OCA\Files_FullTextSearch\Service\FilesService;
+use OCA\Files_FullTextSearch\Service\MiscService;
+use OCA\Files_FullTextSearch\Service\SearchService;
+use OCA\FullTextSearch\Exceptions\InterruptException;
+use OCA\FullTextSearch\Exceptions\TickDoesNotExistException;
+use OCA\FullTextSearch\IFullTextSearchPlatform;
+use OCA\FullTextSearch\IFullTextSearchProvider;
+use OCA\FullTextSearch\Model\Index;
+use OCA\FullTextSearch\Model\IndexDocument;
+use OCA\FullTextSearch\Model\Runner;
+use OCA\FullTextSearch\Model\SearchRequest;
+use OCA\FullTextSearch\Model\SearchResult;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\QueryException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 
-class FilesProvider implements INextSearchProvider {
+class FilesProvider implements IFullTextSearchProvider {
 
 
 	const FILES_PROVIDER_ID = 'files';
@@ -174,33 +173,33 @@ class FilesProvider implements INextSearchProvider {
 
 
 	/**
-	 * @param INextSearchPlatform $platform
+	 * @param IFullTextSearchPlatform $platform
 	 */
-	public function onInitializingIndex(INextSearchPlatform $platform) {
+	public function onInitializingIndex(IFullTextSearchPlatform $platform) {
 		$this->elasticSearchService->onInitializingIndex($platform);
 	}
 
 	/**
-	 * @param INextSearchPlatform $platform
+	 * @param IFullTextSearchPlatform $platform
 	 * @param array $arr
 	 */
-	public function onIndexingDocument(INextSearchPlatform $platform, &$arr) {
+	public function onIndexingDocument(IFullTextSearchPlatform $platform, &$arr) {
 		$this->elasticSearchService->onIndexingDocument($platform, $arr);
 	}
 
 	/**
-	 * @param INextSearchPlatform $platform
+	 * @param IFullTextSearchPlatform $platform
 	 */
-	public function onRemovingIndex(INextSearchPlatform $platform) {
+	public function onRemovingIndex(IFullTextSearchPlatform $platform) {
 		$this->elasticSearchService->onRemovingIndex($platform);
 	}
 
 	/**
-	 * @param INextSearchPlatform $platform
+	 * @param IFullTextSearchPlatform $platform
 	 * @param SearchRequest $request
 	 * @param array $arr
 	 */
-	public function onSearchingQuery(INextSearchPlatform $platform, SearchRequest $request, &$arr) {
+	public function onSearchingQuery(IFullTextSearchPlatform $platform, SearchRequest $request, &$arr) {
 		$this->elasticSearchService->onSearchingQuery($platform, $request, $arr);
 	}
 

@@ -1,12 +1,12 @@
 <?php
 /**
- * FullNextSearch - Full Text Search your Nextcloud.
+ * Files_FullTextSearch - Index the content of your files
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2017
+ * @copyright 2018
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,14 +22,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *
  */
 
-namespace OCA\Files_FullNextSearch\Service;
+namespace OCA\Files_FullTextSearch\Service;
 
 
-use OCA\FullNextSearch\INextSearchPlatform;
-use OCA\FullNextSearch\Model\SearchRequest;
+use OCA\FullTextSearch\IFullTextSearchPlatform;
+use OCA\FullTextSearch\Model\SearchRequest;
 
 class ElasticSearchService {
 
@@ -50,9 +49,9 @@ class ElasticSearchService {
 
 
 	/**
-	 * @param INextSearchPlatform $platform
+	 * @param IFullTextSearchPlatform $platform
 	 */
-	public function onInitializingIndex(INextSearchPlatform $platform) {
+	public function onInitializingIndex(IFullTextSearchPlatform $platform) {
 		if ($platform->getId() !== 'elastic_search') {
 			return;
 		}
@@ -60,9 +59,9 @@ class ElasticSearchService {
 
 
 	/**
-	 * @param INextSearchPlatform $platform
+	 * @param IFullTextSearchPlatform $platform
 	 */
-	public function onRemovingIndex(INextSearchPlatform $platform) {
+	public function onRemovingIndex(IFullTextSearchPlatform $platform) {
 		if ($platform->getId() !== 'elastic_search') {
 			return;
 		}
@@ -70,10 +69,10 @@ class ElasticSearchService {
 
 
 	/**
-	 * @param INextSearchPlatform $platform
+	 * @param IFullTextSearchPlatform $platform
 	 * @param array $arr
 	 */
-	public function onIndexingDocument(INextSearchPlatform $platform, &$arr) {
+	public function onIndexingDocument(IFullTextSearchPlatform $platform, &$arr) {
 		if ($platform->getId() !== 'elastic_search') {
 			return;
 		}
@@ -81,11 +80,11 @@ class ElasticSearchService {
 
 
 	/**
-	 * @param INextSearchPlatform $platform
+	 * @param IFullTextSearchPlatform $platform
 	 * @param SearchRequest $request
 	 * @param array $arr
 	 */
-	public function onSearchingQuery(INextSearchPlatform $platform, SearchRequest $request, &$arr) {
+	public function onSearchingQuery(IFullTextSearchPlatform $platform, SearchRequest $request, &$arr) {
 		if ($platform->getId() !== 'elastic_search') {
 			return;
 		}

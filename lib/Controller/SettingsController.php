@@ -1,12 +1,12 @@
 <?php
 /**
- * FullNextSearch - Full Text Search your Nextcloud.
+ * Files_FullTextSearch - Index the content of your files
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2017
+ * @copyright 2018
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,16 +22,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *
  */
 
-namespace OCA\Files_FullNextSearch\Controller;
+namespace OCA\Files_FullTextSearch\Controller;
 
 use Exception;
-use OCA\Files_FullNextSearch\AppInfo\Application;
-use OCA\Files_FullNextSearch\Service\ConfigService;
-use OCA\Files_FullNextSearch\Service\MiscService;
-use OCA\Files_FullNextSearch\Service\SettingsService;
+use OCA\Files_FullTextSearch\AppInfo\Application;
+use OCA\Files_FullTextSearch\Service\ConfigService;
+use OCA\Files_FullTextSearch\Service\MiscService;
+use OCA\Files_FullTextSearch\Service\SettingsService;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;

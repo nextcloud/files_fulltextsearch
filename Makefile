@@ -1,4 +1,4 @@
-app_name=files_fullnextsearch
+app_name=files_fulltextsearch
 
 project_dir=$(CURDIR)/../$(app_name)
 build_dir=$(CURDIR)/build/artifacts
