@@ -1,12 +1,12 @@
 <?php
 /**
- * FullNextSearch - Full Text Search your Nextcloud.
+ * Files_FullTextSearch - Index the content of your files
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2017
+ * @copyright 2018
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,16 +22,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *
  */
 
-namespace OCA\Files_FullNextSearch\Settings;
+namespace OCA\Files_FullTextSearch\Settings;
 
 use Exception;
-use OCA\FullNextSearch\AppInfo\Application as FullNextSearch;
-use OCA\Files_FullNextSearch\AppInfo\Application;
-use OCA\Files_FullNextSearch\Service\ConfigService;
-use OCA\Files_FullNextSearch\Service\MiscService;
+use OCA\FullTextSearch\AppInfo\Application as FullTextSearch;
+use OCA\Files_FullTextSearch\AppInfo\Application;
+use OCA\Files_FullTextSearch\Service\ConfigService;
+use OCA\Files_FullTextSearch\Service\MiscService;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
 use OCP\IURLGenerator;
@@ -81,11 +80,11 @@ class Admin implements ISettings {
 	 * @return string the section ID, e.g. 'sharing'
 	 */
 	public function getSection() {
-		if (class_exists(FullNextSearch::class)) {
-			return FullNextSearch::APP_NAME;
+		if (class_exists(FullTextSearch::class)) {
+			return FullTextSearch::APP_NAME;
 		}
 
-		return 'fullnextsearch';
+		return 'fulltextsearch';
 	}
 
 

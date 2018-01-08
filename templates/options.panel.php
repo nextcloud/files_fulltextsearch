@@ -24,32 +24,55 @@
  *
  */
 
-use OCA\Files_FullTextSearch\AppInfo\Application;
-use OCP\Util;
-
-Util::addScript(Application::APP_NAME, 'admin.elements');
-Util::addScript(Application::APP_NAME, 'admin.settings');
-Util::addScript(Application::APP_NAME, 'admin');
-
-Util::addStyle(Application::APP_NAME, 'admin');
+//use OCA\Files_FullTextSearch\AppInfo\Application;
+//use OCP\Util;
+//
+//Util::addScript(Application::APP_NAME, 'admin.elements');
+//Util::addScript(Application::APP_NAME, 'admin.settings');
+//Util::addScript(Application::APP_NAME, 'admin');
+//
+//Util::addStyle(Application::APP_NAME, 'admin');
 
 ?>
-
-<div id="files" class="section" style="display: none;">
-	<h2><?php p($l->t('Files')) ?></h2>
+<div>
 
 	<div class="div-table">
 
 		<div class="div-table-row">
 			<div class="div-table-col div-table-col-left">
-				<span class="leftcol">External Files:</span>
-				<br/>
-				<em>Index the content of external files.</em>
+				<span class="leftcol">Within local files:</span>
+			</div>
+			<div class="div-table-col">
+				<input type="checkbox" id="files_local" value="1"/>
+			</div>
+		</div>
+
+		<div class="div-table-row">
+			<div class="div-table-col div-table-col-left">
+				<span class="leftcol">Within external files:</span>
 			</div>
 			<div class="div-table-col">
 				<input type="checkbox" id="files_external" value="1"/>
 			</div>
 		</div>
+
+		<div class="div-table-row">
+			<div class="div-table-col div-table-col-left">
+				<span class="leftcol">Filter by file extension:</span>
+			</div>
+			<div class="div-table-col">
+				<input type="text" id="files_extension" value=""/>
+			</div>
+		</div>
+
+<!--		<div class="div-table-row">-->
+<!--			<div class="div-table-col div-table-col-left">-->
+<!--				<span class="leftcol">Limit to current folder:</span>-->
+<!--			</div>-->
+<!--			<div class="div-table-col">-->
+<!--				<input type="checkbox" id="files_withindir" value="1"/>-->
+<!--			</div>-->
+<!--		</div>-->
 
 	</div>
 

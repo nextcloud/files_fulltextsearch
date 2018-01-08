@@ -1,13 +1,13 @@
 <?php
 
 /**
- * FullNextSearch - Full Text Search your Nextcloud.
+ * Files_FullTextSearch - Index the content of your files 
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
  *
- * @author Maxence Lange <maxence@pontapreta.net>
- * @copyright Maxence Lange 2016
+ * @author Maxence Lange <maxence@artificial-owl.com>
+ * @copyright 2018
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,16 +22,16 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
+ *  
  */
 
-namespace OCA\Files_FullNextSearch\Events;
+namespace OCA\Files_FullTextSearch\Events;
 
-use OCA\Files_FullNextSearch\Model\FilesDocument;
-use OCA\Files_FullNextSearch\Service\FilesService;
-use OCA\Files_FullNextSearch\Service\MiscService;
-use OCA\FullNextSearch\Api\v1\NextSearch;
-use OCA\FullNextSearch\Model\Index;
+use OCA\Files_FullTextSearch\Model\FilesDocument;
+use OCA\Files_FullTextSearch\Service\FilesService;
+use OCA\Files_FullTextSearch\Service\MiscService;
+use OCA\FullTextSearch\Api\v1\FullTextSearch;
+use OCA\FullTextSearch\Model\Index;
 use OCP\AppFramework\QueryException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
@@ -73,8 +73,8 @@ class FilesEvents {
 	public function onNewFile($path) {
 
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
-		NextSearch::createIndex('files', $file->getId(), $this->userId);
-		NextSearch::updateIndexStatus('files', $file->getId(), Index::STATUS_INDEX_THIS);
+		FullTextSearch::createIndex('files', $file->getId(), $this->userId);
+		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::STATUS_INDEX_THIS);
 	}
 
 
@@ -87,7 +87,7 @@ class FilesEvents {
 	 */
 	public function onFileUpdate($path) {
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
-		NextSearch::updateIndexStatus('files', $file->getId(), Index::STATUS_INDEX_THIS);
+		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::STATUS_INDEX_THIS);
 	}
 
 
@@ -100,7 +100,7 @@ class FilesEvents {
 	 */
 	public function onFileRename($target) {
 		$file = $this->filesService->getFileFromPath($this->userId, $target);
-		NextSearch::updateIndexStatus('files', $file->getId(), FilesDocument::STATUS_FILE_ACCESS);
+		FullTextSearch::updateIndexStatus('files', $file->getId(), FilesDocument::STATUS_FILE_ACCESS);
 	}
 
 
@@ -116,7 +116,7 @@ class FilesEvents {
 		// we do not index trashbin
 
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
-		NextSearch::updateIndexStatus('files', $file->getId(), Index::STATUS_REMOVE_DOCUMENT);
+		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::STATUS_REMOVE_DOCUMENT);
 
 
 		//$this->miscService->log('> ON FILE TRASH ' . json_encode($path));
@@ -132,7 +132,7 @@ class FilesEvents {
 	 */
 	public function onFileRestore($path) {
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
-		NextSearch::updateIndexStatus('files', $file->getId(), Index::STATUS_INDEX_THIS);
+		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::STATUS_INDEX_THIS);
 	}
 
 
@@ -141,7 +141,7 @@ class FilesEvents {
 	 */
 	public function onFileDelete($path) {
 //		$file = $this->filesService->getFileFromPath($this->userId, $path);
-//		NextSearch::updateIndexStatus('files', $file->getId(), Index::STATUS_REMOVE_DOCUMENT);
+//		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::STATUS_REMOVE_DOCUMENT);
 	}
 
 
@@ -151,7 +151,7 @@ class FilesEvents {
 	 * @throws QueryException
 	 */
 	public function onFileShare($fileId) {
-		NextSearch::updateIndexStatus('files', $fileId, FilesDocument::STATUS_FILE_ACCESS);
+		FullTextSearch::updateIndexStatus('files', $fileId, FilesDocument::STATUS_FILE_ACCESS);
 
 	}
 
@@ -162,7 +162,7 @@ class FilesEvents {
 	 * @throws QueryException
 	 */
 	public function onFileUnshare($fileId) {
-		NextSearch::updateIndexStatus('files', $fileId, FilesDocument::STATUS_FILE_ACCESS);
+		FullTextSearch::updateIndexStatus('files', $fileId, FilesDocument::STATUS_FILE_ACCESS);
 	}
 }
 

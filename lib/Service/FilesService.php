@@ -1,12 +1,12 @@
 <?php
 /**
- * FullNextSearch - Full Text Search your Nextcloud.
+ * Files_FullTextSearch - Index the content of your files 
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2017
+ * @copyright 2018
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,25 +21,24 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- *
+ *  
  */
 
-namespace OCA\Files_FullNextSearch\Service;
+namespace OCA\Files_FullTextSearch\Service;
 
 
 use Exception;
 use OC\Share\Constants;
 use OC\Share\Share;
-use OCA\Files_FullNextSearch\Exceptions\FileIsNotIndexableException;
-use OCA\Files_FullNextSearch\Model\FilesDocument;
-use OCA\Files_FullNextSearch\Provider\FilesProvider;
-use OCA\FullNextSearch\Exceptions\InterruptException;
-use OCA\FullNextSearch\Exceptions\TickDoesNotExistException;
-use OCA\FullNextSearch\Model\DocumentAccess;
-use OCA\FullNextSearch\Model\Index;
-use OCA\FullNextSearch\Model\IndexDocument;
-use OCA\FullNextSearch\Model\Runner;
+use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
+use OCA\Files_FullTextSearch\Model\FilesDocument;
+use OCA\Files_FullTextSearch\Provider\FilesProvider;
+use OCA\FullTextSearch\Exceptions\InterruptException;
+use OCA\FullTextSearch\Exceptions\TickDoesNotExistException;
+use OCA\FullTextSearch\Model\DocumentAccess;
+use OCA\FullTextSearch\Model\Index;
+use OCA\FullTextSearch\Model\IndexDocument;
+use OCA\FullTextSearch\Model\Runner;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
@@ -493,8 +492,26 @@ class FilesService {
 							  ->getOwnerId()
 				 );
 
+		$this->updateDocumentWithLocalFiles($document, $file);
 		$this->externalFilesService->updateDocumentWithExternalFiles($document, $file);
 
+	}
+
+
+	/**
+	 * @param FilesDocument $document
+	 * @param Node $file
+	 *
+	 * @throws NotFoundException
+	 */
+	private function updateDocumentWithLocalFiles(FilesDocument $document, Node $file) {
+
+		if ($file->getStorage()
+				 ->isLocal() === false) {
+			return;
+		}
+
+		$document->addTag('local');
 	}
 
 

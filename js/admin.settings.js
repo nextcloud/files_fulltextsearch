@@ -1,11 +1,11 @@
 /*
- * FullNextSearch - Full Text Search your Nextcloud.
+ * Files_FullTextSearch - Index the content of your files
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2017
+ * @copyright 2018
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,12 +21,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *
  */
 
 /** global: OC */
 /** global: files_elements */
-/** global: fns_admin_settings */
+/** global: fts_admin_settings */
 
 
 
@@ -38,7 +37,7 @@ var files_settings = {
 
 		$.ajax({
 			method: 'GET',
-			url: OC.generateUrl('/apps/files_fullnextsearch/admin/settings')
+			url: OC.generateUrl('/apps/files_fulltextsearch/admin/settings')
 		}).done(function (res) {
 			files_settings.updateSettingPage(res);
 		});
@@ -48,7 +47,7 @@ var files_settings = {
 	updateSettingPage: function (result) {
 		files_elements.files_external.prop('checked', (result.files_external === '1'));
 
-		fns_admin_settings.tagSettingsAsSaved(files_elements.files_div);
+		fts_admin_settings.tagSettingsAsSaved(files_elements.files_div);
 	},
 
 
@@ -59,7 +58,7 @@ var files_settings = {
 		};
 		$.ajax({
 			method: 'POST',
-			url: OC.generateUrl('/apps/files_fullnextsearch/admin/settings'),
+			url: OC.generateUrl('/apps/files_fulltextsearch/admin/settings'),
 			data: {
 				data: data
 			}
