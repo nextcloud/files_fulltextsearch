@@ -1,6 +1,6 @@
 <?php
 /**
- * Files_FullTextSearch - Index the content of your files 
+ * Files_FullTextSearch - Index the content of your files
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -21,7 +21,7 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *  
+ *
  */
 
 namespace OCA\Files_FullTextSearch\Service;
@@ -533,6 +533,7 @@ class FilesService {
 
 		/** @var File $file */
 		$this->extractContentFromFileText($document, $file);
+		$this->extractContentFromFileOffice($document, $file);
 		$this->extractContentFromFilePDF($document, $file);
 	}
 
@@ -566,6 +567,33 @@ class FilesService {
 	 */
 	private function extractContentFromFilePDF(FilesDocument $document, File $file) {
 		if ($document->getMimetype() !== 'application/pdf') {
+			return;
+		}
+
+		$document->setContent(base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64);
+	}
+
+
+	/**
+	 * @param FilesDocument $document
+	 * @param File $file
+	 *
+	 * @throws NotPermittedException
+	 */
+	private function extractContentFromFileOffice(FilesDocument $document, File $file) {
+
+		$officeMimes = [
+			'application/msword',
+			'application/vnd.oasis.opendocument',
+			'application/vnd.sun.xml',
+			'application/vnd.openxmlformats-officedocument',
+			'application/vnd.ms-word',
+			'application/vnd.ms-powerpoint',
+			'application/vnd.ms-excel',
+			'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+		];
+
+		if (!in_array($document->getMimetype(), $officeMimes)) {
 			return;
 		}
 
