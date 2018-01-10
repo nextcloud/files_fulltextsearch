@@ -478,7 +478,7 @@ class FilesService {
 	private function updateAccessFromFile(FilesDocument $document, Node $file) {
 
 		$index = $document->getIndex();
-		if (!$index->isStatus(Index::INDEX_ALL)
+		if (!$index->isStatus(Index::INDEX_FULL)
 			&& !$index->isStatus(FilesDocument::STATUS_FILE_ACCESS)) {
 			return;
 		}
@@ -526,7 +526,7 @@ class FilesService {
 		$document->setTitle($document->getPath());
 
 		if (!$document->getIndex()
-					  ->isStatus(Index::INDEX_ALL)
+					  ->isStatus(Index::INDEX_CONTENT)
 			|| $file->getType() !== FileInfo::TYPE_FILE) {
 			return;
 		}

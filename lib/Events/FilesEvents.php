@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Files_FullTextSearch - Index the content of your files 
+ * Files_FullTextSearch - Index the content of your files
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -22,7 +22,7 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *  
+ *
  */
 
 namespace OCA\Files_FullTextSearch\Events;
@@ -74,7 +74,7 @@ class FilesEvents {
 
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
 		FullTextSearch::createIndex('files', $file->getId(), $this->userId);
-		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_ALL);
+		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_FULL);
 	}
 
 
@@ -87,7 +87,7 @@ class FilesEvents {
 	 */
 	public function onFileUpdate($path) {
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
-		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_ALL);
+		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_FULL);
 	}
 
 
@@ -100,7 +100,7 @@ class FilesEvents {
 	 */
 	public function onFileRename($target) {
 		$file = $this->filesService->getFileFromPath($this->userId, $target);
-		FullTextSearch::updateIndexStatus('files', $file->getId(), FilesDocument::STATUS_FILE_ACCESS);
+		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_META);
 	}
 
 
@@ -131,7 +131,7 @@ class FilesEvents {
 	 */
 	public function onFileRestore($path) {
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
-		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_ALL);
+		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_FULL);
 	}
 
 
