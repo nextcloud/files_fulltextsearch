@@ -372,7 +372,7 @@ class FilesService {
 			} catch (Exception $e) {
 				// TODO - update $document with a error status instead of just ignore !
 				$document->getIndex()
-						 ->setStatus(Index::STATUS_INDEX_IGNORE);
+						 ->setStatus(Index::INDEX_IGNORE);
 				echo 'Exception: ' . json_encode($e->getTrace()) . ' - ' . $e->getMessage() . "\n";
 			}
 
@@ -417,7 +417,7 @@ class FilesService {
 			$this->updateDocumentFromFile($document, $file);
 		} catch (FileIsNotIndexableException $e) {
 			$document->getIndex()
-					 ->setStatus(Index::STATUS_INDEX_IGNORE);
+					 ->setStatus(Index::INDEX_IGNORE);
 		}
 
 	}
@@ -451,7 +451,7 @@ class FilesService {
 
 		$file = $this->getFileFromId($index->getOwnerId(), $index->getDocumentId());
 		if ($file === null) {
-			$index->setStatus(Index::STATUS_REMOVE_DOCUMENT);
+			$index->setStatus(Index::INDEX_REMOVE);
 			$document = new FilesDocument($index->getProviderId(), $index->getDocumentId());
 			$document->setIndex($index);
 
@@ -478,7 +478,7 @@ class FilesService {
 	private function updateAccessFromFile(FilesDocument $document, Node $file) {
 
 		$index = $document->getIndex();
-		if (!$index->isStatus(Index::STATUS_INDEX_THIS)
+		if (!$index->isStatus(Index::INDEX_ALL)
 			&& !$index->isStatus(FilesDocument::STATUS_FILE_ACCESS)) {
 			return;
 		}
@@ -526,7 +526,7 @@ class FilesService {
 		$document->setTitle($document->getPath());
 
 		if (!$document->getIndex()
-					  ->isStatus(Index::STATUS_INDEX_THIS)
+					  ->isStatus(Index::INDEX_ALL)
 			|| $file->getType() !== FileInfo::TYPE_FILE) {
 			return;
 		}

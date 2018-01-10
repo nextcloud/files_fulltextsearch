@@ -74,7 +74,7 @@ class FilesEvents {
 
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
 		FullTextSearch::createIndex('files', $file->getId(), $this->userId);
-		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::STATUS_INDEX_THIS);
+		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_ALL);
 	}
 
 
@@ -87,7 +87,7 @@ class FilesEvents {
 	 */
 	public function onFileUpdate($path) {
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
-		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::STATUS_INDEX_THIS);
+		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_ALL);
 	}
 
 
@@ -116,8 +116,7 @@ class FilesEvents {
 		// we do not index trashbin
 
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
-		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::STATUS_REMOVE_DOCUMENT);
-
+		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_REMOVE);
 
 		//$this->miscService->log('> ON FILE TRASH ' . json_encode($path));
 	}
@@ -132,7 +131,7 @@ class FilesEvents {
 	 */
 	public function onFileRestore($path) {
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
-		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::STATUS_INDEX_THIS);
+		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_ALL);
 	}
 
 
@@ -141,7 +140,7 @@ class FilesEvents {
 	 */
 	public function onFileDelete($path) {
 //		$file = $this->filesService->getFileFromPath($this->userId, $path);
-//		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::STATUS_REMOVE_DOCUMENT);
+//		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_REMOVE);
 	}
 
 
