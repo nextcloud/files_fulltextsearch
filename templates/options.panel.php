@@ -58,6 +58,15 @@
 
 		<div class="div-table-row">
 			<div class="div-table-col div-table-col-left">
+				<span class="leftcol">Within federated shares:</span>
+			</div>
+			<div class="div-table-col">
+				<input type="checkbox" id="files_federated" value="1"/>
+			</div>
+		</div>
+
+		<div class="div-table-row">
+			<div class="div-table-col div-table-col-left">
 				<span class="leftcol">Filter by file extension:</span>
 			</div>
 			<div class="div-table-col">

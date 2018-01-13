@@ -1,6 +1,6 @@
 <?php
 /**
- * Files_FullTextSearch - Index the content of your files 
+ * Files_FullTextSearch - Index the content of your files
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -21,7 +21,7 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *  
+ *
  */
 
 namespace OCA\Files_FullTextSearch\Service;
@@ -79,13 +79,13 @@ class SearchService {
 
 		$local = $request->getOption('files_local');
 		$external = $request->getOption('files_external');
-		$extension = $request->getOption('files_extension');
+		$federated = $request->getOption('files_federated');
 		$withinDir = $request->getOption('files_withindir');
 
 		// current dir ? files_withindir
 		// filter on file extension ?
 
-		if (count(array_unique([$local, $external])) === 1) {
+		if (count(array_unique([$local, $external, $federated])) === 1) {
 			return;
 		}
 
@@ -95,6 +95,10 @@ class SearchService {
 
 		if ($external === '1') {
 			$request->addTag('external');
+		}
+
+		if ($external === '1') {
+			$request->addTag('federated');
 		}
 	}
 
