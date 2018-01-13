@@ -54,6 +54,12 @@ class FilesService {
 
 	const DOCUMENT_TYPE = 'files';
 
+	const MIMETYPE_TEXT = 'files_text';
+	const MIMETYPE_PDF = 'files_pdf';
+	const MIMETYPE_OFFICE = 'files_office';
+	const MIMETYPE_IMAGE = 'files_image';
+	const MIMETYPE_AUDIO = 'files_audio';
+
 
 	/** @var IRootFolder */
 	private $rootFolder;
@@ -555,6 +561,46 @@ class FilesService {
 		$this->extractContentFromFileText($document, $file);
 		$this->extractContentFromFileOffice($document, $file);
 		$this->extractContentFromFilePDF($document, $file);
+
+		if ($document->getContent() === null) {
+			$document->getIndex()
+					 ->unsetStatus(Index::INDEX_CONTENT);
+		}
+	}
+
+
+	/**
+	 * @param string $mimeType
+	 *
+	 * @return string
+	 */
+	private function parseMimeType($mimeType) {
+
+		if ($mimeType === 'application/octet-stream'
+			|| substr($mimeType, 0, 5) === 'text/') {
+			return self::MIMETYPE_TEXT;
+		}
+
+		if ($mimeType === 'application/pdf') {
+			return self::MIMETYPE_PDF;
+		}
+
+		$officeMimes = [
+			'application/msword',
+			'application/vnd.oasis.opendocument',
+			'application/vnd.sun.xml',
+			'application/vnd.openxmlformats-officedocument',
+			'application/vnd.ms-word',
+			'application/vnd.ms-powerpoint',
+			'application/vnd.ms-excel',
+			'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+		];
+
+		if (in_array($mimeType, $officeMimes)) {
+			return self::MIMETYPE_OFFICE;
+		}
+
+		return '';
 	}
 
 
@@ -566,8 +612,7 @@ class FilesService {
 	 */
 	private function extractContentFromFileText(FilesDocument $document, File $file) {
 
-		if ($document->getMimeType() !== 'application/octet-stream'
-			&& substr($document->getMimetype(), 0, 5) !== 'text/') {
+		if ($this->parseMimeType($document->getMimeType()) !== self::MIMETYPE_TEXT) {
 			return;
 		}
 
@@ -586,7 +631,12 @@ class FilesService {
 	 * @throws NotPermittedException
 	 */
 	private function extractContentFromFilePDF(FilesDocument $document, File $file) {
-		if ($document->getMimetype() !== 'application/pdf') {
+
+		if ($this->parseMimeType($document->getMimeType()) !== self::MIMETYPE_PDF) {
+			return;
+		}
+
+		if ($this->configService->getAppValue('files_pdf') !== '1') {
 			return;
 		}
 
@@ -602,18 +652,11 @@ class FilesService {
 	 */
 	private function extractContentFromFileOffice(FilesDocument $document, File $file) {
 
-		$officeMimes = [
-			'application/msword',
-			'application/vnd.oasis.opendocument',
-			'application/vnd.sun.xml',
-			'application/vnd.openxmlformats-officedocument',
-			'application/vnd.ms-word',
-			'application/vnd.ms-powerpoint',
-			'application/vnd.ms-excel',
-			'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-		];
+		if ($this->configService->getAppValue('files_office') !== '1') {
+			return;
+		}
 
-		if (!in_array($document->getMimetype(), $officeMimes)) {
+		if ($this->parseMimeType($document->getMimeType()) !== self::MIMETYPE_OFFICE) {
 			return;
 		}
 
