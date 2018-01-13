@@ -120,7 +120,7 @@ Util::addStyle(Application::APP_NAME, 'admin');
 			</div>
 		</div>
 
-		<div class="div-table-row">
+		<!--<div class="div-table-row">
 			<div class="div-table-col div-table-col-left">
 				<span class="leftcol">Index images:</span>
 				<br/>
@@ -141,7 +141,7 @@ Util::addStyle(Application::APP_NAME, 'admin');
 				<input type="checkbox" id="files_audio" value="1"/>
 			</div>
 		</div>
-
+-->
 
 	</div>
 

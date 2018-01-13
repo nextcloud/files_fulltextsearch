@@ -31,18 +31,46 @@
 
 var files_elements = {
 	files_div: null,
+	files_local: null,
 	files_external: null,
-
+	files_encrypted: null,
+	files_federated: null,
+	files_size: null,
+	files_office: null,
+	files_pdf: null,
+	files_image: null,
+	files_audio: null,
 
 	init: function () {
 		files_elements.files_div = $('#files');
+		files_elements.files_local = $('#files_local');
 		files_elements.files_external = $('#files_external');
+		files_elements.files_encrypted = $('#files_encrypted');
+		files_elements.files_federated = $('#files_federated');
+		files_elements.files_size = $('#files_size');
+		files_elements.files_office = $('#files_office');
+		files_elements.files_pdf = $('#files_pdf');
+		files_elements.files_image = $('#files_image');
+		files_elements.files_audio = $('#files_audio');
 
-		files_elements.files_external.on('change', function () {
-			fts_admin_settings.tagSettingsAsNotSaved($(this));
-			files_settings.saveSettings();
-		});
+		files_elements.files_local.on('change', files_elements.updateSettings);
+		files_elements.files_external.on('change', files_elements.updateSettings);
+		files_elements.files_encrypted.on('change', files_elements.updateSettings);
+		files_elements.files_federated.on('change', files_elements.updateSettings);
+		files_elements.files_size.on('change', files_elements.updateSettings);
+		files_elements.files_office.on('change', files_elements.updateSettings);
+		files_elements.files_pdf.on('change', files_elements.updateSettings);
+		files_elements.files_image.on('change', files_elements.updateSettings);
+		files_elements.files_audio.on('change', files_elements.updateSettings);
+	},
+
+
+	updateSettings: function () {
+		fts_admin_settings.tagSettingsAsNotSaved($(this));
+		files_settings.saveSettings();
 	}
+
+
 };
 
 
