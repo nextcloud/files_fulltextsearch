@@ -384,6 +384,26 @@ class FilesService {
 
 
 	/**
+	 * @param IndexDocument $document
+	 *
+	 * @return bool
+	 */
+	public function isDocumentUpToDate($document) {
+		$index = $document->getIndex();
+
+		if ($index->getStatus() !== Index::INDEX_OK) {
+			return false;
+		}
+
+		if ($index->getLastIndex() >= $document->getModifiedTime()) {
+			return true;
+		}
+
+		return false;
+	}
+
+
+	/**
 	 * @param Index $index
 	 *
 	 * @return FilesDocument

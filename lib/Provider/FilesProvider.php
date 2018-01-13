@@ -160,6 +160,16 @@ class FilesProvider implements IFullTextSearchProvider {
 
 
 	/**
+	 * @param IndexDocument $document
+	 *
+	 * @return bool
+	 */
+	public function isDocumentUpToDate($document) {
+		return $this->filesService->isDocumentUpToDate($document);
+	}
+
+
+	/**
 	 * @param Index $index
 	 *
 	 * @return IndexDocument|null
