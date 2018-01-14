@@ -545,6 +545,8 @@ class FilesService {
 	 * @param FilesDocument $document
 	 * @param Node $file
 	 *
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
 	 * @throws NotPermittedException
 	 */
 	private function updateContentFromFile(FilesDocument $document, Node $file) {
@@ -558,9 +560,14 @@ class FilesService {
 		}
 
 		/** @var File $file */
-		$this->extractContentFromFileText($document, $file);
-		$this->extractContentFromFileOffice($document, $file);
-		$this->extractContentFromFilePDF($document, $file);
+		if ($file->getSize() <
+			($this->configService->getAppValue(ConfigService::FILES_SIZE) * 1024 * 1024)) {
+			$this->extractContentFromFileText($document, $file);
+			$this->extractContentFromFileOffice($document, $file);
+			$this->extractContentFromFilePDF($document, $file);
+		} else {
+			echo 'NON !';
+		}
 
 		if ($document->getContent() === null) {
 			$document->getIndex()
