@@ -2,6 +2,13 @@
 
 
 
+### 0.5.0
+
+- more options
+- fixing some office mimetype detection
+
+
+
 ### v0.4.0
 
 - fullnextsearch -> fulltextsearch
