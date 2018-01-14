@@ -565,10 +565,8 @@ class FilesService {
 			$this->extractContentFromFileText($document, $file);
 			$this->extractContentFromFileOffice($document, $file);
 			$this->extractContentFromFilePDF($document, $file);
-		} else {
-			echo 'NON !';
 		}
-
+		
 		if ($document->getContent() === null) {
 			$document->getIndex()
 					 ->unsetStatus(Index::INDEX_CONTENT);
