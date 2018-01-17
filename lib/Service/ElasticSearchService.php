@@ -61,7 +61,7 @@ class ElasticSearchService {
 	/**
 	 * @param IFullTextSearchPlatform $platform
 	 */
-	public function onRemovingIndex(IFullTextSearchPlatform $platform) {
+	public function onResettingIndex(IFullTextSearchPlatform $platform) {
 		if ($platform->getId() !== 'elastic_search') {
 			return;
 		}

@@ -200,8 +200,8 @@ class FilesProvider implements IFullTextSearchProvider {
 	/**
 	 * @param IFullTextSearchPlatform $platform
 	 */
-	public function onRemovingIndex(IFullTextSearchPlatform $platform) {
-		$this->elasticSearchService->onRemovingIndex($platform);
+	public function onResettingIndex(IFullTextSearchPlatform $platform) {
+		$this->elasticSearchService->onResettingIndex($platform);
 	}
 
 	/**
