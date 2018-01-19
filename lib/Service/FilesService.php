@@ -581,15 +581,18 @@ class FilesService {
 	 */
 	private function parseMimeType($mimeType) {
 
+		// text file
 		if ($mimeType === 'application/octet-stream'
 			|| substr($mimeType, 0, 5) === 'text/') {
 			return self::MIMETYPE_TEXT;
 		}
 
+		// PDF file
 		if ($mimeType === 'application/pdf') {
 			return self::MIMETYPE_PDF;
 		}
 
+		// Office file
 		$officeMimes = [
 			'application/msword',
 			'application/vnd.oasis.opendocument',
@@ -601,8 +604,10 @@ class FilesService {
 			'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 		];
 
-		if (in_array($mimeType, $officeMimes)) {
-			return self::MIMETYPE_OFFICE;
+		foreach ($officeMimes as $mime) {
+			if (strpos($mimeType, $mime) === 0) {
+				return self::MIMETYPE_OFFICE;
+			}
 		}
 
 		return '';
