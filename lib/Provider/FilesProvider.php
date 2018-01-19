@@ -28,6 +28,7 @@ namespace OCA\Files_FullTextSearch\Provider;
 
 use OCA\Files_FullTextSearch\AppInfo\Application;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
+use OCA\Files_FullTextSearch\Service\ConfigService;
 use OCA\Files_FullTextSearch\Service\ElasticSearchService;
 use OCA\Files_FullTextSearch\Service\FilesService;
 use OCA\Files_FullTextSearch\Service\MiscService;
@@ -51,6 +52,9 @@ class FilesProvider implements IFullTextSearchProvider {
 
 
 	const FILES_PROVIDER_ID = 'files';
+
+	/** @var ConfigService */
+	private $configService;
 
 	/** @var FilesService */
 	private $filesService;
@@ -85,6 +89,17 @@ class FilesProvider implements IFullTextSearchProvider {
 	}
 
 
+	/**
+	 * @return string
+	 */
+	public function getVersion() {
+		return $this->configService->getAppValue('installed_version');
+	}
+
+
+	/**
+	 * @return string
+	 */
 	public function getAppId() {
 		return Application::APP_NAME;
 	}
@@ -114,6 +129,7 @@ class FilesProvider implements IFullTextSearchProvider {
 		$app = new Application();
 
 		$container = $app->getContainer();
+		$this->configService = $container->query(ConfigService::class);
 		$this->filesService = $container->query(FilesService::class);
 		$this->searchService = $container->query(SearchService::class);
 		$this->elasticSearchService = $container->query(ElasticSearchService::class);
