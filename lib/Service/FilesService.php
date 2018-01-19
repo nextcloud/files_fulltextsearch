@@ -600,8 +600,7 @@ class FilesService {
 			'application/vnd.openxmlformats-officedocument',
 			'application/vnd.ms-word',
 			'application/vnd.ms-powerpoint',
-			'application/vnd.ms-excel',
-			'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+			'application/vnd.ms-excel'
 		];
 
 		foreach ($officeMimes as $mime) {
