@@ -47,6 +47,7 @@ use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\Files\StorageNotAvailableException;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 
@@ -144,7 +145,11 @@ class FilesService {
 	public function getFilesFromDirectory(Runner $runner, $userId, Folder $node) {
 		$documents = [];
 
-		if ($node->nodeExists('.noindex')) {
+		try {
+			if ($node->nodeExists('.noindex')) {
+				return $documents;
+			}
+		} catch (StorageNotAvailableException $e) {
 			return $documents;
 		}
 
