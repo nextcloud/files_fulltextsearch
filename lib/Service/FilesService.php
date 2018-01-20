@@ -151,6 +151,7 @@ class FilesService {
 		$files = $node->getDirectoryListing();
 		foreach ($files as $file) {
 			$runner->update('getFilesFromDirectory');
+
 			try {
 				$document = $this->generateFilesDocumentFromFile($file, $userId);
 				$documents[] = $document;
