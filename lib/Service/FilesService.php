@@ -518,11 +518,6 @@ class FilesService {
 		$access = $this->getDocumentAccessFromFile($file);
 		$document->setAccess($access);
 		$document->setInfo('share_names', $this->getShareNamesFromFile($file, $access));
-		$document->getIndex()
-				 ->setOwnerId(
-					 $document->getAccess()
-							  ->getOwnerId()
-				 );
 
 		$this->updateDocumentWithLocalFiles($document, $file);
 		$this->externalFilesService->updateDocumentWithExternalFiles($document, $file);
