@@ -42,7 +42,6 @@ use OCA\FullTextSearch\Model\IndexDocument;
 use OCA\FullTextSearch\Model\Runner;
 use OCA\FullTextSearch\Model\SearchRequest;
 use OCA\FullTextSearch\Model\SearchResult;
-use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\QueryException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
@@ -257,6 +256,7 @@ class FilesProvider implements IFullTextSearchProvider {
 	 */
 	public function improveSearchResult(SearchResult $searchResult) {
 
+		// TODO - avoid ->setInfo()
 		foreach ($searchResult->getDocuments() as $document) {
 			$this->filesService->setDocumentInfo($document);
 			$this->filesService->setDocumentTitle($document);

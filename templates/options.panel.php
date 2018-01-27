@@ -24,15 +24,6 @@
  *
  */
 
-//use OCA\Files_FullTextSearch\AppInfo\Application;
-//use OCP\Util;
-//
-//Util::addScript(Application::APP_NAME, 'admin.elements');
-//Util::addScript(Application::APP_NAME, 'admin.settings');
-//Util::addScript(Application::APP_NAME, 'admin');
-//
-//Util::addStyle(Application::APP_NAME, 'admin');
-
 ?>
 <div>
 
@@ -56,15 +47,15 @@
 			</div>
 		</div>
 
-	<!--	<div class="div-table-row">
-			<div class="div-table-col div-table-col-left">
-				<span class="leftcol">Within federated shares:</span>
+		<!--	<div class="div-table-row">
+				<div class="div-table-col div-table-col-left">
+					<span class="leftcol">Within federated shares:</span>
+				</div>
+				<div class="div-table-col">
+					<input type="checkbox" id="files_federated" value="1"/>
+				</div>
 			</div>
-			<div class="div-table-col">
-				<input type="checkbox" id="files_federated" value="1"/>
-			</div>
-		</div>
--->
+	-->
 		<div class="div-table-row">
 			<div class="div-table-col div-table-col-left">
 				<span class="leftcol">Filter by file extension:</span>
@@ -74,14 +65,14 @@
 			</div>
 		</div>
 
-<!--		<div class="div-table-row">-->
-<!--			<div class="div-table-col div-table-col-left">-->
-<!--				<span class="leftcol">Limit to current folder:</span>-->
-<!--			</div>-->
-<!--			<div class="div-table-col">-->
-<!--				<input type="checkbox" id="files_withindir" value="1"/>-->
-<!--			</div>-->
-<!--		</div>-->
+		<!--		<div class="div-table-row">-->
+		<!--			<div class="div-table-col div-table-col-left">-->
+		<!--				<span class="leftcol">Limit to current folder:</span>-->
+		<!--			</div>-->
+		<!--			<div class="div-table-col">-->
+		<!--				<input type="checkbox" id="files_withindir" value="1"/>-->
+		<!--			</div>-->
+		<!--		</div>-->
 
 	</div>
 
