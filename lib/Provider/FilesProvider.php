@@ -97,6 +97,14 @@ class FilesProvider implements IFullTextSearchProvider {
 
 
 	/**
+	 * @return array
+	 */
+	public function getConfiguration() {
+		return $this->configService->getConfig();
+	}
+
+
+	/**
 	 * @return string
 	 */
 	public function getAppId() {
@@ -224,7 +232,9 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @param SearchRequest $request
 	 * @param array $arr
 	 */
-	public function onSearchingQuery(IFullTextSearchPlatform $platform, SearchRequest $request, &$arr) {
+	public function onSearchingQuery(
+		IFullTextSearchPlatform $platform, SearchRequest $request, &$arr
+	) {
 		$this->elasticSearchService->onSearchingQuery($platform, $request, $arr);
 	}
 
