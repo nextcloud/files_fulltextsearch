@@ -142,6 +142,6 @@ Util::addScript(Application::APP_NAME, 'admin');
 	-->
 
 		</div>
-
-
 	</div>
+
+</div>
