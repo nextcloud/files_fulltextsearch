@@ -118,10 +118,34 @@ class FilesProvider implements IFullTextSearchProvider {
 
 
 	/**
-	 * @return string
+	 * @return array
 	 */
 	public function getOptionsTemplate() {
-		return 'options.panel';
+		return [
+			'panel'      => [
+				'template' => 'options.panel'
+			],
+			'navigation' => [
+				'icon'    => 'icon-folder',
+				'options' => [
+					[
+						'name'  => 'files_local',
+						'title' => 'Local Files',
+						'type'  => 'checkbox'
+					],
+					[
+						'name'  => 'files_external',
+						'title' => 'External Files',
+						'type'  => 'checkbox'
+					],
+					[
+						'name'  => 'files_extensions',
+						'type'  => 'input',
+						'title' => 'Extensions'
+					]
+				]
+			]
+		];
 	}
 
 
