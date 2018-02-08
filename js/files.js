@@ -31,9 +31,7 @@ const fullTextSearch = OCA.FullTextSearch.api;
 
 var elements = {
 	old_files: null,
-	old_searchbox: null,
 	search_result: null,
-	template_entry: null
 };
 
 
@@ -48,26 +46,13 @@ Files_FullTextSearch.prototype = {
 		var self = this;
 
 		elements.old_files = $('#app-content-files');
-		elements.old_searchbox = $('FORM.searchbox');
-		elements.old_searchbox.hide();
 
 		elements.search_result = $('<div>');
 		elements.search_result.insertBefore(elements.old_files);
 
-		elements.search_input = $('#next_search_input');
-
-
-		//
-		// $(document).keypress(function (e) {
-		// 	if (e.which === 13) {
-		// 		self.initSearch(true);
-		// 	}
-		// });
-
-		elements.template_entry = self.generateTemplateEntry();
-		fullTextSearch.setEntryTemplateId(elements.template_entry, self);
-		fullTextSearch.setResultContainerId(elements.search_result);
-		fullTextSearch.addSearchBar('files');
+		fullTextSearch.setEntryTemplate(self.generateTemplateEntry());
+		fullTextSearch.setResultContainer(elements.search_result);
+		fullTextSearch.initFullTextSearch('files', self);
 	},
 
 
@@ -115,7 +100,6 @@ Files_FullTextSearch.prototype = {
 			elements.old_files.fadeIn(150);
 		});
 	}
-
 
 };
 
