@@ -52,7 +52,7 @@ Files_FullTextSearch.prototype = {
 
 		fullTextSearch.setEntryTemplate(self.generateTemplateEntry());
 		fullTextSearch.setResultContainer(elements.search_result);
-		fullTextSearch.initFullTextSearch('files', self);
+		fullTextSearch.initFullTextSearch('files', 'files', self);
 	},
 
 
@@ -74,18 +74,8 @@ Files_FullTextSearch.prototype = {
 	},
 
 
-	// searchResult: function (result) {
-	// 	elements.old_files.fadeOut(150, function () {
-	// 		elements.search_result.fadeIn(150);
-	// 	});
-	//
-	// 	// console.log('> ' + JSON.stringify(result));
-	// },
-
-
 	onEntryGenerated: function (entry) {
 	},
-
 
 
 	onResultDisplayed: function () {
