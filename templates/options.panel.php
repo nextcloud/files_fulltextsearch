@@ -58,10 +58,10 @@
 	-->
 		<div class="div-table-row">
 			<div class="div-table-col div-table-col-left">
-				<span class="leftcol">Filter by file extension:</span>
+				<span class="leftcol">Filter by extension:</span>
 			</div>
 			<div class="div-table-col">
-				<input type="text" id="files_extension" value=""/>
+				<input type="text" id="files_extension" placeholder="txt" value=""/>
 			</div>
 		</div>
 
