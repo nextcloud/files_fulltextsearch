@@ -313,7 +313,13 @@ class FilesService {
 		$dir = substr($path, 0, -strlen($document->getInfo('filename')));
 		$filename = $document->getInfo('filename');
 
-		$document->setLink('/index.php/apps/files/?dir=' . $dir . '&scrollto=' . $filename);
+		$document->setLink(\OC::$server->getURLGenerator()->linkToRoute(
+			'files.view.index',
+			[
+				'dir' => $dir,
+				'scrollto' => $filename,
+			]
+		));
 	}
 
 
