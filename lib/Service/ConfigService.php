@@ -43,7 +43,7 @@ class ConfigService {
 	const FILES_IMAGE = 'files_image';
 	const FILES_AUDIO = 'files_audio';
 
-	private $defaults = [
+	public $defaults = [
 		self::FILES_LOCAL     => '1',
 		self::FILES_EXTERNAL  => '0',
 		self::FILES_ENCRYPTED => '0',
