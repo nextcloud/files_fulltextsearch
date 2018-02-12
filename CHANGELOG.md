@@ -1,6 +1,12 @@
 # Changelog
 
 
+### 0.6.0
+
+- Options panel
+- bugfixes
+
+
 
 ### 0.5.0
 
