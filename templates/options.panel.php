@@ -61,7 +61,7 @@
 				<span class="leftcol">Filter by extension:</span>
 			</div>
 			<div class="div-table-col">
-				<input type="text" id="files_extension" placeholder="txt" value=""/>
+				<input type="text" id="files_extension" class="options_small" placeholder="txt" value=""/>
 			</div>
 		</div>
 
