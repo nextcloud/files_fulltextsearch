@@ -29,7 +29,7 @@ namespace OCA\Files_FullTextSearch\Service;
 
 use Exception;
 use OC\Share\Constants;
-use OC\Share\Share;
+use OCA\Files_FullTextSearch\Db\SharesRequest;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Provider\FilesProvider;
@@ -71,6 +71,9 @@ class FilesService {
 	/** @var IManager */
 	private $shareManager;
 
+	/** @var SharesRequest */
+	private $sharesRequest;
+
 	/** @var ConfigService */
 	private $configService;
 
@@ -87,6 +90,7 @@ class FilesService {
 	 * @param IRootFolder $rootFolder
 	 * @param IUserManager $userManager
 	 * @param IManager $shareManager
+	 * @param SharesRequest $sharesRequest
 	 * @param ConfigService $configService
 	 * @param ExternalFilesService $externalFilesService
 	 * @param MiscService $miscService
@@ -95,13 +99,14 @@ class FilesService {
 	 */
 	public function __construct(
 		IRootFolder $rootFolder, IUserManager $userManager, IManager $shareManager,
-		ConfigService $configService, ExternalFilesService $externalFilesService,
-		MiscService $miscService
+		SharesRequest $sharesRequest, ConfigService $configService,
+		ExternalFilesService $externalFilesService, MiscService $miscService
 	) {
 		$this->rootFolder = $rootFolder;
 		$this->userManager = $userManager;
 		$this->shareManager = $shareManager;
 
+		$this->sharesRequest = $sharesRequest;
 		$this->configService = $configService;
 		$this->externalFilesService = $externalFilesService;
 		$this->miscService = $miscService;
@@ -313,13 +318,16 @@ class FilesService {
 		$dir = substr($path, 0, -strlen($document->getInfo('filename')));
 		$filename = $document->getInfo('filename');
 
-		$document->setLink(\OC::$server->getURLGenerator()->linkToRoute(
-			'files.view.index',
-			[
-				'dir' => $dir,
-				'scrollto' => $filename,
-			]
-		));
+		$document->setLink(
+			\OC::$server->getURLGenerator()
+						->linkToRoute(
+							'files.view.index',
+							[
+								'dir'      => $dir,
+								'scrollto' => $filename,
+							]
+						)
+		);
 	}
 
 
@@ -351,7 +359,8 @@ class FilesService {
 		}
 
 		// TODO: better way to do this : we remove the '/userid/files/'
-		$path = MiscService::noEndSlash(substr($file->getPath(), 7 + strlen($access->getViewerId())));
+		$path =
+			MiscService::noEndSlash(substr($file->getPath(), 7 + strlen($access->getViewerId())));
 
 		$more = [
 			'webdav'             => $this->getWebdavId($document->getId()),
@@ -383,7 +392,9 @@ class FilesService {
 				continue;
 			}
 
-			$document->setPath($this->getPathFromViewerId($document->getId(), $document->getViewerId()));
+			$document->setPath(
+				$this->getPathFromViewerId($document->getId(), $document->getViewerId())
+			);
 
 			try {
 				$this->updateDocumentFromFilesDocument($document);
@@ -486,8 +497,8 @@ class FilesService {
 	 * @throws NotPermittedException
 	 */
 	private function generateDocumentFromIndex(Index $index) {
-
 		$file = $this->getFileFromId($index->getOwnerId(), $index->getDocumentId());
+
 		if ($file === null) {
 			$index->setStatus(Index::INDEX_REMOVE);
 			$document = new FilesDocument($index->getProviderId(), $index->getDocumentId());
@@ -684,8 +695,6 @@ class FilesService {
 	 * @param Node $file
 	 *
 	 * @return DocumentAccess
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
 	 */
 	private function getDocumentAccessFromFile(Node $file) {
 
@@ -694,7 +703,7 @@ class FilesService {
 				 ->getUID()
 		);
 
-		list($users, $groups, $circles, $links) = $this->getSharesFromFileId($file->getId());
+		list($users, $groups, $circles, $links) = $this->getSharesFromFileId($file);
 		$access->setUsers($users);
 		$access->setGroups($groups);
 		$access->setCircles($circles);
@@ -756,16 +765,17 @@ class FilesService {
 
 
 	/**
-	 * @param $fileId
+	 * @param Node $file
 	 *
 	 * @return array
 	 */
-	private function getSharesFromFileId($fileId) {
+	private function getSharesFromFileId(Node $file) {
 
 		$users = $groups = $circles = $links = [];
-		$shares = Share::getAllSharesForFileId($fileId);
+		$shares = $this->sharesRequest->getFromFile($file);
 
 		foreach ($shares as $share) {
+
 			if ($share['parent'] !== null) {
 				continue;
 			}
