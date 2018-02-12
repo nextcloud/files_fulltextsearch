@@ -127,8 +127,8 @@ class ElasticSearchService {
 		}
 
 		$query = [
-			['wildcard' => ['share_names.' . $request->getAuthor() => '*' . $extension]],
-			['wildcard' => ['title' => '*' . $extension]]
+			['wildcard' => ['share_names.' . $request->getAuthor() => '*\.' . $extension]],
+			['wildcard' => ['title' => '*\.' . $extension]]
 		];
 
 		$arr['params']['body']['query']['bool']['filter'][]['bool']['should'] = $query;
