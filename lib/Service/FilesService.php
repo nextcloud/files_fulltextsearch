@@ -240,8 +240,12 @@ class FilesService {
 	 */
 	public function getFileFromId($userId, $fileId) {
 
-		$files = $this->rootFolder->getUserFolder($userId)
-								  ->getById($fileId);
+		try {
+			$files = $this->rootFolder->getUserFolder($userId)
+									  ->getById($fileId);
+		} catch (Exception $e) {
+			return null;
+		}
 
 		if (sizeof($files) === 0) {
 			return null;
@@ -257,6 +261,7 @@ class FilesService {
 	 * @param int $fileId
 	 * @param string $viewerId
 	 *
+	 * @throws Exception
 	 * @return string
 	 */
 	private function getPathFromViewerId($fileId, $viewerId) {
@@ -392,11 +397,11 @@ class FilesService {
 				continue;
 			}
 
-			$document->setPath(
-				$this->getPathFromViewerId($document->getId(), $document->getViewerId())
-			);
-
 			try {
+				$document->setPath(
+					$this->getPathFromViewerId($document->getId(), $document->getViewerId())
+				);
+
 				$this->updateDocumentFromFilesDocument($document);
 			} catch (Exception $e) {
 				// TODO - update $document with a error status instead of just ignore !
@@ -718,7 +723,6 @@ class FilesService {
 	 * @param DocumentAccess $access
 	 *
 	 * @return array
-	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
 	private function getShareNamesFromFile(Node $file, DocumentAccess $access) {
@@ -732,7 +736,10 @@ class FilesService {
 		}
 
 		foreach ($shares as $user) {
-			$shareNames[$user] = $this->getPathFromViewerId($file->getId(), $user);
+			try {
+				$shareNames[$user] = $this->getPathFromViewerId($file->getId(), $user);
+			} catch (Exception $e) {
+			}
 		}
 
 		return $shareNames;
