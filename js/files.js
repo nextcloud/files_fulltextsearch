@@ -32,6 +32,7 @@ const fullTextSearch = OCA.FullTextSearch.api;
 var elements = {
 	old_files: null,
 	search_result: null,
+	current_dir: ''
 };
 
 
@@ -82,6 +83,14 @@ Files_FullTextSearch.prototype = {
 		elements.old_files.fadeOut(150, function () {
 			elements.search_result.fadeIn(150);
 		});
+	},
+
+
+	onSearchRequest: function (data) {
+		if (data.options.files_within_dir === '1') {
+			var url = new URL(window.location.href);
+			data.options.files_within_dir = url.searchParams.get("dir");
+		}
 	},
 
 

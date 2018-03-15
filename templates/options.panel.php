@@ -31,6 +31,15 @@
 
 		<div class="div-table-row">
 			<div class="div-table-col div-table-col-left">
+				<span class="leftcol">Within current directory:</span>
+			</div>
+			<div class="div-table-col">
+				<input type="checkbox" id="files_within_dir" value="1"/>
+			</div>
+		</div>
+
+		<div class="div-table-row">
+			<div class="div-table-col div-table-col-left">
 				<span class="leftcol">Within local files:</span>
 			</div>
 			<div class="div-table-col">

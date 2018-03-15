@@ -1,6 +1,6 @@
 <?php
 /**
- * Files_FullTextSearch - Index the content of your files 
+ * Files_FullTextSearch - Index the content of your files
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -21,7 +21,7 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *  
+ *
  */
 
 namespace OCA\Files_FullTextSearch\Service;
@@ -70,9 +70,47 @@ class MiscService {
 	 *
 	 * @return string
 	 */
+	public static function endSlash($path, $trim = false) {
+		if (substr($path, -1) !== '/') {
+			$path .= '/';
+		}
+
+		if ($trim) {
+			$path = trim($path);
+		}
+
+		return $path;
+	}
+
+
+	/**
+	 * @param string $path
+	 * @param bool $trim
+	 *
+	 * @return string
+	 */
 	public static function noEndSlash($path, $trim = false) {
 		if (substr($path, -1) === '/') {
 			$path = substr($path, 0, -1);
+		}
+
+		if ($trim) {
+			$path = trim($path);
+		}
+
+		return $path;
+	}
+
+
+	/**
+	 * @param string $path
+	 * @param bool $trim
+	 *
+	 * @return string
+	 */
+	public static function noBeginSlash($path, $trim = false) {
+		if (substr($path, 0, 1) === '/') {
+			$path = substr($path, 1);
 		}
 
 		if ($trim) {

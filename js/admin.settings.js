@@ -61,7 +61,6 @@ var files_settings = {
 
 
 	saveSettings: function () {
-
 		var data = {
 			files_local: (files_elements.files_local.is(':checked')) ? 1 : 0,
 			files_external: (files_elements.files_external.is(':checked')) ? 1 : 0,

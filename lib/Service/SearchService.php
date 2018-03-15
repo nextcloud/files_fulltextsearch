@@ -75,39 +75,31 @@ class SearchService {
 	}
 
 
+	/**
+	 * @param SearchRequest $request
+	 */
 	public function improveSearchRequest(SearchRequest $request) {
-
-		$local = $request->getOption('files_local');
-		$external = $request->getOption('files_external');
-		$groupFolders = $request->getOption('group_folders');
-		$federated = $request->getOption('files_federated');
-		$withinDir = $request->getOption('files_withindir');
-
-		// current dir ? files_withindir
-		// filter on file extension ?
-
 		$this->searchQueryShareNames($request);
-		$this->searchQueryShareOptions($request);
+		$this->searchQueryFiltersExtension($request);
+		$this->searchQueryFiltersSource($request);
+		$this->searchQueryWithinDir($request);
+	}
 
-		if (count(array_unique([$local, $external, $groupFolders])) === 1) {
+
+	private function searchQueryWithinDir(SearchRequest $request) {
+
+		$currentDir = $request->getOption('files_within_dir');
+		if ($currentDir === '') {
 			return;
 		}
 
-		if ($local === '1') {
-			$request->addTag('local');
-		}
-
-		if ($external === '1') {
-			$request->addTag('external');
-		}
-
-		if ($federated === '1') {
-			$request->addTag('federated');
-		}
-
-		if ($groupFolders === '1') {
-			$request->addTag('group_folders');
-		}
+		$currentDir = MiscService::noBeginSlash(MiscService::endSlash($currentDir));
+		$request->addWildcardFilters(
+			[
+				['share_names.' . $request->getAuthor() => $currentDir . '*'],
+				['title' => $currentDir . '*']
+			]
+		);
 	}
 
 
@@ -129,12 +121,7 @@ class SearchService {
 	/**
 	 * @param SearchRequest $request
 	 */
-	private function searchQueryShareOptions(SearchRequest $request) {
-		$this->searchQueryShareOptionsExtension($request);
-	}
-
-
-	private function searchQueryShareOptionsExtension(SearchRequest $request) {
+	private function searchQueryFiltersExtension(SearchRequest $request) {
 		$extension = $request->getOption('files_extension');
 		if ($extension === '') {
 			return;
@@ -146,14 +133,38 @@ class SearchService {
 				['title' => '*\.' . $extension]
 			]
 		);
+	}
 
 
-//		$query = [
-//			['wildcard' => ['share_names.' . $request->getAuthor() => '*\.' . $extension]],
-//			['wildcard' => ['title' => '*\.' . $extension]]
-//		];
-//
-//		$arr['params']['body']['query']['bool']['filter'][]['bool']['should'] = $query;
+	/**
+	 * @param SearchRequest $request
+	 */
+	private function searchQueryFiltersSource(SearchRequest $request) {
+
+		$local = $request->getOption('files_local');
+		$external = $request->getOption('files_external');
+		$groupFolders = $request->getOption('group_folders');
+		$federated = $request->getOption('files_federated');
+
+		if (count(array_unique([$local, $external, $groupFolders])) === 1) {
+			return;
+		}
+
+		$this->addTagToSearchRequest($request, 'local', $local);
+		$this->addTagToSearchRequest($request, 'files_external', $external);
+		$this->addTagToSearchRequest($request, 'group_folders', $groupFolders);
+	}
+
+
+	/**
+	 * @param SearchRequest $request
+	 * @param string $tag
+	 * @param mixed $cond
+	 */
+	private function addTagToSearchRequest(SearchRequest $request, $tag, $cond) {
+		if ($cond === 1 || $cond === '1') {
+			$request->addTag($tag);
+		}
 	}
 
 
