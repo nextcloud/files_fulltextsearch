@@ -24,31 +24,26 @@
  *
  */
 
-/**
- * Created by PhpStorm.
- * User: maxence
- * Date: 12/13/17
- * Time: 4:11 PM
- */
 
 namespace OCA\Files_FullTextSearch\Service;
 
 
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
-use OCA\Files_FullTextSearch\Model\ExternalMount;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
+use OCA\Files_FullTextSearch\Model\GroupFolderMount;
+use OCA\Files_FullTextSearch\Model\GroupSharesMount;
+use OCA\FullTextSearch\Model\DocumentAccess;
 use OCP\App;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
-use OCP\Files\NotFoundException;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 
-class ExternalFilesService {
+class GroupFoldersService {
 
 
-	const DOCUMENT_SOURCE = 'external';
+	const DOCUMENT_SOURCE = 'group_folders';
 
 	/** @var IRootFolder */
 	private $rootFolder;
@@ -66,8 +61,8 @@ class ExternalFilesService {
 	private $miscService;
 
 
-	/** @var ExternalMount[] */
-	private $externalMounts = [];
+	/** @var GroupFolderMount[] */
+	private $groupFolders = [];
 
 
 	/**
@@ -93,19 +88,15 @@ class ExternalFilesService {
 
 
 	/**
-	 * @param string $userId
+	 *
 	 */
-	public function initExternalFilesForUser($userId) {
-		$this->externalMounts = [];
-		if (!App::isEnabled('files_external')) {
+	public function initGroupShares() {
+		$this->groupFolders = [];
+		if (!App::isEnabled('groupfolders')) {
 			return;
 		}
 
-		if ($this->configService->getAppValue(ConfigService::FILES_EXTERNAL) !== '1') {
-			return;
-		}
-
-		$this->externalMounts = $this->getExternalMountsForUser($userId);
+		$this->groupFolders = $this->getGroupFoldersMounts();
 	}
 
 
@@ -114,47 +105,37 @@ class ExternalFilesService {
 	 *
 	 * @param string $source
 	 *
-	 * @throws FileIsNotIndexableException
-	 * @throws NotFoundException
 	 * @throws KnownFileSourceException
 	 */
 	public function getFileSource(Node $file, &$source) {
-		if ($file->getStorage()
-				 ->isLocal() === true) {
+
+
+		try {
+			$this->getGroupFolderMount($file);
+		} catch (FileIsNotIndexableException $e) {
 			return;
 		}
 
-		if (!$this->configService->optionIsSelected(ConfigService::FILES_EXTERNAL)) {
-			throw new FileIsNotIndexableException();
-		}
-
-		$this->getExternalMount($file);
 		$source = self::DOCUMENT_SOURCE;
-
 		throw new KnownFileSourceException();
 	}
 
-
-	/**
-	 * @param FilesDocument $document
-	 * @param Node $file
-	 * @param array $users
-	 */
-	public function getShareUsers(FilesDocument $document, Node $file, &$users) {
-
-		if ($document->getSource() !== self::DOCUMENT_SOURCE) {
-			return;
-		}
-
-		$access = $document->getAccess();
-		$result = $access->getUsers();
-
-		if ($access->getOwnerId() !== '') {
-			array_push($result, $access->getOwnerId());
-		}
-
-		// TODO: get users from groups & circles.
-	}
+//
+//	/**
+//	 * @param DocumentAccess $access
+//	 *
+//	 * @return array
+//	 */
+//	public function getAllSharesFromExternalFile(DocumentAccess $access) {
+//		$result = $access->getUsers();
+//
+//		if ($access->getOwnerId() !== '') {
+//			array_push($result, $access->getOwnerId());
+//		}
+//
+//		// TODO: get users from groups & circles.
+//		return $result;
+//	}
 
 
 	/**
@@ -167,37 +148,37 @@ class ExternalFilesService {
 			return;
 		}
 
-		try {
-			$mount = $this->getExternalMount($file);
-		} catch (FileIsNotIndexableException $e) {
-			return;
-		}
+//		try {
+//			$mount = $this->getGroupFolderMount($file);
+//		} catch (FileIsNotIndexableException $e) {
+//			return;
+//		}
 
 		$access = $document->getAccess();
-
-		if ($this->isMountFullGlobal($mount)) {
-			$access->addUsers(['__all']);
-		} else {
-			$access->addUsers($mount->getUsers());
-			$access->addGroups($mount->getGroups());
-//		 	$access->addCircles($mount->getCircles());
-		}
-
-		// twist 'n tweak.
-		if (!$mount->isGlobal()) {
-			$access->setOwnerId($mount->getUsers()[0]);
-		}
+echo json_encode($access);
+//		if ($this->isMountFullGlobal($mount)) {
+//			$access->addUsers(['__all']);
+//		} else {
+//			$access->addUsers($mount->getUsers());
+//			$access->addGroups($mount->getGroups());
+////		 	$access->addCircles($mount->getCircles());
+//		}
+//
+//		// twist 'n tweak.
+//		if (!$mount->isGlobal()) {
+//			$access->setOwnerId($mount->getUsers()[0]);
+//		}
 
 		$document->setAccess($access);
 	}
 
 
 	/**
-	 * @param ExternalMount $mount
+	 * @param GroupFolderMount $mount
 	 *
 	 * @return bool
 	 */
-	public function isMountFullGlobal(ExternalMount $mount) {
+	public function isMountFullGlobal(GroupFolderMount $mount) {
 		if (sizeof($mount->getGroups()) > 0) {
 			return false;
 		}
@@ -217,43 +198,44 @@ class ExternalFilesService {
 	/**
 	 * @param Node $file
 	 *
-	 * @return ExternalMount
+	 * @return GroupFolderMount
 	 * @throws FileIsNotIndexableException
 	 */
-	private function getExternalMount(Node $file) {
+	private function getGroupFolderMount(Node $file) {
 
-		foreach ($this->externalMounts as $mount) {
+		foreach ($this->groupFolders as $mount) {
 			if (strpos($file->getPath(), $mount->getPath()) === 0) {
 				return $mount;
 			}
 		}
 
 		throw new FileIsNotIndexableException();
+
 	}
 
 
 	/**
-	 * @param $userId
-	 *
-	 * @return ExternalMount[]
+	 * @return GroupFolderMount[]
 	 */
-	private function getExternalMountsForUser($userId) {
+	private function getGroupFoldersMounts() {
 
-		$externalMounts = [];
+		$groupFolders = [];
 
 		// TODO: deprecated - use UserGlobalStoragesService::getStorages() and UserStoragesService::getStorages()
-		$mounts = \OC_Mount_Config::getAbsoluteMountPoints($userId);
+		$mounts = [];
 		foreach ($mounts as $mountPoint => $mount) {
-			$externalMount = new ExternalMount();
-			$externalMount->setId($mount['id'])
-						  ->setPath($mountPoint)
-						  ->setGroups($mount['applicable']['groups'])
-						  ->setUsers($mount['applicable']['users'])
-						  ->setGlobal((!$mount['personal']));
-			$externalMounts[] = $externalMount;
+			$groupFolder = new GroupFolderMount();
+//			$externalMount->setId($mount['id'])
+//						  ->setPath($mountPoint)
+//						  ->setGroups($mount['applicable']['groups'])
+//						  ->setUsers($mount['applicable']['users'])
+//						  ->setGlobal((!$mount['personal']));
+			$groupFolders[] = $groupFolder;
 		}
 
-		return $externalMounts;
+		return $groupFolders;
 	}
+
+
 
 }

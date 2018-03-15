@@ -47,6 +47,9 @@ class FilesDocument extends IndexDocument {
 	/** @var string */
 	private $path;
 
+	/** @var string */
+	private $filename;
+
 
 	/**
 	 * @param string $ownerId
@@ -143,12 +146,52 @@ class FilesDocument extends IndexDocument {
 	}
 
 
+	/**
+	 * @return string
+	 */
+	public function getFilename() {
+		return $this->filename;
+	}
+
+	/**
+	 * @param string $filename
+	 *
+	 * @return FilesDocument
+	 */
+	public function setFilename($filename) {
+		$this->filename = $filename;
+
+		return $this;
+	}
+
+
+	/**
+	 *
+	 */
 	public function __destruct() {
 		parent::__destruct();
 
 		unset($this->ownerId);
 		unset($this->type);
+		unset($this->source);
 		unset($this->mimetype);
 		unset($this->path);
 	}
+
+
+	/**
+	 * @param IndexDocument $indexDocument
+	 *
+	 * @return FilesDocument
+	 */
+	public static function fromIndexDocument(IndexDocument $indexDocument) {
+		$document = new FilesDocument($indexDocument->getProviderId(), $indexDocument->getId());
+		foreach (get_object_vars($indexDocument) as $key => $name) {
+			$document->$key = $name;
+		}
+
+		return $document;
+	}
+
+
 }

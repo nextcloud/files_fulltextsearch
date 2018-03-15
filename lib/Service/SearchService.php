@@ -85,6 +85,9 @@ class SearchService {
 		// current dir ? files_withindir
 		// filter on file extension ?
 
+		$this->searchQueryShareNames($request);
+		$this->searchQueryShareOptions($request);
+
 		if (count(array_unique([$local, $external, $federated])) === 1) {
 			return;
 		}
@@ -101,5 +104,52 @@ class SearchService {
 			$request->addTag('federated');
 		}
 	}
+
+
+	/**
+	 * @param SearchRequest $request
+	 */
+	private function searchQueryShareNames(SearchRequest $request) {
+		$query = [];
+		$words = explode(' ', $request->getSearch());
+		foreach ($words as $word) {
+			array_push(
+				$query, ['share_names.' . $request->getAuthor() => '*' . $word . '*']
+			);
+		}
+		$request->addWildcardQueries($query);
+	}
+
+
+	/**
+	 * @param SearchRequest $request
+	 */
+	private function searchQueryShareOptions(SearchRequest $request) {
+		$this->searchQueryShareOptionsExtension($request);
+	}
+
+
+	private function searchQueryShareOptionsExtension(SearchRequest $request) {
+		$extension = $request->getOption('files_extension');
+		if ($extension === '') {
+			return;
+		}
+
+		$request->addWildcardFilters(
+			[
+				['share_names.' . $request->getAuthor() => '*\.' . $extension],
+				['title' => '*\.' . $extension]
+			]
+		);
+
+
+//		$query = [
+//			['wildcard' => ['share_names.' . $request->getAuthor() => '*\.' . $extension]],
+//			['wildcard' => ['title' => '*\.' . $extension]]
+//		];
+//
+//		$arr['params']['body']['query']['bool']['filter'][]['bool']['should'] = $query;
+	}
+
 
 }

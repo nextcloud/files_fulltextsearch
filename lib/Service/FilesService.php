@@ -28,14 +28,12 @@ namespace OCA\Files_FullTextSearch\Service;
 
 
 use Exception;
-use OC\Share\Constants;
-use OCA\Files_FullTextSearch\Db\SharesRequest;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
+use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Provider\FilesProvider;
 use OCA\FullTextSearch\Exceptions\InterruptException;
 use OCA\FullTextSearch\Exceptions\TickDoesNotExistException;
-use OCA\FullTextSearch\Model\DocumentAccess;
 use OCA\FullTextSearch\Model\Index;
 use OCA\FullTextSearch\Model\IndexDocument;
 use OCA\FullTextSearch\Model\Runner;
@@ -53,8 +51,6 @@ use OCP\Share\IManager;
 
 class FilesService {
 
-	const DOCUMENT_TYPE = 'files';
-
 	const MIMETYPE_TEXT = 'files_text';
 	const MIMETYPE_PDF = 'files_pdf';
 	const MIMETYPE_OFFICE = 'files_office';
@@ -71,14 +67,17 @@ class FilesService {
 	/** @var IManager */
 	private $shareManager;
 
-	/** @var SharesRequest */
-	private $sharesRequest;
-
 	/** @var ConfigService */
 	private $configService;
 
+	/** @var LocalFilesService */
+	private $localFilesService;
+
 	/** @var ExternalFilesService */
 	private $externalFilesService;
+
+	/** @var GroupFoldersService */
+	private $groupFoldersService;
 
 	/** @var MiscService */
 	private $miscService;
@@ -90,25 +89,32 @@ class FilesService {
 	 * @param IRootFolder $rootFolder
 	 * @param IUserManager $userManager
 	 * @param IManager $shareManager
-	 * @param SharesRequest $sharesRequest
 	 * @param ConfigService $configService
+	 * @param LocalFilesService $localFilesService
 	 * @param ExternalFilesService $externalFilesService
+	 * @param GroupFoldersService $groupFoldersService
 	 * @param MiscService $miscService
 	 *
 	 * @internal param IProviderFactory $factory
 	 */
 	public function __construct(
 		IRootFolder $rootFolder, IUserManager $userManager, IManager $shareManager,
-		SharesRequest $sharesRequest, ConfigService $configService,
-		ExternalFilesService $externalFilesService, MiscService $miscService
+		ConfigService $configService,
+		LocalFilesService $localFilesService,
+		ExternalFilesService $externalFilesService,
+		GroupFoldersService $groupFoldersService,
+		MiscService $miscService
 	) {
 		$this->rootFolder = $rootFolder;
 		$this->userManager = $userManager;
 		$this->shareManager = $shareManager;
 
-		$this->sharesRequest = $sharesRequest;
 		$this->configService = $configService;
+
+		$this->localFilesService = $localFilesService;
 		$this->externalFilesService = $externalFilesService;
+		$this->groupFoldersService = $groupFoldersService;
+
 		$this->miscService = $miscService;
 	}
 
@@ -126,6 +132,7 @@ class FilesService {
 	public function getFilesFromUser(Runner $runner, $userId) {
 
 		$this->externalFilesService->initExternalFilesForUser($userId);
+		$this->groupFoldersService->initGroupShares();
 
 		/** @var Folder $files */
 		$files = $this->rootFolder->getUserFolder($userId)
@@ -163,10 +170,9 @@ class FilesService {
 			$runner->update('getFilesFromDirectory');
 
 			try {
-				$document = $this->generateFilesDocumentFromFile($file, $userId);
-				$documents[] = $document;
+				$documents[] = $this->generateFilesDocumentFromFile($file, $userId);
 			} catch (FileIsNotIndexableException $e) {
-				/** goto next file */
+				continue;
 			}
 
 			if ($file->getType() === FileInfo::TYPE_FOLDER) {
@@ -174,6 +180,7 @@ class FilesService {
 				$documents =
 					array_merge($documents, $this->getFilesFromDirectory($runner, $userId, $file));
 			}
+
 		}
 
 		return $documents;
@@ -192,13 +199,14 @@ class FilesService {
 	 */
 	private function generateFilesDocumentFromFile(Node $file, $viewerId = '') {
 
-		$this->fileMustBeIndexable($file);
+		$source = $this->getFileSource($file);
 		$document = new FilesDocument(FilesProvider::FILES_PROVIDER_ID, $file->getId());
 
 		$ownerId = $file->getOwner()
 						->getUID();
 
 		$document->setType($file->getType())
+				 ->setSource($source)
 				 ->setOwnerId($ownerId)
 				 ->setViewerId($viewerId)
 				 ->setModifiedTime($file->getMTime())
@@ -211,11 +219,22 @@ class FilesService {
 	/**
 	 * @param Node $file
 	 *
+	 * @return string
 	 * @throws FileIsNotIndexableException
 	 * @throws NotFoundException
 	 */
-	private function fileMustBeIndexable(Node $file) {
-		$this->externalFilesService->externalFileMustBeIndexable($file);
+	private function getFileSource(Node $file) {
+		$source = '';
+
+		try {
+			$this->localFilesService->getFileSource($file, $source);
+			$this->externalFilesService->getFileSource($file, $source);
+			$this->groupFoldersService->getFileSource($file, $source);
+		} catch (KnownFileSourceException $e) {
+			/** we know the source, just leave. */
+		}
+
+		return $source;
 	}
 
 
@@ -283,9 +302,9 @@ class FilesService {
 
 
 	/**
-	 * @param IndexDocument $document
+	 * @param FilesDocument $document
 	 */
-	public function setDocumentInfo(IndexDocument $document) {
+	public function setDocumentInfo(FilesDocument $document) {
 
 		$viewerId = $document->getAccess()
 							 ->getViewerId();
@@ -301,27 +320,28 @@ class FilesService {
 
 		// TODO: better way to do this : we remove the '/userId/files/'
 		$path = MiscService::noEndSlash(substr($file->getPath(), 7 + strlen($viewerId)));
-		$document->setInfo('path', $path);
-		$document->setInfo('filename', $file->getName());
+
+		$document->setPath($path);
+		$document->setFileName($file->getName());
 	}
 
 
 	/**
-	 * @param IndexDocument $document
+	 * @param FilesDocument $document
 	 */
-	public function setDocumentTitle(IndexDocument $document) {
-		$document->setTitle($document->getInfo('path'));
+	public function setDocumentTitle(FilesDocument $document) {
+		$document->setTitle($document->getPath());
 	}
 
 
 	/**
-	 * @param IndexDocument $document
+	 * @param FilesDocument $document
 	 */
-	public function setDocumentLink(IndexDocument $document) {
+	public function setDocumentLink(FilesDocument $document) {
 
-		$path = $document->getInfo('path');
-		$dir = substr($path, 0, -strlen($document->getInfo('filename')));
-		$filename = $document->getInfo('filename');
+		$path = $document->getPath();
+		$filename = $document->getFileName();
+		$dir = substr($path, 0, -strlen($filename));
 
 		$document->setLink(
 			\OC::$server->getURLGenerator()
@@ -337,24 +357,12 @@ class FilesService {
 
 
 	/**
-	 * @param int $fileId
-	 *
-	 * @return string
-	 */
-	private function getWebdavId($fileId) {
-		$instanceId = $this->configService->getSystemValue('instanceid');
-
-		return sprintf("%08s", $fileId) . $instanceId;
-	}
-
-
-	/**
-	 * @param IndexDocument $document
+	 * @param FilesDocument $document
 	 *
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
-	public function setDocumentMore(IndexDocument $document) {
+	public function setDocumentMore(FilesDocument $document) {
 
 		$access = $document->getAccess();
 		$file = $this->getFileFromId($access->getViewerId(), $document->getId());
@@ -402,6 +410,7 @@ class FilesService {
 					$this->getPathFromViewerId($document->getId(), $document->getViewerId())
 				);
 
+				//echo '---- ' . $document->getPath() . ' ---- ' . $document->getSource() . "\n";
 				$this->updateDocumentFromFilesDocument($document);
 			} catch (Exception $e) {
 				// TODO - update $document with a error status instead of just ignore !
@@ -414,6 +423,35 @@ class FilesService {
 		}
 
 		return $index;
+	}
+
+
+	/**
+	 * @param Index $index
+	 *
+	 * @return FilesDocument
+	 * @throws FileIsNotIndexableException
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 * @throws NotPermittedException
+	 */
+	private function generateDocumentFromIndex(Index $index) {
+		$file = $this->getFileFromId($index->getOwnerId(), $index->getDocumentId());
+
+		if ($file === null) {
+			$index->setStatus(Index::INDEX_REMOVE);
+			$document = new FilesDocument($index->getProviderId(), $index->getDocumentId());
+			$document->setIndex($index);
+
+			return $document;
+		}
+
+		$document = $this->generateFilesDocumentFromFile($file, $index->getOwnerId());
+		$document->setIndex($index);
+
+		$this->updateFilesDocumentFromFile($document, $file);
+
+		return $document;
 	}
 
 
@@ -468,12 +506,11 @@ class FilesService {
 		$file = $userFolder->get($document->getPath());
 
 		try {
-			$this->updateDocumentFromFile($document, $file);
+			$this->updateFilesDocumentFromFile($document, $file);
 		} catch (FileIsNotIndexableException $e) {
 			$document->getIndex()
 					 ->setStatus(Index::INDEX_IGNORE);
 		}
-
 	}
 
 
@@ -481,55 +518,24 @@ class FilesService {
 	 * @param FilesDocument $document
 	 * @param Node $file
 	 *
-	 * @throws FileIsNotIndexableException
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
 	 */
-	private function updateDocumentFromFile(FilesDocument $document, Node $file) {
-		$this->updateAccessFromFile($document, $file);
+	private function updateFilesDocumentFromFile(FilesDocument $document, Node $file) {
+		$this->updateDocumentAccess($document, $file);
+		$this->updateShareNames($document, $file);
 		$this->updateContentFromFile($document, $file);
-	}
 
-
-	/**
-	 * @param Index $index
-	 *
-	 * @return FilesDocument
-	 * @throws FileIsNotIndexableException
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 * @throws NotPermittedException
-	 */
-	private function generateDocumentFromIndex(Index $index) {
-		$file = $this->getFileFromId($index->getOwnerId(), $index->getDocumentId());
-
-		if ($file === null) {
-			$index->setStatus(Index::INDEX_REMOVE);
-			$document = new FilesDocument($index->getProviderId(), $index->getDocumentId());
-			$document->setIndex($index);
-
-			return $document;
-		}
-
-		$document = $this->generateFilesDocumentFromFile($file, $index->getOwnerId());
-		$document->setIndex($index);
-
-		$this->updateDocumentFromFile($document, $file);
-
-		return $document;
+		$document->addTag($document->getSource());
 	}
 
 
 	/**
 	 * @param FilesDocument $document
 	 * @param Node $file
-	 *
-	 * @throws FileIsNotIndexableException
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
 	 */
-	private function updateAccessFromFile(FilesDocument $document, Node $file) {
+	private function updateDocumentAccess(FilesDocument $document, Node $file) {
 
 		$index = $document->getIndex();
 		if (!$index->isStatus(Index::INDEX_FULL)
@@ -537,30 +543,14 @@ class FilesService {
 			return;
 		}
 
-		$access = $this->getDocumentAccessFromFile($file);
-		$document->setAccess($access);
-		$document->setInfo('share_names', $this->getShareNamesFromFile($file, $access));
+		$this->localFilesService->updateDocumentAccess($document, $file);
+		$this->externalFilesService->updateDocumentAccess($document, $file);
+		$this->groupFoldersService->updateDocumentAccess($document, $file);
+		//$document->setAccess($access);
 
-		$this->updateDocumentWithLocalFiles($document, $file);
-		$this->externalFilesService->updateDocumentWithExternalFiles($document, $file);
-
-	}
-
-
-	/**
-	 * @param FilesDocument $document
-	 * @param Node $file
-	 *
-	 * @throws NotFoundException
-	 */
-	private function updateDocumentWithLocalFiles(FilesDocument $document, Node $file) {
-
-		if ($file->getStorage()
-				 ->isLocal() === false) {
-			return;
-		}
-
-		$document->addTag('local');
+//		$this->updateDocumentWithLocalFiles($document, $file);
+//		$this->groupFoldersService->updateDocumentWithExternalFiles($document, $file);
+//		$this->externalFilesService->updateDocumentWithExternalFiles($document, $file);
 	}
 
 
@@ -594,6 +584,59 @@ class FilesService {
 			$document->getIndex()
 					 ->unsetStatus(Index::INDEX_CONTENT);
 		}
+	}
+
+
+	/**
+	 * @param FilesDocument $document
+	 * @param Node $file
+	 *
+	 * @return array
+	 */
+	private function updateShareNames(FilesDocument $document, Node $file) {
+		$users = [];
+
+		$this->localFilesService->getShareUsers($document, $file, $users);
+		$this->externalFilesService->getShareUsers($document, $file, $users);
+//		$this->groupFoldersService->getShareUsers($document, $file, $users);
+
+		$shareNames = [];
+		foreach ($users as $user) {
+			try {
+				$shareNames[$user] = $this->getPathFromViewerId($file->getId(), $user);
+			} catch (Exception $e) {
+			}
+		}
+
+		$document->setInfo('share_names', $shareNames);
+
+//			if ($file->getStorage()
+//					 ->isLocal() === false) {
+//				$shares = $this->externalFilesService->getAllSharesFromExternalFile($access);
+//			} else {
+//				$shares = $this->getAllSharesFromFile($file);
+//			}
+//
+//			foreach ($shares as $user) {
+//				try {
+//					$shareNames[$user] = $this->getPathFromViewerId($file->getId(), $user);
+//				} catch (Exception $e) {
+//				}
+//			}
+//
+		return $shareNames;
+
+	}
+
+	/**
+	 * @param int $fileId
+	 *
+	 * @return string
+	 */
+	private function getWebdavId($fileId) {
+		$instanceId = $this->configService->getSystemValue('instanceid');
+
+		return sprintf("%08s", $fileId) . $instanceId;
 	}
 
 
@@ -643,7 +686,6 @@ class FilesService {
 	 * @throws NotPermittedException
 	 */
 	private function extractContentFromFileText(FilesDocument $document, File $file) {
-
 		if ($this->parseMimeType($document->getMimeType()) !== self::MIMETYPE_TEXT) {
 			return;
 		}
@@ -693,167 +735,6 @@ class FilesService {
 		}
 
 		$document->setContent(base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64);
-	}
-
-
-	/**
-	 * @param Node $file
-	 *
-	 * @return DocumentAccess
-	 */
-	private function getDocumentAccessFromFile(Node $file) {
-
-		$access = new DocumentAccess(
-			$file->getOwner()
-				 ->getUID()
-		);
-
-		list($users, $groups, $circles, $links) = $this->getSharesFromFileId($file);
-		$access->setUsers($users);
-		$access->setGroups($groups);
-		$access->setCircles($circles);
-		$access->setLinks($links);
-
-		return $access;
-	}
-
-
-	/**
-	 * @param Node $file
-	 * @param DocumentAccess $access
-	 *
-	 * @return array
-	 * @throws NotFoundException
-	 */
-	private function getShareNamesFromFile(Node $file, DocumentAccess $access) {
-		$shareNames = [];
-
-		if ($file->getStorage()
-				 ->isLocal() === false) {
-			$shares = $this->externalFilesService->getAllSharesFromExternalFile($access);
-		} else {
-			$shares = $this->getAllSharesFromFile($file);
-		}
-
-		foreach ($shares as $user) {
-			try {
-				$shareNames[$user] = $this->getPathFromViewerId($file->getId(), $user);
-			} catch (Exception $e) {
-			}
-		}
-
-		return $shareNames;
-	}
-
-
-	/**
-	 * @param Node $file
-	 *
-	 * @return array
-	 */
-	private function getAllSharesFromFile(Node $file) {
-		$result = [];
-
-		$shares = $this->shareManager->getAccessList($file);
-		if (!array_key_exists('users', $shares)) {
-			return $result;
-		}
-
-		foreach ($shares['users'] as $user) {
-			if (in_array($user, $result) || $this->userManager->get($user) === null) {
-				continue;
-			}
-
-			array_push($result, $user);
-		}
-
-		return $result;
-	}
-
-
-	/**
-	 * @param Node $file
-	 *
-	 * @return array
-	 */
-	private function getSharesFromFileId(Node $file) {
-
-		$users = $groups = $circles = $links = [];
-		$shares = $this->sharesRequest->getFromFile($file);
-
-		foreach ($shares as $share) {
-
-			if ($share['parent'] !== null) {
-				continue;
-			}
-
-			$this->parseUsersShares($share, $users);
-			$this->parseUsersGroups($share, $groups);
-			$this->parseUsersCircles($share, $circles);
-			$this->parseUsersLinks($share, $links);
-		}
-
-		return [$users, $groups, $circles, $links];
-	}
-
-
-	/**
-	 * @param array $share
-	 * @param array $users
-	 */
-	private function parseUsersShares($share, &$users) {
-		if ((int)$share['share_type'] !== Constants::SHARE_TYPE_USER) {
-			return;
-		}
-
-		if (!in_array($share['share_with'], $users)) {
-			$users[] = $share['share_with'];
-		}
-	}
-
-
-	/**
-	 * @param array $share
-	 * @param array $groups
-	 */
-	private function parseUsersGroups($share, &$groups) {
-		if ((int)$share['share_type'] !== Constants::SHARE_TYPE_GROUP) {
-			return;
-		}
-
-		if (!in_array($share['share_with'], $groups)) {
-			$groups[] = $share['share_with'];
-		}
-	}
-
-
-	/**
-	 * @param array $share
-	 * @param array $circles
-	 */
-	private function parseUsersCircles($share, &$circles) {
-		if ((int)$share['share_type'] !== Constants::SHARE_TYPE_CIRCLE) {
-			return;
-		}
-
-		if (!in_array($share['share_with'], $circles)) {
-			$circles[] = $share['share_with'];
-		}
-	}
-
-
-	/**
-	 * @param array $share
-	 * @param array $links
-	 */
-	private function parseUsersLinks($share, &$links) {
-		if ((int)$share['share_type'] !== Constants::SHARE_TYPE_LINK) {
-			return;
-		}
-
-		if (!in_array($share['share_with'], $links)) {
-			$links[] = $share['share_with'];
-		}
 	}
 
 

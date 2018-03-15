@@ -236,30 +236,12 @@ class FilesProvider implements IFullTextSearchProvider {
 		$this->elasticSearchService->onInitializingIndex($platform);
 	}
 
-	/**
-	 * @param IFullTextSearchPlatform $platform
-	 * @param array $arr
-	 */
-	public function onIndexingDocument(IFullTextSearchPlatform $platform, &$arr) {
-		$this->elasticSearchService->onIndexingDocument($platform, $arr);
-	}
 
 	/**
 	 * @param IFullTextSearchPlatform $platform
 	 */
 	public function onResettingIndex(IFullTextSearchPlatform $platform) {
 		$this->elasticSearchService->onResettingIndex($platform);
-	}
-
-	/**
-	 * @param IFullTextSearchPlatform $platform
-	 * @param SearchRequest $request
-	 * @param array $arr
-	 */
-	public function onSearchingQuery(
-		IFullTextSearchPlatform $platform, SearchRequest $request, &$arr
-	) {
-		$this->elasticSearchService->onSearchingQuery($platform, $request, $arr);
 	}
 
 
@@ -290,13 +272,20 @@ class FilesProvider implements IFullTextSearchProvider {
 	 */
 	public function improveSearchResult(SearchResult $searchResult) {
 
-		// TODO - avoid ->setInfo()
-		foreach ($searchResult->getDocuments() as $document) {
-			$this->filesService->setDocumentInfo($document);
-			$this->filesService->setDocumentTitle($document);
-			$this->filesService->setDocumentLink($document);
-			$this->filesService->setDocumentMore($document);
+		$indexDocuments = $searchResult->getDocuments();
+		$filesDocuments = [];
+		foreach ($indexDocuments as $indexDocument) {
+
+			$filesDocument = FilesDocument::fromIndexDocument($indexDocument);
+			$this->filesService->setDocumentInfo($filesDocument);
+			$this->filesService->setDocumentTitle($filesDocument);
+			$this->filesService->setDocumentLink($filesDocument);
+			$this->filesService->setDocumentMore($filesDocument);
+
+			$filesDocuments[] = $filesDocument;
 		}
+
+		$searchResult->setDocuments($filesDocuments);
 	}
 
 
