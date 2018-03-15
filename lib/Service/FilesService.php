@@ -132,7 +132,7 @@ class FilesService {
 	public function getFilesFromUser(Runner $runner, $userId) {
 
 		$this->externalFilesService->initExternalFilesForUser($userId);
-		$this->groupFoldersService->initGroupShares();
+		$this->groupFoldersService->initGroupSharesForUser($userId);
 
 		/** @var Folder $files */
 		$files = $this->rootFolder->getUserFolder($userId)

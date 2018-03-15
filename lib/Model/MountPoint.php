@@ -26,7 +26,7 @@
 
 namespace OCA\Files_FullTextSearch\Model;
 
-class ExternalMount implements \JsonSerializable {
+class MountPoint implements \JsonSerializable {
 
 
 	/** @var int */

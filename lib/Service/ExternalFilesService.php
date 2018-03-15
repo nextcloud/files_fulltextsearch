@@ -36,7 +36,7 @@ namespace OCA\Files_FullTextSearch\Service;
 
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
-use OCA\Files_FullTextSearch\Model\ExternalMount;
+use OCA\Files_FullTextSearch\Model\MountPoint;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCP\App;
 use OCP\Files\IRootFolder;
@@ -69,7 +69,7 @@ class ExternalFilesService {
 	private $miscService;
 
 
-	/** @var ExternalMount[] */
+	/** @var MountPoint[] */
 	private $externalMounts = [];
 
 
@@ -111,7 +111,7 @@ class ExternalFilesService {
 			return;
 		}
 
-		$this->externalMounts = $this->getExternalMountsForUser($userId);
+		$this->externalMounts = $this->getMountPoints($userId);
 	}
 
 
@@ -134,7 +134,7 @@ class ExternalFilesService {
 			throw new FileIsNotIndexableException();
 		}
 
-		$this->getExternalMount($file);
+		$this->getMountPoint($file);
 		$source = self::DOCUMENT_SOURCE;
 
 		throw new KnownFileSourceException();
@@ -166,7 +166,7 @@ class ExternalFilesService {
 		}
 
 		try {
-			$mount = $this->getExternalMount($file);
+			$mount = $this->getMountPoint($file);
 		} catch (FileIsNotIndexableException $e) {
 			return;
 		}
@@ -191,11 +191,11 @@ class ExternalFilesService {
 
 
 	/**
-	 * @param ExternalMount $mount
+	 * @param MountPoint $mount
 	 *
 	 * @return bool
 	 */
-	public function isMountFullGlobal(ExternalMount $mount) {
+	public function isMountFullGlobal(MountPoint $mount) {
 		if (sizeof($mount->getGroups()) > 0) {
 			return false;
 		}
@@ -215,10 +215,10 @@ class ExternalFilesService {
 	/**
 	 * @param Node $file
 	 *
-	 * @return ExternalMount
+	 * @return MountPoint
 	 * @throws FileIsNotIndexableException
 	 */
-	private function getExternalMount(Node $file) {
+	private function getMountPoint(Node $file) {
 
 		foreach ($this->externalMounts as $mount) {
 			if (strpos($file->getPath(), $mount->getPath()) === 0) {
@@ -233,25 +233,25 @@ class ExternalFilesService {
 	/**
 	 * @param $userId
 	 *
-	 * @return ExternalMount[]
+	 * @return MountPoint[]
 	 */
-	private function getExternalMountsForUser($userId) {
+	private function getMountPoints($userId) {
 
-		$externalMounts = [];
+		$mountPoints = [];
 
 		// TODO: deprecated - use UserGlobalStoragesService::getStorages() and UserStoragesService::getStorages()
 		$mounts = \OC_Mount_Config::getAbsoluteMountPoints($userId);
-		foreach ($mounts as $mountPoint => $mount) {
-			$externalMount = new ExternalMount();
-			$externalMount->setId($mount['id'])
-						  ->setPath($mountPoint)
+		foreach ($mounts as $path => $mount) {
+			$mountPoint = new MountPoint();
+			$mountPoint->setId($mount['id'])
+						  ->setPath('/' . $userId . '/files/' . $path)
 						  ->setGroups($mount['applicable']['groups'])
 						  ->setUsers($mount['applicable']['users'])
 						  ->setGlobal((!$mount['personal']));
-			$externalMounts[] = $externalMount;
+			$mountPoints[] = $mountPoint;
 		}
 
-		return $externalMounts;
+		return $mountPoints;
 	}
 
 }

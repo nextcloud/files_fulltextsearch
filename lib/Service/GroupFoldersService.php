@@ -31,10 +31,13 @@ namespace OCA\Files_FullTextSearch\Service;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
-use OCA\Files_FullTextSearch\Model\GroupFolderMount;
+use OCA\Files_FullTextSearch\Model\MountPoint;
+use OCA\GroupFolders\Folder\FolderManager;
+use OCA\GroupFolders\Mount\MountProvider;
 use OCP\App;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\Files\Storage\IStorageFactory;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 
@@ -52,6 +55,9 @@ class GroupFoldersService {
 	/** @var IManager */
 	private $shareManager;
 
+	/** @var FolderManager */
+	private $folderManager;
+
 	/** @var LocalFilesService */
 	private $localFilesService;
 
@@ -62,7 +68,7 @@ class GroupFoldersService {
 	private $miscService;
 
 
-	/** @var GroupFolderMount[] */
+	/** @var MountPoint[] */
 	private $groupFolders = [];
 
 
@@ -72,17 +78,21 @@ class GroupFoldersService {
 	 * @param IRootFolder $rootFolder
 	 * @param IUserManager $userManager
 	 * @param IManager $shareManager
+	 * @param FolderManager $folderManager
 	 * @param LocalFilesService $localFilesService
 	 * @param ConfigService $configService
 	 * @param MiscService $miscService
 	 */
 	public function __construct(
 		IRootFolder $rootFolder, IUserManager $userManager, IManager $shareManager,
-		LocalFilesService $localFilesService, ConfigService $configService, MiscService $miscService
+		FolderManager $folderManager, LocalFilesService $localFilesService,
+		ConfigService $configService,
+		MiscService $miscService
 	) {
 		$this->rootFolder = $rootFolder;
 		$this->userManager = $userManager;
 		$this->shareManager = $shareManager;
+		$this->folderManager = $folderManager;
 
 		$this->localFilesService = $localFilesService;
 
@@ -92,15 +102,16 @@ class GroupFoldersService {
 
 
 	/**
-	 *
+	 * @param string $userId
 	 */
-	public function initGroupShares() {
+	public function initGroupSharesForUser($userId) {
 		$this->groupFolders = [];
 		if (!App::isEnabled('groupfolders')) {
 			return;
 		}
 
-		$this->groupFolders = $this->getGroupFoldersMounts();
+
+		$this->groupFolders = $this->getMountPoints($userId);
 	}
 
 
@@ -113,9 +124,8 @@ class GroupFoldersService {
 	 */
 	public function getFileSource(Node $file, &$source) {
 
-
 		try {
-			$this->getGroupFolderMount($file);
+			$this->getMountPoint($file);
 		} catch (FileIsNotIndexableException $e) {
 			return;
 		}
@@ -123,23 +133,6 @@ class GroupFoldersService {
 		$source = self::DOCUMENT_SOURCE;
 		throw new KnownFileSourceException();
 	}
-
-//
-//	/**
-//	 * @param DocumentAccess $access
-//	 *
-//	 * @return array
-//	 */
-//	public function getAllSharesFromExternalFile(DocumentAccess $access) {
-//		$result = $access->getUsers();
-//
-//		if ($access->getOwnerId() !== '') {
-//			array_push($result, $access->getOwnerId());
-//		}
-//
-//		// TODO: get users from groups & circles.
-//		return $result;
-//	}
 
 
 	/**
@@ -192,36 +185,15 @@ class GroupFoldersService {
 
 
 	/**
-	 * @param GroupFolderMount $mount
-	 *
-	 * @return bool
-	 */
-	public function isMountFullGlobal(GroupFolderMount $mount) {
-		if (sizeof($mount->getGroups()) > 0) {
-			return false;
-		}
-
-		if (sizeof($mount->getUsers()) !== 1) {
-			return false;
-		}
-
-		if ($mount->getUsers()[0] === 'all') {
-			return true;
-		}
-
-		return false;
-	}
-
-
-	/**
 	 * @param Node $file
 	 *
-	 * @return GroupFolderMount
+	 * @return MountPoint
 	 * @throws FileIsNotIndexableException
 	 */
-	private function getGroupFolderMount(Node $file) {
+	private function getMountPoint(Node $file) {
 
 		foreach ($this->groupFolders as $mount) {
+			echo '######    ' . $file->getPath() . '  ' . $mount->getPath() . "\n";
 			if (strpos($file->getPath(), $mount->getPath()) === 0) {
 				return $mount;
 			}
@@ -233,25 +205,23 @@ class GroupFoldersService {
 
 
 	/**
-	 * @return GroupFolderMount[]
+	 * @param string $userId
+	 *
+	 * @return MountPoint[]
 	 */
-	private function getGroupFoldersMounts() {
+	private function getMountPoints($userId) {
 
-		$groupFolders = [];
-
-		// TODO: deprecated - use UserGlobalStoragesService::getStorages() and UserStoragesService::getStorages()
-		$mounts = [];
-		foreach ($mounts as $mountPoint => $mount) {
-			$groupFolder = new GroupFolderMount();
-//			$externalMount->setId($mount['id'])
-//						  ->setPath($mountPoint)
-//						  ->setGroups($mount['applicable']['groups'])
-//						  ->setUsers($mount['applicable']['users'])
-//						  ->setGlobal((!$mount['personal']));
-			$groupFolders[] = $groupFolder;
+		$mountPoints = [];
+		$mounts = $this->folderManager->getAllFolders();
+		foreach ($mounts as $path => $mount) {
+			$mountPoint = new MountPoint();
+			$mountPoint->setId($mount['id'])
+					   ->setPath('/' . $userId . '/files/' . $mount['mount_point'])
+					   ->setGroups(array_keys($mount['applicable']['groups']));
+			$mountPoints[] = $mountPoint;
 		}
 
-		return $groupFolders;
+		return $mountPoints;
 	}
 
 
