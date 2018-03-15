@@ -35,6 +35,7 @@ class ConfigService {
 
 	const FILES_LOCAL = 'files_local';
 	const FILES_EXTERNAL = 'files_external';
+	const FILES_GROUP_FOLDERS = 'files_group_folders';
 	const FILES_ENCRYPTED = 'files_encrypted';
 	const FILES_FEDERATED = 'files_federated';
 	const FILES_SIZE = 'files_size';
@@ -44,15 +45,16 @@ class ConfigService {
 	const FILES_AUDIO = 'files_audio';
 
 	public $defaults = [
-		self::FILES_LOCAL     => '1',
-		self::FILES_EXTERNAL  => '0',
-		self::FILES_ENCRYPTED => '0',
-		self::FILES_FEDERATED => '0',
-		self::FILES_SIZE      => '20',
-		self::FILES_PDF       => '1',
-		self::FILES_OFFICE    => '1',
-		self::FILES_IMAGE     => '0',
-		self::FILES_AUDIO     => '0'
+		self::FILES_LOCAL         => '1',
+		self::FILES_EXTERNAL      => '0',
+		self::FILES_GROUP_FOLDERS => '0',
+		self::FILES_ENCRYPTED     => '0',
+		self::FILES_FEDERATED     => '0',
+		self::FILES_SIZE          => '20',
+		self::FILES_PDF           => '1',
+		self::FILES_OFFICE        => '1',
+		self::FILES_IMAGE         => '0',
+		self::FILES_AUDIO         => '0'
 	];
 
 

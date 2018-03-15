@@ -139,6 +139,11 @@ class FilesProvider implements IFullTextSearchProvider {
 						'type'  => 'checkbox'
 					],
 					[
+						'name'  => 'files_group_folders',
+						'title' => 'Group Folders',
+						'type'  => 'checkbox'
+					],
+					[
 						'name'  => 'files_extensions',
 						'type'  => 'input',
 						'title' => 'Extensions'

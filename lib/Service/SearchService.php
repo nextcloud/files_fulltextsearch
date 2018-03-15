@@ -79,6 +79,7 @@ class SearchService {
 
 		$local = $request->getOption('files_local');
 		$external = $request->getOption('files_external');
+		$groupFolders = $request->getOption('group_folders');
 		$federated = $request->getOption('files_federated');
 		$withinDir = $request->getOption('files_withindir');
 
@@ -88,7 +89,7 @@ class SearchService {
 		$this->searchQueryShareNames($request);
 		$this->searchQueryShareOptions($request);
 
-		if (count(array_unique([$local, $external, $federated])) === 1) {
+		if (count(array_unique([$local, $external, $groupFolders])) === 1) {
 			return;
 		}
 
@@ -100,8 +101,12 @@ class SearchService {
 			$request->addTag('external');
 		}
 
-		if ($external === '1') {
+		if ($federated === '1') {
 			$request->addTag('federated');
+		}
+
+		if ($groupFolders === '1') {
+			$request->addTag('group_folders');
 		}
 	}
 

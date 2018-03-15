@@ -110,6 +110,9 @@ class GroupFoldersService {
 			return;
 		}
 
+		if ($this->configService->getAppValue(ConfigService::FILES_GROUP_FOLDERS) !== '1') {
+			return;
+		}
 
 		$this->groupFolders = $this->getMountPoints($userId);
 	}
@@ -123,6 +126,10 @@ class GroupFoldersService {
 	 * @throws KnownFileSourceException
 	 */
 	public function getFileSource(Node $file, &$source) {
+
+		if (!$this->configService->optionIsSelected(ConfigService::FILES_GROUP_FOLDERS)) {
+			return;
+		}
 
 		try {
 			$this->getMountPoint($file);
@@ -201,10 +208,7 @@ class GroupFoldersService {
 		$mountPoints = [];
 		$mounts = $this->folderManager->getAllFolders();
 
-
 		foreach ($mounts as $path => $mount) {
-			echo '---------------- ' . json_encode($mount) . "\n";
-
 			$mountPoint = new MountPoint();
 			$mountPoint->setId($mount['id'])
 					   ->setPath('/' . $userId . '/files/' . $mount['mount_point'])

@@ -60,6 +60,17 @@ Util::addScript(Application::APP_NAME, 'admin');
 			</div>
 		</div>
 
+		<div class="div-table-row">
+			<div class="div-table-col div-table-col-left">
+				<span class="leftcol">Group Folders:</span>
+				<br/>
+				<em>Index the content of group folders.</em>
+			</div>
+			<div class="div-table-col">
+				<input type="checkbox" id="files_group_folders" value="1"/>
+			</div>
+		</div>
+
 		<!--<div class="div-table-row">
 			<div class="div-table-col div-table-col-left">
 				<span class="leftcol">Encrypted Files:</span>
