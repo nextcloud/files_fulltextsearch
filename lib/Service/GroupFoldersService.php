@@ -32,8 +32,6 @@ use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Model\GroupFolderMount;
-use OCA\Files_FullTextSearch\Model\GroupSharesMount;
-use OCA\FullTextSearch\Model\DocumentAccess;
 use OCP\App;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -54,6 +52,9 @@ class GroupFoldersService {
 	/** @var IManager */
 	private $shareManager;
 
+	/** @var LocalFilesService */
+	private $localFilesService;
+
 	/** @var ConfigService */
 	private $configService;
 
@@ -71,16 +72,19 @@ class GroupFoldersService {
 	 * @param IRootFolder $rootFolder
 	 * @param IUserManager $userManager
 	 * @param IManager $shareManager
+	 * @param LocalFilesService $localFilesService
 	 * @param ConfigService $configService
 	 * @param MiscService $miscService
 	 */
 	public function __construct(
 		IRootFolder $rootFolder, IUserManager $userManager, IManager $shareManager,
-		ConfigService $configService, MiscService $miscService
+		LocalFilesService $localFilesService, ConfigService $configService, MiscService $miscService
 	) {
 		$this->rootFolder = $rootFolder;
 		$this->userManager = $userManager;
 		$this->shareManager = $shareManager;
+
+		$this->localFilesService = $localFilesService;
 
 		$this->configService = $configService;
 		$this->miscService = $miscService;
@@ -155,7 +159,7 @@ class GroupFoldersService {
 //		}
 
 		$access = $document->getAccess();
-echo json_encode($access);
+		echo json_encode($access);
 //		if ($this->isMountFullGlobal($mount)) {
 //			$access->addUsers(['__all']);
 //		} else {
@@ -170,6 +174,20 @@ echo json_encode($access);
 //		}
 
 		$document->setAccess($access);
+	}
+
+
+	/**
+	 * @param FilesDocument $document
+	 * @param array $users
+	 */
+	public function getShareUsers(FilesDocument $document, &$users) {
+
+		if ($document->getSource() !== self::DOCUMENT_SOURCE) {
+			return;
+		}
+
+		$this->localFilesService->getSharedUsersFromAccess($document->getAccess(), $users);
 	}
 
 
@@ -235,7 +253,6 @@ echo json_encode($access);
 
 		return $groupFolders;
 	}
-
 
 
 }

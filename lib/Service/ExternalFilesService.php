@@ -59,6 +59,9 @@ class ExternalFilesService {
 	/** @var IManager */
 	private $shareManager;
 
+	/** @var LocalFilesService */
+	private $localFilesService;
+
 	/** @var ConfigService */
 	private $configService;
 
@@ -76,16 +79,19 @@ class ExternalFilesService {
 	 * @param IRootFolder $rootFolder
 	 * @param IUserManager $userManager
 	 * @param IManager $shareManager
+	 * @param LocalFilesService $localFilesService
 	 * @param ConfigService $configService
 	 * @param MiscService $miscService
 	 */
 	public function __construct(
 		IRootFolder $rootFolder, IUserManager $userManager, IManager $shareManager,
-		ConfigService $configService, MiscService $miscService
+		LocalFilesService $localFilesService, ConfigService $configService, MiscService $miscService
 	) {
 		$this->rootFolder = $rootFolder;
 		$this->userManager = $userManager;
 		$this->shareManager = $shareManager;
+
+		$this->localFilesService = $localFilesService;
 
 		$this->configService = $configService;
 		$this->miscService = $miscService;
@@ -137,23 +143,15 @@ class ExternalFilesService {
 
 	/**
 	 * @param FilesDocument $document
-	 * @param Node $file
 	 * @param array $users
 	 */
-	public function getShareUsers(FilesDocument $document, Node $file, &$users) {
+	public function getShareUsers(FilesDocument $document, &$users) {
 
 		if ($document->getSource() !== self::DOCUMENT_SOURCE) {
 			return;
 		}
 
-		$access = $document->getAccess();
-		$result = $access->getUsers();
-
-		if ($access->getOwnerId() !== '') {
-			array_push($result, $access->getOwnerId());
-		}
-
-		// TODO: get users from groups & circles.
+		$this->localFilesService->getSharedUsersFromAccess($document->getAccess(), $users);
 	}
 
 

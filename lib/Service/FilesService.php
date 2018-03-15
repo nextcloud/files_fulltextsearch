@@ -594,11 +594,11 @@ class FilesService {
 	 * @return array
 	 */
 	private function updateShareNames(FilesDocument $document, Node $file) {
-		$users = [];
 
+		$users = [];
 		$this->localFilesService->getShareUsers($document, $file, $users);
-		$this->externalFilesService->getShareUsers($document, $file, $users);
-//		$this->groupFoldersService->getShareUsers($document, $file, $users);
+		$this->externalFilesService->getShareUsers($document, $users);
+		$this->groupFoldersService->getShareUsers($document, $users);
 
 		$shareNames = [];
 		foreach ($users as $user) {

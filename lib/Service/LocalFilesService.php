@@ -129,24 +129,6 @@ class LocalFilesService {
 	 */
 	public function getShareUsers(FilesDocument $document, Node $file, &$users) {
 
-
-//		if ($file->getStorage()
-//				 ->isLocal() === false) {
-//			$shares = $this->externalFilesService->getAllSharesFromExternalFile($access);
-//		} else {
-//			$shares = $this->getAllSharesFromFile($file);
-////		}
-//
-//	}
-//
-//
-//	/**
-//	 * @param Node $file
-//	 *
-//	 * @return array
-//	 */
-//	private function getAllSharesFromFile(Node $file) {
-
 		$shares = $this->shareManager->getAccessList($file);
 
 		if (!array_key_exists('users', $shares)) {
@@ -162,6 +144,33 @@ class LocalFilesService {
 		}
 
 	}
+
+
+	/**
+	 * same a getShareUsers, but we do it 'manually'
+	 *
+	 * @param DocumentAccess $access
+	 * @param $users
+	 */
+	public function getSharedUsersFromAccess(DocumentAccess $access, &$users) {
+
+		$result = $access->getUsers();
+
+		if ($access->getOwnerId() !== '') {
+			array_push($result, $access->getOwnerId());
+		}
+
+		foreach($result as $user) {
+			if (!in_array($user, $users))
+			{
+				$users[] = $user;
+			}
+		}
+
+		// TODO: get users from groups & circles.
+
+	}
+
 
 
 	/**
