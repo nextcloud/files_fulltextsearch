@@ -145,26 +145,14 @@ class GroupFoldersService {
 			return;
 		}
 
-//		try {
-//			$mount = $this->getGroupFolderMount($file);
-//		} catch (FileIsNotIndexableException $e) {
-//			return;
-//		}
+		try {
+			$mount = $this->getMountPoint($file);
+		} catch (FileIsNotIndexableException $e) {
+			return;
+		}
 
 		$access = $document->getAccess();
-		echo json_encode($access);
-//		if ($this->isMountFullGlobal($mount)) {
-//			$access->addUsers(['__all']);
-//		} else {
-//			$access->addUsers($mount->getUsers());
-//			$access->addGroups($mount->getGroups());
-////		 	$access->addCircles($mount->getCircles());
-//		}
-//
-//		// twist 'n tweak.
-//		if (!$mount->isGlobal()) {
-//			$access->setOwnerId($mount->getUsers()[0]);
-//		}
+		$access->addGroups($mount->getGroups());
 
 		$document->setAccess($access);
 	}
@@ -193,7 +181,6 @@ class GroupFoldersService {
 	private function getMountPoint(Node $file) {
 
 		foreach ($this->groupFolders as $mount) {
-			echo '######    ' . $file->getPath() . '  ' . $mount->getPath() . "\n";
 			if (strpos($file->getPath(), $mount->getPath()) === 0) {
 				return $mount;
 			}
@@ -213,11 +200,15 @@ class GroupFoldersService {
 
 		$mountPoints = [];
 		$mounts = $this->folderManager->getAllFolders();
+
+
 		foreach ($mounts as $path => $mount) {
+			echo '---------------- ' . json_encode($mount) . "\n";
+
 			$mountPoint = new MountPoint();
 			$mountPoint->setId($mount['id'])
 					   ->setPath('/' . $userId . '/files/' . $mount['mount_point'])
-					   ->setGroups(array_keys($mount['applicable']['groups']));
+					   ->setGroups(array_keys($mount['groups']));
 			$mountPoints[] = $mountPoint;
 		}
 
