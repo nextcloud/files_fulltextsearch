@@ -32,10 +32,8 @@ use OCA\Files_FullTextSearch\Db\SharesRequest;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Model\FileShares;
 use OCA\FullTextSearch\Model\DocumentAccess;
-use OCP\Files\InvalidPathException;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
-use OCP\Files\NotFoundException;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 

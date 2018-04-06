@@ -28,29 +28,21 @@
 namespace OCA\Files_FullTextSearch\Service;
 
 
+use Exception;
+use OC\App\AppManager;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Model\MountPoint;
 use OCA\GroupFolders\Folder\FolderManager;
-use OCA\GroupFolders\Mount\MountProvider;
-use OCP\App;
-use OCP\Files\IRootFolder;
 use OCP\Files\Node;
-use OCP\Files\Storage\IStorageFactory;
-use OCP\IUserManager;
+use OCP\IDBConnection;
 use OCP\Share\IManager;
 
 class GroupFoldersService {
 
 
 	const DOCUMENT_SOURCE = 'group_folders';
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IUserManager */
-	private $userManager;
 
 	/** @var IManager */
 	private $shareManager;
@@ -75,27 +67,30 @@ class GroupFoldersService {
 	/**
 	 * ExternalFilesService constructor.
 	 *
-	 * @param IRootFolder $rootFolder
-	 * @param IUserManager $userManager
+	 * @param $userId
+	 * @param IDBConnection $dbConnection
+	 * @param AppManager $appManager
 	 * @param IManager $shareManager
-	 * @param FolderManager $folderManager
 	 * @param LocalFilesService $localFilesService
 	 * @param ConfigService $configService
 	 * @param MiscService $miscService
 	 */
 	public function __construct(
-		IRootFolder $rootFolder, IUserManager $userManager, IManager $shareManager,
-		FolderManager $folderManager, LocalFilesService $localFilesService,
-		ConfigService $configService,
+		$userId, IDBConnection $dbConnection, AppManager $appManager, IManager $shareManager,
+		LocalFilesService $localFilesService, ConfigService $configService,
 		MiscService $miscService
 	) {
-		$this->rootFolder = $rootFolder;
-		$this->userManager = $userManager;
+
+		if ($appManager->isEnabledForUser('groupfolders', $userId)) {
+			try {
+				$this->folderManager = new FolderManager($dbConnection);
+			} catch (Exception $e) {
+				return;
+			}
+		}
+
 		$this->shareManager = $shareManager;
-		$this->folderManager = $folderManager;
-
 		$this->localFilesService = $localFilesService;
-
 		$this->configService = $configService;
 		$this->miscService = $miscService;
 	}
@@ -105,11 +100,11 @@ class GroupFoldersService {
 	 * @param string $userId
 	 */
 	public function initGroupSharesForUser($userId) {
-		$this->groupFolders = [];
-		if (!App::isEnabled('groupfolders')) {
+		if ($this->folderManager === null) {
 			return;
 		}
 
+		$this->groupFolders = [];
 		if ($this->configService->getAppValue(ConfigService::FILES_GROUP_FOLDERS) !== '1') {
 			return;
 		}
@@ -126,6 +121,9 @@ class GroupFoldersService {
 	 * @throws KnownFileSourceException
 	 */
 	public function getFileSource(Node $file, &$source) {
+		if ($this->folderManager === null) {
+			return;
+		}
 
 		if (!$this->configService->optionIsSelected(ConfigService::FILES_GROUP_FOLDERS)) {
 			return;

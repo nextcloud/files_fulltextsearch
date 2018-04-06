@@ -110,7 +110,6 @@ class FilesService {
 		$this->shareManager = $shareManager;
 
 		$this->configService = $configService;
-
 		$this->localFilesService = $localFilesService;
 		$this->externalFilesService = $externalFilesService;
 		$this->groupFoldersService = $groupFoldersService;
