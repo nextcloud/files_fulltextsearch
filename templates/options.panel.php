@@ -61,18 +61,18 @@
 				<span class="leftcol">Within group folders:</span>
 			</div>
 			<div class="div-table-col">
-				<input type="checkbox" id="group_folders" value="1"/>
+				<input type="checkbox" id="files_group_folders" value="1"/>
 			</div>
 		</div>
 
-<!--		<div class="div-table-row">-->
-<!--			<div class="div-table-col div-table-col-left">-->
-<!--				<span class="leftcol">Within federated shates:</span>-->
-<!--			</div>-->
-<!--			<div class="div-table-col">-->
-<!--				<input type="checkbox" id="files_federated" value="1"/>-->
-<!--			</div>-->
-<!--		</div>-->
+		<!--		<div class="div-table-row">-->
+		<!--			<div class="div-table-col div-table-col-left">-->
+		<!--				<span class="leftcol">Within federated shates:</span>-->
+		<!--			</div>-->
+		<!--			<div class="div-table-col">-->
+		<!--				<input type="checkbox" id="files_federated" value="1"/>-->
+		<!--			</div>-->
+		<!--		</div>-->
 
 		<!--	<div class="div-table-row">
 				<div class="div-table-col div-table-col-left">
@@ -88,7 +88,8 @@
 				<span class="leftcol">Filter by extension:</span>
 			</div>
 			<div class="div-table-col">
-				<input type="text" id="files_extension" class="options_small" placeholder="txt" value=""/>
+				<input type="text" id="files_extension" class="options_small" placeholder="txt"
+					   value=""/>
 			</div>
 		</div>
 

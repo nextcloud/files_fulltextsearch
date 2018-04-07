@@ -27,29 +27,7 @@
 namespace OCA\Files_FullTextSearch\Service;
 
 
-use Exception;
-use OC\Share\Constants;
-use OC\Share\Share;
-use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
-use OCA\Files_FullTextSearch\Model\FilesDocument;
-use OCA\Files_FullTextSearch\Provider\FilesProvider;
-use OCA\FullTextSearch\Exceptions\InterruptException;
-use OCA\FullTextSearch\Exceptions\TickDoesNotExistException;
-use OCA\FullTextSearch\Model\DocumentAccess;
-use OCA\FullTextSearch\Model\Index;
-use OCA\FullTextSearch\Model\IndexDocument;
-use OCA\FullTextSearch\Model\Runner;
 use OCA\FullTextSearch\Model\SearchRequest;
-use OCP\Files\File;
-use OCP\Files\FileInfo;
-use OCP\Files\Folder;
-use OCP\Files\InvalidPathException;
-use OCP\Files\IRootFolder;
-use OCP\Files\Node;
-use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
-use OCP\IUserManager;
-use OCP\Share\IManager;
 
 class SearchService {
 
@@ -143,7 +121,7 @@ class SearchService {
 
 		$local = $request->getOption('files_local');
 		$external = $request->getOption('files_external');
-		$groupFolders = $request->getOption('group_folders');
+		$groupFolders = $request->getOption('files_group_folders');
 		$federated = $request->getOption('files_federated');
 
 		if (count(array_unique([$local, $external, $groupFolders])) === 1) {
@@ -152,7 +130,7 @@ class SearchService {
 
 		$this->addTagToSearchRequest($request, 'local', $local);
 		$this->addTagToSearchRequest($request, 'files_external', $external);
-		$this->addTagToSearchRequest($request, 'group_folders', $groupFolders);
+		$this->addTagToSearchRequest($request, 'files_group_folders', $groupFolders);
 	}
 
 

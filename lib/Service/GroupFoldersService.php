@@ -42,7 +42,7 @@ use OCP\Share\IManager;
 class GroupFoldersService {
 
 
-	const DOCUMENT_SOURCE = 'group_folders';
+	const DOCUMENT_SOURCE = 'files_group_folders';
 
 	/** @var IManager */
 	private $shareManager;
