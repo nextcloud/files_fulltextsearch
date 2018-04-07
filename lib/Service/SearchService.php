@@ -105,10 +105,10 @@ class SearchService {
 			return;
 		}
 
-		$request->addWildcardFilters(
+		$request->addRegexFilters(
 			[
-				['share_names.' . $request->getAuthor() => '*\.' . $extension],
-				['title' => '*\.' . $extension]
+				['share_names.' . $request->getAuthor() => '.*\.' . $extension],
+				['title' => '.*\.' . $extension]
 			]
 		);
 	}
