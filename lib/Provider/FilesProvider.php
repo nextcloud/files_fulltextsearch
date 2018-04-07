@@ -144,9 +144,11 @@ class FilesProvider implements IFullTextSearchProvider {
 						'type'  => 'checkbox'
 					],
 					[
-						'name'  => 'files_extensions',
-						'type'  => 'input',
-						'title' => 'Extensions'
+						'name'        => 'files_extension',
+						'title'       => 'Extension',
+						'type'        => 'input',
+						'size'        => 'small',
+						'placeholder' => 'txt'
 					]
 				]
 			]
