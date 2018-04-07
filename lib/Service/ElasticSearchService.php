@@ -67,16 +67,4 @@ class ElasticSearchService {
 		}
 	}
 
-
-	/**
-	 * @param IFullTextSearchPlatform $platform
-	 * @param array $arr
-	 */
-	public function onIndexingDocument(IFullTextSearchPlatform $platform, &$arr) {
-		if ($platform->getId() !== 'elastic_search') {
-			return;
-		}
-	}
-
-
 }
