@@ -120,5 +120,9 @@ class MiscService {
 		return $path;
 	}
 
+
+	public static function secureUsername($username) {
+		return str_replace('.', '\.', $username);
+	}
 }
 

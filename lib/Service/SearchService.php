@@ -71,10 +71,11 @@ class SearchService {
 			return;
 		}
 
+		$username = MiscService::secureUsername($request->getAuthor());
 		$currentDir = MiscService::noBeginSlash(MiscService::endSlash($currentDir));
 		$request->addWildcardFilters(
 			[
-				['share_names.' . $request->getAuthor() => $currentDir . '*'],
+				['share_names.' . $username => $currentDir . '*'],
 				['title' => $currentDir . '*']
 			]
 		);
@@ -88,9 +89,8 @@ class SearchService {
 		$query = [];
 		$words = explode(' ', $request->getSearch());
 		foreach ($words as $word) {
-			array_push(
-				$query, ['share_names.' . $request->getAuthor() => '*' . $word . '*']
-			);
+			$username = MiscService::secureUsername($request->getAuthor());
+			array_push($query, ['share_names.' . $username => '*' . $word . '*']);
 		}
 		$request->addWildcardQueries($query);
 	}
@@ -105,9 +105,10 @@ class SearchService {
 			return;
 		}
 
+		$username = MiscService::secureUsername($request->getAuthor());
 		$request->addRegexFilters(
 			[
-				['share_names.' . $request->getAuthor() => '.*\.' . $extension],
+				['share_names.' . $username => '.*\.' . $extension],
 				['title' => '.*\.' . $extension]
 			]
 		);

@@ -602,7 +602,7 @@ class FilesService {
 		$shareNames = [];
 		foreach ($users as $user) {
 			try {
-				$shareNames[$user] = $this->getPathFromViewerId($file->getId(), $user);
+				$shareNames[MiscService::secureUsername($user)] = $this->getPathFromViewerId($file->getId(), $user);
 			} catch (Exception $e) {
 			}
 		}
