@@ -195,8 +195,9 @@ class FilesService {
 	 * @throws FileIsNotIndexableException
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
+	 * @throws Exception
 	 */
-	private function generateFilesDocumentFromFile(Node $file, $viewerId = '') {
+	private function generateFilesDocumentFromFile(Node $file, $viewerId) {
 
 		$source = $this->getFileSource($file);
 		$document = new FilesDocument(FilesProvider::FILES_PROVIDER_ID, $file->getId());
@@ -207,6 +208,7 @@ class FilesService {
 		$document->setType($file->getType())
 				 ->setSource($source)
 				 ->setOwnerId($ownerId)
+				 ->setPath($this->getPathFromViewerId($file->getId(), $viewerId))
 				 ->setViewerId($viewerId)
 				 ->setModifiedTime($file->getMTime())
 				 ->setMimetype($file->getMimetype());
@@ -405,12 +407,7 @@ class FilesService {
 			}
 
 			try {
-				$document->setPath(
-					$this->getPathFromViewerId($document->getId(), $document->getViewerId())
-				);
-
-				//echo '---- ' . $document->getPath() . ' ---- ' . $document->getSource() . "\n";
-				$this->updateDocumentFromFilesDocument($document);
+				$this->updateFilesDocument($document);
 			} catch (Exception $e) {
 				// TODO - update $document with a error status instead of just ignore !
 				$document->getIndex()
@@ -500,7 +497,7 @@ class FilesService {
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
 	 */
-	private function updateDocumentFromFilesDocument(FilesDocument $document) {
+	private function updateFilesDocument(FilesDocument $document) {
 		$userFolder = $this->rootFolder->getUserFolder($document->getViewerId());
 		$file = $userFolder->get($document->getPath());
 
@@ -545,11 +542,6 @@ class FilesService {
 		$this->localFilesService->updateDocumentAccess($document, $file);
 		$this->externalFilesService->updateDocumentAccess($document, $file);
 		$this->groupFoldersService->updateDocumentAccess($document, $file);
-		//$document->setAccess($access);
-
-//		$this->updateDocumentWithLocalFiles($document, $file);
-//		$this->groupFoldersService->updateDocumentWithExternalFiles($document, $file);
-//		$this->externalFilesService->updateDocumentWithExternalFiles($document, $file);
 	}
 
 
@@ -602,7 +594,8 @@ class FilesService {
 		$shareNames = [];
 		foreach ($users as $user) {
 			try {
-				$shareNames[MiscService::secureUsername($user)] = $this->getPathFromViewerId($file->getId(), $user);
+				$shareNames[MiscService::secureUsername($user)] =
+					$this->getPathFromViewerId($file->getId(), $user);
 			} catch (Exception $e) {
 			}
 		}
