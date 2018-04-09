@@ -114,7 +114,7 @@ class FilesEvents {
 		// we do not index trashbin
 
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
-		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_REMOVE);
+		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_REMOVE, true);
 
 		//$this->miscService->log('> ON FILE TRASH ' . json_encode($path));
 	}
