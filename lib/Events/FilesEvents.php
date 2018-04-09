@@ -71,10 +71,8 @@ class FilesEvents {
 	 * @throws NotFoundException
 	 */
 	public function onNewFile($path) {
-
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
-		FullTextSearch::createIndex('files', $file->getId(), $this->userId);
-		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_FULL);
+		FullTextSearch::createIndex('files', $file->getId(), $this->userId, Index::INDEX_FULL);
 	}
 
 
