@@ -459,6 +459,13 @@ class FilesService {
 	public function isDocumentUpToDate($document) {
 		$index = $document->getIndex();
 
+		if (!$this->configService->compareIndexOptions($index)) {
+			$index->setStatus(Index::INDEX_CONTENT);
+			$document->setIndex($index);
+
+			return false;
+		}
+
 		if ($index->getStatus() !== Index::INDEX_OK) {
 			return false;
 		}
@@ -686,7 +693,9 @@ class FilesService {
 //		$document->setContent($file->getContent(), IndexDocument::NOT_ENCODED);
 
 		// We try to avoid error with some base encoding of the document:
-		$document->setContent(base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64);
+		$content = $file->getContent();
+
+		$document->setContent(base64_encode($content), IndexDocument::ENCODED_BASE64);
 	}
 
 
@@ -702,9 +711,13 @@ class FilesService {
 			return;
 		}
 
-		if ($this->configService->getAppValue('files_pdf') !== '1') {
+		$this->configService->setDocumentIndexOption($document, ConfigService::FILES_PDF);
+		if ($this->configService->getAppValue(ConfigService::FILES_PDF) !== '1') {
+			$document->setContent('');
+
 			return;
 		}
+
 
 		$document->setContent(base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64);
 	}
@@ -718,13 +731,16 @@ class FilesService {
 	 */
 	private function extractContentFromFileOffice(FilesDocument $document, File $file) {
 
-		if ($this->configService->getAppValue('files_office') !== '1') {
-			return;
-		}
-
 		if ($this->parseMimeType($document->getMimeType()) !== self::MIMETYPE_OFFICE) {
 			return;
 		}
+
+		$this->configService->setDocumentIndexOption($document, ConfigService::FILES_OFFICE);
+
+		if ($this->configService->getAppValue(ConfigService::FILES_OFFICE) !== '1') {
+			return;
+		}
+
 
 		$document->setContent(base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64);
 	}

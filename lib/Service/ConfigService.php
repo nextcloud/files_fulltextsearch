@@ -27,6 +27,8 @@
 namespace OCA\Files_FullTextSearch\Service;
 
 use OCA\Files_FullTextSearch\AppInfo\Application;
+use OCA\Files_FullTextSearch\Model\FilesDocument;
+use OCA\FullTextSearch\Model\Index;
 use OCP\IConfig;
 use OCP\PreConditionNotMetException;
 use OCP\Util;
@@ -229,6 +231,33 @@ class ConfigService {
 		return $this->config->getSystemValue($key);
 	}
 
+
+	/**
+	 * @param FilesDocument $document
+	 * @param string $option
+	 */
+	public function setDocumentIndexOption(FilesDocument $document, $option) {
+		$document->getIndex()
+				 ->setOption($option, $this->getAppValue($option));
+	}
+
+
+	/**
+	 * @param Index $index
+	 *
+	 * @return bool
+	 */
+	public function compareIndexOptions(Index $index) {
+		$options = $index->getOptions();
+		$ak = array_keys($options);
+		foreach ($ak as $k) {
+			if ($options[$k] !== $this->getAppValue($k)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 
 	/**
 	 * return the cloud version.
