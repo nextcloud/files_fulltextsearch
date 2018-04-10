@@ -48,8 +48,6 @@ use OCP\Share\IManager;
 class ExternalFilesService {
 
 
-	const DOCUMENT_SOURCE = 'external';
-
 	/** @var IRootFolder */
 	private $rootFolder;
 
@@ -107,9 +105,9 @@ class ExternalFilesService {
 			return;
 		}
 
-		if ($this->configService->getAppValue(ConfigService::FILES_EXTERNAL) !== '1') {
-			return;
-		}
+//		if ($this->configService->getAppValue(ConfigService::FILES_EXTERNAL) !== '1') {
+//			return;
+//		}
 
 		$this->externalMounts = $this->getMountPoints($userId);
 	}
@@ -129,13 +127,13 @@ class ExternalFilesService {
 				 ->isLocal() === true) {
 			return;
 		}
-
-		if (!$this->configService->optionIsSelected(ConfigService::FILES_EXTERNAL)) {
-			throw new FileIsNotIndexableException();
-		}
+//
+//		if (!$this->configService->optionIsSelected(ConfigService::FILES_EXTERNAL)) {
+//			throw new FileIsNotIndexableException();
+//		}
 
 		$this->getMountPoint($file);
-		$source = self::DOCUMENT_SOURCE;
+		$source = ConfigService::FILES_EXTERNAL;
 
 		throw new KnownFileSourceException();
 	}
@@ -146,8 +144,7 @@ class ExternalFilesService {
 	 * @param array $users
 	 */
 	public function getShareUsers(FilesDocument $document, &$users) {
-
-		if ($document->getSource() !== self::DOCUMENT_SOURCE) {
+		if ($document->getSource() !== ConfigService::FILES_EXTERNAL) {
 			return;
 		}
 
@@ -160,10 +157,9 @@ class ExternalFilesService {
 	 * @param Node $file
 	 */
 	public function updateDocumentAccess(FilesDocument &$document, Node $file) {
-
-		if ($document->getSource() !== self::DOCUMENT_SOURCE) {
-			return;
-		}
+//		if ($document->getSource() !== ConfigService::FILES_EXTERNAL) {
+//			return;
+//		}
 
 		try {
 			$mount = $this->getMountPoint($file);
@@ -244,10 +240,10 @@ class ExternalFilesService {
 		foreach ($mounts as $path => $mount) {
 			$mountPoint = new MountPoint();
 			$mountPoint->setId($mount['id'])
-						  ->setPath('/' . $userId . '/files/' . $path)
-						  ->setGroups($mount['applicable']['groups'])
-						  ->setUsers($mount['applicable']['users'])
-						  ->setGlobal((!$mount['personal']));
+					   ->setPath('/' . $userId . '/files/' . $path)
+					   ->setGroups($mount['applicable']['groups'])
+					   ->setUsers($mount['applicable']['users'])
+					   ->setGlobal((!$mount['personal']));
 			$mountPoints[] = $mountPoint;
 		}
 

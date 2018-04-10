@@ -179,7 +179,6 @@ class FilesService {
 				$documents =
 					array_merge($documents, $this->getFilesFromDirectory($runner, $userId, $file));
 			}
-
 		}
 
 		return $documents;
@@ -689,6 +688,10 @@ class FilesService {
 			return;
 		}
 
+		if (!$this->isSourceIndexable($document)) {
+			return;
+		}
+
 		// on simple text file, elastic search+attachment pipeline can still detect language, useful ?
 //		$document->setContent($file->getContent(), IndexDocument::NOT_ENCODED);
 
@@ -706,18 +709,20 @@ class FilesService {
 	 * @throws NotPermittedException
 	 */
 	private function extractContentFromFilePDF(FilesDocument $document, File $file) {
-
 		if ($this->parseMimeType($document->getMimeType()) !== self::MIMETYPE_PDF) {
 			return;
 		}
 
 		$this->configService->setDocumentIndexOption($document, ConfigService::FILES_PDF);
+		if (!$this->isSourceIndexable($document)) {
+			return;
+		}
+
 		if ($this->configService->getAppValue(ConfigService::FILES_PDF) !== '1') {
 			$document->setContent('');
 
 			return;
 		}
-
 
 		$document->setContent(base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64);
 	}
@@ -730,20 +735,39 @@ class FilesService {
 	 * @throws NotPermittedException
 	 */
 	private function extractContentFromFileOffice(FilesDocument $document, File $file) {
-
 		if ($this->parseMimeType($document->getMimeType()) !== self::MIMETYPE_OFFICE) {
 			return;
 		}
 
 		$this->configService->setDocumentIndexOption($document, ConfigService::FILES_OFFICE);
-
-		if ($this->configService->getAppValue(ConfigService::FILES_OFFICE) !== '1') {
+		if (!$this->isSourceIndexable($document)) {
 			return;
 		}
 
+		if ($this->configService->getAppValue(ConfigService::FILES_OFFICE) !== '1') {
+			$document->setContent('');
+
+			return;
+		}
 
 		$document->setContent(base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64);
 	}
 
+
+	/**
+	 * @param FilesDocument $document
+	 *
+	 * @return bool
+	 */
+	private function isSourceIndexable(FilesDocument $document) {
+		$this->configService->setDocumentIndexOption($document, $document->getSource());
+		if ($this->configService->getAppValue($document->getSource()) !== '1') {
+			$document->setContent('');
+
+			return false;
+		}
+
+		return true;
+	}
 
 }

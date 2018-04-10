@@ -39,9 +39,6 @@ use OCP\Share\IManager;
 
 class LocalFilesService {
 
-
-	const DOCUMENT_SOURCE = 'local';
-
 	/** @var IRootFolder */
 	private $rootFolder;
 
@@ -59,10 +56,6 @@ class LocalFilesService {
 
 	/** @var MiscService */
 	private $miscService;
-
-//
-//	/** @var ExternalMount[] */
-//	private $externalMounts = [];
 
 
 	/**
@@ -94,7 +87,7 @@ class LocalFilesService {
 	 * @param string $source
 	 */
 	public function getFileSource(Node $file, &$source) {
-		$source = self::DOCUMENT_SOURCE;
+		$source = ConfigService::FILES_LOCAL;
 	}
 
 
@@ -158,9 +151,8 @@ class LocalFilesService {
 			array_push($result, $access->getOwnerId());
 		}
 
-		foreach($result as $user) {
-			if (!in_array($user, $users))
-			{
+		foreach ($result as $user) {
+			if (!in_array($user, $users)) {
 				$users[] = $user;
 			}
 		}
@@ -168,7 +160,6 @@ class LocalFilesService {
 		// TODO: get users from groups & circles.
 
 	}
-
 
 
 	/**

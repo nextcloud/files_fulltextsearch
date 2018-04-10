@@ -42,8 +42,6 @@ use OCP\Share\IManager;
 class GroupFoldersService {
 
 
-	const DOCUMENT_SOURCE = 'files_group_folders';
-
 	/** @var IManager */
 	private $shareManager;
 
@@ -105,9 +103,9 @@ class GroupFoldersService {
 		}
 
 		$this->groupFolders = [];
-		if ($this->configService->getAppValue(ConfigService::FILES_GROUP_FOLDERS) !== '1') {
-			return;
-		}
+//		if ($this->configService->getAppValue(ConfigService::FILES_GROUP_FOLDERS) !== '1') {
+//			return;
+//		}
 
 		$this->groupFolders = $this->getMountPoints($userId);
 	}
@@ -124,10 +122,10 @@ class GroupFoldersService {
 		if ($this->folderManager === null) {
 			return;
 		}
-
-		if (!$this->configService->optionIsSelected(ConfigService::FILES_GROUP_FOLDERS)) {
-			return;
-		}
+//
+//		if (!$this->configService->optionIsSelected(ConfigService::FILES_GROUP_FOLDERS)) {
+//			return;
+//		}
 
 		try {
 			$this->getMountPoint($file);
@@ -135,7 +133,7 @@ class GroupFoldersService {
 			return;
 		}
 
-		$source = self::DOCUMENT_SOURCE;
+		$source = ConfigService::FILES_GROUP_FOLDERS;
 		throw new KnownFileSourceException();
 	}
 
@@ -146,7 +144,7 @@ class GroupFoldersService {
 	 */
 	public function updateDocumentAccess(FilesDocument &$document, Node $file) {
 
-		if ($document->getSource() !== self::DOCUMENT_SOURCE) {
+		if ($document->getSource() !== ConfigService::FILES_GROUP_FOLDERS) {
 			return;
 		}
 
@@ -168,8 +166,7 @@ class GroupFoldersService {
 	 * @param array $users
 	 */
 	public function getShareUsers(FilesDocument $document, &$users) {
-
-		if ($document->getSource() !== self::DOCUMENT_SOURCE) {
+		if ($document->getSource() !== ConfigService::FILES_GROUP_FOLDERS) {
 			return;
 		}
 
