@@ -105,10 +105,6 @@ class ExternalFilesService {
 			return;
 		}
 
-//		if ($this->configService->getAppValue(ConfigService::FILES_EXTERNAL) !== '1') {
-//			return;
-//		}
-
 		$this->externalMounts = $this->getMountPoints($userId);
 	}
 
@@ -127,10 +123,6 @@ class ExternalFilesService {
 				 ->isLocal() === true) {
 			return;
 		}
-//
-//		if (!$this->configService->optionIsSelected(ConfigService::FILES_EXTERNAL)) {
-//			throw new FileIsNotIndexableException();
-//		}
 
 		$this->getMountPoint($file);
 		$source = ConfigService::FILES_EXTERNAL;
@@ -157,10 +149,6 @@ class ExternalFilesService {
 	 * @param Node $file
 	 */
 	public function updateDocumentAccess(FilesDocument &$document, Node $file) {
-//		if ($document->getSource() !== ConfigService::FILES_EXTERNAL) {
-//			return;
-//		}
-
 		try {
 			$mount = $this->getMountPoint($file);
 		} catch (FileIsNotIndexableException $e) {
@@ -240,7 +228,7 @@ class ExternalFilesService {
 		foreach ($mounts as $path => $mount) {
 			$mountPoint = new MountPoint();
 			$mountPoint->setId($mount['id'])
-					   ->setPath('/' . $userId . '/files/' . $path)
+					   ->setPath($path)
 					   ->setGroups($mount['applicable']['groups'])
 					   ->setUsers($mount['applicable']['users'])
 					   ->setGlobal((!$mount['personal']));

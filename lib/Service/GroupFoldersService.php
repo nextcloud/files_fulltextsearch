@@ -102,11 +102,6 @@ class GroupFoldersService {
 			return;
 		}
 
-		$this->groupFolders = [];
-//		if ($this->configService->getAppValue(ConfigService::FILES_GROUP_FOLDERS) !== '1') {
-//			return;
-//		}
-
 		$this->groupFolders = $this->getMountPoints($userId);
 	}
 
@@ -122,10 +117,6 @@ class GroupFoldersService {
 		if ($this->folderManager === null) {
 			return;
 		}
-//
-//		if (!$this->configService->optionIsSelected(ConfigService::FILES_GROUP_FOLDERS)) {
-//			return;
-//		}
 
 		try {
 			$this->getMountPoint($file);
@@ -181,7 +172,6 @@ class GroupFoldersService {
 	 * @throws FileIsNotIndexableException
 	 */
 	private function getMountPoint(Node $file) {
-
 		foreach ($this->groupFolders as $mount) {
 			if (strpos($file->getPath(), $mount->getPath()) === 0) {
 				return $mount;
