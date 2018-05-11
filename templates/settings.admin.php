@@ -103,7 +103,7 @@ Util::addScript(Application::APP_NAME, 'admin');
 					<em>Maximum file size to index (in Mb).</em>
 				</div>
 				<div class="div-table-col">
-					<input type="text" class="small" id="files_maxsize" value="20"/>
+					<input type="text" class="small" id="files_size" value=""/>
 				</div>
 			</div>
 
