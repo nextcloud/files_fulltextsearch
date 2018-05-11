@@ -94,6 +94,13 @@ Files_FullTextSearch.prototype = {
 	},
 
 
+	onResultClose: function () {
+		elements.search_result.fadeOut(150, function () {
+			elements.old_files.fadeIn(150);
+		});
+	},
+
+
 	onSearchReset: function () {
 		elements.search_result.fadeOut(150, function () {
 			elements.old_files.fadeIn(150);
