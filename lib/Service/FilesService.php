@@ -130,8 +130,7 @@ class FilesService {
 	 */
 	public function getFilesFromUser(Runner $runner, $userId) {
 
-		$this->externalFilesService->initExternalFilesForUser($userId);
-		$this->groupFoldersService->initGroupSharesForUser($userId);
+		$this->initFileSystems($userId);
 
 		/** @var Folder $files */
 		$files = $this->rootFolder->getUserFolder($userId)
@@ -139,6 +138,15 @@ class FilesService {
 		$result = $this->getFilesFromDirectory($runner, $userId, $files);
 
 		return $result;
+	}
+
+
+	/**
+	 * @param string $userId
+	 */
+	private function initFileSystems($userId) {
+		$this->externalFilesService->initExternalFilesForUser($userId);
+		$this->groupFoldersService->initGroupSharesForUser($userId);
 	}
 
 
@@ -201,8 +209,11 @@ class FilesService {
 		$source = $this->getFileSource($file);
 		$document = new FilesDocument(FilesProvider::FILES_PROVIDER_ID, $file->getId());
 
-		$ownerId = $file->getOwner()
-						->getUID();
+		$ownerId = '';
+		if ($file->getOwner() !== null) {
+			$ownerId = $file->getOwner()
+							->getUID();
+		}
 
 		$document->setType($file->getType())
 				 ->setSource($source)
@@ -486,6 +497,8 @@ class FilesService {
 	 * @throws NotPermittedException
 	 */
 	public function updateDocument(Index $index) {
+		$this->initFileSystems($index->getOwnerId());
+
 		try {
 			$document = $this->generateDocumentFromIndex($index);
 
@@ -526,7 +539,6 @@ class FilesService {
 	 */
 	private function updateFilesDocumentFromFile(FilesDocument $document, Node $file) {
 		$this->updateDocumentAccess($document, $file);
-		$this->updateShareNames($document, $file);
 		$this->updateContentFromFile($document, $file);
 
 		$document->addTag($document->getSource());
@@ -540,6 +552,7 @@ class FilesService {
 	private function updateDocumentAccess(FilesDocument $document, Node $file) {
 
 		$index = $document->getIndex();
+
 		if (!$index->isStatus(Index::INDEX_FULL)
 			&& !$index->isStatus(FilesDocument::STATUS_FILE_ACCESS)) {
 			return;
@@ -548,6 +561,8 @@ class FilesService {
 		$this->localFilesService->updateDocumentAccess($document, $file);
 		$this->externalFilesService->updateDocumentAccess($document, $file);
 		$this->groupFoldersService->updateDocumentAccess($document, $file);
+
+		$this->updateShareNames($document, $file);
 	}
 
 
@@ -593,7 +608,8 @@ class FilesService {
 	private function updateShareNames(FilesDocument $document, Node $file) {
 
 		$users = [];
-		$this->localFilesService->getShareUsers($document, $file, $users);
+
+		$this->localFilesService->getShareUsersFromFile($file, $users);
 		$this->externalFilesService->getShareUsers($document, $users);
 		$this->groupFoldersService->getShareUsers($document, $users);
 

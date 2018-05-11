@@ -27,6 +27,7 @@
 namespace OCA\Files_FullTextSearch\Service;
 
 
+use Exception;
 use OC\Share\Constants;
 use OCA\Files_FullTextSearch\Db\SharesRequest;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
@@ -34,6 +35,7 @@ use OCA\Files_FullTextSearch\Model\FileShares;
 use OCA\FullTextSearch\Model\DocumentAccess;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 
@@ -41,6 +43,9 @@ class LocalFilesService {
 
 	/** @var IRootFolder */
 	private $rootFolder;
+
+	/** @var IGroupManager */
+	private $groupManager;
 
 	/** @var IUserManager */
 	private $userManager;
@@ -62,6 +67,7 @@ class LocalFilesService {
 	 * ExternalFilesService constructor.
 	 *
 	 * @param IRootFolder $rootFolder
+	 * @param IGroupManager $groupManager
 	 * @param IUserManager $userManager
 	 * @param IManager $shareManager
 	 * @param SharesRequest $sharesRequest
@@ -69,10 +75,12 @@ class LocalFilesService {
 	 * @param MiscService $miscService
 	 */
 	public function __construct(
-		IRootFolder $rootFolder, IUserManager $userManager, IManager $shareManager,
-		SharesRequest $sharesRequest, ConfigService $configService, MiscService $miscService
+		IRootFolder $rootFolder, IGroupManager $groupManager, IUserManager $userManager,
+		IManager $shareManager, SharesRequest $sharesRequest, ConfigService $configService,
+		MiscService $miscService
 	) {
 		$this->rootFolder = $rootFolder;
+		$this->groupManager = $groupManager;
 		$this->userManager = $userManager;
 		$this->shareManager = $shareManager;
 
@@ -97,10 +105,13 @@ class LocalFilesService {
 	 */
 	public function updateDocumentAccess(FilesDocument $document, Node $file) {
 
-		$access = new DocumentAccess(
-			$file->getOwner()
-				 ->getUID()
-		);
+		$ownerId = '';
+		if ($file->getOwner() !== null) {
+			$ownerId = $file->getOwner()
+							->getUID();
+		}
+
+		$access = new DocumentAccess($ownerId);
 
 		$fileShares = new FileShares();
 		$this->getSharesFromFile($file, $fileShares);
@@ -114,11 +125,13 @@ class LocalFilesService {
 
 
 	/**
-	 * @param FilesDocument $document
 	 * @param Node $file
 	 * @param array $users
 	 */
-	public function getShareUsers(FilesDocument $document, Node $file, &$users) {
+	public function getShareUsersFromFile(Node $file, &$users) {
+		if ($file->getOwner() === null) {
+			return;
+		}
 
 		$shares = $this->shareManager->getAccessList($file);
 
@@ -141,24 +154,57 @@ class LocalFilesService {
 	 * same a getShareUsers, but we do it 'manually'
 	 *
 	 * @param DocumentAccess $access
-	 * @param $users
+	 * @param array $users
 	 */
 	public function getSharedUsersFromAccess(DocumentAccess $access, &$users) {
 
-		$result = $access->getUsers();
-
-		if ($access->getOwnerId() !== '') {
-			array_push($result, $access->getOwnerId());
-		}
+		$result = array_merge(
+			$access->getUsers(),
+			$this->getSharedUsersFromAccessGroups($access),
+			$this->getSharedUsersFromAccessCircles($access)
+		);
 
 		foreach ($result as $user) {
 			if (!in_array($user, $users)) {
 				$users[] = $user;
 			}
 		}
+	}
 
-		// TODO: get users from groups & circles.
 
+	/**
+	 * @param DocumentAccess $access
+	 *
+	 * @return array
+	 */
+	private function getSharedUsersFromAccessGroups(DocumentAccess $access) {
+
+		$result = [];
+		$users = [];
+		foreach ($access->getGroups() as $groupName) {
+			$group = $this->groupManager->get($groupName);
+			$users = array_merge($users, $group->getUsers());
+		}
+
+		foreach ($users as $user) {
+			$result[] = $user->getUID();
+		}
+
+		return $result;
+	}
+
+
+	/**
+	 * // TODO: get users from circles.
+	 *
+	 * @param DocumentAccess $access
+	 *
+	 * @return array
+	 */
+	private function getSharedUsersFromAccessCircles(DocumentAccess $access) {
+		$result = [];
+
+		return $result;
 	}
 
 
