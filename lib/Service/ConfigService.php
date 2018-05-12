@@ -238,7 +238,7 @@ class ConfigService {
 	 */
 	public function setDocumentIndexOption(FilesDocument $document, $option) {
 		$document->getIndex()
-				 ->setOption($option, $this->getAppValue($option));
+				 ->addOption($option, $this->getAppValue($option));
 	}
 
 
