@@ -145,6 +145,10 @@ class FilesService {
 	 * @param string $userId
 	 */
 	private function initFileSystems($userId) {
+		if ($userId === '') {
+			return;
+		}
+
 		$this->externalFilesService->initExternalFilesForUser($userId);
 		$this->groupFoldersService->initGroupSharesForUser($userId);
 	}
@@ -269,6 +273,10 @@ class FilesService {
 	 * @return Node
 	 */
 	public function getFileFromId($userId, $fileId) {
+
+		if ($userId === '') {
+			return null;
+		}
 
 		try {
 			$files = $this->rootFolder->getUserFolder($userId)
@@ -497,6 +505,7 @@ class FilesService {
 	 * @throws NotPermittedException
 	 */
 	public function updateDocument(Index $index) {
+		$this->impersonateOwner($index);
 		$this->initFileSystems($index->getOwnerId());
 
 		try {
@@ -538,6 +547,10 @@ class FilesService {
 	 * @throws NotPermittedException
 	 */
 	private function updateFilesDocumentFromFile(FilesDocument $document, Node $file) {
+
+		$document->getIndex()
+				 ->setSource($document->getSource());
+
 		$this->updateDocumentAccess($document, $file);
 		$this->updateContentFromFile($document, $file);
 
@@ -786,4 +799,14 @@ class FilesService {
 		return true;
 	}
 
+
+	private function impersonateOwner(Index $index) {
+		if ($index->getOwnerId() !== '') {
+			return;
+		}
+
+		$this->groupFoldersService->impersonateOwner($index);
+	}
+
 }
+
