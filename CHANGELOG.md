@@ -1,6 +1,18 @@
 # Changelog
 
 
+### 0.7.0
+
+- bugfixes
+- changes in settings does not require a full reindex anymore
+- compat with strange userId in shared name
+- limit search within current directory
+- filters by extension
+- improved index and search within local files, external filesystem and group folders
+- compat fulltextsearch 0.7.0 and fulltextsearch navigation app.
+
+
+
 ### 0.6.0
 
 - Options panel
