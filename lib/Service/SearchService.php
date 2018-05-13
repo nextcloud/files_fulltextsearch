@@ -129,7 +129,7 @@ class SearchService {
 			return;
 		}
 
-		$this->addTagToSearchRequest($request, 'local', $local);
+		$this->addTagToSearchRequest($request, 'files_local', $local);
 		$this->addTagToSearchRequest($request, 'files_external', $external);
 		$this->addTagToSearchRequest($request, 'files_group_folders', $groupFolders);
 	}
