@@ -238,7 +238,7 @@ class ConfigService {
 	 */
 	public function setDocumentIndexOption(FilesDocument $document, $option) {
 		$document->getIndex()
-				 ->addOption($option, $this->getAppValue($option));
+				 ->addOption('_' . $option, $this->getAppValue($option));
 	}
 
 
@@ -249,9 +249,15 @@ class ConfigService {
 	 */
 	public function compareIndexOptions(Index $index) {
 		$options = $index->getOptions();
+
+//		if (!is_array($options)) {
+//			return false;
+//		}
+
 		$ak = array_keys($options);
 		foreach ($ak as $k) {
-			if ($options[$k] !== $this->getAppValue($k)) {
+			if (substr($k, 0, 1) === '_'
+				&& $options[$k] !== $this->getAppValue(substr($k, 1))) {
 				return false;
 			}
 		}
