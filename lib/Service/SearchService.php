@@ -92,7 +92,7 @@ class SearchService {
 			$username = MiscService::secureUsername($request->getAuthor());
 			array_push($query, ['share_names.' . $username => '*' . $word . '*']);
 		}
-		$request->addWildcardQueries($query);
+//		$request->addWildcardQueries($query);
 	}
 
 

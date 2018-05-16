@@ -29,6 +29,7 @@ namespace OCA\Files_FullTextSearch\Service;
 
 use Exception;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
+use OCA\Files_FullTextSearch\Exceptions\KnownFileMimeTypeException;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Provider\FilesProvider;
@@ -674,18 +675,68 @@ class FilesService {
 	 */
 	private function parseMimeType($mimeType) {
 
-		// text file
+		$parsed = '';
+		try {
+			$this->parseMimeTypeText($mimeType, $parsed);
+			$this->parseMimeTypePDF($mimeType, $parsed);
+			$this->parseMimeTypeOffice($mimeType, $parsed);
+		} catch (KnownFileMimeTypeException $e) {
+		}
+
+		return $parsed;
+	}
+
+
+	/**
+	 * @param string $mimeType
+	 * @param string $parsed
+	 *
+	 * @throws KnownFileMimeTypeException
+	 */
+	private function parseMimeTypeText($mimeType, &$parsed) {
+
 		if ($mimeType === 'application/octet-stream'
 			|| substr($mimeType, 0, 5) === 'text/') {
-			return self::MIMETYPE_TEXT;
+			$parsed = self::MIMETYPE_TEXT;
+			throw new KnownFileMimeTypeException();
 		}
 
-		// PDF file
+		$textMimes = [
+			'application/epub+zip'
+		];
+
+		foreach ($textMimes as $mime) {
+			if (strpos($mimeType, $mime) === 0) {
+				$parsed = self::MIMETYPE_TEXT;
+				throw new KnownFileMimeTypeException();
+			}
+		}
+	}
+
+
+	/**
+	 * @param string $mimeType
+	 * @param string $parsed
+	 *
+	 * @throws KnownFileMimeTypeException
+	 */
+	private function parseMimeTypePDF($mimeType, &$parsed) {
+
 		if ($mimeType === 'application/pdf') {
-			return self::MIMETYPE_PDF;
+			$parsed = self::MIMETYPE_PDF;
+			throw new KnownFileMimeTypeException();
 		}
+	}
 
-		// Office file
+
+	/**
+	 * @param string $mimeType
+	 * @param string $parsed
+	 *
+	 * @throws KnownFileMimeTypeException
+	 */
+	private function parseMimeTypeOffice($mimeType, &$parsed) {
+
 		$officeMimes = [
 			'application/msword',
 			'application/vnd.oasis.opendocument',
@@ -698,11 +749,10 @@ class FilesService {
 
 		foreach ($officeMimes as $mime) {
 			if (strpos($mimeType, $mime) === 0) {
-				return self::MIMETYPE_OFFICE;
+				$parsed = self::MIMETYPE_OFFICE;
+				throw new KnownFileMimeTypeException();
 			}
 		}
-
-		return '';
 	}
 
 
@@ -713,6 +763,7 @@ class FilesService {
 	 * @throws NotPermittedException
 	 */
 	private function extractContentFromFileText(FilesDocument $document, File $file) {
+
 		if ($this->parseMimeType($document->getMimeType()) !== self::MIMETYPE_TEXT) {
 			return;
 		}
@@ -721,13 +772,7 @@ class FilesService {
 			return;
 		}
 
-		// on simple text file, elastic search+attachment pipeline can still detect language, useful ?
-//		$document->setContent($file->getContent(), IndexDocument::NOT_ENCODED);
-
-		// We try to avoid error with some base encoding of the document:
-		$content = $file->getContent();
-
-		$document->setContent(base64_encode($content), IndexDocument::ENCODED_BASE64);
+		$document->setContent(base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64);
 	}
 
 
