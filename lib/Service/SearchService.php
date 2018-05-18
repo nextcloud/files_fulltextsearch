@@ -58,10 +58,21 @@ class SearchService {
 	 */
 	public function improveSearchRequest(SearchRequest $request) {
 		$this->searchQueryShareNames($request);
+		$this->searchQueryWithinDir($request);
 		$this->searchQueryFiltersExtension($request);
 		$this->searchQueryFiltersSource($request);
-		$this->searchQueryWithinDir($request);
 	}
+
+
+
+
+	/**
+	 * @param SearchRequest $request
+	 */
+	private function searchQueryShareNames(SearchRequest $request) {
+		$request->addField('share_names.' . MiscService::secureUsername($request->getAuthor()));
+	}
+
 
 
 	private function searchQueryWithinDir(SearchRequest $request) {
@@ -73,26 +84,12 @@ class SearchService {
 
 		$username = MiscService::secureUsername($request->getAuthor());
 		$currentDir = MiscService::noBeginSlash(MiscService::endSlash($currentDir));
-		$request->addWildcardFilters(
+		$request->addRegexFilters(
 			[
 				['share_names.' . $username => $currentDir . '*'],
 				['title' => $currentDir . '*']
 			]
 		);
-	}
-
-
-	/**
-	 * @param SearchRequest $request
-	 */
-	private function searchQueryShareNames(SearchRequest $request) {
-		$query = [];
-		$words = explode(' ', $request->getSearch());
-		foreach ($words as $word) {
-			$username = MiscService::secureUsername($request->getAuthor());
-			array_push($query, ['share_names.' . $username => '*' . $word . '*']);
-		}
-//		$request->addWildcardQueries($query);
 	}
 
 
