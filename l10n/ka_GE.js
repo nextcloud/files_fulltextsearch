@@ -4,4 +4,4 @@ OC.L10N.register(
     "Full text search - Files (BETA)" : "სრული ტექსტის ძიება - ფაილები (ბეტა)",
     "Files" : "ფაილები"
 },
-"nplurals=2; plural=(n==1);");
+"nplurals=2; plural=(n!=1);");
