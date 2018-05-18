@@ -1,5 +1,5 @@
 { "translations": {
     "Full text search - Files (BETA)" : "جستجوی کامل متن - فایل ها (آزمایشی)",
     "Files" : "فایل ها"
-},"pluralForm" :"nplurals=1; plural=0;"
+},"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
