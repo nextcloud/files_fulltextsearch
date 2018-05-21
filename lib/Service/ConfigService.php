@@ -42,6 +42,7 @@ class ConfigService {
 	const FILES_FEDERATED = 'files_federated';
 	const FILES_SIZE = 'files_size';
 	const FILES_OFFICE = 'files_office';
+	const FILES_OCR = 'files_ocr';
 	const FILES_PDF = 'files_pdf';
 	const FILES_IMAGE = 'files_image';
 	const FILES_AUDIO = 'files_audio';
@@ -55,6 +56,7 @@ class ConfigService {
 		self::FILES_SIZE          => '20',
 		self::FILES_PDF           => '1',
 		self::FILES_OFFICE        => '1',
+		self::FILES_OCR           => '0',
 		self::FILES_IMAGE         => '0',
 		self::FILES_AUDIO         => '0'
 	];

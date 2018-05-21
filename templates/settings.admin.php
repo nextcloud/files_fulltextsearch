@@ -129,6 +129,18 @@ Util::addScript(Application::APP_NAME, 'admin');
 				</div>
 			</div>
 
+
+			<div class="div-table-row">
+				<div class="div-table-col div-table-col-left">
+					<span class="leftcol">Some OCR format:</span>
+					<br/>
+					<em>Index the content of documents that require OCR.</em>
+				</div>
+				<div class="div-table-col">
+					<input type="checkbox" id="files_ocr" value="1"/>
+				</div>
+			</div>
+
 			<!--<div class="div-table-row">
 				<div class="div-table-col div-table-col-left">
 					<span class="leftcol">Index images:</span>

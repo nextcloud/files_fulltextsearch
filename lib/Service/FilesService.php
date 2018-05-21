@@ -55,6 +55,7 @@ class FilesService {
 	const MIMETYPE_TEXT = 'files_text';
 	const MIMETYPE_PDF = 'files_pdf';
 	const MIMETYPE_OFFICE = 'files_office';
+	const MIMETYPE_OCR = 'files_ocr';
 	const MIMETYPE_IMAGE = 'files_image';
 	const MIMETYPE_AUDIO = 'files_audio';
 
@@ -603,6 +604,7 @@ class FilesService {
 			($this->configService->getAppValue(ConfigService::FILES_SIZE) * 1024 * 1024)) {
 			$this->extractContentFromFileText($document, $file);
 			$this->extractContentFromFileOffice($document, $file);
+			$this->extractContentFromFileOCR($document, $file);
 			$this->extractContentFromFilePDF($document, $file);
 		}
 
@@ -680,6 +682,7 @@ class FilesService {
 			$this->parseMimeTypeText($mimeType, $parsed);
 			$this->parseMimeTypePDF($mimeType, $parsed);
 			$this->parseMimeTypeOffice($mimeType, $parsed);
+			$this->parseMimeTypeOCR($mimeType, $parsed);
 		} catch (KnownFileMimeTypeException $e) {
 		}
 
@@ -695,13 +698,13 @@ class FilesService {
 	 */
 	private function parseMimeTypeText($mimeType, &$parsed) {
 
-		if ($mimeType === 'application/octet-stream'
-			|| substr($mimeType, 0, 5) === 'text/') {
+		if (substr($mimeType, 0, 5) === 'text/') {
 			$parsed = self::MIMETYPE_TEXT;
 			throw new KnownFileMimeTypeException();
 		}
 
 		$textMimes = [
+			'application/octet-stream',
 			'application/epub+zip'
 		];
 
@@ -750,6 +753,27 @@ class FilesService {
 		foreach ($officeMimes as $mime) {
 			if (strpos($mimeType, $mime) === 0) {
 				$parsed = self::MIMETYPE_OFFICE;
+				throw new KnownFileMimeTypeException();
+			}
+		}
+	}
+
+
+	/**
+	 * @param string $mimeType
+	 * @param string $parsed
+	 *
+	 * @throws KnownFileMimeTypeException
+	 */
+	private function parseMimeTypeOCR($mimeType, &$parsed) {
+
+		$ocrMimes = [
+			'application/x-cbr'
+		];
+
+		foreach ($ocrMimes as $mime) {
+			if (strpos($mimeType, $mime) === 0) {
+				$parsed = self::MIMETYPE_OCR;
 				throw new KnownFileMimeTypeException();
 			}
 		}
@@ -819,6 +843,32 @@ class FilesService {
 		}
 
 		if ($this->configService->getAppValue(ConfigService::FILES_OFFICE) !== '1') {
+			$document->setContent('');
+
+			return;
+		}
+
+		$document->setContent(base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64);
+	}
+
+
+	/**
+	 * @param FilesDocument $document
+	 * @param File $file
+	 *
+	 * @throws NotPermittedException
+	 */
+	private function extractContentFromFileOCR(FilesDocument $document, File $file) {
+		if ($this->parseMimeType($document->getMimeType()) !== self::MIMETYPE_OCR) {
+			return;
+		}
+
+		$this->configService->setDocumentIndexOption($document, ConfigService::FILES_OCR);
+		if (!$this->isSourceIndexable($document)) {
+			return;
+		}
+
+		if ($this->configService->getAppValue(ConfigService::FILES_OCR) !== '1') {
 			$document->setContent('');
 
 			return;

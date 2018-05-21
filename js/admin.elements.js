@@ -38,6 +38,7 @@ var files_elements = {
 	files_group_folders: null,
 	files_size: null,
 	files_office: null,
+	files_ocr: null,
 	files_pdf: null,
 	files_image: null,
 	files_audio: null,
@@ -51,6 +52,7 @@ var files_elements = {
 		files_elements.files_federated = $('#files_federated');
 		files_elements.files_size = $('#files_size');
 		files_elements.files_office = $('#files_office');
+		files_elements.files_ocr = $('#files_ocr');
 		files_elements.files_pdf = $('#files_pdf');
 		files_elements.files_image = $('#files_image');
 		files_elements.files_audio = $('#files_audio');
@@ -62,6 +64,7 @@ var files_elements = {
 		files_elements.files_federated.on('change', files_elements.updateSettings);
 		files_elements.files_size.on('change', files_elements.updateSettings);
 		files_elements.files_office.on('change', files_elements.updateSettings);
+		files_elements.files_ocr.on('change', files_elements.updateSettings);
 		files_elements.files_pdf.on('change', files_elements.updateSettings);
 		files_elements.files_image.on('change', files_elements.updateSettings);
 		files_elements.files_audio.on('change', files_elements.updateSettings);
