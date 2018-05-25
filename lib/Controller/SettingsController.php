@@ -27,6 +27,7 @@
 namespace OCA\Files_FullTextSearch\Controller;
 
 use Exception;
+use OC\App\AppManager;
 use OCA\Files_FullTextSearch\AppInfo\Application;
 use OCA\Files_FullTextSearch\Service\ConfigService;
 use OCA\Files_FullTextSearch\Service\MiscService;
@@ -37,6 +38,9 @@ use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
 
 class SettingsController extends Controller {
+
+	/** @var AppManager */
+	private $appManager;
 
 	/** @var ConfigService */
 	private $configService;
@@ -52,15 +56,19 @@ class SettingsController extends Controller {
 	 * NavigationController constructor.
 	 *
 	 * @param IRequest $request
+	 * @param AppManager $appManager
+	 * @param string $userId
 	 * @param ConfigService $configService
 	 * @param SettingsService $settingsService
 	 * @param MiscService $miscService
 	 */
 	public function __construct(
-		IRequest $request, ConfigService $configService, SettingsService $settingsService,
+		IRequest $request, AppManager $appManager, ConfigService $configService,
+		SettingsService $settingsService,
 		MiscService $miscService
 	) {
 		parent::__construct(Application::APP_NAME, $request);
+		$this->appManager = $appManager;
 		$this->configService = $configService;
 		$this->settingsService = $settingsService;
 		$this->miscService = $miscService;
@@ -73,6 +81,10 @@ class SettingsController extends Controller {
 	 */
 	public function getSettingsAdmin() {
 		$data = $this->configService->getConfig();
+
+		if (!$this->appManager->isInstalled('files_fulltextsearch_tesseract')) {
+			$data['files_ocr'] = -1;
+		}
 
 		return new DataResponse($data, Http::STATUS_OK);
 	}

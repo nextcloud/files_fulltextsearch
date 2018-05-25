@@ -52,10 +52,14 @@ var files_settings = {
 		files_elements.files_federated.prop('checked', (result.files_federated === '1'));
 		files_elements.files_size.val(result.files_size);
 		files_elements.files_office.prop('checked', (result.files_office === '1'));
-		files_elements.files_ocr.prop('checked', (result.files_ocr === '1'));
 		files_elements.files_pdf.prop('checked', (result.files_pdf === '1'));
 		files_elements.files_image.prop('checked', (result.files_image === '1'));
 		files_elements.files_audio.prop('checked', (result.files_audio === '1'));
+
+		files_elements.files_ocr.prop('checked', (result.files_ocr === '1'));
+		if (result.files_ocr === -1) {
+			$('#files_ocr_option *').attr('disabled', true);
+		}
 
 		fts_admin_settings.tagSettingsAsSaved(files_elements.files_div);
 	},

@@ -28,16 +28,19 @@ namespace OCA\Files_FullTextSearch\Service;
 
 
 use Exception;
+use OC\App\AppManager;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileMimeTypeException;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Provider\FilesProvider;
+use OCA\Files_FullTextSearch_Tesseract\Service\TesseractService;
 use OCA\FullTextSearch\Exceptions\InterruptException;
 use OCA\FullTextSearch\Exceptions\TickDoesNotExistException;
 use OCA\FullTextSearch\Model\Index;
 use OCA\FullTextSearch\Model\IndexDocument;
 use OCA\FullTextSearch\Model\Runner;
+use OCP\AppFramework\IAppContainer;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
@@ -60,11 +63,17 @@ class FilesService {
 	const MIMETYPE_AUDIO = 'files_audio';
 
 
+	/** @var IAppContainer */
+	private $container;
+
 	/** @var IRootFolder */
 	private $rootFolder;
 
 	/** @var IUserManager */
 	private $userManager;
+
+	/** @var AppManager */
+	private $appManager;
 
 	/** @var IManager */
 	private $shareManager;
@@ -88,7 +97,9 @@ class FilesService {
 	/**
 	 * FilesService constructor.
 	 *
+	 * @param IAppContainer $container
 	 * @param IRootFolder $rootFolder
+	 * @param AppManager $appManager
 	 * @param IUserManager $userManager
 	 * @param IManager $shareManager
 	 * @param ConfigService $configService
@@ -100,14 +111,17 @@ class FilesService {
 	 * @internal param IProviderFactory $factory
 	 */
 	public function __construct(
-		IRootFolder $rootFolder, IUserManager $userManager, IManager $shareManager,
-		ConfigService $configService,
-		LocalFilesService $localFilesService,
+		IAppContainer $container, IRootFolder $rootFolder, AppManager $appManager,
+		IUserManager $userManager,
+		IManager $shareManager,
+		ConfigService $configService, LocalFilesService $localFilesService,
 		ExternalFilesService $externalFilesService,
 		GroupFoldersService $groupFoldersService,
 		MiscService $miscService
 	) {
+		$this->container = $container;
 		$this->rootFolder = $rootFolder;
+		$this->appManager = $appManager;
 		$this->userManager = $userManager;
 		$this->shareManager = $shareManager;
 
@@ -604,8 +618,8 @@ class FilesService {
 			($this->configService->getAppValue(ConfigService::FILES_SIZE) * 1024 * 1024)) {
 			$this->extractContentFromFileText($document, $file);
 			$this->extractContentFromFileOffice($document, $file);
-			$this->extractContentFromFileOCR($document, $file);
 			$this->extractContentFromFilePDF($document, $file);
+			$this->extractContentFromFileOCR($document, $file);
 		}
 
 		if ($document->getContent() === null) {
@@ -682,7 +696,6 @@ class FilesService {
 			$this->parseMimeTypeText($mimeType, $parsed);
 			$this->parseMimeTypePDF($mimeType, $parsed);
 			$this->parseMimeTypeOffice($mimeType, $parsed);
-			$this->parseMimeTypeOCR($mimeType, $parsed);
 		} catch (KnownFileMimeTypeException $e) {
 		}
 
@@ -704,7 +717,6 @@ class FilesService {
 		}
 
 		$textMimes = [
-			'application/octet-stream',
 			'application/epub+zip'
 		];
 
@@ -753,27 +765,6 @@ class FilesService {
 		foreach ($officeMimes as $mime) {
 			if (strpos($mimeType, $mime) === 0) {
 				$parsed = self::MIMETYPE_OFFICE;
-				throw new KnownFileMimeTypeException();
-			}
-		}
-	}
-
-
-	/**
-	 * @param string $mimeType
-	 * @param string $parsed
-	 *
-	 * @throws KnownFileMimeTypeException
-	 */
-	private function parseMimeTypeOCR($mimeType, &$parsed) {
-
-		$ocrMimes = [
-			'application/x-cbr'
-		];
-
-		foreach ($ocrMimes as $mime) {
-			if (strpos($mimeType, $mime) === 0) {
-				$parsed = self::MIMETYPE_OCR;
 				throw new KnownFileMimeTypeException();
 			}
 		}
@@ -855,26 +846,45 @@ class FilesService {
 	/**
 	 * @param FilesDocument $document
 	 * @param File $file
-	 *
-	 * @throws NotPermittedException
 	 */
 	private function extractContentFromFileOCR(FilesDocument $document, File $file) {
-		if ($this->parseMimeType($document->getMimeType()) !== self::MIMETYPE_OCR) {
-			return;
-		}
-
-		$this->configService->setDocumentIndexOption($document, ConfigService::FILES_OCR);
-		if (!$this->isSourceIndexable($document)) {
-			return;
-		}
-
 		if ($this->configService->getAppValue(ConfigService::FILES_OCR) !== '1') {
-			$document->setContent('');
-
 			return;
 		}
 
-		$document->setContent(base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64);
+		if ($document->getContent() !== '' && $document->getContent() !== null) {
+			return;
+		}
+
+		$document->setContent('');
+		$this->extractContentUsingTesseractOCR($document, $file);
+	}
+
+
+	/**
+	 * @param FilesDocument $document
+	 * @param File $file
+	 */
+	private function extractContentUsingTesseractOCR(FilesDocument $document, File $file) {
+		try {
+			$tesseractService = $this->container->query(TesseractService::class);
+			$extension = pathinfo($document->getPath(), PATHINFO_EXTENSION);
+
+			if (!$tesseractService->parsedMimeType($document->getMimetype(), $extension)) {
+				return;
+			}
+
+			$this->configService->setDocumentIndexOption($document, ConfigService::FILES_OCR);
+			if (!$this->isSourceIndexable($document)) {
+				return;
+			}
+
+			$content = $tesseractService->ocrFile($file);
+		} catch (Exception $e) {
+			return;
+		}
+
+		$document->setContent(base64_encode($content), IndexDocument::ENCODED_BASE64);
 	}
 
 
