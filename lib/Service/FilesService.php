@@ -644,10 +644,15 @@ class FilesService {
 		$this->groupFoldersService->getShareUsers($document, $users);
 
 		$shareNames = [];
-		foreach ($users as $user) {
+		foreach ($users as $username) {
 			try {
-				$shareNames[MiscService::secureUsername($user)] =
-					$this->getPathFromViewerId($file->getId(), $user);
+				$user = $this->userManager->get($username);
+				if ($user->getLastLogin() === 0) {
+					continue;
+				}
+
+				$shareNames[MiscService::secureUsername($username)] =
+					$this->getPathFromViewerId($file->getId(), $username);
 			} catch (Exception $e) {
 			}
 		}
