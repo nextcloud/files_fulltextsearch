@@ -60,12 +60,13 @@ Files_FullTextSearch.prototype = {
 	generateTemplateEntry: function () {
 
 		var divLeft = $('<div>', {class: 'result_entry_left'});
-		divLeft.append($('<div>', {id: 'title'}));
-		divLeft.append($('<div>', {id: 'line1'}));
-		divLeft.append($('<div>', {id: 'line2'}));
+		divLeft.append($('<div>', {id: 'title'}).html('&nbsp;'));
+		divLeft.append($('<div>', {id: 'line1'}).html('&nbsp;'));
+		divLeft.append($('<div>', {id: 'line2'}).html('&nbsp;'));
 
 		var divRight = $('<div>', {class: 'result_entry_right'});
-		divRight.append($('<div>', {id: 'score'}));
+		divRight.append($('<div>', {id: 'source'}).html('&nbsp;'));
+		divRight.append($('<div>', {id: 'score'}).html('&nbsp;'));
 
 		var divDefault = $('<div>', {class: 'result_entry_default'});
 		divDefault.append(divLeft);
