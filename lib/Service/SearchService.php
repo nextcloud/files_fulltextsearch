@@ -64,15 +64,16 @@ class SearchService {
 	}
 
 
-
-
 	/**
 	 * @param SearchRequest $request
 	 */
 	private function searchQueryShareNames(SearchRequest $request) {
-		$request->addField('share_names.' . MiscService::secureUsername($request->getAuthor()));
-	}
+		$username = MiscService::secureUsername($request->getAuthor());
+		$request->addField('share_names.' . $username);
 
+		$request->addWildcardField('title');
+		$request->addWildcardField('share_names.' . $username);
+	}
 
 
 	private function searchQueryWithinDir(SearchRequest $request) {
