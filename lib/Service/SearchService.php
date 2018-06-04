@@ -76,6 +76,9 @@ class SearchService {
 	}
 
 
+	/**
+	 * @param SearchRequest $request
+	 */
 	private function searchQueryWithinDir(SearchRequest $request) {
 
 		$currentDir = $request->getOption('files_within_dir');
