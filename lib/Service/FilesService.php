@@ -647,7 +647,7 @@ class FilesService {
 		foreach ($users as $username) {
 			try {
 				$user = $this->userManager->get($username);
-				if ($user->getLastLogin() === 0) {
+				if ($user === null || $user->getLastLogin() === 0) {
 					continue;
 				}
 
@@ -659,22 +659,7 @@ class FilesService {
 
 		$document->setInfo('share_names', $shareNames);
 
-//			if ($file->getStorage()
-//					 ->isLocal() === false) {
-//				$shares = $this->externalFilesService->getAllSharesFromExternalFile($access);
-//			} else {
-//				$shares = $this->getAllSharesFromFile($file);
-//			}
-//
-//			foreach ($shares as $user) {
-//				try {
-//					$shareNames[$user] = $this->getPathFromViewerId($file->getId(), $user);
-//				} catch (Exception $e) {
-//				}
-//			}
-//
 		return $shareNames;
-
 	}
 
 	/**
