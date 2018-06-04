@@ -365,7 +365,11 @@ class FilesService {
 	 * @param FilesDocument $document
 	 */
 	public function setDocumentTitle(FilesDocument $document) {
-		$document->setTitle($document->getPath());
+		if (!is_null($document->getPath()) && $document->getPath() !== '') {
+			$document->setTitle($document->getPath());
+		} else {
+			$document->setTitle('/' . $document->getTitle());
+		}
 	}
 
 
