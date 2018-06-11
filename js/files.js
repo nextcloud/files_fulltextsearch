@@ -155,10 +155,22 @@ FullTextSearch.prototype = {
 		resultEntry.append($('<div>', {class: 'files_div_thumb files_result_div'}));
 
 		resultEntry.append($('<div>', {class: 'files_result_div files_div_name'}).append(resultName));
+
+		var resultMore = $('<span>', {class: 'icon icon-more'});
+
+		// <a class="action action-menu permanent" href="#" data-action="menu" data-original-title=""
+		// title=""> <span class="icon icon-more"></span><span
+		// class="hidden-visually">Actions</span></a>
+		resultEntry.append(
+			$('<div>', {class: 'files_result_div files_result_item files_div_more'}).append(resultMore));
+
 		resultEntry.append(
 			$('<div>', {class: 'files_result_div files_result_item files_div_size'}));
-		resultEntry.append(
-			$('<div>', {class: 'files_result_div files_result_item files_div_modified'}));
+
+		var resultModified = $('<div>', {class: 'files_result_div files_result_item files_div_modified'});
+		resultModified.append($('<div>', {id: 'modified'}));
+		resultModified.append($('<div>', {id: 'info'}));
+		resultEntry.append(resultModified);
 
 		return $('<div>').append(resultEntry);
 	},
@@ -184,12 +196,12 @@ FullTextSearch.prototype = {
 		var thumb = '/index.php/core/preview?fileId=' + entry.id + '&x=32&y=32&forceIcon=0&c=' +
 			entry.info.etag;
 		divEntry.find('.files_div_size').text(size);
-		divEntry.find('.files_div_modified').text(OC.Util.relativeModifiedDate(mtime));
+		divEntry.find('#modified').text(OC.Util.relativeModifiedDate(mtime));
 		divEntry.find('.files_div_thumb').css('background-image', 'url("' + thumb + '")');
 	},
 
 
-	onEntrySelect: function (divEntry, event) {
+	onEntrySelected: function (divEntry, event) {
 
 		var resultEntry = divEntry.find('.files_result');
 		this.fileActions.currentFile = resultEntry;
@@ -207,11 +219,6 @@ FullTextSearch.prototype = {
 		if (event && (event.ctrlKey || event.which === 2 || event.button === 4)) {
 			return false;
 		}
-		// 	window.open('/remote.php/webdav' + path + '/' + filename);
-		// } else {
-		// 	window.open('/remote.php/webdav' + path + '/' + filename, '_self');
-		// }
-
 
 		var action = this.fileActions.getDefault(mime, type, permissions);
 

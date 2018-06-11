@@ -56,6 +56,17 @@
 	margin-left: 5px;
 }
 
+#info {
+	color: #a5a5a5;
+	font-size: 9px;
+	margin-top: -3px;
+}
+
+.files_div_info {
+	right: 50px;
+	width: 260px;
+}
+
 .files_div_size {
 	right: 160px;
 	width: 100px
@@ -69,5 +80,5 @@
 .files_result_item {
 	color: #484848;
 	background: #fff;
-	padding: 10px;
+	padding: 5px;
 }
