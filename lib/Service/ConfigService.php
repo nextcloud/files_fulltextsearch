@@ -227,10 +227,12 @@ class ConfigService {
 	/**
 	 * @param string $key
 	 *
+	 * @param string $default
+	 *
 	 * @return mixed
 	 */
-	public function getSystemValue($key) {
-		return $this->config->getSystemValue($key);
+	public function getSystemValue($key, $default = '') {
+		return $this->config->getSystemValue($key, $default);
 	}
 
 

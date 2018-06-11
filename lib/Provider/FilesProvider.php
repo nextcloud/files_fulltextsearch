@@ -308,21 +308,7 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @throws NotFoundException
 	 */
 	public function improveSearchResult(SearchResult $searchResult) {
-
-		$indexDocuments = $searchResult->getDocuments();
-		$filesDocuments = [];
-		foreach ($indexDocuments as $indexDocument) {
-
-			$filesDocument = FilesDocument::fromIndexDocument($indexDocument);
-			$this->filesService->setDocumentInfo($filesDocument);
-			$this->filesService->setDocumentTitle($filesDocument);
-			$this->filesService->setDocumentLink($filesDocument);
-			$this->filesService->setDocumentMore($filesDocument);
-
-			$filesDocuments[] = $filesDocument;
-		}
-
-		$searchResult->setDocuments($filesDocuments);
+		$this->searchService->improveSearchResult($searchResult);
 	}
 
 

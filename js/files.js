@@ -26,7 +26,7 @@
 
 /** global: OCA */
 
-const fullTextSearch = OCA.FullTextSearch.api;
+var fullTextSearch = OCA.FullTextSearch.api;
 
 
 var elements = {
@@ -36,12 +36,19 @@ var elements = {
 };
 
 
-const Files_FullTextSearch = function () {
+var FullTextSearch = function () {
 	this.init();
 };
 
 
-Files_FullTextSearch.prototype = {
+FullTextSearch.prototype = {
+
+	/**
+	 * File actions handler, defaults to OCA.Files.FileActions
+	 * @type OCA.Files.FileActions
+	 */
+	fileActions: null,
+
 
 	init: function () {
 		var self = this;
@@ -51,32 +58,216 @@ Files_FullTextSearch.prototype = {
 		elements.search_result = $('<div>');
 		elements.search_result.insertBefore(elements.old_files);
 
-		fullTextSearch.setEntryTemplate(self.generateTemplateEntry());
 		fullTextSearch.setResultContainer(elements.search_result);
+		fullTextSearch.setEntryTemplate(self.generateEntryTemplate());
+		fullTextSearch.setResultHeader(self.generateResultHeader());
+		// fullTextSearch.setResultFooter(self.generateResultFooter());
+
 		fullTextSearch.initFullTextSearch('files', 'files', self);
+
+		this._initFileActions();
+	},
+
+	_initFileActions: function () {
+
+		this.fileActions = new OCA.Files.FileActions();
+		this.fileActions.registerDefaultActions();
+		this.fileActions.merge(window.FileActions);
+		this.fileActions.merge(OCA.Files.fileActions)
+
+		this._onActionsUpdated = _.bind(this._onActionsUpdated, this);
+		OCA.Files.fileActions.on('setDefault.app-files', this._onActionsUpdated);
+		OCA.Files.fileActions.on('registerAction.app-files', this._onActionsUpdated);
+		window.FileActions.on('setDefault.app-files', this._onActionsUpdated);
+		window.FileActions.on('registerAction.app-files', this._onActionsUpdated);
+
+		// if (this._detailsView) {
+		// 	this.fileActions.registerAction({
+		// 		name: 'Details',
+		// 		displayName: t('files', 'Details'),
+		// 		mime: 'all',
+		// 		order: -50,
+		// 		iconClass: 'icon-details',
+		// 		permissions: OC.PERMISSION_NONE,
+		// 		actionHandler: function (fileName, context) {
+		// 			self._updateDetailsView(fileName);
+		// 		}
+		// 	});
+		// }
 	},
 
 
-	generateTemplateEntry: function () {
-
-		var divLeft = $('<div>', {class: 'result_entry_left'});
-		divLeft.append($('<div>', {id: 'title'}).html('&nbsp;'));
-		divLeft.append($('<div>', {id: 'line1'}).html('&nbsp;'));
-		divLeft.append($('<div>', {id: 'line2'}).html('&nbsp;'));
-
-		var divRight = $('<div>', {class: 'result_entry_right'});
-		divRight.append($('<div>', {id: 'source'}).html('&nbsp;'));
-		divRight.append($('<div>', {id: 'score'}).html('&nbsp;'));
-
-		var divDefault = $('<div>', {class: 'result_entry_default'});
-		divDefault.append(divLeft);
-		divDefault.append(divRight);
-
-		return $('<div>').append(divDefault);
+	_onActionsUpdated: function (ev, newAction) {
+		if (ev.action) {
+			this.fileActions.registerAction(ev.action);
+		} else if (ev.defaultAction) {
+			this.fileActions.setDefault(
+				ev.defaultAction.mime,
+				ev.defaultAction.name
+			);
+		}
 	},
 
 
-	onEntryGenerated: function (entry) {
+	generateResultHeader: function () {
+
+		var resultHeader = $('<div>', {class: 'files_header'});
+		resultHeader.append($('<div>', {class: 'files_div_checkbox'}).html('&nbsp;'));
+		resultHeader.append($('<div>', {class: 'files_div_thumb'}).html('&nbsp;'));
+		resultHeader.append(
+			$('<div>', {class: 'files_header_div files_div_name'}).text(_('Name')));
+		resultHeader.append(
+			$('<div>', {class: 'files_header_div files_div_modified'}).text(_('Modified')));
+		resultHeader.append(
+			$('<div>', {class: 'files_header_div files_div_size'}).text(_('Size')));
+
+		return resultHeader;
+	},
+
+
+	generateResultFooter: function () {
+		var resultFooter = $('<div>', {class: 'files_footer'});
+
+		return resultFooter;
+	},
+
+
+	/**
+	 *
+	 * !!! use this in the fulltextsearch app
+	 * !!! use this in the fulltextsearch app
+	 * !!! use this in the fulltextsearch app
+	 */
+	generateEntryTemplate: function () {
+
+		var resultName = $('<div>', {class: 'files_result_file'});
+		resultName.append($('<div>', {
+			id: 'title',
+			class: 'files_result_title'
+		}));
+		resultName.append($('<div>', {
+			id: 'extract',
+			class: 'files_result_extract'
+		}));
+
+		var resultEntry = $('<div>', {class: 'files_result'});
+		resultEntry.append($('<div>', {class: 'files_div_checkbox'}));
+		resultEntry.append($('<div>', {class: 'files_div_thumb files_result_div'}));
+
+		resultEntry.append($('<div>', {class: 'files_result_div files_div_name'}).append(resultName));
+		resultEntry.append(
+			$('<div>', {class: 'files_result_div files_result_item files_div_size'}));
+		resultEntry.append(
+			$('<div>', {class: 'files_result_div files_result_item files_div_modified'}));
+
+		return $('<div>').append(resultEntry);
+	},
+
+
+	onEntryGenerated: function (divEntry, entry) {
+
+		var divFile = divEntry.find('.files_result');
+		divFile.attr({
+			'data-id': entry.id,
+			'data-type': entry.info.type,
+			'data-size': entry.info.size,
+			'data-file': entry.info.file,
+			'data-mime': entry.info.mime,
+			'data-mtime': entry.info.mtime,
+			'data-etag': entry.info.etag,
+			'data-permissions': entry.info.permissions,
+			'data-path': entry.info.path
+		});
+
+		var mtime = parseInt(entry.info.mtime, 10) * 1000;
+		var size = OC.Util.humanFileSize(parseInt(entry.info.size, 10), true);
+		var thumb = '/index.php/core/preview?fileId=' + entry.id + '&x=32&y=32&forceIcon=0&c=' +
+			entry.info.etag;
+		divEntry.find('.files_div_size').text(size);
+		divEntry.find('.files_div_modified').text(OC.Util.relativeModifiedDate(mtime));
+		divEntry.find('.files_div_thumb').css('background-image', 'url("' + thumb + '")');
+	},
+
+
+	onEntrySelect: function (divEntry, event) {
+
+		var resultEntry = divEntry.find('.files_result');
+		this.fileActions.currentFile = resultEntry;
+
+		var path = resultEntry.attr('data-path');
+		var filename = resultEntry.attr('data-file');
+		var mime = resultEntry.attr('data-mime');
+		var type = resultEntry.attr('data-type');
+		var permissions = resultEntry.attr('data-permissions');
+
+		if (type !== 'file') {
+			return false;
+		}
+
+		if (event && (event.ctrlKey || event.which === 2 || event.button === 4)) {
+			return false;
+		}
+		// 	window.open('/remote.php/webdav' + path + '/' + filename);
+		// } else {
+		// 	window.open('/remote.php/webdav' + path + '/' + filename, '_self');
+		// }
+
+
+		var action = this.fileActions.getDefault(mime, type, permissions);
+
+		if (action) {
+
+			event.preventDefault();
+			window.FileActions.currentFile = this.fileActions.currentFile;
+			action(filename, {
+				$file: resultEntry,
+				fileList: this,
+				fileActions: this.fileActions,
+				dir: path
+			});
+
+			return true;
+		}
+
+		return false;
+		// if (event && (event.ctrlKey || event.which === 2 || event.button === 4)) {
+		// 	window.open('/remote.php/webdav' + path + '/' + filename);
+		// } else {
+		// 	window.open('/remote.php/webdav' + path + '/' + filename, '_self');
+		// }
+
+
+	},
+
+
+	getModelForFile: function () {
+		return null;
+	},
+
+
+	changeDirectory: function (targetDir, changeUrl, force, fileId) {
+		var self = this;
+		var currentDir = '/';
+		targetDir = targetDir || '/';
+		if (!force && currentDir === targetDir) {
+			return;
+		}
+		this._setCurrentDir(targetDir, changeUrl, fileId);
+
+		// discard finished uploads list, we'll get it through a regular reload
+		this._uploads = {};
+		this.reload().then(function (success) {
+			if (!success) {
+				self.changeDirectory(currentDir, true);
+			}
+		});
+	},
+
+	onSearchRequest: function (data) {
+		if (data.options.files_within_dir === '1') {
+			var url = new URL(window.location.href);
+			data.options.files_within_dir = url.searchParams.get("dir");
+		}
 	},
 
 
@@ -84,14 +275,6 @@ Files_FullTextSearch.prototype = {
 		elements.old_files.fadeOut(150, function () {
 			elements.search_result.fadeIn(150);
 		});
-	},
-
-
-	onSearchRequest: function (data) {
-		if (data.options.files_within_dir === '1') {
-			var url = new URL(window.location.href);
-			data.options.files_within_dir = url.searchParams.get("dir");
-		}
 	},
 
 
@@ -111,10 +294,10 @@ Files_FullTextSearch.prototype = {
 };
 
 
-OCA.FullTextSearch.Files = Files_FullTextSearch;
+OCA.Files.FullTextSearch = FullTextSearch;
 
 $(document).ready(function () {
-	OCA.FullTextSearch.navigate = new Files_FullTextSearch();
+	OCA.Files.FullTextSearch = new FullTextSearch();
 });
 
 

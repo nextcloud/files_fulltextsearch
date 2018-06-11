@@ -27,10 +27,23 @@
 namespace OCA\Files_FullTextSearch\Service;
 
 
+use Exception;
+use OCA\Files_FullTextSearch\Model\FilesDocument;
+use OCA\FullTextSearch\Model\ExtendedTick;
+use OCA\FullTextSearch\Model\Index;
 use OCA\FullTextSearch\Model\SearchRequest;
+use OCA\FullTextSearch\Model\SearchResult;
+use OCP\Files\InvalidPathException;
+use OCP\Files\Node;
+use OCP\Files\NotFoundException;
 
 class SearchService {
 
+	/** @var string */
+	private $userId;
+
+	/** @var FilesService */
+	private $filesService;
 
 	/** @var ConfigService */
 	private $configService;
@@ -42,12 +55,18 @@ class SearchService {
 	/**
 	 * SearchService constructor.
 	 *
+	 * @param string $userId
+	 * @param FilesService $filesService
 	 * @param ConfigService $configService
 	 * @param MiscService $miscService
 	 *
 	 * @internal param IProviderFactory $factory
 	 */
-	public function __construct(ConfigService $configService, MiscService $miscService) {
+	public function __construct(
+		$userId, FilesService $filesService, ConfigService $configService, MiscService $miscService
+	) {
+		$this->userId = $userId;
+		$this->filesService = $filesService;
 		$this->configService = $configService;
 		$this->miscService = $miscService;
 	}
@@ -145,6 +164,156 @@ class SearchService {
 		if ($cond === 1 || $cond === '1') {
 			$request->addTag($tag);
 		}
+	}
+
+
+	/**
+	 * @param SearchResult $searchResult
+	 */
+	public function improveSearchResult(SearchResult $searchResult) {
+		$indexDocuments = $searchResult->getDocuments();
+		$filesDocuments = [];
+		foreach ($indexDocuments as $indexDocument) {
+
+			try {
+				$filesDocument = FilesDocument::fromIndexDocument($indexDocument);
+				$this->setDocumentInfo($filesDocument);
+				$this->setDocumentTitle($filesDocument);
+				$this->setDocumentLink($filesDocument);
+
+				$filesDocuments[] = $filesDocument;
+			} catch (Exception $e) {
+			}
+		}
+
+		$searchResult->setDocuments($filesDocuments);
+	}
+
+
+	/**
+	 * @param FilesDocument $document
+	 *
+	 * @throws Exception
+	 */
+	private function setDocumentInfo(FilesDocument $document) {
+		$index = new Index('files', $document->getId());
+		$index->setOwnerId($this->userId);
+
+		$document->setInfo('webdav', $this->getWebdavId($document->getId()));
+
+		$file = $this->filesService->getFileFromIndex($index);
+		$this->setDocumentInfoFromFile($document, $file);
+	}
+
+
+	/**
+	 * @param FilesDocument $document
+	 * @param Node $file
+	 */
+	private function setDocumentInfoFromFile(FilesDocument $document, Node $file) {
+
+		// TODO: better way to do this : we remove the '/userId/files/'
+		$path = MiscService::noEndSlash(substr($file->getPath(), 7 + strlen($this->userId)));
+		$pathInfo = pathinfo($path);
+
+		$document->setPath($path);
+		$document->setInfo('type', $file->getType())
+				 ->setInfo('file', $pathInfo['basename'])
+				 ->setInfo('path', $pathInfo['dirname'])
+				 ->setInfo('mime', $file->getMimetype())
+				 ->setInfo('favorite', false); // FIXME: get the favorite status
+
+		try {
+			$document->setInfo('size', $file->getSize())
+					 ->setInfo('mtime', $file->getMTime())
+					 ->setInfo('etag', $file->getEtag())
+					 ->setInfo('permissions', $file->getPermissions());
+		} catch (Exception $e) {
+		}
+	}
+
+
+	/**
+	 * @param FilesDocument $document
+	 */
+	private function setDocumentTitle(FilesDocument $document) {
+		if (!is_null($document->getPath()) && $document->getPath() !== '') {
+			$document->setTitle($document->getPath());
+		} else {
+			$document->setTitle('/' . $document->getTitle());
+		}
+	}
+
+
+	/**
+	 * @param FilesDocument $document
+	 */
+	private function setDocumentLink(FilesDocument $document) {
+
+		$path = $document->getPath();
+		$filename = $document->getInfo('file');
+		$dir = substr($path, 0, -strlen($filename));
+
+		$document->setLink(
+			\OC::$server->getURLGenerator()
+						->linkToRoute(
+							'files.view.index',
+							[
+								'dir'      => $dir,
+								'scrollto' => $filename,
+							]
+						)
+		);
+
+		$this->setDocumentLinkDir($document, $dir, $filename);
+		$this->setDocumentLinkFile($document, $dir, $filename);
+	}
+
+
+	/**
+	 * @param FilesDocument $document
+	 * @param $dir
+	 * @param $filename
+	 */
+	private function setDocumentLinkFile(FilesDocument $document, $dir, $filename) {
+		if ($document->getInfo('type') !== 'file') {
+			return;
+		}
+
+		$link = '/' . $this->configService->getSystemValue('webdav-root', 'remote.php/webdav');
+		$link .= $dir . '/' . $filename;
+
+		$document->setLink($link);
+	}
+
+
+	/**
+	 * @param FilesDocument $document
+	 * @param $dir
+	 */
+	private function setDocumentLinkDir(FilesDocument $document, $dir) {
+		if ($document->getInfo('type') !== 'dir') {
+			return;
+		}
+
+		$document->setLink(
+			\OC::$server->getURLGenerator()
+						->linkToRoute(
+							'files.view.index',
+							['dir' => $dir, 'fileid' => $document->getId()]
+						)
+		);
+	}
+
+	/**
+	 * @param int $fileId
+	 *
+	 * @return string
+	 */
+	private function getWebdavId($fileId) {
+		$instanceId = $this->configService->getSystemValue('instanceid');
+
+		return sprintf("%08s", $fileId) . $instanceId;
 	}
 
 

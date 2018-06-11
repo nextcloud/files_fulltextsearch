@@ -29,7 +29,9 @@ namespace OCA\Files_FullTextSearch\Service;
 
 use Exception;
 use OC\App\AppManager;
+use OCA\Files_FullTextSearch\Exceptions\EmptyUserException;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
+use OCA\Files_FullTextSearch\Exceptions\FilesNotFoundException;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileMimeTypeException;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
@@ -287,27 +289,38 @@ class FilesService {
 	 * @param int $fileId
 	 *
 	 * @return Node
+	 * @throws FilesNotFoundException
+	 * @throws EmptyUserException
 	 */
 	public function getFileFromId($userId, $fileId) {
 
 		if ($userId === '') {
-			return null;
+			throw new EmptyUserException();
 		}
 
-		try {
-			$files = $this->rootFolder->getUserFolder($userId)
-									  ->getById($fileId);
-		} catch (Exception $e) {
-			return null;
-		}
-
+		$files = $this->rootFolder->getUserFolder($userId)
+								  ->getById($fileId);
 		if (sizeof($files) === 0) {
-			return null;
+			throw new FilesNotFoundException();
 		}
 
 		$file = array_shift($files);
 
 		return $file;
+	}
+
+
+	/**
+	 * @param Index $index
+	 *
+	 * @return Node
+	 * @throws EmptyUserException
+	 * @throws FilesNotFoundException
+	 */
+	public function getFileFromIndex(Index $index) {
+		$this->impersonateOwner($index);
+
+		return $this->getFileFromId($index->getOwnerId(), $index->getDocumentId());
 	}
 
 
@@ -337,100 +350,6 @@ class FilesService {
 
 
 	/**
-	 * @param FilesDocument $document
-	 */
-	public function setDocumentInfo(FilesDocument $document) {
-
-		$viewerId = $document->getAccess()
-							 ->getViewerId();
-
-		$viewerFiles = $this->rootFolder->getUserFolder($viewerId)
-										->getById($document->getId());
-
-		if (sizeof($viewerFiles) === 0) {
-			return;
-		}
-		// we only take the first file
-		$file = array_shift($viewerFiles);
-
-		// TODO: better way to do this : we remove the '/userId/files/'
-		$path = MiscService::noEndSlash(substr($file->getPath(), 7 + strlen($viewerId)));
-
-		$document->setPath($path);
-		$document->setFileName($file->getName());
-	}
-
-
-	/**
-	 * @param FilesDocument $document
-	 */
-	public function setDocumentTitle(FilesDocument $document) {
-		if (!is_null($document->getPath()) && $document->getPath() !== '') {
-			$document->setTitle($document->getPath());
-		} else {
-			$document->setTitle('/' . $document->getTitle());
-		}
-	}
-
-
-	/**
-	 * @param FilesDocument $document
-	 */
-	public function setDocumentLink(FilesDocument $document) {
-
-		$path = $document->getPath();
-		$filename = $document->getFileName();
-		$dir = substr($path, 0, -strlen($filename));
-
-		$document->setLink(
-			\OC::$server->getURLGenerator()
-						->linkToRoute(
-							'files.view.index',
-							[
-								'dir'      => $dir,
-								'scrollto' => $filename,
-							]
-						)
-		);
-	}
-
-
-	/**
-	 * @param FilesDocument $document
-	 *
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
-	public function setDocumentMore(FilesDocument $document) {
-
-		$access = $document->getAccess();
-		$file = $this->getFileFromId($access->getViewerId(), $document->getId());
-
-		if ($file === null) {
-			return;
-		}
-
-		// TODO: better way to do this : we remove the '/userid/files/'
-		$path =
-			MiscService::noEndSlash(substr($file->getPath(), 7 + strlen($access->getViewerId())));
-
-		$more = [
-			'webdav'             => $this->getWebdavId($document->getId()),
-			'path'               => $path,
-			'timestamp'          => $file->getMTime(), // FIXME: get the creation date of the file
-			'mimetype'           => $file->getMimetype(),
-			'modified_timestamp' => $file->getMTime(),
-			'etag'               => $file->getEtag(),
-			'permissions'        => $file->getPermissions(),
-			'size'               => $file->getSize(),
-			'favorite'           => false // FIXME: get the favorite status
-		];
-
-		$document->setMore($more);
-	}
-
-
-	/**
 	 * @param FilesDocument[] $documents
 	 *
 	 * @return FilesDocument[]
@@ -450,7 +369,8 @@ class FilesService {
 				// TODO - update $document with a error status instead of just ignore !
 				$document->getIndex()
 						 ->setStatus(Index::INDEX_IGNORE);
-				echo 'Exception: ' . json_encode($e->getTrace()) . ' - ' . $e->getMessage() . "\n";
+				echo 'Exception: ' . json_encode($e->getTrace()) . ' - ' . $e->getMessage()
+					 . "\n";
 			}
 
 			$index[] = $document;
@@ -470,9 +390,10 @@ class FilesService {
 	 * @throws NotPermittedException
 	 */
 	private function generateDocumentFromIndex(Index $index) {
-		$file = $this->getFileFromId($index->getOwnerId(), $index->getDocumentId());
 
-		if ($file === null) {
+		try {
+			$file = $this->getFileFromIndex($index);
+		} catch (Exception $e) {
 			$index->setStatus(Index::INDEX_REMOVE);
 			$document = new FilesDocument($index->getProviderId(), $index->getDocumentId());
 			$document->setIndex($index);
@@ -666,17 +587,6 @@ class FilesService {
 		return $shareNames;
 	}
 
-	/**
-	 * @param int $fileId
-	 *
-	 * @return string
-	 */
-	private function getWebdavId($fileId) {
-		$instanceId = $this->configService->getSystemValue('instanceid');
-
-		return sprintf("%08s", $fileId) . $instanceId;
-	}
-
 
 	/**
 	 * @param string $mimeType
@@ -781,7 +691,9 @@ class FilesService {
 			return;
 		}
 
-		$document->setContent(base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64);
+		$document->setContent(
+			base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64
+		);
 	}
 
 
@@ -807,7 +719,9 @@ class FilesService {
 			return;
 		}
 
-		$document->setContent(base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64);
+		$document->setContent(
+			base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64
+		);
 	}
 
 
@@ -833,7 +747,9 @@ class FilesService {
 			return;
 		}
 
-		$document->setContent(base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64);
+		$document->setContent(
+			base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64
+		);
 	}
 
 
@@ -905,6 +821,7 @@ class FilesService {
 		}
 
 		$this->groupFoldersService->impersonateOwner($index);
+		$this->externalFilesService->impersonateOwner($index);
 	}
 
 }

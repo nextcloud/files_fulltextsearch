@@ -1,3 +1,73 @@
 .icon-files {
 	background-image: url('/apps/files_fulltextsearch/img/files.svg');
 }
+
+.files_header {
+	height: 50px;
+	border-bottom: solid 1px #efefef;
+	position: relative;
+}
+
+.files_header_div {
+	position: absolute;
+	margin-left: 20px;
+	color: #999;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.files_result {
+	height: 50px;
+	position: relative;
+	border-bottom: solid 1px #efefef;
+}
+
+.files_result_div {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.files_div_checkbox {
+	left: 0px;
+	width: 50px;
+}
+
+.files_div_thumb {
+	left: 50px;
+	width: 32px;
+	height: 32px;
+	margin-left: 5px;
+}
+
+.files_div_name {
+	left: 100px;
+}
+
+.files_result_title {
+	color: #000;
+}
+
+.files_result_extract {
+	font-size: 11px;
+	color: #999;
+	margin-top: -5px;
+	margin-bottom: -5px;
+	margin-left: 5px;
+}
+
+.files_div_size {
+	right: 160px;
+	width: 100px
+}
+
+.files_div_modified {
+	right: 10px;
+	width: 150px;
+}
+
+.files_result_item {
+	color: #484848;
+	background: #fff;
+	padding: 10px;
+}
