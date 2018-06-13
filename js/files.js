@@ -86,8 +86,6 @@ FullTextSearch.prototype = {
 		this.fileActions.actions.all.Copy = undefined;
 		this.fileActions.actions.all.Delete = undefined;
 
-		console.log(JSON.stringify(this.fileActions.actions));
-
 		this.fileActions.registerAction({
 			name: 'GoToFolder',
 			displayName: t('files_fulltextsearch', 'Go to folder'),
@@ -108,7 +106,6 @@ FullTextSearch.prototype = {
 			iconClass: 'icon-folder',
 			permissions: OC.PERMISSION_NONE,
 			actionHandler: function (filename, context) {
-				console.log(JSON.stringify(context));
 				window.open('/apps/files/?dir=' + context.dir + context.filename);
 			}
 		});
@@ -493,7 +490,6 @@ FullTextSearch.prototype = {
 			// menu.remove();
 		});
 
-		console.log('???' + div.attr('data-path'));
 		var fileInfoModel = new OCA.Files.FileInfoModel(this.elementToFile(div));
 		menu.show({
 			fileActions: this.fileActions,
