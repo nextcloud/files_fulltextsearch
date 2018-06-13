@@ -236,10 +236,10 @@ FullTextSearch.prototype = {
 
 		var mtime = parseInt(entry.info.mtime, 10) * 1000;
 		var size = OC.Util.humanFileSize(parseInt(entry.info.size, 10), true);
-		var thumb = '/index.php/apps/theming/img/core/filetypes/folder.svg?v=3';
+		var thumb = OC.generateUrl('/apps/theming/img/core/filetypes/folder.svg?v=3');
 		if (entry.info.type !== 'dir') {
-			thumb = '/index.php/core/preview?fileId=' + entry.id + '&x=32&y=32&forceIcon=0&c=' +
-				entry.info.etag;
+			thumb = OC.generateUrl('/core/preview?fileId=' + entry.id + '&x=32&y=32&forceIcon=0&c=' +
+				entry.info.etag);
 		}
 		divEntry.find('.files_div_size').text(size);
 		divEntry.find('#modified').text(OC.Util.relativeModifiedDate(mtime));
@@ -448,7 +448,7 @@ FullTextSearch.prototype = {
 
 
 	_setCurrentDir: function (targetDir, changeUrl, fileId) {
-		window.open('/index.php/apps/files?dir=' + targetDir, '_self');
+		window.open(OC.generateUrl('/apps/files?dir=' + targetDir, '_self'));
 	},
 
 
