@@ -254,17 +254,6 @@ class SearchService {
 		$filename = $document->getInfo('file');
 		$dir = substr($path, 0, -strlen($filename));
 
-		$document->setLink(
-			\OC::$server->getURLGenerator()
-						->linkToRoute(
-							'files.view.index',
-							[
-								'dir'      => $dir,
-								'scrollto' => $filename,
-							]
-						)
-		);
-
 		$this->setDocumentLinkDir($document, $dir, $filename);
 		$this->setDocumentLinkFile($document, $dir, $filename);
 	}
@@ -280,10 +269,16 @@ class SearchService {
 			return;
 		}
 
-		$link = '/' . $this->configService->getSystemValue('webdav-root', 'remote.php/webdav');
-		$link .= $dir . '/' . $filename;
-
-		$document->setLink($link);
+		$document->setLink(
+			\OC::$server->getURLGenerator()
+						->linkToRoute(
+							'files.view.index',
+							[
+								'dir'      => $dir,
+								'scrollto' => $filename,
+							]
+						)
+		);
 	}
 
 
