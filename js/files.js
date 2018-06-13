@@ -81,6 +81,38 @@ FullTextSearch.prototype = {
 		window.FileActions.on('setDefault.app-files', this._onActionsUpdated);
 		window.FileActions.on('registerAction.app-files', this._onActionsUpdated);
 
+		this.fileActions.actions.all.Rename = undefined;
+		this.fileActions.actions.all.MoveCopy = undefined;
+		this.fileActions.actions.all.Copy = undefined;
+		this.fileActions.actions.all.Delete = undefined;
+
+		console.log(JSON.stringify(this.fileActions.actions));
+
+		this.fileActions.registerAction({
+			name: 'GoToFolder',
+			displayName: t('files_fulltextsearch', 'Go to folder'),
+			mime: 'file',
+			order: -50,
+			iconClass: 'icon-folder',
+			permissions: OC.PERMISSION_NONE,
+			actionHandler: function (filename, context) {
+				window.open('/apps/files/?dir=' + context.dir + '&scrollto=' + context.filename);
+			}
+		});
+
+		this.fileActions.registerAction({
+			name: 'OpenFolder',
+			displayName: t('files_fulltextsearch', 'Open folder'),
+			mime: 'dir',
+			order: -50,
+			iconClass: 'icon-folder',
+			permissions: OC.PERMISSION_NONE,
+			actionHandler: function (filename, context) {
+				console.log(JSON.stringify(context));
+				window.open('/apps/files/?dir=' + context.dir + context.filename);
+			}
+		});
+
 		// if (this._detailsView) {
 		// 	this.fileActions.registerAction({
 		// 		name: 'Details',
@@ -156,18 +188,29 @@ FullTextSearch.prototype = {
 
 		resultEntry.append($('<div>', {class: 'files_result_div files_div_name'}).append(resultName));
 
-		var resultMore = $('<span>', {class: 'icon icon-more'});
+		var resultMore = $('<a>', {
+			class: 'action action-menu permanent',
+			href: '#',
+			'data-action': 'menu',
+			'data-original-title': ''
+		}).append($('<span>', {
+			id: 'more',
+			class: 'icon icon-more'
+		}).html('&nbsp;'));
 
 		// <a class="action action-menu permanent" href="#" data-action="menu" data-original-title=""
 		// title=""> <span class="icon icon-more"></span><span
 		// class="hidden-visually">Actions</span></a>
 		resultEntry.append(
-			$('<div>', {class: 'files_result_div files_result_item files_div_more'}).append(resultMore));
+			$('<div>', {
+				class: 'files_result_div files_result_item files_div_more'
+			}).append(resultMore));
 
 		resultEntry.append(
 			$('<div>', {class: 'files_result_div files_result_item files_div_size'}));
 
-		var resultModified = $('<div>', {class: 'files_result_div files_result_item files_div_modified'});
+		var resultModified = $('<div>',
+			{class: 'files_result_div files_result_item files_div_modified'});
 		resultModified.append($('<div>', {id: 'modified'}));
 		resultModified.append($('<div>', {id: 'info'}));
 		resultEntry.append(resultModified);
@@ -193,8 +236,11 @@ FullTextSearch.prototype = {
 
 		var mtime = parseInt(entry.info.mtime, 10) * 1000;
 		var size = OC.Util.humanFileSize(parseInt(entry.info.size, 10), true);
-		var thumb = '/index.php/core/preview?fileId=' + entry.id + '&x=32&y=32&forceIcon=0&c=' +
-			entry.info.etag;
+		var thumb = '/index.php/apps/theming/img/core/filetypes/folder.svg?v=3';
+		if (entry.info.type !== 'dir') {
+			thumb = '/index.php/core/preview?fileId=' + entry.id + '&x=32&y=32&forceIcon=0&c=' +
+				entry.info.etag;
+		}
 		divEntry.find('.files_div_size').text(size);
 		divEntry.find('#modified').text(OC.Util.relativeModifiedDate(mtime));
 		divEntry.find('.files_div_thumb').css('background-image', 'url("' + thumb + '")');
@@ -204,7 +250,7 @@ FullTextSearch.prototype = {
 	onEntrySelected: function (divEntry, event) {
 
 		var resultEntry = divEntry.find('.files_result');
-		this.fileActions.currentFile = resultEntry;
+		this.fileActions.currentFile = resultEntry.children('.files_div_more');
 
 		var path = resultEntry.attr('data-path');
 		var filename = resultEntry.attr('data-file');
@@ -212,8 +258,15 @@ FullTextSearch.prototype = {
 		var type = resultEntry.attr('data-type');
 		var permissions = resultEntry.attr('data-permissions');
 
-		if (type !== 'file') {
-			return false;
+		// if (type !== 'file') {
+		// 	return false;
+		// }
+
+		if (event.target.id === 'more') {
+
+			this.hackFileActions(resultEntry);
+			// this.fileActions._showMenu(filename, this.hackFileActions(divEntry));
+			return true;
 		}
 
 		if (event && (event.ctrlKey || event.which === 2 || event.button === 4)) {
@@ -221,13 +274,12 @@ FullTextSearch.prototype = {
 		}
 
 		var action = this.fileActions.getDefault(mime, type, permissions);
-
 		if (action) {
-
 			event.preventDefault();
 			window.FileActions.currentFile = this.fileActions.currentFile;
 			action(filename, {
 				$file: resultEntry,
+				fileName: filename,
 				fileList: this,
 				fileActions: this.fileActions,
 				dir: path
@@ -251,6 +303,130 @@ FullTextSearch.prototype = {
 		return null;
 	},
 
+	getCurrentDirectory: function () {
+		return this.fileActions.currentFile.parent('.files_result').attr('data-path');
+	},
+
+	getDownloadUrl: function (files, dir, isDir) {
+		var file = this.fileActions.currentFile.parent('.files_result').attr('data-file');
+		var path = this.fileActions.currentFile.parent('.files_result').attr('data-path');
+		return OCA.Files.Files.getDownloadUrl(file, path, isDir);
+	},
+
+	showFileBusyState: function (files, state) {
+	},
+
+
+	/**
+	 * Copies a file to a given target folder.
+	 *
+	 * @param fileNames array of file names to copy
+	 * @param targetPath absolute target path
+	 * @param callback to call when copy is finished with success
+	 * @param dir the dir path where fileNames are located (optionnal, will take current folder if
+	 *     undefined)
+	 */
+	copy: function (fileNames, targetPath, callback, dir) {
+		var self = this;
+		var filesToNotify = [];
+		var count = 0;
+
+		dir = typeof dir === 'string' ? dir : this.getCurrentDirectory();
+		if (dir.charAt(dir.length - 1) !== '/') {
+			dir += '/';
+		}
+		var target = OC.basename(targetPath);
+		if (!_.isArray(fileNames)) {
+			fileNames = [fileNames];
+		}
+		_.each(fileNames, function (fileName) {
+			var $tr = self.findFileEl(fileName);
+			self.showFileBusyState($tr, true);
+			if (targetPath.charAt(targetPath.length - 1) !== '/') {
+				// make sure we move the files into the target dir,
+				// not overwrite it
+				targetPath = targetPath + '/';
+			}
+			self.filesClient.copy(dir + fileName, targetPath + fileName)
+				.done(function () {
+					filesToNotify.push(fileName);
+
+					// if still viewing the same directory
+					if (OC.joinPaths(self.getCurrentDirectory(), '/') === dir) {
+						// recalculate folder size
+						var oldFile = self.findFileEl(target);
+						var newFile = self.findFileEl(fileName);
+						var oldSize = oldFile.data('size');
+						var newSize = oldSize + newFile.data('size');
+						oldFile.data('size', newSize);
+						oldFile.find('td.filesize').text(OC.Util.humanFileSize(newSize));
+					}
+				})
+				.fail(function (status) {
+					if (status === 412) {
+						// TODO: some day here we should invoke the conflict dialog
+						OC.Notification.show(t('files', 'Could not copy "{file}", target exists',
+							{file: fileName}), {type: 'error'}
+						);
+					} else {
+						OC.Notification.show(t('files', 'Could not copy "{file}"',
+							{file: fileName}), {type: 'error'}
+						);
+					}
+				})
+				.always(function () {
+					self.showFileBusyState($tr, false);
+					count++;
+
+					/**
+					 * We only show the notifications once the last file has been copied
+					 */
+					if (count === fileNames.length) {
+						// Remove leading and ending /
+						if (targetPath.slice(0, 1) === '/') {
+							targetPath = targetPath.slice(1, targetPath.length);
+						}
+						if (targetPath.slice(-1) === '/') {
+							targetPath = targetPath.slice(0, -1);
+						}
+
+						if (filesToNotify.length > 0) {
+							// Since there's no visual indication that the files were copied, let's send
+							// some notifications !
+							if (filesToNotify.length === 1) {
+								OC.Notification.show(t('files', 'Copied {origin} inside {destination}',
+									{
+										origin: filesToNotify[0],
+										destination: targetPath
+									}
+								), {timeout: 10});
+							} else if (filesToNotify.length > 0 && filesToNotify.length < 3) {
+								OC.Notification.show(t('files', 'Copied {origin} inside {destination}',
+									{
+										origin: filesToNotify.join(', '),
+										destination: targetPath
+									}
+								), {timeout: 10});
+							} else {
+								OC.Notification.show(t('files',
+									'Copied {origin} and {nbfiles} other files inside {destination}',
+									{
+										origin: filesToNotify[0],
+										nbfiles: filesToNotify.length - 1,
+										destination: targetPath
+									}
+								), {timeout: 10});
+							}
+						}
+					}
+				});
+		});
+
+		if (callback) {
+			callback();
+		}
+	},
+
 
 	changeDirectory: function (targetDir, changeUrl, force, fileId) {
 		var self = this;
@@ -269,6 +445,12 @@ FullTextSearch.prototype = {
 			}
 		});
 	},
+
+
+	_setCurrentDir: function (targetDir, changeUrl, fileId) {
+		window.open('/index.php/apps/files?dir=' + targetDir, '_self');
+	},
+
 
 	onSearchRequest: function (data) {
 		if (data.options.files_within_dir === '1') {
@@ -296,6 +478,70 @@ FullTextSearch.prototype = {
 		elements.search_result.fadeOut(150, function () {
 			elements.old_files.fadeIn(150);
 		});
+	},
+
+
+	// Hacky way.
+	// fit the FileActionMenu to the div.
+	hackFileActions: function (div) {
+		var menu = new OCA.Files.FileActionsMenu();
+
+		div.append(menu.$el);
+		menu.$el.on('afterHide', function () {
+			// context.$file.removeClass('mouseOver');
+			// $trigger.removeClass('open');
+			// menu.remove();
+		});
+
+		console.log('???' + div.attr('data-path'));
+		var fileInfoModel = new OCA.Files.FileInfoModel(this.elementToFile(div));
+		menu.show({
+			fileActions: this.fileActions,
+			fileList: this,
+			fileInfoModel: fileInfoModel,
+			$file: div,
+			filename: div.attr('data-file'),
+			dir: div.attr('data-path')
+		});
+
+		div.find('.fileActionsMenu').addClass('files_force_action_menu');
+	},
+
+
+	/**
+	 * Returns the file data from a given file element.
+	 * @param $el file tr element
+	 * @return file data
+	 */
+	elementToFile: function (div) {
+		var data = {
+			id: parseInt(div.attr('data-id'), 10),
+			name: div.attr('data-file'),
+			mimetype: div.attr('data-mime'),
+			mtime: parseInt(div.attr('data-mtime'), 10),
+			type: div.attr('data-type'),
+			etag: div.attr('data-etag'),
+			permissions: parseInt(div.attr('data-permissions'), 10),
+			hasPreview: div.attr('data-has-preview') === 'true',
+			isEncrypted: div.attr('data-e2eencrypted') === 'true'
+		};
+		var size = div.attr('data-size');
+		if (size) {
+			data.size = parseInt(size, 10);
+		}
+		var icon = div.attr('data-icon');
+		if (icon) {
+			data.icon = icon;
+		}
+		var mountType = div.attr('data-mounttype');
+		if (mountType) {
+			data.mountType = mountType;
+		}
+		var path = div.attr('data-path');
+		if (path) {
+			data.path = path;
+		}
+		return data;
 	}
 
 };

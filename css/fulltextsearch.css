@@ -37,6 +37,7 @@
 	left: 50px;
 	width: 32px;
 	height: 32px;
+	background-size: 32px;
 	margin-left: 5px;
 }
 
@@ -62,9 +63,16 @@
 	margin-top: -3px;
 }
 
-.files_div_info {
-	right: 50px;
-	width: 260px;
+.files_div_more {
+	width: 50px;
+	right: 280px;
+}
+
+.files_div_more SPAN {
+	padding: 16px 23px 16px 23px;
+	height: 16px;
+	width: 16px;
+	opacity: 0.4;
 }
 
 .files_div_size {
@@ -81,4 +89,9 @@
 	color: #484848;
 	background: #fff;
 	padding: 5px;
+}
+
+.files_force_action_menu {
+	right: 287px;
+	top: 53px;
 }
