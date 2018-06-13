@@ -303,16 +303,16 @@ class ExternalFilesService {
 			return;
 		}
 
-		$this->miscService->log('========>>>>>> ' . json_encode($mount));
+//		$this->miscService->log('========>>>>>> ' . json_encode($mount));
 
 		try {
 			$index->setOwnerId($this->getRandomUserFromMountPoint($mount));
 		} catch (Exception $e) {
 		}
 
-		$this->miscService->log(
-			'======== ' . $index->getOwnerId() . ' >>>>>> ' . json_encode($mount)
-		);
+//		$this->miscService->log(
+//			'======== ' . $index->getOwnerId() . ' >>>>>> ' . json_encode($mount)
+//		);
 	}
 
 
