@@ -78,6 +78,7 @@ class SearchService {
 	public function improveSearchRequest(SearchRequest $request) {
 		$this->searchQueryShareNames($request);
 		$this->searchQueryWithinDir($request);
+		$this->searchQueryInOptions($request);
 		$this->searchQueryFiltersExtension($request);
 		$this->searchQueryFiltersSource($request);
 	}
@@ -152,6 +153,28 @@ class SearchService {
 		$this->addTagToSearchRequest($request, 'files_local', $local);
 		$this->addTagToSearchRequest($request, 'files_external', $external);
 		$this->addTagToSearchRequest($request, 'files_group_folders', $groupFolders);
+	}
+
+
+	/**
+	 * @param SearchRequest $request
+	 */
+	private function searchQueryInOptions(SearchRequest $request) {
+		$in = $request->getOption('in');
+
+		if (!is_array($in)) {
+			return;
+		}
+
+		if (in_array('filename', $in)) {
+			$username = MiscService::secureUsername($request->getAuthor());
+			$request->limitToField('share_names.' . $username);
+			$request->limitToField('title');
+		}
+
+		if (in_array('content', $in)) {
+			$request->limitToField('content');
+		}
 	}
 
 
