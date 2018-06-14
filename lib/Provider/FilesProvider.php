@@ -155,8 +155,7 @@ class FilesProvider implements IFullTextSearchProvider {
 				]
 			],
 			'navigation' => [
-				'css'     => 'fulltextsearch',
-				'icon'    => 'icon-files',
+				'icon'    => 'icon-fts-files',
 				'options' => [
 					[
 						'name'  => 'files_local',

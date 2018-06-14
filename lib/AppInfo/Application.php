@@ -85,6 +85,7 @@ class Application extends App {
 		if ($container->query(IAppManager::class)
 					  ->isEnabledForUser('fulltextsearch', $user)
 			&& (FullTextSearch::isProviderIndexed(FilesProvider::FILES_PROVIDER_ID))) {
+			Util::addStyle(self::APP_NAME, 'fulltextsearch');
 			$this->includeFullTextSearch();
 		}
 	}
@@ -98,12 +99,10 @@ class Application extends App {
 					->addListener(
 						'OCA\Files::loadAdditionalScripts', function() {
 						FullTextSearch::addJavascriptAPI();
-						Util::addScript(Application::APP_NAME, 'files');
+						Util::addScript(self::APP_NAME, 'files');
 					}
 					);
 	}
-
-
 
 
 }
