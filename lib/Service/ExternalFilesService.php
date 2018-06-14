@@ -91,21 +91,19 @@ class ExternalFilesService {
 	 * @param IUserManager $userManager
 	 * @param IGroupManager $groupManager
 	 * @param IManager $shareManager
-	 * @param GlobalStoragesService $globalStoragesService
 	 * @param LocalFilesService $localFilesService
 	 * @param ConfigService $configService
 	 * @param MiscService $miscService
 	 */
 	public function __construct(
 		IRootFolder $rootFolder, IUserManager $userManager, IGroupManager $groupManager,
-		IManager $shareManager, GlobalStoragesService $globalStoragesService,
-		LocalFilesService $localFilesService, ConfigService $configService, MiscService $miscService
+		IManager $shareManager, LocalFilesService $localFilesService, ConfigService $configService,
+		MiscService $miscService
 	) {
 		$this->rootFolder = $rootFolder;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->shareManager = $shareManager;
-		$this->globalStoragesService = $globalStoragesService;
 
 		$this->localFilesService = $localFilesService;
 
@@ -123,6 +121,7 @@ class ExternalFilesService {
 			return;
 		}
 
+		$this->globalStoragesService = \OC::$server->getGlobalStoragesService();
 		$this->externalMounts = $this->getMountPoints($userId);
 	}
 
