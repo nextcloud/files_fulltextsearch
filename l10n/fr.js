@@ -6,6 +6,7 @@ OC.L10N.register(
     "Name" : "Nom",
     "Modified" : "Modifié",
     "Size" : "Taille",
+    "Could not copy \"{file}\"" : "Impossible de copier \"{file}\"",
     "Full text search - Files (BETA)" : "Recherche de texte intégrale - Fichiers (BETA)",
     "Index the content of your files" : "Indexer le contenu de vos fichiers",
     "Files" : "Fichiers"
