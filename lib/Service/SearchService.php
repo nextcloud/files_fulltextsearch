@@ -261,9 +261,9 @@ class SearchService {
 	 */
 	private function setDocumentTitle(FilesDocument $document) {
 		if (!is_null($document->getPath()) && $document->getPath() !== '') {
-			$document->setTitle($document->getPath());
+			$document->setTitle(MiscService::noBeginSlash($document->getPath()));
 		} else {
-			$document->setTitle('/' . $document->getTitle());
+			$document->setTitle($document->getTitle());
 		}
 	}
 
@@ -277,7 +277,7 @@ class SearchService {
 		$filename = $document->getInfo('file');
 		$dir = substr($path, 0, -strlen($filename));
 
-		$this->setDocumentLinkDir($document, $dir, $filename);
+		$this->setDocumentLinkDir($document, $dir);
 		$this->setDocumentLinkFile($document, $dir, $filename);
 	}
 
