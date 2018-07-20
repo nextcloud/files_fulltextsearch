@@ -576,9 +576,12 @@ class FilesService {
 					continue;
 				}
 
+				$path = $this->getPathFromViewerId($file->getId(), $username);
 				$shareNames[MiscService::secureUsername($username)] =
-					$this->getPathFromViewerId($file->getId(), $username);
+					(!is_string($path)) ? $path = '' : $path;
+
 			} catch (Exception $e) {
+				$this->miscService->log('Issue while getting information on documentId:' . $document->getId(), 0);
 			}
 		}
 
