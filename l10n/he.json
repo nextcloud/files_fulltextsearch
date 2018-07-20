@@ -1,4 +1,13 @@
 { "translations": {
+    "Go to folder" : "מעבר לתיקייה",
+    "Open folder" : "פתיחת תיקייה",
+    "Name" : "שם",
+    "Modified" : "מועד שינוי",
+    "Size" : "גודל",
+    "Could not copy \"{file}\", target exists" : "לא ניתן להעתיק את „{file}”, היעד קיים",
+    "Could not copy \"{file}\"" : "לא ניתן להעתיק את „{file}”",
+    "Copied {origin} inside {destination}" : "{origin} הועתק לתוך {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} ו־{nbfiles} קבצים נוספים הועתקו לתוך {destination}",
     "Full text search - Files (BETA)" : "חיפוש טקסט מלא - קבצים (בטא)",
     "Index the content of your files" : "סידור תוכן הקבצים שלך באינדקס",
     "Extension to the _Full text search_ app to index your users' files." : "הרחבה ליישומון _חיפוש טקסט מלא_ כדי לסדר את קובצי המשתמשים שלך באינדקס.",
