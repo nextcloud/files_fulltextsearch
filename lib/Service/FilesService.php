@@ -41,6 +41,7 @@ use OCA\FullTextSearch\Exceptions\InterruptException;
 use OCA\FullTextSearch\Exceptions\TickDoesNotExistException;
 use OCA\FullTextSearch\Model\Index;
 use OCA\FullTextSearch\Model\IndexDocument;
+use OCA\FullTextSearch\Model\IndexOptions;
 use OCA\FullTextSearch\Model\Runner;
 use OCP\AppFramework\IAppContainer;
 use OCP\Files\File;
@@ -139,6 +140,7 @@ class FilesService {
 	/**
 	 * @param Runner $runner
 	 * @param string $userId
+	 * @param IndexOptions $indexOptions
 	 *
 	 * @return FilesDocument[]
 	 * @throws InterruptException
@@ -146,14 +148,24 @@ class FilesService {
 	 * @throws NotFoundException
 	 * @throws TickDoesNotExistException
 	 */
-	public function getFilesFromUser(Runner $runner, $userId) {
+	public function getFilesFromUser(Runner $runner, $userId, $indexOptions) {
 
 		$this->initFileSystems($userId);
 
 		/** @var Folder $files */
 		$files = $this->rootFolder->getUserFolder($userId)
-								  ->get('/');
-		$result = $this->getFilesFromDirectory($runner, $userId, $files);
+								  ->get($indexOptions->getOption('path', '/'));
+
+		if ($files instanceof Folder) {
+			$result = $this->getFilesFromDirectory($runner, $userId, $files);
+		} else {
+			$result = [];
+			try {
+				$result[] = $this->generateFilesDocumentFromFile($userId, $files);
+			} catch (FileIsNotIndexableException $e) {
+				/** we do nothin' */
+			}
+		}
 
 		return $result;
 	}
@@ -199,7 +211,7 @@ class FilesService {
 			$runner->update('getFilesFromDirectory');
 
 			try {
-				$documents[] = $this->generateFilesDocumentFromFile($file, $userId);
+				$documents[] = $this->generateFilesDocumentFromFile($userId, $file);
 			} catch (FileIsNotIndexableException $e) {
 				continue;
 			}
@@ -226,7 +238,7 @@ class FilesService {
 	 * @throws NotFoundException
 	 * @throws Exception
 	 */
-	private function generateFilesDocumentFromFile(Node $file, $viewerId) {
+	private function generateFilesDocumentFromFile($viewerId, Node $file) {
 
 		$source = $this->getFileSource($file);
 		$document = new FilesDocument(FilesProvider::FILES_PROVIDER_ID, $file->getId());
@@ -401,7 +413,7 @@ class FilesService {
 			return $document;
 		}
 
-		$document = $this->generateFilesDocumentFromFile($file, $index->getOwnerId());
+		$document = $this->generateFilesDocumentFromFile($index->getOwnerId(), $file);
 		$document->setIndex($index);
 
 		$this->updateFilesDocumentFromFile($document, $file);
@@ -581,7 +593,9 @@ class FilesService {
 					(!is_string($path)) ? $path = '' : $path;
 
 			} catch (Exception $e) {
-				$this->miscService->log('Issue while getting information on documentId:' . $document->getId(), 0);
+				$this->miscService->log(
+					'Issue while getting information on documentId:' . $document->getId(), 0
+				);
 			}
 		}
 

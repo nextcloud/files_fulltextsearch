@@ -39,6 +39,7 @@ use OCA\FullTextSearch\IFullTextSearchPlatform;
 use OCA\FullTextSearch\IFullTextSearchProvider;
 use OCA\FullTextSearch\Model\Index;
 use OCA\FullTextSearch\Model\IndexDocument;
+use OCA\FullTextSearch\Model\IndexOptions;
 use OCA\FullTextSearch\Model\Runner;
 use OCA\FullTextSearch\Model\SearchRequest;
 use OCA\FullTextSearch\Model\SearchResult;
@@ -70,6 +71,9 @@ class FilesProvider implements IFullTextSearchProvider {
 
 	/** @var Runner */
 	private $runner;
+
+	/** @var IndexOptions */
+	private $indexOptions = [];
 
 
 	/**
@@ -114,6 +118,14 @@ class FilesProvider implements IFullTextSearchProvider {
 
 	public function setRunner(Runner $runner) {
 		$this->runner = $runner;
+	}
+
+
+	/**
+	 * @param IndexOptions $options
+	 */
+	public function setIndexOptions($options) {
+		$this->indexOptions = $options;
 	}
 
 
@@ -186,6 +198,14 @@ class FilesProvider implements IFullTextSearchProvider {
 
 
 	/**
+	 * @deprecated
+	 */
+	public function getOptions() {
+		return $this->getOptionsTemplate();
+	}
+
+
+	/**
 	 * called when loading all providers.
 	 *
 	 * Loading some containers.
@@ -219,7 +239,7 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @throws NotFoundException
 	 */
 	public function generateIndexableDocuments($userId) {
-		$files = $this->filesService->getFilesFromUser($this->runner, $userId);
+		$files = $this->filesService->getFilesFromUser($this->runner, $userId, $this->indexOptions);
 
 		return $files;
 	}
