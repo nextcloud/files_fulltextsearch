@@ -11,7 +11,7 @@ OC.L10N.register(
     "Copied {origin} inside {destination}" : "{origin} wurde nach {destination} kopiert",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} und {nbfiles} weitere Dateien wurden nach {destination} kopiert",
     "Full text search - Files (BETA)" : "Volltextsuche - Dateien (Beta)",
-    "Index the content of your files" : "Indiziert den Inhalt Deiner Dateien",
+    "Index the content of your files" : "Indizieren Sie den Inhalt Ihrer Dateien",
     "Extension to the _Full text search_ app to index your users' files." : "Erweiterung der _Volltextsuche_ App um auch die Dateien Ihrer Nutzer zu indexieren",
     "Files" : "Dateien"
 },
