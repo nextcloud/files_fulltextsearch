@@ -322,9 +322,6 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * after a search, improve results
 	 *
 	 * @param SearchResult $searchResult
-	 *
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
 	 */
 	public function improveSearchResult(SearchResult $searchResult) {
 		$this->searchService->improveSearchResult($searchResult);

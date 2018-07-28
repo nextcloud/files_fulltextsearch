@@ -57,7 +57,6 @@ class SettingsController extends Controller {
 	 *
 	 * @param IRequest $request
 	 * @param AppManager $appManager
-	 * @param string $userId
 	 * @param ConfigService $configService
 	 * @param SettingsService $settingsService
 	 * @param MiscService $miscService
