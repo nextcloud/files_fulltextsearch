@@ -29,13 +29,10 @@ namespace OCA\Files_FullTextSearch\Service;
 
 use Exception;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
-use OCA\FullTextSearch\Model\ExtendedTick;
 use OCA\FullTextSearch\Model\Index;
 use OCA\FullTextSearch\Model\SearchRequest;
 use OCA\FullTextSearch\Model\SearchResult;
-use OCP\Files\InvalidPathException;
 use OCP\Files\Node;
-use OCP\Files\NotFoundException;
 
 class SearchService {
 
