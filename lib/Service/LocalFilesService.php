@@ -183,6 +183,10 @@ class LocalFilesService {
 		$users = [];
 		foreach ($access->getGroups() as $groupName) {
 			$group = $this->groupManager->get($groupName);
+			if ($group === null) {
+				// TODO: set a warning
+				continue;
+			}
 			$users = array_merge($users, $group->getUsers());
 		}
 
