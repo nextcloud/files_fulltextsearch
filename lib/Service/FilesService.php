@@ -55,6 +55,9 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IUserManager;
 use OCP\Share\IManager;
+use OCA\Metadata\Services\MetadataService;
+use OC\Files\Filesystem;
+use OCP\AppFramework\QueryException;
 
 class FilesService {
 
@@ -181,6 +184,7 @@ class FilesService {
 
 		$this->externalFilesService->initExternalFilesForUser($userId);
 		$this->groupFoldersService->initGroupSharesForUser($userId);
+		\OC_Util::setupFS($userId);
 	}
 
 
@@ -506,10 +510,34 @@ class FilesService {
 
 		$this->updateDocumentAccess($document, $file);
 		$this->updateContentFromFile($document, $file);
+		$this->updateTagsFromFile($document, $file);
 
 		$document->addTag($document->getSource());
 	}
 
+	private function updateTagsFromFile(FilesDocument $document, Node $file) {
+		try {
+			$metadataService = $this->container->query(MetadataService::class);
+			$metadata = $metadataService->getMetadata($file)->metadataArray;
+			$allTags = array();
+			if (array_key_exists('Tags', $metadata)) {
+			    $allTags = array_merge($allTags, $metadata['Tags']);
+			}
+			if (array_key_exists('Keywords', $metadata)) {
+			    $allTags = array_merge($allTags, $metadata['Keywords']);
+			}
+			foreach($allTags as $tag) {
+				$lastPos = 0;
+				while (($lastPos = strpos($tag, '/', $lastPos))!== false) {
+					$document->addTag("usertag_" . strtolower(substr($tag, 0, $lastPos)));
+					$lastPos = $lastPos + 1;
+				}
+				$document->addTag("usertag_" . strtolower($tag));
+			}
+		} catch (QueryException $qex) {
+		} catch (\OCA\Metadata\Exceptions\UnsupportedFiletypeException $ex) {
+		}
+	}
 
 	/**
 	 * @param FilesDocument $document
