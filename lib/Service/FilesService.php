@@ -55,6 +55,8 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IUserManager;
 use OCP\Share\IManager;
+use OCA\Metadata\Services\MetadataService;
+use OC\Files\Filesystem;
 
 class FilesService {
 
@@ -181,6 +183,7 @@ class FilesService {
 
 		$this->externalFilesService->initExternalFilesForUser($userId);
 		$this->groupFoldersService->initGroupSharesForUser($userId);
+		\OC_Util::setupFS($userId);
 	}
 
 
@@ -506,10 +509,29 @@ class FilesService {
 
 		$this->updateDocumentAccess($document, $file);
 		$this->updateContentFromFile($document, $file);
+		$this->updateTagsFromFile($document, $file);
 
 		$document->addTag($document->getSource());
 	}
 
+	private function updateTagsFromFile(FilesDocument $document, Node $file) {
+		try {
+			$language = \OC::$server->getL10N('metadata');
+			$metadataService = $this->container->query(MetadataService::class);
+			$metadata = $metadataService->getMetadata($file, $language)->metadataArray;
+			if (array_key_exists('Tags', $metadata)) {
+				foreach($metadata['Tags'] as $tag) {
+					$lastPos=0;
+					while (($lastPos = strpos($tag, '/', $lastPos))!== false) {
+						$document->addTag("usertag_" . strtolower(substr($tag, 0, $lastPos)));
+						$lastPos = $lastPos + 1;
+					}
+					$document->addTag("usertag_" . strtolower($tag));
+				}
+			}
+		} catch (\OCA\Metadata\Exceptions\UnsupportedFiletypeException $ex) {
+		}
+	}
 
 	/**
 	 * @param FilesDocument $document

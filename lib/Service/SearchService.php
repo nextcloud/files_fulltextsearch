@@ -78,6 +78,7 @@ class SearchService {
 		$this->searchQueryInOptions($request);
 		$this->searchQueryFiltersExtension($request);
 		$this->searchQueryFiltersSource($request);
+		$this->searchQueryFiltersTags($request);
 	}
 
 
@@ -152,6 +153,12 @@ class SearchService {
 		$this->addTagToSearchRequest($request, 'files_group_folders', $groupFolders);
 	}
 
+	private function searchQueryFiltersTags(Searchrequest $request) {
+		$tags = $request->getOption('tag');
+		foreach ($tags as $tag) {
+			$this->addTagToSearchRequest($request, 'usertag_' . strtolower($tag), 1);
+		}
+	}
 
 	/**
 	 * @param SearchRequest $request
