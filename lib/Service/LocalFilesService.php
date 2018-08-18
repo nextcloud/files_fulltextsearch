@@ -27,7 +27,6 @@
 namespace OCA\Files_FullTextSearch\Service;
 
 
-use Exception;
 use OC\Share\Constants;
 use OCA\Files_FullTextSearch\Db\SharesRequest;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
