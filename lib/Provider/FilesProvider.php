@@ -252,13 +252,41 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @param IndexDocument[] $chunk
 	 *
 	 * @return IndexDocument[]
+	 * @throws InterruptException
+	 * @throws TickDoesNotExistException
 	 */
 	public function fillIndexDocuments($chunk) {
 
 		/** @var FilesDocument[] $chunk */
-		$result = $this->filesService->generateDocuments($chunk);
 
-		return $result;
+		$index = [];
+		foreach ($chunk as $document) {
+			$this->updateRunnerAction('fillDocument', true);
+			$this->updateRunnerInfoArray(
+				[
+					'documentId' => $document->getId(),
+					'title'      => '',
+					'content'    => ''
+				]
+			);
+
+			if (!($document instanceof FilesDocument)) {
+				continue;
+			}
+
+			$result = $this->filesService->generateDocument($document);
+			$this->updateRunnerInfoArray(
+				[
+					'info' => $document->getMimetype(),
+					'title'   => $document->getTitle(),
+					'content' => $document->getContentSize()
+				]
+			);
+
+			$index[] = $result;
+		}
+
+		return $index;
 	}
 
 
@@ -325,6 +353,33 @@ class FilesProvider implements IFullTextSearchProvider {
 	 */
 	public function improveSearchResult(SearchResult $searchResult) {
 		$this->searchService->improveSearchResult($searchResult);
+	}
+
+
+	/**
+	 * @param $action
+	 * @param bool $force
+	 *
+	 * @throws InterruptException
+	 * @throws TickDoesNotExistException
+	 */
+	private function updateRunnerAction($action, $force = false) {
+		if ($this->runner === null) {
+			return;
+		}
+
+		$this->runner->updateAction($action, $force);
+	}
+
+	/**
+	 * @param array $data
+	 */
+	private function updateRunnerInfoArray($data) {
+		if ($this->runner === null) {
+			return;
+		}
+
+		$this->runner->setInfoArray($data);
 	}
 
 

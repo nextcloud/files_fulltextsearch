@@ -208,7 +208,7 @@ class FilesService {
 
 		$files = $node->getDirectoryListing();
 		foreach ($files as $file) {
-			$runner->update('getFilesFromDirectory');
+			$runner->updateAction('getFilesFromDirectory');
 
 			try {
 				$documents[] = $this->generateFilesDocumentFromFile($userId, $file);
@@ -248,7 +248,6 @@ class FilesService {
 			$ownerId = $file->getOwner()
 							->getUID();
 		}
-
 		$document->setType($file->getType())
 				 ->setSource($source)
 				 ->setOwnerId($ownerId)
@@ -362,33 +361,23 @@ class FilesService {
 
 
 	/**
-	 * @param FilesDocument[] $documents
+	 * @param FilesDocument $document
 	 *
-	 * @return FilesDocument[]
+	 * @return FilesDocument
 	 */
-	public function generateDocuments($documents) {
+	public function generateDocument($document) {
 
-		$index = [];
-
-		foreach ($documents as $document) {
-			if (!($document instanceof FilesDocument)) {
-				continue;
-			}
-
-			try {
-				$this->updateFilesDocument($document);
-			} catch (Exception $e) {
-				// TODO - update $document with a error status instead of just ignore !
-				$document->getIndex()
-						 ->setStatus(Index::INDEX_IGNORE);
-				echo 'Exception: ' . json_encode($e->getTrace()) . ' - ' . $e->getMessage()
-					 . "\n";
-			}
-
-			$index[] = $document;
+		try {
+			$this->updateFilesDocument($document);
+		} catch (Exception $e) {
+			// TODO - update $document with a error status instead of just ignore !
+			$document->getIndex()
+					 ->setStatus(Index::INDEX_IGNORE);
+			echo 'Exception: ' . json_encode($e->getTrace()) . ' - ' . $e->getMessage()
+				 . "\n";
 		}
 
-		return $index;
+		return $document;
 	}
 
 
