@@ -2,7 +2,7 @@
 <info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
 	<id>files_fulltextsearch</id>
-	<name>Full text search - Files (BETA)</name>
+	<name>Full text search - Files</name>
 	<summary>Index the content of your files</summary>
 	<description><![CDATA[
 
@@ -10,7 +10,7 @@ Extension to the _Full text search_ app to index your users' files.
 
 	]]>
 	</description>
-	<version>0.8.3</version>
+	<version>0.99.0</version>
 	<licence>agpl</licence>
 	<author>Maxence Lange</author>
 	<types>
