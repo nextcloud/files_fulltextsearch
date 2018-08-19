@@ -10,7 +10,6 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "Не могу да ископирам фајл \"{file}\"",
     "Copied {origin} inside {destination}" : "Копиран {origin} у {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "Копиран{origin} и још {nbfiles} других фајлова у {destination}",
-    "Full text search - Files (BETA)" : "Претрага свих текстова - Фајлови (бета)",
     "Index the content of your files" : "Индексирајте садржај Ваших фајлова",
     "Extension to the _Full text search_ app to index your users' files." : "Додата апликацији _Претрага свих текстова_ да се индексирају фајлови корисника.",
     "Files" : "Фајлови"

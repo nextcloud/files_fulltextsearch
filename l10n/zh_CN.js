@@ -9,7 +9,6 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "无法复制 \"{文件}\", 目标已存在",
     "Could not copy \"{file}\"" : "不能复制 \"{文件}\"",
     "Copied {origin} inside {destination}" : "在{destination}内复制{origin}",
-    "Full text search - Files (BETA)" : "全文搜索 - 文件（测试版）",
     "Files" : "文件"
 },
 "nplurals=1; plural=0;");

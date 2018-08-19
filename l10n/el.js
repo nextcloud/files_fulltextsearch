@@ -7,7 +7,6 @@ OC.L10N.register(
     "Modified" : "Τροποποιήθηκε",
     "Size" : "Μέγεθος",
     "Could not copy \"{file}\"" : "Αδυναμία αντιγραφής του \"{file}\"",
-    "Full text search - Files (BETA)" : "Πλήρης αναζήτηση κειμένων- Αρχεία (BETA)",
     "Index the content of your files" : "Ευρετηριοποίηση του περιεχομένου των αρχείων σας",
     "Files" : "Αρχεία"
 },

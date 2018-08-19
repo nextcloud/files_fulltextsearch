@@ -10,7 +10,6 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "Не удалось скопировать «{file}»",
     "Copied {origin} inside {destination}" : "«{origin}» скопирован в «{destination}»",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "«{origin}» и {nbfiles} других файлов скопированы в «{destination}»",
-    "Full text search - Files (BETA)" : "Поиск по тексту (Бета)",
     "Index the content of your files" : "Индексирование содержимого файлов",
     "Extension to the _Full text search_ app to index your users' files." : "Дополнение к приложению _Full text search_, выполняющее индексацию файлов пользователей.",
     "Files" : "Файлы"

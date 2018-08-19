@@ -10,7 +10,6 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "Gat ekki afritað \"{file}\"",
     "Copied {origin} inside {destination}" : "Afritaði {origin} inn í {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "Afritaði {origin} og {nbfiles} aðrar skrár inn í {destination}",
-    "Full text search - Files (BETA)" : "Leit í öllum textanum - Skrár (BETA)",
     "Index the content of your files" : "Gerðu atriðaskrá yfir efni skránna þinna",
     "Extension to the _Full text search_ app to index your users' files." : "Viðbót fyrir _Full text search_ forritið til að gera atriðaskrár yfir skrár notendanna þinna.",
     "Files" : "Skrár"

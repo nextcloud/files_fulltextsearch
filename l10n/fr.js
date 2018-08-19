@@ -10,7 +10,6 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "Impossible de copier \"{file}\"",
     "Copied {origin} inside {destination}" : "{origin} copié dans {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} et {nbfiles} autres fichiers copiés dans {destination}",
-    "Full text search - Files (BETA)" : "Recherche de texte intégrale - Fichiers (BETA)",
     "Index the content of your files" : "Indexer le contenu de vos fichiers",
     "Extension to the _Full text search_ app to index your users' files." : "Extension de l'application _Full text search_  pour indexer les fichiers de vos utilisateurs.",
     "Files" : "Fichiers"

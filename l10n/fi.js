@@ -6,7 +6,6 @@ OC.L10N.register(
     "Name" : "Nimi",
     "Modified" : "Muokattu",
     "Size" : "Koko",
-    "Full text search - Files (BETA)" : "Kokotekstihaku - Tiedostot (BETA)",
     "Index the content of your files" : "Indeksoi tiedostojesi sisältö",
     "Files" : "Tiedostot"
 },
