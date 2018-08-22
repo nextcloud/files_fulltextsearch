@@ -107,8 +107,8 @@ class SearchService {
 		$currentDir = MiscService::noBeginSlash(MiscService::endSlash($currentDir));
 		$request->addRegexFilters(
 			[
-				['share_names.' . $username => $currentDir . '*'],
-				['title' => $currentDir . '*']
+				['share_names.' . $username => $currentDir . '.*'],
+				['title' => $currentDir . '.*']
 			]
 		);
 	}
