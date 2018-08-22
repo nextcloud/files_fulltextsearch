@@ -8,6 +8,8 @@ OC.L10N.register(
     "Size" : "Velikost",
     "Could not copy \"{file}\", target exists" : "Nelze kopírovat \"{file}\", cíl již existuje",
     "Could not copy \"{file}\"" : "„{file}“ se nedaří zkopírovat",
+    "Copied {origin} inside {destination}" : "{origin} zkopírováno do {destination}",
+    "Full text search - Files" : "Plnotextové vyhledávání – soubory",
     "Index the content of your files" : "Indexovat obsah vašich souborů",
     "Files" : "Soubory"
 },

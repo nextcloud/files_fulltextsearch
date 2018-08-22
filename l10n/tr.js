@@ -10,6 +10,7 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "\"{file}\" kopyalanamadı",
     "Copied {origin} inside {destination}" : "{origin} dosyası, {destination} içine kopyalandı",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} ve {nbfiles} diğer dosya {destination} içine kopyalandı",
+    "Full text search - Files" : "Tam metin arama - Dosyalar",
     "Index the content of your files" : "Dosyalarınızın içeriğini arama dizinine ekler",
     "Extension to the _Full text search_ app to index your users' files." : "Kullanıcılarınızın dosya içeriklerini arama dizinine ekleyen _Full text search_ uygulaması eklentisi.",
     "Files" : "Dosyalar"
