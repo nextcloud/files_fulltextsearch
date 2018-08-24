@@ -94,7 +94,7 @@ FullTextSearch.prototype = {
 			iconClass: 'icon-folder',
 			permissions: OC.PERMISSION_NONE,
 			actionHandler: function (filename, context) {
-				window.open('/apps/files/?dir=' + context.dir + '&scrollto=' + context.filename);
+				window.open(OC.generateUrl('/apps/files/?dir=' + context.dir + '&scrollto=' + context.filename));
 			}
 		});
 
