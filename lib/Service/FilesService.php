@@ -445,18 +445,13 @@ class FilesService {
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
+	 * @throws FileIsNotIndexableException
 	 */
 	public function updateDocument(Index $index) {
 		$this->impersonateOwner($index);
 		$this->initFileSystems($index->getOwnerId());
 
-		try {
-			$document = $this->generateDocumentFromIndex($index);
-
-			return $document;
-		} catch (FileIsNotIndexableException $e) {
-			return null;
-		}
+		return $this->generateDocumentFromIndex($index);
 	}
 
 
