@@ -27,6 +27,7 @@
 namespace OCA\Files_FullTextSearch\Provider;
 
 use OCA\Files_FullTextSearch\AppInfo\Application;
+use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Service\ConfigService;
 use OCA\Files_FullTextSearch\Service\ElasticSearchService;
@@ -303,10 +304,11 @@ class FilesProvider implements IFullTextSearchProvider {
 	/**
 	 * @param Index $index
 	 *
-	 * @return IndexDocument|null
+	 * @return IndexDocument
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
+	 * @throws FileIsNotIndexableException
 	 */
 	public function updateDocument(Index $index) {
 		return $this->filesService->updateDocument($index);
