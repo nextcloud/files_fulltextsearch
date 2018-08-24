@@ -147,9 +147,9 @@ class SearchService {
 			return;
 		}
 
-		$this->addTagToSearchRequest($request, 'files_local', $local);
-		$this->addTagToSearchRequest($request, 'files_external', $external);
-		$this->addTagToSearchRequest($request, 'files_group_folders', $groupFolders);
+		$this->addMetaTagToSearchRequest($request, 'files_local', $local);
+		$this->addMetaTagToSearchRequest($request, 'files_external', $external);
+		$this->addMetaTagToSearchRequest($request, 'files_group_folders', $groupFolders);
 	}
 
 
@@ -180,9 +180,9 @@ class SearchService {
 	 * @param string $tag
 	 * @param mixed $cond
 	 */
-	private function addTagToSearchRequest(SearchRequest $request, $tag, $cond) {
+	private function addMetaTagToSearchRequest(SearchRequest $request, $tag, $cond) {
 		if ($cond === 1 || $cond === '1') {
-			$request->addTag($tag);
+			$request->addMetaTag($tag);
 		}
 	}
 

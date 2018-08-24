@@ -496,7 +496,7 @@ class FilesService {
 		$this->updateDocumentAccess($document, $file);
 		$this->updateContentFromFile($document, $file);
 
-		$document->addTag($document->getSource());
+		$document->addMetaTag($document->getSource());
 	}
 
 
