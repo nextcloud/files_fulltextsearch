@@ -237,9 +237,10 @@ class SearchService {
 		$pathInfo = pathinfo($path);
 
 		$document->setPath($path);
-		$document->setInfo('type', $file->getType())
+		$document->setInfo('path', $path)
+				 ->setInfo('type', $file->getType())
 				 ->setInfo('file', $pathInfo['basename'])
-				 ->setInfo('path', $pathInfo['dirname'])
+				 ->setInfo('dir', $pathInfo['dirname'])
 				 ->setInfo('mime', $file->getMimetype())
 				 ->setInfo('favorite', false); // FIXME: get the favorite status
 

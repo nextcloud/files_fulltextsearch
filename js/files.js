@@ -228,7 +228,7 @@ FullTextSearch.prototype = {
 			'data-mtime': entry.info.mtime,
 			'data-etag': entry.info.etag,
 			'data-permissions': entry.info.permissions,
-			'data-path': entry.info.path
+			'data-dir': entry.info.dir
 		});
 
 		var mtime = parseInt(entry.info.mtime, 10) * 1000;
@@ -249,7 +249,7 @@ FullTextSearch.prototype = {
 		var resultEntry = divEntry.find('.files_result');
 		this.fileActions.currentFile = resultEntry.children('.files_div_more');
 
-		var path = resultEntry.attr('data-path');
+		var dir = resultEntry.attr('data-dir');
 		var filename = resultEntry.attr('data-file');
 		var mime = resultEntry.attr('data-mime');
 		var type = resultEntry.attr('data-type');
@@ -279,7 +279,7 @@ FullTextSearch.prototype = {
 				fileName: filename,
 				fileList: this,
 				fileActions: this.fileActions,
-				dir: path
+				dir: dir
 			});
 
 			return true;
@@ -301,12 +301,12 @@ FullTextSearch.prototype = {
 	},
 
 	getCurrentDirectory: function () {
-		return this.fileActions.currentFile.parent('.files_result').attr('data-path');
+		return this.fileActions.currentFile.parent('.files_result').attr('data-dir');
 	},
 
 	getDownloadUrl: function (files, dir, isDir) {
 		var file = this.fileActions.currentFile.parent('.files_result').attr('data-file');
-		var path = this.fileActions.currentFile.parent('.files_result').attr('data-path');
+		var path = this.fileActions.currentFile.parent('.files_result').attr('data-dir');
 		return OCA.Files.Files.getDownloadUrl(file, path, isDir);
 	},
 
@@ -497,7 +497,7 @@ FullTextSearch.prototype = {
 			fileInfoModel: fileInfoModel,
 			$file: div,
 			filename: div.attr('data-file'),
-			dir: div.attr('data-path')
+			dir: div.attr('data-dir')
 		});
 
 		div.find('.fileActionsMenu').addClass('files_force_action_menu');
@@ -533,9 +533,9 @@ FullTextSearch.prototype = {
 		if (mountType) {
 			data.mountType = mountType;
 		}
-		var path = div.attr('data-path');
-		if (path) {
-			data.path = path;
+		var dir = div.attr('data-dir');
+		if (dir) {
+			data.dir = dir;
 		}
 		return data;
 	}
