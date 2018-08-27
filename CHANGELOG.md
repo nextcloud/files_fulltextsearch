@@ -1,5 +1,16 @@
 # Changelog
 
+
+### 0.99.1 Release Candidate 2
+
+- bugfix: option within_dir
+- improvement: tags/metatags/subtags
+- improvement: document and searchrequest are dispatched via event
+- improvement: info update during :index
+- improvement: no more chunks
+- tesseract is removed from files_fts 
+
+
 ### 0.99.0 Release Candidate
 
 
