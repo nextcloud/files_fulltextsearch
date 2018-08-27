@@ -290,7 +290,10 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @throws FileIsNotIndexableException
 	 */
 	public function updateDocument(Index $index) {
-		return $this->filesService->updateDocument($index);
+		$document = $this->filesService->updateDocument($index);
+		$this->updateRunnerInfo('info', $document->getMimetype());
+
+		return $document;
 	}
 
 
@@ -338,29 +341,15 @@ class FilesProvider implements IFullTextSearchProvider {
 
 
 	/**
-	 * @param $action
-	 * @param bool $force
-	 *
-	 * @throws InterruptException
-	 * @throws TickDoesNotExistException
+	 * @param string $info
+	 * @param string $value
 	 */
-	private function updateRunnerAction($action, $force = false) {
+	private function updateRunnerInfo($info, $value) {
 		if ($this->runner === null) {
 			return;
 		}
 
-		$this->runner->updateAction($action, $force);
-	}
-
-	/**
-	 * @param array $data
-	 */
-	private function updateRunnerInfoArray($data) {
-		if ($this->runner === null) {
-			return;
-		}
-
-		$this->runner->setInfoArray($data);
+		$this->runner->setInfo($info, $value);
 	}
 
 
