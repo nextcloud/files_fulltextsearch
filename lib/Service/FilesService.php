@@ -364,10 +364,8 @@ class FilesService {
 
 	/**
 	 * @param FilesDocument $document
-	 *
-	 * @return FilesDocument
 	 */
-	public function generateDocument($document) {
+	public function generateDocument(FilesDocument $document) {
 
 		try {
 			$this->updateFilesDocument($document);
@@ -378,8 +376,6 @@ class FilesService {
 			echo 'Exception: ' . json_encode($e->getTrace()) . ' - ' . $e->getMessage()
 				 . "\n";
 		}
-
-		return $document;
 	}
 
 

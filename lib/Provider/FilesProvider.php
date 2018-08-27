@@ -253,41 +253,20 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @param IndexDocument[] $chunk
 	 *
 	 * @return IndexDocument[]
-	 * @throws InterruptException
-	 * @throws TickDoesNotExistException
+	 * @deprecated
 	 */
 	public function fillIndexDocuments($chunk) {
+		return [];
+	}
 
-		/** @var FilesDocument[] $chunk */
 
-		$index = [];
-		foreach ($chunk as $document) {
-			$this->updateRunnerAction('fillDocument', true);
-			$this->updateRunnerInfoArray(
-				[
-					'documentId' => $document->getId(),
-					'title'      => '',
-					'content'    => ''
-				]
-			);
-
-			if (!($document instanceof FilesDocument)) {
-				continue;
-			}
-
-			$result = $this->filesService->generateDocument($document);
-			$this->updateRunnerInfoArray(
-				[
-					'info' => $document->getMimetype(),
-					'title'   => $document->getTitle(),
-					'content' => $document->getContentSize()
-				]
-			);
-
-			$index[] = $result;
-		}
-
-		return $index;
+	/**
+	 * @param IndexDocument $document
+	 */
+	public function fillIndexDocument(IndexDocument $document) {
+		/** @var FilesDocument $document */
+		$this->filesService->generateDocument($document);
+		$this->updateRunnerInfo('info', $document->getMimetype());
 	}
 
 
