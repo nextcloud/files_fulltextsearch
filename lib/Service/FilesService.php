@@ -36,7 +36,6 @@ use OCA\Files_FullTextSearch\Exceptions\KnownFileMimeTypeException;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Provider\FilesProvider;
-use OCA\Files_FullTextSearch_Tesseract\Service\TesseractService;
 use OCA\FullTextSearch\Exceptions\InterruptException;
 use OCA\FullTextSearch\Exceptions\TickDoesNotExistException;
 use OCA\FullTextSearch\Model\Index;
@@ -93,6 +92,9 @@ class FilesService {
 	/** @var GroupFoldersService */
 	private $groupFoldersService;
 
+	/** @var ExtensionService */
+	private $extensionService;
+
 	/** @var MiscService */
 	private $miscService;
 
@@ -109,18 +111,17 @@ class FilesService {
 	 * @param LocalFilesService $localFilesService
 	 * @param ExternalFilesService $externalFilesService
 	 * @param GroupFoldersService $groupFoldersService
+	 * @param ExtensionService $extensionService
 	 * @param MiscService $miscService
 	 *
 	 * @internal param IProviderFactory $factory
 	 */
 	public function __construct(
 		IAppContainer $container, IRootFolder $rootFolder, AppManager $appManager,
-		IUserManager $userManager,
-		IManager $shareManager,
+		IUserManager $userManager, IManager $shareManager,
 		ConfigService $configService, LocalFilesService $localFilesService,
-		ExternalFilesService $externalFilesService,
-		GroupFoldersService $groupFoldersService,
-		MiscService $miscService
+		ExternalFilesService $externalFilesService, GroupFoldersService $groupFoldersService,
+		ExtensionService $extensionService, MiscService $miscService
 	) {
 		$this->container = $container;
 		$this->rootFolder = $rootFolder;
@@ -132,6 +133,7 @@ class FilesService {
 		$this->localFilesService = $localFilesService;
 		$this->externalFilesService = $externalFilesService;
 		$this->groupFoldersService = $groupFoldersService;
+		$this->extensionService = $extensionService;
 
 		$this->miscService = $miscService;
 	}
@@ -492,6 +494,8 @@ class FilesService {
 		$this->updateContentFromFile($document, $file);
 
 		$document->addMetaTag($document->getSource());
+
+		$this->extensionService->fileIndexing($document, $file);
 	}
 
 
@@ -540,7 +544,6 @@ class FilesService {
 			$this->extractContentFromFileText($document, $file);
 			$this->extractContentFromFileOffice($document, $file);
 			$this->extractContentFromFilePDF($document, $file);
-			$this->extractContentFromFileOCR($document, $file);
 		}
 
 		if ($document->getContent() === null) {
@@ -751,51 +754,6 @@ class FilesService {
 		$document->setContent(
 			base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64
 		);
-	}
-
-
-	/**
-	 * @param FilesDocument $document
-	 * @param File $file
-	 */
-	private function extractContentFromFileOCR(FilesDocument $document, File $file) {
-		if ($this->configService->getAppValue(ConfigService::FILES_OCR) !== '1') {
-			return;
-		}
-
-		if ($document->getContent() !== '' && $document->getContent() !== null) {
-			return;
-		}
-
-		$document->setContent('');
-		$this->extractContentUsingTesseractOCR($document, $file);
-	}
-
-
-	/**
-	 * @param FilesDocument $document
-	 * @param File $file
-	 */
-	private function extractContentUsingTesseractOCR(FilesDocument $document, File $file) {
-		try {
-			$tesseractService = $this->container->query(TesseractService::class);
-			$extension = pathinfo($document->getPath(), PATHINFO_EXTENSION);
-
-			if (!$tesseractService->parsedMimeType($document->getMimetype(), $extension)) {
-				return;
-			}
-
-			$this->configService->setDocumentIndexOption($document, ConfigService::FILES_OCR);
-			if (!$this->isSourceIndexable($document)) {
-				return;
-			}
-
-			$content = $tesseractService->ocrFile($file);
-		} catch (Exception $e) {
-			return;
-		}
-
-		$document->setContent(base64_encode($content), IndexDocument::ENCODED_BASE64);
 	}
 
 
