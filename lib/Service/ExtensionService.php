@@ -29,6 +29,7 @@ namespace OCA\Files_FullTextSearch\Service;
 
 
 use OCA\Files_FullTextSearch\Model\FilesDocument;
+use OCA\FullTextSearch\Model\SearchRequest;
 use OCP\Files\Node;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -61,10 +62,25 @@ class ExtensionService {
 	}
 
 
+	/**
+	 * @param FilesDocument $document
+	 * @param Node $file
+	 */
 	public function fileIndexing(FilesDocument &$document, Node $file) {
 		$this->dispatch(
 			'\OCA\Files_FullTextSearch::onFileIndexing',
 			['file' => $file, 'document' => &$document]
+		);
+	}
+
+
+	/**
+	 * @param SearchRequest $request
+	 */
+	public function searchRequest(SearchRequest &$request) {
+		$this->dispatch(
+			'\OCA\Files_FullTextSearch::onSearchRequest',
+			['request' => &$request]
 		);
 	}
 

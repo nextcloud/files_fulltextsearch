@@ -45,6 +45,9 @@ class SearchService {
 	/** @var ConfigService */
 	private $configService;
 
+	/** @var ExtensionService */
+	private $extensionService;
+
 	/** @var MiscService */
 	private $miscService;
 
@@ -55,16 +58,19 @@ class SearchService {
 	 * @param string $userId
 	 * @param FilesService $filesService
 	 * @param ConfigService $configService
+	 * @param ExtensionService $extensionService
 	 * @param MiscService $miscService
 	 *
 	 * @internal param IProviderFactory $factory
 	 */
 	public function __construct(
-		$userId, FilesService $filesService, ConfigService $configService, MiscService $miscService
+		$userId, FilesService $filesService, ConfigService $configService,
+		ExtensionService $extensionService, MiscService $miscService
 	) {
 		$this->userId = $userId;
 		$this->filesService = $filesService;
 		$this->configService = $configService;
+		$this->extensionService = $extensionService;
 		$this->miscService = $miscService;
 	}
 
@@ -78,6 +84,8 @@ class SearchService {
 		$this->searchQueryInOptions($request);
 		$this->searchQueryFiltersExtension($request);
 		$this->searchQueryFiltersSource($request);
+
+		$this->extensionService->searchRequest($request);
 	}
 
 
