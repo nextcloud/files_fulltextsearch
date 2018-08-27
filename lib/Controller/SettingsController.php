@@ -81,10 +81,6 @@ class SettingsController extends Controller {
 	public function getSettingsAdmin() {
 		$data = $this->configService->getConfig();
 
-		if (!$this->appManager->isInstalled('files_fulltextsearch_tesseract')) {
-			$data['files_ocr'] = -1;
-		}
-
 		return new DataResponse($data, Http::STATUS_OK);
 	}
 

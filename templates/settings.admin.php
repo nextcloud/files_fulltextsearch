@@ -129,29 +129,7 @@ Util::addScript(Application::APP_NAME, 'admin');
 				</div>
 			</div>
 
-
-			<div class="div-table-row" id="files_ocr_option">
-				<div class="div-table-col div-table-col-left">
-					<span class="leftcol">Enable OCR:</span>
-					<br/>
-					<em>Require <i>Full text search - Files - Tesseract</i>.</em>
-				</div>
-				<div class="div-table-col">
-					<input type="checkbox" id="files_ocr" value="1"/>
-				</div>
-			</div>
-
-			<!--<div class="div-table-row">
-				<div class="div-table-col div-table-col-left">
-					<span class="leftcol">Index images:</span>
-					<br/>
-					<em>Index the content of image files.</em>
-				</div>
-				<div class="div-table-col">
-					<input type="checkbox" id="files_image" value="1"/>
-				</div>
-			</div>
-
+			<!--
 			<div class="div-table-row">
 				<div class="div-table-col div-table-col-left">
 					<span class="leftcol">Index audio:</span>

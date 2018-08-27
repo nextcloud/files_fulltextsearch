@@ -60,7 +60,6 @@ class FilesService {
 	const MIMETYPE_TEXT = 'files_text';
 	const MIMETYPE_PDF = 'files_pdf';
 	const MIMETYPE_OFFICE = 'files_office';
-	const MIMETYPE_OCR = 'files_ocr';
 	const MIMETYPE_IMAGE = 'files_image';
 	const MIMETYPE_AUDIO = 'files_audio';
 
