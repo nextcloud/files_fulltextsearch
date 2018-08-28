@@ -1,7 +1,9 @@
 { "translations": {
     "Go to folder" : "Gå til mappe",
+    "Name" : "Navn",
     "Modified" : "Endret",
     "Size" : "Størrelse",
+    "Copied {origin} inside {destination}" : "Kopierte {origin} i {destination}",
     "Files" : "Filer"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
