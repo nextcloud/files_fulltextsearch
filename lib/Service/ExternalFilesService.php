@@ -132,12 +132,11 @@ class ExternalFilesService {
 	 * @param string $source
 	 *
 	 * @throws FileIsNotIndexableException
-	 * @throws NotFoundException
 	 * @throws KnownFileSourceException
 	 */
 	public function getFileSource(Node $file, &$source) {
-		if ($file->getStorage()
-				 ->isLocal() === true) {
+		if ($file->getMountPoint()
+				 ->getMountType() !== 'external') {
 			return;
 		}
 
