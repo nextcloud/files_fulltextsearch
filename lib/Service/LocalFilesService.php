@@ -29,6 +29,7 @@ namespace OCA\Files_FullTextSearch\Service;
 
 use OC\Share\Constants;
 use OCA\Files_FullTextSearch\Db\SharesRequest;
+use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Model\FileShares;
 use OCA\FullTextSearch\Model\DocumentAccess;
@@ -92,9 +93,18 @@ class LocalFilesService {
 	/**
 	 * @param Node $file
 	 * @param string $source
+	 *
+	 * @throws KnownFileSourceException
 	 */
 	public function getFileSource(Node $file, &$source) {
+		if ($file->getMountPoint()
+				 ->getMountType() !== '') {
+			return;
+		}
+
 		$source = ConfigService::FILES_LOCAL;
+
+		throw new KnownFileSourceException();
 	}
 
 

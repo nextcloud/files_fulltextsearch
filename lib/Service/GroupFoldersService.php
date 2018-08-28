@@ -122,7 +122,9 @@ class GroupFoldersService {
 	 * @throws KnownFileSourceException
 	 */
 	public function getFileSource(Node $file, &$source) {
-		if ($this->folderManager === null) {
+		if ($file->getMountPoint()
+				 ->getMountType() !== 'group'
+			|| $this->folderManager === null) {
 			return;
 		}
 
