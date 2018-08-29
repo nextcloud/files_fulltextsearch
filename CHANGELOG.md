@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.99.2 
+
+- fix identification of source of files.
+
 
 ### 0.99.1 Release Candidate 2
 
