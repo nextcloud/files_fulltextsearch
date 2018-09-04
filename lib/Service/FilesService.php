@@ -36,12 +36,9 @@ use OCA\Files_FullTextSearch\Exceptions\KnownFileMimeTypeException;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Provider\FilesProvider;
-use OCA\FullTextSearch\Exceptions\InterruptException;
-use OCA\FullTextSearch\Exceptions\TickDoesNotExistException;
 use OCA\FullTextSearch\Model\Index;
 use OCA\FullTextSearch\Model\IndexDocument;
 use OCA\FullTextSearch\Model\IndexOptions;
-use OCA\FullTextSearch\Model\Runner;
 use OCP\AppFramework\IAppContainer;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
@@ -139,17 +136,14 @@ class FilesService {
 
 
 	/**
-	 * @param Runner $runner
 	 * @param string $userId
 	 * @param IndexOptions $indexOptions
 	 *
 	 * @return FilesDocument[]
-	 * @throws InterruptException
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
-	 * @throws TickDoesNotExistException
 	 */
-	public function getFilesFromUser(Runner $runner, $userId, $indexOptions) {
+	public function getFilesFromUser($userId, $indexOptions) {
 
 		$this->initFileSystems($userId);
 
@@ -158,7 +152,7 @@ class FilesService {
 								  ->get($indexOptions->getOption('path', '/'));
 
 		if ($files instanceof Folder) {
-			$result = $this->getFilesFromDirectory($runner, $userId, $files);
+			$result = $this->getFilesFromDirectory($userId, $files);
 		} else {
 			$result = [];
 			try {
@@ -186,17 +180,14 @@ class FilesService {
 
 
 	/**
-	 * @param Runner $runner
 	 * @param string $userId
 	 * @param Folder $node
 	 *
 	 * @return FilesDocument[]
-	 * @throws InterruptException
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
-	 * @throws TickDoesNotExistException
 	 */
-	public function getFilesFromDirectory(Runner $runner, $userId, Folder $node) {
+	public function getFilesFromDirectory($userId, Folder $node) {
 		$documents = [];
 
 		try {
@@ -209,7 +200,6 @@ class FilesService {
 
 		$files = $node->getDirectoryListing();
 		foreach ($files as $file) {
-			$runner->updateAction('getFilesFromDirectory');
 
 			try {
 				$documents[] = $this->generateFilesDocumentFromFile($userId, $file);
@@ -220,7 +210,7 @@ class FilesService {
 			if ($file->getType() === FileInfo::TYPE_FOLDER) {
 				/** @var $file Folder */
 				$documents =
-					array_merge($documents, $this->getFilesFromDirectory($runner, $userId, $file));
+					array_merge($documents, $this->getFilesFromDirectory($userId, $file));
 			}
 		}
 

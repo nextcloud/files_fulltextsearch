@@ -187,7 +187,7 @@ class ExternalFilesService {
 		}
 
 		$document->getIndex()
-				 ->addOption('external_mount_id', $mount->getId());
+				 ->addOptionInt('external_mount_id', $mount->getId());
 		$document->setAccess($access);
 
 		$document->setAccess($access);
@@ -294,7 +294,7 @@ class ExternalFilesService {
 			return;
 		}
 
-		$groupFolderId = $index->getOption('external_mount_id', 0);
+		$groupFolderId = $index->getOptionInt('external_mount_id', 0);
 		try {
 			$mount = $this->getExternalMountById($groupFolderId);
 		} catch (ExternalMountNotFoundException $e) {

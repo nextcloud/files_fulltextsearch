@@ -28,7 +28,6 @@ namespace OCA\Files_FullTextSearch\Service;
 
 
 use OCA\FullTextSearch\IFullTextSearchPlatform;
-use OCA\FullTextSearch\Model\SearchRequest;
 
 class ElasticSearchService {
 

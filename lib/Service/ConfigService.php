@@ -252,10 +252,6 @@ class ConfigService {
 	public function compareIndexOptions(Index $index) {
 		$options = $index->getOptions();
 
-//		if (!is_array($options)) {
-//			return false;
-//		}
-
 		$ak = array_keys($options);
 		foreach ($ak as $k) {
 			if (substr($k, 0, 1) === '_'

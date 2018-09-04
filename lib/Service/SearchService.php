@@ -165,11 +165,7 @@ class SearchService {
 	 * @param SearchRequest $request
 	 */
 	private function searchQueryInOptions(SearchRequest $request) {
-		$in = $request->getOption('in');
-
-		if (!is_array($in)) {
-			return;
-		}
+		$in = $request->getOptionArray('in', []);
 
 		if (in_array('filename', $in)) {
 			$username = MiscService::secureUsername($request->getAuthor());

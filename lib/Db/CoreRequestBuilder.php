@@ -28,7 +28,7 @@ namespace OCA\Files_FullTextSearch\Db;
 
 
 use Doctrine\DBAL\Query\QueryBuilder;
-use OCA\FullTextSearch\Service\MiscService;
+use OCA\Files_FullTextSearch\Service\MiscService;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 

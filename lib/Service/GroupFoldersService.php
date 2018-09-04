@@ -160,7 +160,7 @@ class GroupFoldersService {
 		$access->addGroups($mount->getGroups());
 
 		$document->getIndex()
-				 ->addOption('group_folder_id', $mount->getId());
+				 ->addOptionInt('group_folder_id', $mount->getId());
 		$document->setAccess($access);
 	}
 
@@ -232,7 +232,7 @@ class GroupFoldersService {
 			return;
 		}
 
-		$groupFolderId = $index->getOption('group_folder_id', 0);
+		$groupFolderId = $index->getOptionInt('group_folder_id', 0);
 		try {
 			$mount = $this->getGroupFolderById($groupFolderId);
 		} catch (GroupFolderNotFoundException $e) {

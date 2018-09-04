@@ -27,7 +27,6 @@
 namespace OCA\Files_FullTextSearch\Settings;
 
 use Exception;
-use OCA\FullTextSearch\AppInfo\Application as FullTextSearch;
 use OCA\Files_FullTextSearch\AppInfo\Application;
 use OCA\Files_FullTextSearch\Service\ConfigService;
 use OCA\Files_FullTextSearch\Service\MiscService;
@@ -80,10 +79,6 @@ class Admin implements ISettings {
 	 * @return string the section ID, e.g. 'sharing'
 	 */
 	public function getSection() {
-		if (class_exists(FullTextSearch::class)) {
-			return FullTextSearch::APP_NAME;
-		}
-
 		return 'fulltextsearch';
 	}
 
