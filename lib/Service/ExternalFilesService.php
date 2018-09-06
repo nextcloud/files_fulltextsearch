@@ -47,7 +47,6 @@ use OCA\FullTextSearch\Model\Index;
 use OCP\App;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
-use OCP\Files\NotFoundException;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\Share\IManager;

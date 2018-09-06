@@ -34,8 +34,6 @@ use OCA\Files_FullTextSearch\Service\ElasticSearchService;
 use OCA\Files_FullTextSearch\Service\FilesService;
 use OCA\Files_FullTextSearch\Service\MiscService;
 use OCA\Files_FullTextSearch\Service\SearchService;
-use OCA\FullTextSearch\Exceptions\InterruptException;
-use OCA\FullTextSearch\Exceptions\TickDoesNotExistException;
 use OCA\FullTextSearch\IFullTextSearchPlatform;
 use OCA\FullTextSearch\IFullTextSearchProvider;
 use OCA\FullTextSearch\Model\Index;
@@ -234,13 +232,11 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @param string $userId
 	 *
 	 * @return IndexDocument[]
-	 * @throws InterruptException
-	 * @throws TickDoesNotExistException
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
 	public function generateIndexableDocuments($userId) {
-		$files = $this->filesService->getFilesFromUser($this->runner, $userId, $this->indexOptions);
+		$files = $this->filesService->getFilesFromUser($userId, $this->indexOptions);
 
 		return $files;
 	}
