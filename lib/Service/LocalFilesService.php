@@ -142,7 +142,7 @@ class LocalFilesService {
 			return;
 		}
 
-		$shares = $this->shareManager->getAccessList($file);
+		$shares = $this->shareManager->getAccessList($file, true, true);
 
 		if (!array_key_exists('users', $shares)) {
 			return;
