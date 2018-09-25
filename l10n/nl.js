@@ -10,6 +10,7 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "Kon \"{file}\" niet kopiëren",
     "Copied {origin} inside {destination}" : "Kopieerde {origin} binnen {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "Heeft {origin} en {nbfiles} andere bestanden in {destination} gekopieerd",
+    "Full text search - Files" : "Volledige tekst doorzoeken - Bestanden",
     "Index the content of your files" : "Indexeer de inhoud van je bestanden",
     "Extension to the _Full text search_ app to index your users' files." : "Uitbreiding naar de _Full text search_ app om je gebruikers' bestanden te indexeren.",
     "Files" : "Bestanden"
