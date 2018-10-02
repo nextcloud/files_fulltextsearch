@@ -6,6 +6,8 @@ OC.L10N.register(
     "Name" : "Nimi",
     "Modified" : "Muokattu",
     "Size" : "Koko",
+    "Could not copy \"{file}\"" : "Ei voitu kopioida tiedostoa \"{file}\"",
+    "Full text search - Files" : "Koko tekstin haku - Tiedostot",
     "Index the content of your files" : "Indeksoi tiedostojesi sisältö",
     "Files" : "Tiedostot"
 },
