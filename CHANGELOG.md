@@ -1,5 +1,11 @@
 # Changelog
 
+
+### 1.0.0
+
+First stable release
+
+
 ### 0.99.2 
 
 - fix identification of source of files.
