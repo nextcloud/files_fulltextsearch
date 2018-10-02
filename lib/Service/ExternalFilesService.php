@@ -134,7 +134,7 @@ class ExternalFilesService {
 	 * @throws KnownFileSourceException
 	 */
 	public function getFileSource(Node $file, &$source) {
-		if ($file->getMountPoint()
+		if ($this->globalStoragesService === null || $file->getMountPoint()
 				 ->getMountType() !== 'external') {
 			return;
 		}
@@ -164,6 +164,10 @@ class ExternalFilesService {
 	 * @param Node $file
 	 */
 	public function updateDocumentAccess(FilesDocument &$document, Node $file) {
+		if ($document->getSource() !== ConfigService::FILES_EXTERNAL) {
+			return;
+		}
+
 		try {
 			$mount = $this->getMountPoint($file);
 		} catch (FileIsNotIndexableException $e) {
@@ -198,7 +202,7 @@ class ExternalFilesService {
 	 *
 	 * @return bool
 	 */
-	public function isMountFullGlobal(MountPoint $mount) {
+	private function isMountFullGlobal(MountPoint $mount) {
 		if (sizeof($mount->getGroups()) > 0) {
 			return false;
 		}
