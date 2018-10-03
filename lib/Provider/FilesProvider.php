@@ -92,10 +92,11 @@ class FilesProvider implements IFullTextSearchProvider {
 
 
 	/**
+	 * @deprecated
 	 * @return string
 	 */
 	public function getVersion() {
-		return $this->configService->getAppValue('installed_version');
+		return '';
 	}
 
 
@@ -108,10 +109,11 @@ class FilesProvider implements IFullTextSearchProvider {
 
 
 	/**
+	 * @deprecated
 	 * @return string
 	 */
 	public function getAppId() {
-		return Application::APP_NAME;
+		return '';
 	}
 
 
