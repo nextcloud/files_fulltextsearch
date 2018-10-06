@@ -10,13 +10,13 @@ Extension to the _Full text search_ app to index your users' files.
 
 	]]>
 	</description>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<licence>agpl</licence>
 	<author>Maxence Lange</author>
+	<namespace>Files_FullTextSearch</namespace>
 	<types>
 		<filesystem/>
 	</types>
-	<namespace>Files_FullTextSearch</namespace>
 	<documentation>
 		<admin>https://github.com/nextcloud/files_fulltextsearch/wiki</admin>
 	</documentation>
