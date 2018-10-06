@@ -234,6 +234,10 @@ class FilesService {
 		$source = $this->getFileSource($file);
 		$document = new FilesDocument(FilesProvider::FILES_PROVIDER_ID, $file->getId());
 
+		if ($file->getId() === -1) {
+			throw new FileIsNotIndexableException();
+		}
+
 		$ownerId = '';
 		if ($file->getOwner() !== null) {
 			$ownerId = $file->getOwner()
