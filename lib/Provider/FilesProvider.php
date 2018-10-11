@@ -46,11 +46,16 @@ use OCP\AppFramework\QueryException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\IL10N;
 
 class FilesProvider implements IFullTextSearchProvider {
 
 
 	const FILES_PROVIDER_ID = 'files';
+
+
+	/** @var IL10N */
+	private $l10n;
 
 	/** @var ConfigService */
 	private $configService;
@@ -74,6 +79,19 @@ class FilesProvider implements IFullTextSearchProvider {
 	/** @var IndexOptions */
 	private $indexOptions = [];
 
+
+	public function __construct(
+		IL10N $l10n, ConfigService $configService, FilesService $filesService,
+		SearchService $searchService, ElasticSearchService $elasticSearchService,
+		MiscService $miscService
+	) {
+		$this->l10n = $l10n;
+		$this->configService = $configService;
+		$this->filesService = $filesService;
+		$this->searchService = $searchService;
+		$this->elasticSearchService = $elasticSearchService;
+		$this->miscService = $miscService;
+	}
 
 	/**
 	 * return unique id of the provider
@@ -140,27 +158,27 @@ class FilesProvider implements IFullTextSearchProvider {
 				'options' => [
 					[
 						'name'  => 'files_within_dir',
-						'title' => 'Within current directory',
+						'title' => $this->l10n->t('Within current directory'),
 						'type'  => 'checkbox'
 					],
 					[
 						'name'  => 'files_local',
-						'title' => 'Within local files',
+						'title' => $this->l10n->t('Within local files'),
 						'type'  => 'checkbox'
 					],
 					[
 						'name'  => 'files_external',
-						'title' => 'Within external files',
+						'title' => $this->l10n->t('Within external files'),
 						'type'  => 'checkbox'
 					],
 					[
 						'name'  => 'files_group_folders',
-						'title' => 'Within group folders',
+						'title' => $this->l10n->t('Within group folders'),
 						'type'  => 'checkbox'
 					],
 					[
 						'name'        => 'files_extension',
-						'title'       => 'Filter by extension',
+						'title'       => $this->l10n->t('Filter by extension'),
 						'type'        => 'input',
 						'size'        => 'small',
 						'placeholder' => 'txt'
@@ -172,22 +190,22 @@ class FilesProvider implements IFullTextSearchProvider {
 				'options' => [
 					[
 						'name'  => 'files_local',
-						'title' => 'Local Files',
+						'title' => $this->l10n->t('Local Files'),
 						'type'  => 'checkbox'
 					],
 					[
 						'name'  => 'files_external',
-						'title' => 'External Files',
+						'title' => $this->l10n->t('External Files'),
 						'type'  => 'checkbox'
 					],
 					[
 						'name'  => 'files_group_folders',
-						'title' => 'Group Folders',
+						'title' => $this->l10n->t('Group Folders'),
 						'type'  => 'checkbox'
 					],
 					[
 						'name'        => 'files_extension',
-						'title'       => 'Extension',
+						'title'       => $this->l10n->t('Extension'),
 						'type'        => 'input',
 						'size'        => 'small',
 						'placeholder' => 'txt'

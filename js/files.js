@@ -63,7 +63,7 @@ FullTextSearch.prototype = {
 		fullTextSearch.setResultHeader(self.generateResultHeader());
 		// fullTextSearch.setResultFooter(self.generateResultFooter());
 
-		fullTextSearch.initFullTextSearch('files', 'files', self);
+		fullTextSearch.initFullTextSearch('files', t('files_fulltextsearch', 'files'), self);
 
 		this._initFileActions();
 	},
@@ -94,7 +94,8 @@ FullTextSearch.prototype = {
 			iconClass: 'icon-folder',
 			permissions: OC.PERMISSION_NONE,
 			actionHandler: function (filename, context) {
-				window.open(OC.generateUrl('/apps/files/?dir=' + context.dir + '&scrollto=' + context.filename));
+				window.open(
+					OC.generateUrl('/apps/files/?dir=' + context.dir + '&scrollto=' + context.filename));
 			}
 		});
 
