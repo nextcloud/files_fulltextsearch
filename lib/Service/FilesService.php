@@ -483,8 +483,6 @@ class FilesService {
 		$this->updateContentFromFile($document, $file);
 
 		$document->addMetaTag($document->getSource());
-
-		$this->extensionService->fileIndexing($document, $file);
 	}
 
 
@@ -533,6 +531,8 @@ class FilesService {
 			$this->extractContentFromFileText($document, $file);
 			$this->extractContentFromFileOffice($document, $file);
 			$this->extractContentFromFilePDF($document, $file);
+
+			$this->extensionService->fileIndexing($document, $file);
 		}
 
 		if ($document->getContent() === null) {
