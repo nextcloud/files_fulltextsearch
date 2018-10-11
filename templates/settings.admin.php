@@ -36,13 +36,13 @@ Util::addScript(Application::APP_NAME, 'admin');
 <div id="files" class="section" style="display: none;">
 	<h2><?php p($l->t('Files')) ?></h2>
 
-	<h3 class="hsub">Sources</h3>
+	<h3 class="hsub"><?php p($l->t('Sources')); ?></h3>
 	<div class="div-table">
 		<div class="div-table-row">
 			<div class="div-table-col div-table-col-left">
-				<span class="leftcol">Local Files:</span>
+				<span class="leftcol"><?php p($l->t('Local Files')); ?>:</span>
 				<br/>
-				<em>Index the content of local files.</em>
+				<em><?php p($l->t('Index the content of local files.')); ?></em>
 			</div>
 			<div class="div-table-col">
 				<input type="checkbox" id="files_local" value="1"/>
@@ -51,9 +51,9 @@ Util::addScript(Application::APP_NAME, 'admin');
 
 		<div class="div-table-row">
 			<div class="div-table-col div-table-col-left">
-				<span class="leftcol">External Files:</span>
+				<span class="leftcol"><?php p($l->t('External Files')); ?>:</span>
 				<br/>
-				<em>Index the content of external files.</em>
+				<em><?php p($l->t('Index the content of external files.')); ?></em>
 			</div>
 			<div class="div-table-col">
 				<input type="checkbox" id="files_external" value="1"/>
@@ -62,9 +62,9 @@ Util::addScript(Application::APP_NAME, 'admin');
 
 		<div class="div-table-row">
 			<div class="div-table-col div-table-col-left">
-				<span class="leftcol">Group Folders:</span>
+				<span class="leftcol"><?php p($l->t('Group Folders')); ?>:</span>
 				<br/>
-				<em>Index the content of group folders.</em>
+				<em><?php p($l->t('Index the content of group folders.')); ?></em>
 			</div>
 			<div class="div-table-col">
 				<input type="checkbox" id="files_group_folders" value="1"/>
@@ -94,13 +94,13 @@ Util::addScript(Application::APP_NAME, 'admin');
 		</div>
 	</div>-->
 
-		<h3 class="hsub">Types</h3>
+		<h3 class="hsub"><?php p($l->t('Types')); ?></h3>
 		<div class="div-table">
 			<div class="div-table-row">
 				<div class="div-table-col div-table-col-left">
-					<span class="leftcol">Maximum file size:</span>
+					<span class="leftcol"><?php p($l->t('Maximum file size')); ?>:</span>
 					<br/>
-					<em>Maximum file size to index (in Mb).</em>
+					<em><?php p($l->t('Maximum file size to index (in Mb).')); ?></em>
 				</div>
 				<div class="div-table-col">
 					<input type="text" class="small" id="files_size" value=""/>
@@ -109,9 +109,9 @@ Util::addScript(Application::APP_NAME, 'admin');
 
 			<div class="div-table-row">
 				<div class="div-table-col div-table-col-left">
-					<span class="leftcol">Extract PDF:</span>
+					<span class="leftcol"><?php p($l->t('Extract PDF')); ?>:</span>
 					<br/>
-					<em>Index the content of PDF files.</em>
+					<em><?php p($l->t('Index the content of PDF files.')); ?></em>
 				</div>
 				<div class="div-table-col">
 					<input type="checkbox" id="files_pdf" value="1"/>
@@ -120,9 +120,9 @@ Util::addScript(Application::APP_NAME, 'admin');
 
 			<div class="div-table-row">
 				<div class="div-table-col div-table-col-left">
-					<span class="leftcol">Extract Office:</span>
+					<span class="leftcol"><?php p($l->t('Extract Office')); ?>:</span>
 					<br/>
-					<em>Index the content of office files.</em>
+					<em><?php p($l->t('Index the content of office files.')); ?></em>
 				</div>
 				<div class="div-table-col">
 					<input type="checkbox" id="files_office" value="1"/>
