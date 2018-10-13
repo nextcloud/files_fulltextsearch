@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
+    "files" : "Dateien",
     "Go to folder" : "Zum Ordner wechseln",
     "Open folder" : "Ordner öffnen",
     "Name" : "Name",
@@ -10,9 +11,29 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "\"{file}\" konnte nicht kopiert werden",
     "Copied {origin} inside {destination}" : "{origin} wurde nach {destination} kopiert",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} und {nbfiles} weitere Dateien wurden nach {destination} kopiert",
+    "Within current directory" : "Im aktuellen Verzeichnis",
+    "Within local files" : "In lokalen Dateien",
+    "Within external files" : "In externen Dateien",
+    "Within group folders" : "In Gruppenordnern",
+    "Filter by extension" : "Nach Erweiterung filtern",
+    "Local Files" : "Lokale Dateien",
+    "External Files" : "Externe Dateien",
+    "Group Folders" : "Gruppenordner",
+    "Extension" : "Erweiterung",
     "Full text search - Files" : "Volltextsuche - Dateien",
     "Index the content of your files" : "Indizieren Sie den Inhalt Ihrer Dateien",
     "Extension to the _Full text search_ app to index your users' files." : "Erweiterung der _Volltextsuche_ App um auch die Dateien Ihrer Nutzer zu indexieren",
-    "Files" : "Dateien"
+    "Files" : "Dateien",
+    "Sources" : "Quellen",
+    "Index the content of local files." : "Den Inhalt von lokalen Dateien indexieren.",
+    "Index the content of external files." : "Den Inhalt von externen Dateien indexieren.",
+    "Index the content of group folders." : "Den Inhalt von Gruppenordnern indexieren.",
+    "Types" : "Typen",
+    "Maximum file size" : "Maximale Dateigröße",
+    "Maximum file size to index (in Mb)." : "Maximale Dateigröße zum Indexieren (in MB): ",
+    "Extract PDF" : "PDF indexieren",
+    "Index the content of PDF files." : "Den Inhalt von PDF-Dateien indexieren.",
+    "Extract Office" : "Office-Dateien indexieren",
+    "Index the content of office files." : "Den Inhalt von Office-Dateien indexieren."
 },
 "nplurals=2; plural=(n != 1);");

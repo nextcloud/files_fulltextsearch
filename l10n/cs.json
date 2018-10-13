@@ -1,4 +1,5 @@
 { "translations": {
+    "files" : "soubory",
     "Go to folder" : "Přejít do složky",
     "Open folder" : "Otevřít složku",
     "Name" : "Jméno",
@@ -8,9 +9,19 @@
     "Could not copy \"{file}\"" : "„{file}“ se nedaří zkopírovat",
     "Copied {origin} inside {destination}" : "{origin} zkopírováno do {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "Zkopírováno {origin} a {nbfiles} dalších souborů uvnitř {destination}",
+    "Within current directory" : "Ve stávající složce",
+    "Within local files" : "Mezi místními soubory",
+    "Within external files" : "Mezi externími soubory",
+    "Filter by extension" : "Filtrovat podle přípony",
+    "Local Files" : "Místní soubory",
+    "External Files" : "Vnější soubory",
+    "Extension" : "Přípona",
     "Full text search - Files" : "Plnotextové vyhledávání – soubory",
     "Index the content of your files" : "Indexovat obsah vašich souborů",
     "Extension to the _Full text search_ app to index your users' files." : "Rozšíření pro _Full text search_ app pro vytváření rejstříku obsahů souborů vašich uživatelů.",
-    "Files" : "Soubory"
+    "Files" : "Soubory",
+    "Sources" : "Zdroje",
+    "Types" : "Typy",
+    "Index the content of PDF files." : "Indexovat obsah PDF souborů."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

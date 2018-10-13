@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
+    "files" : "fichiers",
     "Go to folder" : "Aller au dossier",
     "Open folder" : "Ouvrir le dossier",
     "Name" : "Nom",
@@ -10,9 +11,11 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "Impossible de copier \"{file}\"",
     "Copied {origin} inside {destination}" : "{origin} copié dans {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} et {nbfiles} autres fichiers copiés dans {destination}",
+    "Extension" : "Extension",
     "Full text search - Files" : "Recherche de texte - Fichiers",
     "Index the content of your files" : "Indexer le contenu de vos fichiers",
     "Extension to the _Full text search_ app to index your users' files." : "Extension de l'application _Full text search_  pour indexer les fichiers de vos utilisateurs.",
-    "Files" : "Fichiers"
+    "Files" : "Fichiers",
+    "Sources" : "Sources"
 },
 "nplurals=2; plural=(n > 1);");

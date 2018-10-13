@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
+    "files" : "file",
     "Go to folder" : "Vai alla cartella",
     "Open folder" : "Apri cartella",
     "Name" : "Nome",
@@ -10,9 +11,29 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "Impossibile copiare \"{file}\"",
     "Copied {origin} inside {destination}" : "Copiato {origin} in {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "Copiati {origin} e {nbfiles} altri file in {destination}",
+    "Within current directory" : "Nella cartella attuale",
+    "Within local files" : "Nei file locali",
+    "Within external files" : "Nei file esterni",
+    "Within group folders" : "Nelle cartelle di gruppo",
+    "Filter by extension" : "Filtra per estensione",
+    "Local Files" : "File locali",
+    "External Files" : "File esterni",
+    "Group Folders" : "Cartelle di gruppo",
+    "Extension" : "Estensione",
     "Full text search - Files" : "Ricerca del testo integrale - File",
     "Index the content of your files" : "Indicizza il contenuto dei tuoi file",
     "Extension to the _Full text search_ app to index your users' files." : "Estensione dell'applicazione di ricerca del testo completo per indicizzare i file degli utenti.",
-    "Files" : "File"
+    "Files" : "File",
+    "Sources" : "Sorgenti",
+    "Index the content of local files." : "Indicizza il contenuto dei file locali.",
+    "Index the content of external files." : "Indicizza il contenuto dei file esterni.",
+    "Index the content of group folders." : "Indicizza il contenuto delle cartelle di gruppo.",
+    "Types" : "Tipi",
+    "Maximum file size" : "Dimensione massima dei file",
+    "Maximum file size to index (in Mb)." : "Dimensione massima dei file da indicizzare (in MB).",
+    "Extract PDF" : "Estrai PDF",
+    "Index the content of PDF files." : "Indicizza il contenuto dei file PDF.",
+    "Extract Office" : "Estrai Office",
+    "Index the content of office files." : "Indicizza il contenuto dei file di Office."
 },
 "nplurals=2; plural=(n != 1);");
