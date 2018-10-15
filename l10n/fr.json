@@ -9,11 +9,26 @@
     "Could not copy \"{file}\"" : "Impossible de copier \"{file}\"",
     "Copied {origin} inside {destination}" : "{origin} copié dans {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} et {nbfiles} autres fichiers copiés dans {destination}",
+    "Within current directory" : "Dans le dossier actuel",
+    "Within local files" : "Dans les fichiers locaux",
+    "Within external files" : "Dans les fichiers externes",
+    "Within group folders" : "Dans les dossiers de groupe",
+    "Filter by extension" : "Filtrer par extension",
+    "Local Files" : "Fichiers locaux",
+    "External Files" : "Fichiers externes",
+    "Group Folders" : "Dossiers du groupe",
     "Extension" : "Extension",
     "Full text search - Files" : "Recherche de texte - Fichiers",
     "Index the content of your files" : "Indexer le contenu de vos fichiers",
     "Extension to the _Full text search_ app to index your users' files." : "Extension de l'application _Full text search_  pour indexer les fichiers de vos utilisateurs.",
     "Files" : "Fichiers",
-    "Sources" : "Sources"
+    "Sources" : "Sources",
+    "Index the content of local files." : "Indexer le contenu des fichiers locaux.",
+    "Index the content of external files." : "Indexer le contenu des fichiers externes.",
+    "Index the content of group folders." : "Indexer le contenu des dossiers de groupe.",
+    "Types" : "Types",
+    "Maximum file size" : "Taille maximale du fichier",
+    "Maximum file size to index (in Mb)." : "Taille maximale du fichier à indexer (en Mo).",
+    "Index the content of PDF files." : "Indexer le contenu des fichiers PDF."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
