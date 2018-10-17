@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
+    "files" : "dosya",
     "Go to folder" : "Klasöre git",
     "Open folder" : "Klasörü aç",
     "Name" : "Ad",
@@ -10,9 +11,29 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "\"{file}\" kopyalanamadı",
     "Copied {origin} inside {destination}" : "{origin} dosyası, {destination} içine kopyalandı",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} ve {nbfiles} diğer dosya {destination} içine kopyalandı",
+    "Within current directory" : "Geçerli klasörde",
+    "Within local files" : "Yerel dosyalarda",
+    "Within external files" : "Dış dosyalarda",
+    "Within group folders" : "Grup klasörlerinde",
+    "Filter by extension" : "Uzantıya göre süz",
+    "Local Files" : "Yerel Dosyalar",
+    "External Files" : "Dış Dosyalar",
+    "Group Folders" : "Grup Klasörleri",
+    "Extension" : "Uzantı",
     "Full text search - Files" : "Tam metin arama - Dosyalar",
     "Index the content of your files" : "Dosyalarınızın içeriğini arama dizinine ekler",
     "Extension to the _Full text search_ app to index your users' files." : "Kullanıcılarınızın dosya içeriklerini arama dizinine ekleyen _Full text search_ uygulaması eklentisi.",
-    "Files" : "Dosyalar"
+    "Files" : "Dosyalar",
+    "Sources" : "Kaynaklar",
+    "Index the content of local files." : "Yerel dosyaların içeriği dizine eklensin.",
+    "Index the content of external files." : "Dış dosyaların içeriği dizine eklensin",
+    "Index the content of group folders." : "Grup klasörlerinin içeriği dizine eklensin",
+    "Types" : "Türler",
+    "Maximum file size" : "En büyük dosya boyutu",
+    "Maximum file size to index (in Mb)." : "Dizine eklenecek en büyük dosya boyutu (Mb)",
+    "Extract PDF" : "PDF Ayıklansın",
+    "Index the content of PDF files." : "PDF dosyalarının içeriği dizine eklensin.",
+    "Extract Office" : "Ofis Dosyaları Ayıklansın",
+    "Index the content of office files." : "Ofis dosyalarının içeriği dizine eklensin."
 },
 "nplurals=2; plural=(n > 1);");
