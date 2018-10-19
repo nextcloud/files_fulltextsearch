@@ -39,6 +39,7 @@ use OCA\Files_FullTextSearch\Provider\FilesProvider;
 use OCA\FullTextSearch\Model\Index;
 use OCA\FullTextSearch\Model\IndexDocument;
 use OCA\FullTextSearch\Model\IndexOptions;
+use OCA\FullTextSearch\Model\Runner;
 use OCP\AppFramework\IAppContainer;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
@@ -95,6 +96,12 @@ class FilesService {
 	private $miscService;
 
 
+	/** @var Runner */
+	private $runner;
+
+	/** @var int */
+	private $sumDocuments;
+
 	/**
 	 * FilesService constructor.
 	 *
@@ -135,6 +142,11 @@ class FilesService {
 	}
 
 
+	public function setRunner(Runner $runner) {
+		$this->runner = $runner;
+	}
+
+
 	/**
 	 * @param string $userId
 	 * @param IndexOptions $indexOptions
@@ -146,6 +158,7 @@ class FilesService {
 	public function getFilesFromUser($userId, $indexOptions) {
 
 		$this->initFileSystems($userId);
+		$this->sumDocuments = 0;
 
 		/** @var Folder $files */
 		$files = $this->rootFolder->getUserFolder($userId)
@@ -186,9 +199,18 @@ class FilesService {
 	 * @return FilesDocument[]
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
+	 * @throws Exception
 	 */
 	public function getFilesFromDirectory($userId, Folder $node) {
 		$documents = [];
+
+		$this->updateRunnerAction('generateIndexFiles');
+		$this->updateRunnerInfo(
+			[
+				'info'          => $node->getPath(),
+				'documentTotal' => $this->sumDocuments
+			]
+		);
 
 		try {
 			if ($node->nodeExists('.noindex')) {
@@ -203,6 +225,7 @@ class FilesService {
 
 			try {
 				$documents[] = $this->generateFilesDocumentFromFile($userId, $file);
+				$this->sumDocuments++;
 			} catch (FileIsNotIndexableException $e) {
 				continue;
 			}
@@ -771,6 +794,34 @@ class FilesService {
 		$this->groupFoldersService->impersonateOwner($index);
 		$this->externalFilesService->impersonateOwner($index);
 	}
+
+
+	/**
+	 * @param $action
+	 * @param bool $force
+	 *
+	 * @throws Exception
+	 */
+	private function updateRunnerAction($action, $force = false) {
+		if ($this->runner === null) {
+			return;
+		}
+
+		$this->runner->updateAction($action, $force);
+	}
+
+
+	/**
+	 * @param array $data
+	 */
+	private function updateRunnerInfo($data) {
+		if ($this->runner === null) {
+			return;
+		}
+
+		$this->runner->setInfoArray($data);
+	}
+
 
 }
 
