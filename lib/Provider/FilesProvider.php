@@ -256,6 +256,7 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @throws NotFoundException
 	 */
 	public function generateIndexableDocuments($userId) {
+		$this->filesService->setRunner($this->runner);
 		$files = $this->filesService->getFilesFromUser($userId, $this->indexOptions);
 
 		return $files;
