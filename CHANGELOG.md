@@ -1,6 +1,20 @@
 # Changelog
 
 
+### 1.0.2
+
+- improvement: display more info while indexing files.
+- bug: fix an issue while getting shares on a file.
+- bug: should not OCR big files anymore.
+- bug: index on huge file system should not timeout (Force Quit).
+- misc: removing compat with NC12.
+
+
+### 1.0.1
+
+bug: some issue with strange folders.
+
+
 ### 1.0.0
 
 First stable release
