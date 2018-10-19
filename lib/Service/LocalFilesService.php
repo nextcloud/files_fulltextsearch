@@ -153,7 +153,7 @@ class LocalFilesService {
 			return;
 		}
 
-		foreach ($shares['users'] as $user) {
+		foreach ($shares['users'] as $user => $node) {
 			if (in_array($user, $users) || $this->userManager->get($user) === null) {
 				continue;
 			}
