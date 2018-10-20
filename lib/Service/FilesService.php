@@ -204,7 +204,7 @@ class FilesService {
 	public function getFilesFromDirectory($userId, Folder $node) {
 		$documents = [];
 
-		$this->updateRunnerAction('generateIndexFiles');
+		$this->updateRunnerAction('generateIndexFiles', true);
 		$this->updateRunnerInfo(
 			[
 				'info'          => $node->getPath(),
