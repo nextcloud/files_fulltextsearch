@@ -25,11 +25,15 @@ OC.L10N.register(
     "Extension to the _Full text search_ app to index your users' files." : "Rozšíření pro _Full text search_ app pro vytváření rejstříku obsahů souborů vašich uživatelů.",
     "Files" : "Soubory",
     "Sources" : "Zdroje",
+    "Index the content of local files." : "Vytvořit rejstřík obsahu místních souborů.",
     "Index the content of external files." : "Vytvořit rejstřík obsahu externích souborů.",
     "Index the content of group folders." : "Vytvořit rejstřík obsahu skupinových složek.",
     "Types" : "Typy",
     "Maximum file size" : "Nejvyšší umožněná velikost souboru",
     "Maximum file size to index (in Mb)." : "Jaké největší soubory (v MB) ještě indexovat.",
-    "Index the content of PDF files." : "Indexovat obsah PDF souborů."
+    "Extract PDF" : "Extrahovat PDF",
+    "Index the content of PDF files." : "Indexovat obsah PDF souborů.",
+    "Extract Office" : "Extrahovat kancelářské",
+    "Index the content of office files." : "Vytvořit rejstřík obsahu souborů s dokumenty, tabulkami a prezentacemi."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
