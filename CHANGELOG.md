@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.0.3
+
+- improvement: process can be paused during generateIndexFiles
+
 
 ### 1.0.2
 
