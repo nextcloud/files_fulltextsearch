@@ -52,6 +52,7 @@ use OCP\Files\NotPermittedException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\IUserManager;
 use OCP\Share\IManager;
+use Throwable;
 
 class FilesService {
 
@@ -548,14 +549,18 @@ class FilesService {
 			return;
 		}
 
-		/** @var File $file */
-		if ($file->getSize() <
-			($this->configService->getAppValue(ConfigService::FILES_SIZE) * 1024 * 1024)) {
-			$this->extractContentFromFileText($document, $file);
-			$this->extractContentFromFileOffice($document, $file);
-			$this->extractContentFromFilePDF($document, $file);
+		try {
+			/** @var File $file */
+			if ($file->getSize() <
+				($this->configService->getAppValue(ConfigService::FILES_SIZE) * 1024 * 1024)) {
+				$this->extractContentFromFileText($document, $file);
+				$this->extractContentFromFileOffice($document, $file);
+				$this->extractContentFromFilePDF($document, $file);
 
-			$this->extensionService->fileIndexing($document, $file);
+				$this->extensionService->fileIndexing($document, $file);
+			}
+		} catch (Throwable $t) {
+			$this->miscService->log(json_encode($t->getTrace()), 1);
 		}
 
 		if ($document->getContent() === null) {
