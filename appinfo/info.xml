@@ -26,7 +26,7 @@ Extension to the _Full text search_ app to index your users' files.
 	<repository>https://github.com/nextcloud/files_fulltextsearch.git</repository>
 	<screenshot>https://raw.githubusercontent.com/nextcloud/fulltextsearch/master/screenshots/0.3.0.png</screenshot>
 	<dependencies>
-		<nextcloud min-version="13" max-version="14"/>
+		<nextcloud min-version="13" max-version="13"/>
 	</dependencies>
 
 	<commands>
