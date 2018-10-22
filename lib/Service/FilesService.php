@@ -560,7 +560,7 @@ class FilesService {
 				$this->extensionService->fileIndexing($document, $file);
 			}
 		} catch (Throwable $t) {
-			$this->miscService->log(json_encode($t->getTrace()), 1);
+			$this->manageContentErrorException($document, $t);
 		}
 
 		if ($document->getContent() === null) {
@@ -828,5 +828,36 @@ class FilesService {
 	}
 
 
+	/**
+	 * @param IndexDocument $document
+	 * @param Throwable $t
+	 */
+	private function manageContentErrorException(IndexDocument $document, Throwable $t) {
+		$document->getIndex()
+				 ->addError(
+					 'Error while getting file content', $t->getMessage(), Index::ERROR_SEV_3
+				 );
+		$this->updateNewIndexError(
+			$document->getIndex(), 'Error while getting file content', $t->getMessage(),
+			Index::ERROR_SEV_3
+		);
+		$this->miscService->log(json_encode($t->getTrace()), 0);
+	}
+
+
+	/**
+	 * @param Index $index
+	 * @param string $message
+	 * @param string $exception
+	 * @param int $sev
+	 */
+	private function updateNewIndexError(Index $index, string $message, string $exception, int $sev
+	) {
+		if ($this->runner === null) {
+			return;
+		}
+
+		$this->runner->newIndexError($index, $message, $exception, $sev);
+	}
 }
 
