@@ -1,5 +1,12 @@
 # Changelog
 
+
+### 1.1.0
+
+- branching stable13
+- Catching Throwable on strange filesystem behavior
+
+
 ### 1.0.3
 
 - improvement: process can be paused during generateIndexFiles
