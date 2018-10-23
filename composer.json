@@ -1,0 +1,15 @@
+{
+  "name": "nextcloud/files_fulltextsearch",
+  "description": "files_fulltextsearch",
+  "minimum-stability": "stable",
+  "license": "agpl",
+  "authors": [
+    {
+      "name": "Maxence Lange",
+      "email": "maxence@artificial-owl.com"
+    }
+  ],
+  "require": {
+    "daita/my-small-php-tools": "dev-master"
+  }
+}
