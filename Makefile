@@ -35,6 +35,7 @@ clean:
 	rm -rf node_modules
 
 composer:
+	composer install
 
 test: SHELL:=/bin/bash
 test:
@@ -43,7 +44,7 @@ test:
 		bash <(curl -s https://codecov.io/bash) -t @$(codecov_token_dir)/$(app_name) ; \
 	fi
 
-appstore: clean
+appstore: composer clean
 	mkdir -p $(sign_dir)
 	rsync -a \
 	--exclude=/build \

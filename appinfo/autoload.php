@@ -1,4 +1,6 @@
 <?php
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -26,16 +28,9 @@
 
 namespace OCA\Files_FullTextSearch\AppInfo;
 
-use OCP\AppFramework\QueryException;
+$composerDir = __DIR__ . '/../vendor/';
 
-require_once __DIR__ . '/autoload.php';
-
-
-$app = new Application();
-
-try {
-	$app->registerFilesSearch();
-} catch (QueryException $e) {
-	/** you do nothing. */
+if (is_dir($composerDir) && file_exists($composerDir . 'autoload.php')) {
+	require_once $composerDir . 'autoload.php';
 }
 

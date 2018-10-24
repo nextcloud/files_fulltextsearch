@@ -27,6 +27,7 @@
 
 namespace OCA\Files_FullTextSearch\Events;
 
+use daita\MySmallPhpTools\Traits\TArrayTools;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Service\FilesService;
 use OCA\Files_FullTextSearch\Service\MiscService;
@@ -37,6 +38,9 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 
 class FilesEvents {
+
+
+	use TArrayTools;
 
 
 	/** @var string */
@@ -56,7 +60,6 @@ class FilesEvents {
 	 * @param MiscService $miscService
 	 */
 	public function __construct($userId, FilesService $filesService, MiscService $miscService) {
-
 		$this->userId = $userId;
 		$this->filesService = $filesService;
 		$this->miscService = $miscService;
@@ -64,54 +67,74 @@ class FilesEvents {
 
 
 	/**
-	 * @param string $path
+	 * @param array $params
 	 *
 	 * @throws QueryException
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
-	public function onNewFile($path) {
+	public function onNewFile(array $params) {
+		$path = $this->get('path', $params, '');
+		if ($path === '') {
+			return;
+		}
+
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
 		FullTextSearch::createIndex('files', $file->getId(), $this->userId, Index::INDEX_FULL);
 	}
 
 
 	/**
-	 * @param string $path
+	 * @param array $params
 	 *
-	 * @throws QueryException
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
+	 * @throws QueryException
 	 */
-	public function onFileUpdate($path) {
+	public function onFileUpdate(array $params) {
+		$path = $this->get('path', $params, '');
+		if ($path === '') {
+			return;
+		}
+
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
 		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_FULL);
 	}
 
 
 	/**
-	 * @param string $target
+	 * @param array $params
 	 *
 	 * @throws NotFoundException
 	 * @throws QueryException
 	 * @throws InvalidPathException
 	 */
-	public function onFileRename($target) {
+	public function onFileRename(array $params) {
+		$target = $this->get('newpath', $params, '');
+		if ($target === '') {
+			return;
+		}
+
 		$file = $this->filesService->getFileFromPath($this->userId, $target);
 		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_META);
 	}
 
 
 	/**
-	 * @param string $path
+	 * @param array $params
 	 *
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws QueryException
 	 */
-	public function onFileTrash($path) {
+	public function onFileTrash(array $params) {
 		// check if trashbin does not exist. -> onFileDelete
 		// we do not index trashbin
+
+		$path = $this->get('path', $params, '');
+		if ($path === '') {
+			return;
+		}
 
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
 		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_REMOVE, true);
@@ -121,44 +144,64 @@ class FilesEvents {
 
 
 	/**
-	 * @param string $path
+	 * @param array $params
 	 *
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws QueryException
 	 */
-	public function onFileRestore($path) {
+	public function onFileRestore(array $params) {
+		$path = $this->get('filePath', $params, '');
+		if ($path === '') {
+			return;
+		}
+
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
 		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_FULL);
 	}
 
 
 	/**
-	 * @param string $path
+	 * @param array $params
 	 */
-	public function onFileDelete($path) {
+	public function onFileDelete(array $params) {
+//		$path = $this->get('path', $params, '');
+//		if ($path === '') {
+//			return;
+//		}
+
 //		$file = $this->filesService->getFileFromPath($this->userId, $path);
 //		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_REMOVE);
 	}
 
 
 	/**
-	 * @param string $fileId
+	 * @param array $params
 	 *
 	 * @throws QueryException
 	 */
-	public function onFileShare($fileId) {
+	public function onFileShare(array $params) {
+		$fileId = $this->get('itemSource', $params, '');
+		if ($fileId === '') {
+			return;
+		}
+
 		FullTextSearch::updateIndexStatus('files', $fileId, FilesDocument::STATUS_FILE_ACCESS);
 
 	}
 
 
 	/**
-	 * @param string $fileId
+	 * @param array $params
 	 *
 	 * @throws QueryException
 	 */
-	public function onFileUnshare($fileId) {
+	public function onFileUnshare(array $params) {
+		$fileId = $this->get('itemSource', $params, '');
+		if ($fileId === '') {
+			return;
+		}
+
 		FullTextSearch::updateIndexStatus('files', $fileId, FilesDocument::STATUS_FILE_ACCESS);
 	}
 }

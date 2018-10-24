@@ -64,7 +64,7 @@ class FilesHooks {
 	 */
 	public static function onNewFile($params) {
 		self::getController()
-			->onNewFile($params['path']);
+			->onNewFile($params);
 	}
 
 
@@ -79,7 +79,7 @@ class FilesHooks {
 	 */
 	public static function onFileUpdate($params) {
 		self::getController()
-			->onFileUpdate($params['path']);
+			->onFileUpdate($params);
 	}
 
 
@@ -94,7 +94,7 @@ class FilesHooks {
 	 */
 	public static function onFileRename($params) {
 		self::getController()
-			->onFileRename($params['newpath']);
+			->onFileRename($params);
 	}
 
 
@@ -109,7 +109,7 @@ class FilesHooks {
 	 */
 	public static function onFileTrash($params) {
 		self::getController()
-			->onFileTrash($params['path']);
+			->onFileTrash($params);
 	}
 
 
@@ -122,7 +122,7 @@ class FilesHooks {
 	 */
 	public static function onFileDelete($params) {
 		self::getController()
-			->onFileDelete($params['path']);
+			->onFileDelete($params);
 	}
 
 	/**
@@ -136,7 +136,7 @@ class FilesHooks {
 	 */
 	public static function onFileRestore($params) {
 		self::getController()
-			->onFileRestore($params['filePath']);
+			->onFileRestore($params);
 	}
 
 	/**
@@ -148,7 +148,7 @@ class FilesHooks {
 	 */
 	public static function onFileShare($params) {
 		self::getController()
-			->onFileShare($params['itemSource']);
+			->onFileShare($params);
 	}
 
 	/**
@@ -159,10 +159,8 @@ class FilesHooks {
 	 * @throws QueryException
 	 */
 	public static function onFileUnshare($params) {
-//		if (key_exists('itemSource', $params)) {
 		self::getController()
-			->onFileUnshare($params['itemSource']);
-//		}
+			->onFileUnshare($params);
 	}
 }
 
