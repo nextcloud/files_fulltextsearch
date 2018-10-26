@@ -32,7 +32,7 @@ use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Service\FilesService;
 use OCA\Files_FullTextSearch\Service\MiscService;
 use OCA\FullTextSearch\Api\v1\FullTextSearch;
-use OCA\FullTextSearch\Model\Index;
+use OCP\FullTextSearch\Model\IIndex;
 use OCP\AppFramework\QueryException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
@@ -80,7 +80,7 @@ class FilesEvents {
 		}
 
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
-		FullTextSearch::createIndex('files', $file->getId(), $this->userId, Index::INDEX_FULL);
+		FullTextSearch::createIndex('files', $file->getId(), $this->userId, IIndex::INDEX_FULL);
 	}
 
 
@@ -98,7 +98,7 @@ class FilesEvents {
 		}
 
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
-		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_FULL);
+		FullTextSearch::updateIndexStatus('files', $file->getId(), IIndex::INDEX_FULL);
 	}
 
 
@@ -116,7 +116,7 @@ class FilesEvents {
 		}
 
 		$file = $this->filesService->getFileFromPath($this->userId, $target);
-		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_META);
+		FullTextSearch::updateIndexStatus('files', $file->getId(), IIndex::INDEX_META);
 	}
 
 
@@ -137,7 +137,7 @@ class FilesEvents {
 		}
 
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
-		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_REMOVE, true);
+		FullTextSearch::updateIndexStatus('files', $file->getId(), IIndex::INDEX_REMOVE, true);
 
 		//$this->miscService->log('> ON FILE TRASH ' . json_encode($path));
 	}
@@ -157,7 +157,7 @@ class FilesEvents {
 		}
 
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
-		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_FULL);
+		FullTextSearch::updateIndexStatus('files', $file->getId(), IIndex::INDEX_FULL);
 	}
 
 
@@ -203,6 +203,48 @@ class FilesEvents {
 		}
 
 		FullTextSearch::updateIndexStatus('files', $fileId, FilesDocument::STATUS_FILE_ACCESS);
+	}
+
+
+	public function onNewScannedFile2($params) {
+
+
+	}
+
+
+	public function onNewScannedFile($params) {
+		$this->miscService->log('___ !!! ' . json_encode($params));
+
+		if (!array_key_exists('parent', $params)) {
+			return;
+		}
+
+		$rootFolder = \OC::$server->getRootFolder();
+		$nodes = $rootFolder->getById(7);
+		$this->miscService->log('___ !!! ' . json_encode($nodes));
+		$node = $nodes[0];
+
+		$this->miscService->log(
+			'___ >>>> ' . $node->getOwner()
+							   ->getUID()
+		);
+//$this->miscService->log('___ >>>> ' . $node);
+
+
+		// si parent n'existe pas, on oublie
+		// si parent exist, on recupere le userId
+		// avec le userId et le path, on recuperer l'Id
+		// on genere l'entree dans la table d'index
+
+		// verifier ce qu'il se passe dans du SMB
+		// verifier qu'on ignore la mise a jour des index si il n;y a pas eu un index integral (du cote de la cron ?)ftf
+
+//		$this->filesService->getFileFromId(7);
+		$this->miscService->log(
+			'______USERID: ' . $this->userId . '    ______PARAMS: ' . json_encode(
+				$params, JSON_PRETTY_PRINT
+			)
+		);
 	}
 }
 

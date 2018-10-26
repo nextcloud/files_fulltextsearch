@@ -29,15 +29,15 @@ namespace OCA\Files_FullTextSearch\Service;
 
 
 use Exception;
-use OC\App\AppManager;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Exceptions\GroupFolderNotFoundException;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Model\MountPoint;
-use OCA\FullTextSearch\Model\Index;
 use OCA\GroupFolders\Folder\FolderManager;
+use OCP\App\IAppManager;
 use OCP\Files\Node;
+use OCP\FullTextSearch\Model\IIndex;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\Share\IManager;
@@ -73,7 +73,7 @@ class GroupFoldersService {
 	 *
 	 * @param $userId
 	 * @param IDBConnection $dbConnection
-	 * @param AppManager $appManager
+	 * @param IAppManager $appManager
 	 * @param IManager $shareManager
 	 * @param IGroupManager $groupManager
 	 * @param LocalFilesService $localFilesService
@@ -81,7 +81,7 @@ class GroupFoldersService {
 	 * @param MiscService $miscService
 	 */
 	public function __construct(
-		$userId, IDBConnection $dbConnection, AppManager $appManager, IManager $shareManager,
+		$userId, IDBConnection $dbConnection, IAppManager $appManager, IManager $shareManager,
 		IGroupManager $groupManager, LocalFilesService $localFilesService,
 		ConfigService $configService, MiscService $miscService
 	) {
@@ -219,11 +219,11 @@ class GroupFoldersService {
 
 
 	/**
-	 * @param Index $index
+	 * @param IIndex $index
 	 *
 	 * @return string|void
 	 */
-	public function impersonateOwner(Index $index) {
+	public function impersonateOwner(IIndex $index) {
 		if ($index->getSource() !== ConfigService::FILES_GROUP_FOLDERS) {
 			return;
 		}

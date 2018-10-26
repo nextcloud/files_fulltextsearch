@@ -34,18 +34,20 @@ use OCA\Files_FullTextSearch\Service\ElasticSearchService;
 use OCA\Files_FullTextSearch\Service\FilesService;
 use OCA\Files_FullTextSearch\Service\MiscService;
 use OCA\Files_FullTextSearch\Service\SearchService;
-use OCA\FullTextSearch\IFullTextSearchPlatform;
-use OCA\FullTextSearch\IFullTextSearchProvider;
-use OCA\FullTextSearch\Model\Index;
-use OCA\FullTextSearch\Model\IndexDocument;
-use OCA\FullTextSearch\Model\IndexOptions;
-use OCA\FullTextSearch\Model\Runner;
-use OCA\FullTextSearch\Model\SearchRequest;
-use OCA\FullTextSearch\Model\SearchResult;
 use OCP\AppFramework\QueryException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
+use OCP\FullTextSearch\IFullTextSearchPlatform;
+use OCP\FullTextSearch\IFullTextSearchProvider;
+use OCP\FullTextSearch\Model\IIndex;
+use OCP\FullTextSearch\Model\IIndexOptions;
+use OCP\FullTextSearch\Model\IndexDocument;
+use OCP\FullTextSearch\Model\IRunner;
+use OCP\FullTextSearch\Model\ISearchRequest;
+use OCP\FullTextSearch\Model\ISearchResult;
+use OCP\FullTextSearch\Model\SearchOption;
+use OCP\FullTextSearch\Model\SearchTemplate;
 use OCP\IL10N;
 
 class FilesProvider implements IFullTextSearchProvider {
@@ -72,11 +74,10 @@ class FilesProvider implements IFullTextSearchProvider {
 	/** @var MiscService */
 	private $miscService;
 
-
-	/** @var Runner */
+	/** @var IRunner */
 	private $runner;
 
-	/** @var IndexOptions */
+	/** @var IIndexOptions */
 	private $indexOptions = [];
 
 
@@ -96,7 +97,7 @@ class FilesProvider implements IFullTextSearchProvider {
 	/**
 	 * return unique id of the provider
 	 */
-	public function getId() {
+	public function getId(): string {
 		return self::FILES_PROVIDER_ID;
 	}
 
@@ -104,7 +105,7 @@ class FilesProvider implements IFullTextSearchProvider {
 	/**
 	 * return name of the provider
 	 */
-	public function getName() {
+	public function getName(): string {
 		return 'Files';
 	}
 
@@ -121,7 +122,7 @@ class FilesProvider implements IFullTextSearchProvider {
 	/**
 	 * @return array
 	 */
-	public function getConfiguration() {
+	public function getConfiguration(): array {
 		return $this->configService->getConfig();
 	}
 
@@ -135,23 +136,95 @@ class FilesProvider implements IFullTextSearchProvider {
 	}
 
 
-	public function setRunner(Runner $runner) {
+	public function setRunner(IRunner $runner) {
 		$this->runner = $runner;
 	}
 
 
 	/**
-	 * @param IndexOptions $options
+	 * @param IIndexOptions $options
 	 */
-	public function setIndexOptions($options) {
+	public function setIndexOptions(IIndexOptions $options) {
 		$this->indexOptions = $options;
+	}
+
+
+	/**
+	 * @return SearchTemplate
+	 */
+	public function getSearchTemplate(): SearchTemplate {
+		$template = new SearchTemplate('icon-fts-files', 'fulltextsearch');
+
+		$template->addPanelOption(
+			new SearchOption(
+				'files_within_dir', $this->l10n->t('Within current directory'),
+				SearchOption::CHECKBOX
+			)
+		);
+
+		$template->addPanelOption(
+			new SearchOption(
+				'files_local', $this->l10n->t('Within local files'),
+				SearchOption::CHECKBOX
+			)
+		);
+		$template->addNavigationOption(
+			new SearchOption(
+				'files_local', $this->l10n->t('Local files'),
+				SearchOption::CHECKBOX
+			)
+		);
+
+		if ($this->configService->getAppValue(ConfigService::FILES_EXTERNAL) === '1') {
+			$template->addPanelOption(
+				new SearchOption(
+					'files_external', $this->l10n->t('Within external files'),
+					SearchOption::CHECKBOX
+				)
+			);
+			$template->addNavigationOption(
+				new SearchOption(
+					'files_external', $this->l10n->t('External files'), SearchOption::CHECKBOX
+				)
+			);
+		}
+
+		if ($this->configService->getAppValue(ConfigService::FILES_GROUP_FOLDERS) === '1') {
+			$template->addPanelOption(
+				new SearchOption(
+					'files_group_folders', $this->l10n->t('Within group folders'),
+					SearchOption::CHECKBOX
+				)
+			);
+			$template->addNavigationOption(
+				new SearchOption(
+					'files_group_folders', $this->l10n->t('Group folders'),
+					SearchOption::CHECKBOX
+				)
+			);
+		}
+
+		$template->addPanelOption(
+			new SearchOption(
+				'files_extension', $this->l10n->t('Filter by extension'), SearchOption::INPUT,
+				SearchOption::INPUT_SMALL, 'txt'
+			)
+		);
+		$template->addNavigationOption(
+			new SearchOption(
+				'files_extension', $this->l10n->t('Extension'), SearchOption::INPUT,
+				SearchOption::INPUT_SMALL, 'txt'
+			)
+		);
+
+		return $template;
 	}
 
 
 	/**
 	 * @return array
 	 */
-	public function getOptionsTemplate() {
+	public function getOptionsTemplate(): array {
 //				'template' => 'options.panel',
 		return [
 			'panel'      => [
@@ -255,25 +328,11 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
-	public function generateIndexableDocuments($userId) {
+	public function generateIndexableDocuments(string $userId): array {
 		$this->filesService->setRunner($this->runner);
 		$files = $this->filesService->getFilesFromUser($userId, $this->indexOptions);
 
 		return $files;
-	}
-
-
-	/**
-	 * generate documents prior to the indexing.
-	 * throw NoResultException if no more result
-	 *
-	 * @param IndexDocument[] $chunk
-	 *
-	 * @return IndexDocument[]
-	 * @deprecated
-	 */
-	public function fillIndexDocuments($chunk) {
-		return [];
 	}
 
 
@@ -292,13 +351,13 @@ class FilesProvider implements IFullTextSearchProvider {
 	 *
 	 * @return bool
 	 */
-	public function isDocumentUpToDate($document) {
+	public function isDocumentUpToDate(IndexDocument $document): bool {
 		return $this->filesService->isDocumentUpToDate($document);
 	}
 
 
 	/**
-	 * @param Index $index
+	 * @param IIndex $index
 	 *
 	 * @return IndexDocument
 	 * @throws InvalidPathException
@@ -306,7 +365,7 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @throws NotPermittedException
 	 * @throws FileIsNotIndexableException
 	 */
-	public function updateDocument(Index $index) {
+	public function updateDocument(IIndex $index): IndexDocument {
 		$document = $this->filesService->updateDocument($index);
 		$this->updateRunnerInfo('info', $document->getMimetype());
 
@@ -340,9 +399,9 @@ class FilesProvider implements IFullTextSearchProvider {
 	/**
 	 * before a search, improve the request
 	 *
-	 * @param SearchRequest $request
+	 * @param ISearchRequest $request
 	 */
-	public function improveSearchRequest(SearchRequest $request) {
+	public function improveSearchRequest(ISearchRequest $request) {
 		$this->searchService->improveSearchRequest($request);
 	}
 
@@ -350,9 +409,9 @@ class FilesProvider implements IFullTextSearchProvider {
 	/**
 	 * after a search, improve results
 	 *
-	 * @param SearchResult $searchResult
+	 * @param ISearchResult $searchResult
 	 */
-	public function improveSearchResult(SearchResult $searchResult) {
+	public function improveSearchResult(ISearchResult $searchResult) {
 		$this->searchService->improveSearchResult($searchResult);
 	}
 
@@ -361,7 +420,7 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @param string $info
 	 * @param string $value
 	 */
-	private function updateRunnerInfo($info, $value) {
+	private function updateRunnerInfo(string $info, string $value) {
 		if ($this->runner === null) {
 			return;
 		}

@@ -78,6 +78,10 @@ class FilesHooks {
 	 * @throws NotFoundException
 	 */
 	public static function onFileUpdate($params) {
+
+		\OC::$server->getLogger()
+					->log(2, 'onFileUpdate ' . json_encode($params));
+
 		self::getController()
 			->onFileUpdate($params);
 	}
@@ -162,5 +166,50 @@ class FilesHooks {
 		self::getController()
 			->onFileUnshare($params);
 	}
+
+
+	/**
+	 * @param $params
+	 *
+	 * @throws QueryException
+	 */
+	public static function onNewRemoteFile2($params) {
+		self::getController()
+			->onNewScannedFile2($params);
+//		\OC::$server->getLogger()
+//					->log(2, 'onNEwFileRemote ' . json_encode($params));
+	}
+
+
+	/**
+	 * @param $params
+	 *
+	 * @throws QueryException
+	 */
+	public static function onNewRemoteFile($params) {
+		self::getController()
+			->onNewScannedFile($params);
+//		\OC::$server->getLogger()
+//					->log(2, 'onNEwFileRemote ' . json_encode($params));
+	}
+
+
+	public static function onRemoteFileUpdate($params) {
+		\OC::$server->getLogger()
+					->log(2, 'onRemoteFileUpdate ' . json_encode($params));
+	}
+
+	public static function onRemoteFileRename($params) {
+		\OC::$server->getLogger()
+					->log(2, 'onRemoteFileRename ' . json_encode($params));
+	}
+
+
+	public static function onRemoteFileDelete($params) {
+		\OC::$server->getLogger()
+					->log(2, 'onRemoteFileDelete ' . json_encode($params));
+	}
+
+
 }
 

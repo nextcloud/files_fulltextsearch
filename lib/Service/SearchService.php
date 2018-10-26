@@ -29,10 +29,9 @@ namespace OCA\Files_FullTextSearch\Service;
 
 use Exception;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
-use OCA\FullTextSearch\Model\Index;
-use OCA\FullTextSearch\Model\SearchRequest;
-use OCA\FullTextSearch\Model\SearchResult;
 use OCP\Files\Node;
+use OCP\FullTextSearch\Model\ISearchRequest;
+use OCP\FullTextSearch\Model\ISearchResult;
 
 class SearchService {
 
@@ -76,9 +75,9 @@ class SearchService {
 
 
 	/**
-	 * @param SearchRequest $request
+	 * @param ISearchRequest $request
 	 */
-	public function improveSearchRequest(SearchRequest $request) {
+	public function improveSearchRequest(ISearchRequest $request) {
 		$this->searchQueryShareNames($request);
 		$this->searchQueryWithinDir($request);
 		$this->searchQueryInOptions($request);
@@ -90,9 +89,9 @@ class SearchService {
 
 
 	/**
-	 * @param SearchRequest $request
+	 * @param ISearchRequest $request
 	 */
-	private function searchQueryShareNames(SearchRequest $request) {
+	private function searchQueryShareNames(ISearchRequest $request) {
 		$username = MiscService::secureUsername($request->getAuthor());
 		$request->addField('share_names.' . $username);
 
@@ -102,9 +101,9 @@ class SearchService {
 
 
 	/**
-	 * @param SearchRequest $request
+	 * @param ISearchRequest $request
 	 */
-	private function searchQueryWithinDir(SearchRequest $request) {
+	private function searchQueryWithinDir(ISearchRequest $request) {
 
 		$currentDir = $request->getOption('files_within_dir');
 		if ($currentDir === '') {
@@ -123,9 +122,9 @@ class SearchService {
 
 
 	/**
-	 * @param SearchRequest $request
+	 * @param ISearchRequest $request
 	 */
-	private function searchQueryFiltersExtension(SearchRequest $request) {
+	private function searchQueryFiltersExtension(ISearchRequest $request) {
 		$extension = $request->getOption('files_extension');
 		if ($extension === '') {
 			return;
@@ -142,9 +141,9 @@ class SearchService {
 
 
 	/**
-	 * @param SearchRequest $request
+	 * @param ISearchRequest $request
 	 */
-	private function searchQueryFiltersSource(SearchRequest $request) {
+	private function searchQueryFiltersSource(ISearchRequest $request) {
 
 		$local = $request->getOption('files_local');
 		$external = $request->getOption('files_external');
@@ -162,29 +161,29 @@ class SearchService {
 
 
 	/**
-	 * @param SearchRequest $request
+	 * @param ISearchRequest $request
 	 */
-	private function searchQueryInOptions(SearchRequest $request) {
+	private function searchQueryInOptions(ISearchRequest $request) {
 		$in = $request->getOptionArray('in', []);
 
 		if (in_array('filename', $in)) {
 			$username = MiscService::secureUsername($request->getAuthor());
-			$request->limitToField('share_names.' . $username);
-			$request->limitToField('title');
+			$request->addLimitField('share_names.' . $username);
+			$request->addLimitField('title');
 		}
 
 		if (in_array('content', $in)) {
-			$request->limitToField('content');
+			$request->addLimitField('content');
 		}
 	}
 
 
 	/**
-	 * @param SearchRequest $request
+	 * @param ISearchRequest $request
 	 * @param string $tag
 	 * @param mixed $cond
 	 */
-	private function addMetaTagToSearchRequest(SearchRequest $request, $tag, $cond) {
+	private function addMetaTagToSearchRequest(ISearchRequest $request, $tag, $cond) {
 		if ($cond === 1 || $cond === '1') {
 			$request->addMetaTag($tag);
 		}
@@ -192,9 +191,9 @@ class SearchService {
 
 
 	/**
-	 * @param SearchResult $searchResult
+	 * @param ISearchResult $searchResult
 	 */
-	public function improveSearchResult(SearchResult $searchResult) {
+	public function improveSearchResult(ISearchResult $searchResult) {
 		$indexDocuments = $searchResult->getDocuments();
 		$filesDocuments = [];
 		foreach ($indexDocuments as $indexDocument) {
@@ -220,12 +219,10 @@ class SearchService {
 	 * @throws Exception
 	 */
 	private function setDocumentInfo(FilesDocument $document) {
-		$index = new Index('files', $document->getId());
-		$index->setOwnerId($this->userId);
-
 		$document->setInfo('webdav', $this->getWebdavId($document->getId()));
 
-		$file = $this->filesService->getFileFromIndex($index);
+		$file = $this->filesService->getFileFromId($this->userId, $document->getId());
+
 		$this->setDocumentInfoFromFile($document, $file);
 	}
 

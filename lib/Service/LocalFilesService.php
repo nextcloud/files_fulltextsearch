@@ -33,7 +33,7 @@ use OCA\Files_FullTextSearch\Db\SharesRequest;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Model\FileShares;
-use OCA\FullTextSearch\Model\DocumentAccess;
+use OCP\FullTextSearch\Model\DocumentAccess;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\IGroupManager;

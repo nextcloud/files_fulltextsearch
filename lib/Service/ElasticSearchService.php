@@ -27,7 +27,7 @@
 namespace OCA\Files_FullTextSearch\Service;
 
 
-use OCA\FullTextSearch\IFullTextSearchPlatform;
+use OCP\FullTextSearch\IFullTextSearchPlatform;
 
 class ElasticSearchService {
 

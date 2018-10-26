@@ -35,6 +35,7 @@ namespace OCA\Files_FullTextSearch\Service;
 
 
 use Exception;
+use OC\App\AppManager;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_FullTextSearch\Exceptions\ExternalMountNotFoundException;
@@ -43,10 +44,10 @@ use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Model\MountPoint;
-use OCA\FullTextSearch\Model\Index;
-use OCP\App;
+use OCP\App\IAppManager;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\FullTextSearch\Model\IIndex;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\Share\IManager;
@@ -56,6 +57,9 @@ class ExternalFilesService {
 
 	/** @var IRootFolder */
 	private $rootFolder;
+
+	/** @var AppManager */
+	private $appManager;
 
 	/** @var IUserManager */
 	private $userManager;
@@ -87,6 +91,7 @@ class ExternalFilesService {
 	 * ExternalFilesService constructor.
 	 *
 	 * @param IRootFolder $rootFolder
+	 * @param IAppManager $appManager
 	 * @param IUserManager $userManager
 	 * @param IGroupManager $groupManager
 	 * @param IManager $shareManager
@@ -95,11 +100,12 @@ class ExternalFilesService {
 	 * @param MiscService $miscService
 	 */
 	public function __construct(
-		IRootFolder $rootFolder, IUserManager $userManager, IGroupManager $groupManager,
-		IManager $shareManager, LocalFilesService $localFilesService, ConfigService $configService,
-		MiscService $miscService
+		IRootFolder $rootFolder, IAppManager $appManager, IUserManager $userManager,
+		IGroupManager $groupManager, IManager $shareManager, LocalFilesService $localFilesService,
+		ConfigService $configService, MiscService $miscService
 	) {
 		$this->rootFolder = $rootFolder;
+		$this->appManager = $appManager;
 		$this->userManager = $userManager;
 		$this->groupManager = $groupManager;
 		$this->shareManager = $shareManager;
@@ -116,7 +122,7 @@ class ExternalFilesService {
 	 */
 	public function initExternalFilesForUser($userId) {
 		$this->externalMounts = [];
-		if (!App::isEnabled('files_external')) {
+		if (!$this->appManager->isInstalled('files_external')) {
 			return;
 		}
 
@@ -134,8 +140,9 @@ class ExternalFilesService {
 	 * @throws KnownFileSourceException
 	 */
 	public function getFileSource(Node $file, &$source) {
-		if ($this->globalStoragesService === null || $file->getMountPoint()
-				 ->getMountType() !== 'external') {
+		if ($this->globalStoragesService === null
+			|| $file->getMountPoint()
+					->getMountType() !== 'external') {
 			return;
 		}
 
@@ -290,9 +297,9 @@ class ExternalFilesService {
 
 
 	/**
-	 * @param Index $index
+	 * @param IIndex $index
 	 */
-	public function impersonateOwner(Index $index) {
+	public function impersonateOwner(IIndex $index) {
 		if ($index->getSource() !== ConfigService::FILES_EXTERNAL) {
 			return;
 		}

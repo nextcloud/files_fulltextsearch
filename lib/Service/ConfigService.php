@@ -28,7 +28,7 @@ namespace OCA\Files_FullTextSearch\Service;
 
 use OCA\Files_FullTextSearch\AppInfo\Application;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
-use OCA\FullTextSearch\Model\Index;
+use OCP\FullTextSearch\Model\IIndex;
 use OCP\IConfig;
 use OCP\PreConditionNotMetException;
 use OCP\Util;
@@ -245,11 +245,11 @@ class ConfigService {
 
 
 	/**
-	 * @param Index $index
+	 * @param IIndex $index
 	 *
 	 * @return bool
 	 */
-	public function compareIndexOptions(Index $index) {
+	public function compareIndexOptions(IIndex $index) {
 		$options = $index->getOptions();
 
 		$ak = array_keys($options);

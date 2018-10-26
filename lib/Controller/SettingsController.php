@@ -27,11 +27,11 @@
 namespace OCA\Files_FullTextSearch\Controller;
 
 use Exception;
-use OC\App\AppManager;
 use OCA\Files_FullTextSearch\AppInfo\Application;
 use OCA\Files_FullTextSearch\Service\ConfigService;
 use OCA\Files_FullTextSearch\Service\MiscService;
 use OCA\Files_FullTextSearch\Service\SettingsService;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -39,7 +39,7 @@ use OCP\IRequest;
 
 class SettingsController extends Controller {
 
-	/** @var AppManager */
+	/** @var IAppManager */
 	private $appManager;
 
 	/** @var ConfigService */
@@ -56,13 +56,13 @@ class SettingsController extends Controller {
 	 * NavigationController constructor.
 	 *
 	 * @param IRequest $request
-	 * @param AppManager $appManager
+	 * @param IAppManager $appManager
 	 * @param ConfigService $configService
 	 * @param SettingsService $settingsService
 	 * @param MiscService $miscService
 	 */
 	public function __construct(
-		IRequest $request, AppManager $appManager, ConfigService $configService,
+		IRequest $request, IAppManager $appManager, ConfigService $configService,
 		SettingsService $settingsService,
 		MiscService $miscService
 	) {
