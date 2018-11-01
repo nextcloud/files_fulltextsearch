@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 
 /**
  * Files_FullTextSearch - Index the content of your files
@@ -25,18 +27,26 @@
  *
  */
 
+
 namespace OCA\Files_FullTextSearch\Events;
+
 
 use daita\MySmallPhpTools\Traits\TArrayTools;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Service\FilesService;
 use OCA\Files_FullTextSearch\Service\MiscService;
-use OCA\FullTextSearch\Api\v1\FullTextSearch;
-use OCP\FullTextSearch\Model\IIndex;
 use OCP\AppFramework\QueryException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
+use OCP\FullTextSearch\IFullTextSearchManager;
+use OCP\FullTextSearch\Model\IIndex;
 
+
+/**
+ * Class FilesEvents
+ *
+ * @package OCA\Files_FullTextSearch\Events
+ */
 class FilesEvents {
 
 
@@ -46,21 +56,30 @@ class FilesEvents {
 	/** @var string */
 	private $userId;
 
+	/** @var IFullTextSearchManager */
+	private $fullTextSearchManager;
+
 	/** @var FilesService */
 	private $filesService;
 
 	/** @var MiscService */
 	private $miscService;
 
+
 	/**
 	 * FilesEvents constructor.
 	 *
 	 * @param string $userId
+	 * @param IFullTextSearchManager $fullTextSearchManager
 	 * @param FilesService $filesService
 	 * @param MiscService $miscService
 	 */
-	public function __construct($userId, FilesService $filesService, MiscService $miscService) {
+	public function __construct(
+		string $userId, IFullTextSearchManager $fullTextSearchManager, FilesService $filesService,
+		MiscService $miscService
+	) {
 		$this->userId = $userId;
+		$this->fullTextSearchManager = $fullTextSearchManager;
 		$this->filesService = $filesService;
 		$this->miscService = $miscService;
 	}
@@ -69,7 +88,6 @@ class FilesEvents {
 	/**
 	 * @param array $params
 	 *
-	 * @throws QueryException
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
@@ -80,7 +98,9 @@ class FilesEvents {
 		}
 
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
-		FullTextSearch::createIndex('files', $file->getId(), $this->userId, IIndex::INDEX_FULL);
+		$this->fullTextSearchManager->createIndex(
+			'files', (string)$file->getId(), $this->userId, IIndex::INDEX_FULL
+		);
 	}
 
 
@@ -89,7 +109,6 @@ class FilesEvents {
 	 *
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
-	 * @throws QueryException
 	 */
 	public function onFileUpdate(array $params) {
 		$path = $this->get('path', $params, '');
@@ -98,7 +117,9 @@ class FilesEvents {
 		}
 
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
-		FullTextSearch::updateIndexStatus('files', $file->getId(), IIndex::INDEX_FULL);
+		$this->fullTextSearchManager->updateIndexStatus(
+			'files', (string)$file->getId(), IIndex::INDEX_FULL
+		);
 	}
 
 
@@ -106,7 +127,6 @@ class FilesEvents {
 	 * @param array $params
 	 *
 	 * @throws NotFoundException
-	 * @throws QueryException
 	 * @throws InvalidPathException
 	 */
 	public function onFileRename(array $params) {
@@ -116,7 +136,9 @@ class FilesEvents {
 		}
 
 		$file = $this->filesService->getFileFromPath($this->userId, $target);
-		FullTextSearch::updateIndexStatus('files', $file->getId(), IIndex::INDEX_META);
+		$this->fullTextSearchManager->updateIndexStatus(
+			'files', (string)$file->getId(), IIndex::INDEX_META
+		);
 	}
 
 
@@ -137,9 +159,9 @@ class FilesEvents {
 		}
 
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
-		FullTextSearch::updateIndexStatus('files', $file->getId(), IIndex::INDEX_REMOVE, true);
-
-		//$this->miscService->log('> ON FILE TRASH ' . json_encode($path));
+		$this->fullTextSearchManager->updateIndexStatus(
+			'files', (string)$file->getId(), IIndex::INDEX_REMOVE, true
+		);
 	}
 
 
@@ -148,7 +170,6 @@ class FilesEvents {
 	 *
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
-	 * @throws QueryException
 	 */
 	public function onFileRestore(array $params) {
 		$path = $this->get('filePath', $params, '');
@@ -157,7 +178,9 @@ class FilesEvents {
 		}
 
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
-		FullTextSearch::updateIndexStatus('files', $file->getId(), IIndex::INDEX_FULL);
+		$this->fullTextSearchManager->updateIndexStatus(
+			'files', (string)$file->getId(), IIndex::INDEX_FULL
+		);
 	}
 
 
@@ -171,14 +194,12 @@ class FilesEvents {
 //		}
 
 //		$file = $this->filesService->getFileFromPath($this->userId, $path);
-//		FullTextSearch::updateIndexStatus('files', $file->getId(), Index::INDEX_REMOVE);
+//		$this->fullTextSearchManager->updateIndexStatus('files', (string) $file->getId(), Index::INDEX_REMOVE);
 	}
 
 
 	/**
 	 * @param array $params
-	 *
-	 * @throws QueryException
 	 */
 	public function onFileShare(array $params) {
 		$fileId = $this->get('itemSource', $params, '');
@@ -186,15 +207,14 @@ class FilesEvents {
 			return;
 		}
 
-		FullTextSearch::updateIndexStatus('files', $fileId, FilesDocument::STATUS_FILE_ACCESS);
-
+		$this->fullTextSearchManager->updateIndexStatus(
+			'files', $fileId, FilesDocument::STATUS_FILE_ACCESS
+		);
 	}
 
 
 	/**
 	 * @param array $params
-	 *
-	 * @throws QueryException
 	 */
 	public function onFileUnshare(array $params) {
 		$fileId = $this->get('itemSource', $params, '');
@@ -202,49 +222,17 @@ class FilesEvents {
 			return;
 		}
 
-		FullTextSearch::updateIndexStatus('files', $fileId, FilesDocument::STATUS_FILE_ACCESS);
+		$this->fullTextSearchManager->updateIndexStatus(
+			'files', $fileId, FilesDocument::STATUS_FILE_ACCESS
+		);
 	}
 
 
-	public function onNewScannedFile2($params) {
-
-
+	public function onNewScannedFile2(array $params) {
 	}
 
 
-	public function onNewScannedFile($params) {
-		$this->miscService->log('___ !!! ' . json_encode($params));
-
-		if (!array_key_exists('parent', $params)) {
-			return;
-		}
-
-		$rootFolder = \OC::$server->getRootFolder();
-		$nodes = $rootFolder->getById(7);
-		$this->miscService->log('___ !!! ' . json_encode($nodes));
-		$node = $nodes[0];
-
-		$this->miscService->log(
-			'___ >>>> ' . $node->getOwner()
-							   ->getUID()
-		);
-//$this->miscService->log('___ >>>> ' . $node);
-
-
-		// si parent n'existe pas, on oublie
-		// si parent exist, on recupere le userId
-		// avec le userId et le path, on recuperer l'Id
-		// on genere l'entree dans la table d'index
-
-		// verifier ce qu'il se passe dans du SMB
-		// verifier qu'on ignore la mise a jour des index si il n;y a pas eu un index integral (du cote de la cron ?)ftf
-
-//		$this->filesService->getFileFromId(7);
-		$this->miscService->log(
-			'______USERID: ' . $this->userId . '    ______PARAMS: ' . json_encode(
-				$params, JSON_PRETTY_PRINT
-			)
-		);
+	public function onNewScannedFile(array $params) {
 	}
 }
 

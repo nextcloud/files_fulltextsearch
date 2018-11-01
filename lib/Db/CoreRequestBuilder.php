@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -24,6 +27,7 @@
  *
  */
 
+
 namespace OCA\Files_FullTextSearch\Db;
 
 
@@ -32,9 +36,17 @@ use OCA\Files_FullTextSearch\Service\MiscService;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 
+
+/**
+ * Class CoreRequestBuilder
+ *
+ * @package OCA\Files_FullTextSearch\Db
+ */
 class CoreRequestBuilder {
 
+
 	const TABLE_SHARES = 'share';
+
 
 	/** @var IDBConnection */
 	protected $dbConnection;
@@ -66,17 +78,29 @@ class CoreRequestBuilder {
 	 * @param IQueryBuilder $qb
 	 * @param $fileSource
 	 */
-	protected function limitToFileSource(IQueryBuilder &$qb, $fileSource) {
-		$this->limitToDBField($qb, 'file_source', $fileSource);
+	protected function limitToFileSource(IQueryBuilder &$qb, int $fileSource) {
+		$this->limitToDBFieldInt($qb, 'file_source', $fileSource);
 	}
 
 
 	/**
 	 * @param IQueryBuilder $qb
 	 * @param string $field
-	 * @param string|integer $value
+	 * @param string $value
 	 */
-	private function limitToDBField(IQueryBuilder &$qb, $field, $value) {
+	private function limitToDBField(IQueryBuilder &$qb, string $field, string $value) {
+		$expr = $qb->expr();
+		$pf = ($qb->getType() === QueryBuilder::SELECT) ? $this->defaultSelectAlias . '.' : '';
+		$qb->andWhere($expr->eq($pf . $field, $qb->createNamedParameter($value)));
+	}
+
+
+	/**
+	 * @param IQueryBuilder $qb
+	 * @param string $field
+	 * @param int $value
+	 */
+	private function limitToDBFieldInt(IQueryBuilder &$qb, string $field, int $value) {
 		$expr = $qb->expr();
 		$pf = ($qb->getType() === QueryBuilder::SELECT) ? $this->defaultSelectAlias . '.' : '';
 		$qb->andWhere($expr->eq($pf . $field, $qb->createNamedParameter($value)));
@@ -84,6 +108,4 @@ class CoreRequestBuilder {
 
 
 }
-
-
 

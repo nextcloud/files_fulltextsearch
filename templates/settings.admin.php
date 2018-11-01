@@ -1,4 +1,8 @@
 <?php
+declare(strict_types=1);
+
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -24,12 +28,15 @@
  *
  */
 
+
 use OCA\Files_FullTextSearch\AppInfo\Application;
 use OCP\Util;
+
 
 Util::addScript(Application::APP_NAME, 'admin.elements');
 Util::addScript(Application::APP_NAME, 'admin.settings');
 Util::addScript(Application::APP_NAME, 'admin');
+
 
 ?>
 

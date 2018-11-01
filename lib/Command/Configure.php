@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -24,7 +27,9 @@
  *
  */
 
+
 namespace OCA\Files_FullTextSearch\Command;
+
 
 use Exception;
 use OC\Core\Command\Base;
@@ -35,7 +40,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 
+/**
+ * Class Configure
+ *
+ * @package OCA\Files_FullTextSearch\Command
+ */
 class Configure extends Base {
+
 
 	/** @var ConfigService */
 	private $configService;
@@ -45,7 +56,7 @@ class Configure extends Base {
 
 
 	/**
-	 * Index constructor.
+	 * Configure constructor.
 	 *
 	 * @param ConfigService $configService
 	 * @param MiscService $miscService
@@ -73,7 +84,6 @@ class Configure extends Base {
 	 * @param InputInterface $input
 	 * @param OutputInterface $output
 	 *
-	 * @return int|null|void
 	 * @throws Exception
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output) {
@@ -99,6 +109,4 @@ class Configure extends Base {
 
 
 }
-
-
 

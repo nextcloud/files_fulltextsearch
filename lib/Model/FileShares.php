@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -24,9 +27,20 @@
  *
  */
 
+
 namespace OCA\Files_FullTextSearch\Model;
 
-class FileShares implements \JsonSerializable {
+
+use JsonSerializable;
+
+
+/**
+ * Class FileShares
+ *
+ * @package OCA\Files_FullTextSearch\Model
+ */
+class FileShares implements JsonSerializable {
+
 
 	/** @var array */
 	private $users = [];
@@ -61,16 +75,17 @@ class FileShares implements \JsonSerializable {
 	/**
 	 * @return array
 	 */
-	public function getUsers() {
+	public function getUsers(): array {
 		return $this->users;
 	}
+
 
 	/**
 	 * @param array $users
 	 *
 	 * @return $this
 	 */
-	public function setUsers($users) {
+	public function setUsers(array $users): FileShares {
 		$this->users = $users;
 
 		return $this;
@@ -81,7 +96,7 @@ class FileShares implements \JsonSerializable {
 	 *
 	 * @return $this
 	 */
-	public function addUser($user) {
+	public function addUser(string $user): FileShares {
 		if (!in_array($user, $this->users)) {
 			array_push($this->users, $user);
 		}
@@ -93,7 +108,7 @@ class FileShares implements \JsonSerializable {
 	/**
 	 * @return array
 	 */
-	public function getGroups() {
+	public function getGroups(): array {
 		return $this->groups;
 	}
 
@@ -102,7 +117,7 @@ class FileShares implements \JsonSerializable {
 	 *
 	 * @return $this
 	 */
-	public function setGroups($groups) {
+	public function setGroups(array $groups): FileShares {
 		$this->groups = $groups;
 
 		return $this;
@@ -113,7 +128,7 @@ class FileShares implements \JsonSerializable {
 	 *
 	 * @return $this
 	 */
-	public function addGroup($group) {
+	public function addGroup(string $group): FileShares {
 		if (!in_array($group, $this->groups)) {
 			array_push($this->groups, $group);
 		}
@@ -121,10 +136,11 @@ class FileShares implements \JsonSerializable {
 		return $this;
 	}
 
+
 	/**
 	 * @return array
 	 */
-	public function getCircles() {
+	public function getCircles(): array {
 		return $this->circles;
 	}
 
@@ -133,7 +149,7 @@ class FileShares implements \JsonSerializable {
 	 *
 	 * @return $this
 	 */
-	public function setCircles($circles) {
+	public function setCircles(array $circles): FileShares {
 		$this->circles = $circles;
 
 		return $this;
@@ -144,7 +160,7 @@ class FileShares implements \JsonSerializable {
 	 *
 	 * @return $this
 	 */
-	public function addCircle($circle) {
+	public function addCircle(string $circle): FileShares {
 		if (!in_array($circle, $this->circles)) {
 			array_push($this->circles, $circle);
 		}
@@ -156,7 +172,7 @@ class FileShares implements \JsonSerializable {
 	/**
 	 * @return array
 	 */
-	public function getLinks() {
+	public function getLinks(): array {
 		return $this->links;
 	}
 
@@ -165,7 +181,7 @@ class FileShares implements \JsonSerializable {
 	 *
 	 * @return $this
 	 */
-	public function setLinks($links) {
+	public function setLinks(array $links): FileShares {
 		$this->links = $links;
 
 		return $this;
@@ -176,7 +192,7 @@ class FileShares implements \JsonSerializable {
 	 *
 	 * @return FileShares
 	 */
-	public function addLink($link) {
+	public function addLink(string $link): FileShares {
 		if (!in_array($link, $this->links)) {
 			array_push($this->links, $link);
 		}
@@ -185,7 +201,10 @@ class FileShares implements \JsonSerializable {
 	}
 
 
-	public function jsonSerialize() {
+	/**
+	 * @return array
+	 */
+	public function jsonSerialize(): array {
 		return [
 			'users'   => $this->getUsers(),
 			'groups'  => $this->getGroups(),
@@ -195,3 +214,4 @@ class FileShares implements \JsonSerializable {
 	}
 
 }
+

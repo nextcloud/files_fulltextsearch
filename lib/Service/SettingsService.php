@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -24,10 +27,18 @@
  *
  */
 
+
 namespace OCA\Files_FullTextSearch\Service;
+
 
 use OCP\IConfig;
 
+
+/**
+ * Class SettingsService
+ *
+ * @package OCA\Files_FullTextSearch\Service
+ */
 class SettingsService {
 
 
@@ -40,25 +51,27 @@ class SettingsService {
 	/** @var MiscService */
 	private $miscService;
 
+
 	/**
-	 * ConfigService constructor.
+	 * SettingsService constructor.
 	 *
 	 * @param IConfig $config
 	 * @param string $userId
 	 * @param MiscService $miscService
 	 */
-	public function __construct(IConfig $config, $userId, MiscService $miscService) {
+	public function __construct(IConfig $config, string $userId, MiscService $miscService) {
 		$this->config = $config;
 		$this->userId = $userId;
 		$this->miscService = $miscService;
 	}
 
+
 	/**
-	 * @param $data
+	 * @param array $data
 	 *
 	 * @return bool
 	 */
-	public function checkConfig($data) {
+	public function checkConfig(array $data): bool {
 //			return false;
 
 		return true;
@@ -66,3 +79,4 @@ class SettingsService {
 
 
 }
+

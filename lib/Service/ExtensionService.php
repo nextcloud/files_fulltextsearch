@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -34,7 +37,14 @@ use OCP\Files\Node;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
+
+/**
+ * Class ExtensionService
+ *
+ * @package OCA\Files_FullTextSearch\Service
+ */
 class ExtensionService {
+
 
 	/** @var EventDispatcher */
 	private $eventDispatcher;
@@ -89,8 +99,9 @@ class ExtensionService {
 	 * @param string $context
 	 * @param array $arguments
 	 */
-	private function dispatch($context, $arguments) {
+	private function dispatch(string $context, array $arguments) {
 		$this->eventDispatcher->dispatch($context, new GenericEvent(null, $arguments));
 	}
 
 }
+

@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -24,9 +27,12 @@
  *
  */
 
+
 namespace OCA\Files_FullTextSearch\AppInfo;
 
+
 use OCP\AppFramework\QueryException;
+
 
 require_once __DIR__ . '/autoload.php';
 

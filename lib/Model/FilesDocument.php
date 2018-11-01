@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 
 /**
@@ -29,10 +30,16 @@
 
 namespace OCA\Files_FullTextSearch\Model;
 
+
 use OCP\Files_FullTextSearch\Model\AFilesDocument;
 use OCP\FullTextSearch\Model\IndexDocument;
 
 
+/**
+ * Class FilesDocument
+ *
+ * @package OCA\Files_FullTextSearch\Model
+ */
 class FilesDocument extends AFilesDocument {
 
 
@@ -60,7 +67,7 @@ class FilesDocument extends AFilesDocument {
 	 *
 	 * @return $this
 	 */
-	public function setOwnerId($ownerId) {
+	public function setOwnerId(string $ownerId): FilesDocument {
 		$this->ownerId = $ownerId;
 
 		return $this;
@@ -79,7 +86,7 @@ class FilesDocument extends AFilesDocument {
 	 *
 	 * @return FilesDocument
 	 */
-	public function setViewerId($viewerId) {
+	public function setViewerId(string $viewerId): FilesDocument {
 		$this->viewerId = $viewerId;
 
 		return $this;
@@ -98,7 +105,7 @@ class FilesDocument extends AFilesDocument {
 	 *
 	 * @return FilesDocument
 	 */
-	public function setType($type): FilesDocument {
+	public function setType(string $type): FilesDocument {
 		$this->type = $type;
 
 		return $this;
@@ -117,7 +124,7 @@ class FilesDocument extends AFilesDocument {
 	 *
 	 * @return FilesDocument
 	 */
-	public function setMimetype($type): FilesDocument {
+	public function setMimetype(string $type): FilesDocument {
 		$this->mimetype = $type;
 
 		return $this;
@@ -136,7 +143,7 @@ class FilesDocument extends AFilesDocument {
 	 *
 	 * @return $this
 	 */
-	public function setPath($path) {
+	public function setPath(string $path): FilesDocument {
 		$this->path = $path;
 
 		return $this;
@@ -157,26 +164,11 @@ class FilesDocument extends AFilesDocument {
 		parent::__destruct();
 
 		unset($this->ownerId);
+		unset($this->viewerId);
 		unset($this->type);
-		unset($this->source);
 		unset($this->mimetype);
 		unset($this->path);
 	}
 
-
-	/**
-	 * @param IndexDocument $indexDocument
-	 *
-	 * @return FilesDocument
-	 */
-	public static function fromIndexDocument(IndexDocument $indexDocument) {
-		$document = new FilesDocument($indexDocument->getProviderId(), $indexDocument->getId());
-		foreach (get_object_vars($indexDocument) as $key => $name) {
-			$document->$key = $name;
-		}
-
-		return $document;
-	}
-
-
 }
+

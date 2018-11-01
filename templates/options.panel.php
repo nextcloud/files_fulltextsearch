@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -24,31 +27,11 @@
  *
  */
 
+
 ?>
 <div>
 
 	<div class="div-table">
-
-<!--		<div class="div-table-row">-->
-<!--			<div class="div-table-col div-table-col-left">-->
-<!--				<span class="leftcol">Within current directory:</span>-->
-<!--			</div>-->
-<!--			<div class="div-table-col">-->
-<!--				<input type="checkbox" id="files_within_dir" value="1"/>-->
-<!--			</div>-->
-<!--		</div>-->
-
-<!--		<div class="div-table-row">-->
-<!--			<div class="div-table-col div-table-col-left">-->
-<!--				<span class="leftcol">Filter by extension:</span>-->
-<!--			</div>-->
-<!--			<div class="div-table-col">-->
-<!--				<input type="text" id="files_extension" class="options_small" placeholder="txt"-->
-<!--					   value=""/>-->
-<!--			</div>-->
-<!--		</div>-->
-
 	</div>
-
 
 </div>

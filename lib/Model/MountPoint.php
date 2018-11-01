@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -24,8 +27,15 @@
  *
  */
 
+
 namespace OCA\Files_FullTextSearch\Model;
 
+
+/**
+ * Class MountPoint
+ *
+ * @package OCA\Files_FullTextSearch\Model
+ */
 class MountPoint implements \JsonSerializable {
 
 
@@ -48,7 +58,7 @@ class MountPoint implements \JsonSerializable {
 	/**
 	 * @return int
 	 */
-	public function getId() {
+	public function getId(): int {
 		return $this->id;
 	}
 
@@ -57,7 +67,7 @@ class MountPoint implements \JsonSerializable {
 	 *
 	 * @return $this
 	 */
-	public function setId($id) {
+	public function setId(int $id): MountPoint {
 		$this->id = $id;
 
 		return $this;
@@ -67,7 +77,7 @@ class MountPoint implements \JsonSerializable {
 	/**
 	 * @return string
 	 */
-	public function getPath() {
+	public function getPath(): string {
 		return $this->path;
 	}
 
@@ -76,7 +86,7 @@ class MountPoint implements \JsonSerializable {
 	 *
 	 * @return $this
 	 */
-	public function setPath($path) {
+	public function setPath(string $path): MountPoint {
 		$this->path = $path;
 
 		return $this;
@@ -86,7 +96,7 @@ class MountPoint implements \JsonSerializable {
 	/**
 	 * @return bool
 	 */
-	public function isGlobal() {
+	public function isGlobal(): bool {
 		return $this->global;
 	}
 
@@ -95,7 +105,7 @@ class MountPoint implements \JsonSerializable {
 	 *
 	 * @return $this
 	 */
-	public function setGlobal($global) {
+	public function setGlobal(bool $global): MountPoint {
 		$this->global = $global;
 
 		return $this;
@@ -105,7 +115,7 @@ class MountPoint implements \JsonSerializable {
 	/**
 	 * @return array
 	 */
-	public function getGroups() {
+	public function getGroups(): array {
 		return $this->groups;
 	}
 
@@ -114,7 +124,7 @@ class MountPoint implements \JsonSerializable {
 	 *
 	 * @return $this
 	 */
-	public function setGroups($groups) {
+	public function setGroups(array $groups): MountPoint {
 		$this->groups = $groups;
 
 		return $this;
@@ -124,7 +134,7 @@ class MountPoint implements \JsonSerializable {
 	/**
 	 * @return array
 	 */
-	public function getUsers() {
+	public function getUsers(): array {
 		return $this->users;
 	}
 
@@ -133,13 +143,16 @@ class MountPoint implements \JsonSerializable {
 	 *
 	 * @return $this
 	 */
-	public function setUsers($users) {
+	public function setUsers(array $users): MountPoint {
 		$this->users = $users;
 
 		return $this;
 	}
 
 
+	/**
+	 *
+	 */
 	public function __destruct() {
 		unset($this->id);
 		unset($this->path);
@@ -148,7 +161,11 @@ class MountPoint implements \JsonSerializable {
 		unset($this->users);
 	}
 
-	public function jsonSerialize() {
+
+	/**
+	 * @return array
+	 */
+	public function jsonSerialize(): array {
 		return [
 			'id'     => $this->getId(),
 			'path'   => $this->getPath(),
@@ -159,3 +176,4 @@ class MountPoint implements \JsonSerializable {
 	}
 
 }
+

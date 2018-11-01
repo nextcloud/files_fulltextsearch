@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -24,9 +27,10 @@
  *
  */
 
+
 namespace OCA\Files_FullTextSearch\Exceptions;
 
-class FileIsNotIndexableException extends \Exception {
 
+class FileIsNotIndexableException extends \Exception {
 }
 

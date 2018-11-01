@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -24,9 +27,11 @@
  *
  */
 
+
 namespace OCA\Files_FullTextSearch\Service;
 
 
+use daita\MySmallPhpTools\Traits\TPathTools;
 use Exception;
 use OCA\Files_FullTextSearch\Exceptions\EmptyUserException;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
@@ -54,7 +59,17 @@ use OCP\IUserManager;
 use OCP\Share\IManager;
 use Throwable;
 
+
+/**
+ * Class FilesService
+ *
+ * @package OCA\Files_FullTextSearch\Service
+ */
 class FilesService {
+
+
+	use TPathTools;
+
 
 	const MIMETYPE_TEXT = 'files_text';
 	const MIMETYPE_PDF = 'files_pdf';
@@ -103,6 +118,7 @@ class FilesService {
 	/** @var int */
 	private $sumDocuments;
 
+
 	/**
 	 * FilesService constructor.
 	 *
@@ -143,6 +159,9 @@ class FilesService {
 	}
 
 
+	/**
+	 * @param IRunner $runner
+	 */
 	public function setRunner(IRunner $runner) {
 		$this->runner = $runner;
 	}
@@ -156,7 +175,7 @@ class FilesService {
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
-	public function getFilesFromUser(string $userId, IIndexOptions $indexOptions) {
+	public function getFilesFromUser(string $userId, IIndexOptions $indexOptions): array {
 
 		$this->initFileSystems($userId);
 		$this->sumDocuments = 0;
@@ -182,7 +201,7 @@ class FilesService {
 	/**
 	 * @param string $userId
 	 */
-	private function initFileSystems($userId) {
+	private function initFileSystems(string $userId) {
 		if ($userId === '') {
 			return;
 		}
@@ -201,7 +220,7 @@ class FilesService {
 	 * @throws NotFoundException
 	 * @throws Exception
 	 */
-	public function getFilesFromDirectory($userId, Folder $node) {
+	public function getFilesFromDirectory(string $userId, Folder $node): array {
 		$documents = [];
 
 		$this->updateRunnerAction('generateIndexFiles', true);
@@ -242,9 +261,8 @@ class FilesService {
 
 
 	/**
-	 * @param Node $file
-	 *
 	 * @param string $viewerId
+	 * @param Node $file
 	 *
 	 * @return FilesDocument
 	 * @throws FileIsNotIndexableException
@@ -252,7 +270,7 @@ class FilesService {
 	 * @throws NotFoundException
 	 * @throws Exception
 	 */
-	private function generateFilesDocumentFromFile($viewerId, Node $file) {
+	private function generateFilesDocumentFromFile(string $viewerId, Node $file): FilesDocument {
 
 		$source = $this->getFileSource($file);
 		$document = new FilesDocument(FilesProvider::FILES_PROVIDER_ID, $file->getId());
@@ -267,12 +285,12 @@ class FilesService {
 							->getUID();
 		}
 		$document->setType($file->getType())
-				 ->setSource($source)
 				 ->setOwnerId($ownerId)
 				 ->setPath($this->getPathFromViewerId($file->getId(), $viewerId))
 				 ->setViewerId($viewerId)
-				 ->setModifiedTime($file->getMTime())
 				 ->setMimetype($file->getMimetype());
+		$document->setModifiedTime($file->getMTime())
+				 ->setSource($source);
 
 		return $document;
 	}
@@ -284,7 +302,7 @@ class FilesService {
 	 * @return string
 	 * @throws FileIsNotIndexableException
 	 */
-	private function getFileSource(Node $file) {
+	private function getFileSource(Node $file): string {
 		$source = '';
 
 		try {
@@ -306,7 +324,7 @@ class FilesService {
 	 * @return Node
 	 * @throws NotFoundException
 	 */
-	public function getFileFromPath($userId, $path) {
+	public function getFileFromPath(string $userId, string $path): Node {
 		return $this->rootFolder->getUserFolder($userId)
 								->get($path);
 	}
@@ -320,7 +338,7 @@ class FilesService {
 	 * @throws FilesNotFoundException
 	 * @throws EmptyUserException
 	 */
-	public function getFileFromId($userId, $fileId) {
+	public function getFileFromId(string $userId, int $fileId): Node {
 
 		if ($userId === '') {
 			throw new EmptyUserException();
@@ -345,10 +363,10 @@ class FilesService {
 	 * @throws EmptyUserException
 	 * @throws FilesNotFoundException
 	 */
-	public function getFileFromIndex(IIndex $index) {
+	public function getFileFromIndex(IIndex $index): Node {
 		$this->impersonateOwner($index);
 
-		return $this->getFileFromId($index->getOwnerId(), $index->getDocumentId());
+		return $this->getFileFromId($index->getOwnerId(), (int)$index->getDocumentId());
 	}
 
 
@@ -359,7 +377,7 @@ class FilesService {
 	 * @throws Exception
 	 * @return string
 	 */
-	private function getPathFromViewerId($fileId, $viewerId) {
+	private function getPathFromViewerId(int $fileId, string $viewerId): string {
 
 		$viewerFiles = $this->rootFolder->getUserFolder($viewerId)
 										->getById($fileId);
@@ -371,7 +389,7 @@ class FilesService {
 		$file = array_shift($viewerFiles);
 
 		// TODO: better way to do this : we remove the '/userid/files/'
-		$path = MiscService::noEndSlash(substr($file->getPath(), 8 + strlen($viewerId)));
+		$path = $this->withoutEndSlash(substr($file->getPath(), 8 + strlen($viewerId)));
 
 		return $path;
 	}
@@ -403,7 +421,7 @@ class FilesService {
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
 	 */
-	private function generateDocumentFromIndex(IIndex $index) {
+	private function generateDocumentFromIndex(IIndex $index): FilesDocument {
 
 		try {
 			$file = $this->getFileFromIndex($index);
@@ -429,7 +447,7 @@ class FilesService {
 	 *
 	 * @return bool
 	 */
-	public function isDocumentUpToDate($document) {
+	public function isDocumentUpToDate(IndexDocument $document): bool {
 		$index = $document->getIndex();
 
 		if (!$this->configService->compareIndexOptions($index)) {
@@ -460,7 +478,7 @@ class FilesService {
 	 * @throws NotPermittedException
 	 * @throws FileIsNotIndexableException
 	 */
-	public function updateDocument(IIndex $index) {
+	public function updateDocument(IIndex $index): FilesDocument {
 		$this->impersonateOwner($index);
 		$this->initFileSystems($index->getOwnerId());
 
@@ -471,9 +489,7 @@ class FilesService {
 	/**
 	 * @param FilesDocument $document
 	 *
-	 * @throws InvalidPathException
 	 * @throws NotFoundException
-	 * @throws NotPermittedException
 	 */
 	private function updateFilesDocument(FilesDocument $document) {
 		$userFolder = $this->rootFolder->getUserFolder($document->getViewerId());
@@ -566,7 +582,7 @@ class FilesService {
 	 *
 	 * @return array
 	 */
-	private function updateShareNames(FilesDocument $document, Node $file) {
+	private function updateShareNames(FilesDocument $document, Node $file): array {
 
 		$users = [];
 
@@ -583,7 +599,7 @@ class FilesService {
 				}
 
 				$path = $this->getPathFromViewerId($file->getId(), $username);
-				$shareNames[MiscService::secureUsername($username)] =
+				$shareNames[$this->miscService->secureUsername($username)] =
 					(!is_string($path)) ? $path = '' : $path;
 
 			} catch (Exception $e) {
@@ -604,7 +620,7 @@ class FilesService {
 	 *
 	 * @return string
 	 */
-	private function parseMimeType($mimeType) {
+	private function parseMimeType(string $mimeType): string {
 
 		$parsed = '';
 		try {
@@ -624,7 +640,7 @@ class FilesService {
 	 *
 	 * @throws KnownFileMimeTypeException
 	 */
-	private function parseMimeTypeText($mimeType, &$parsed) {
+	private function parseMimeTypeText(string $mimeType, string &$parsed) {
 
 		if (substr($mimeType, 0, 5) === 'text/') {
 			$parsed = self::MIMETYPE_TEXT;
@@ -650,7 +666,7 @@ class FilesService {
 	 *
 	 * @throws KnownFileMimeTypeException
 	 */
-	private function parseMimeTypePDF($mimeType, &$parsed) {
+	private function parseMimeTypePDF(string $mimeType, string &$parsed) {
 
 		if ($mimeType === 'application/pdf') {
 			$parsed = self::MIMETYPE_PDF;
@@ -665,7 +681,7 @@ class FilesService {
 	 *
 	 * @throws KnownFileMimeTypeException
 	 */
-	private function parseMimeTypeOffice($mimeType, &$parsed) {
+	private function parseMimeTypeOffice(string $mimeType, string &$parsed) {
 
 		$officeMimes = [
 			'application/msword',
@@ -769,7 +785,7 @@ class FilesService {
 	 *
 	 * @return bool
 	 */
-	private function isSourceIndexable(FilesDocument $document) {
+	private function isSourceIndexable(FilesDocument $document): bool {
 		$this->configService->setDocumentIndexOption($document, $document->getSource());
 		if ($this->configService->getAppValue($document->getSource()) !== '1') {
 			$document->setContent('');
@@ -800,7 +816,7 @@ class FilesService {
 	 *
 	 * @throws Exception
 	 */
-	private function updateRunnerAction($action, $force = false) {
+	private function updateRunnerAction(string $action, bool $force = false) {
 		if ($this->runner === null) {
 			return;
 		}

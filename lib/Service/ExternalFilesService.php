@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -24,12 +27,6 @@
  *
  */
 
-/**
- * Created by PhpStorm.
- * User: maxence
- * Date: 12/13/17
- * Time: 4:11 PM
- */
 
 namespace OCA\Files_FullTextSearch\Service;
 
@@ -52,6 +49,12 @@ use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 
+
+/**
+ * Class ExternalFilesService
+ *
+ * @package OCA\Files_FullTextSearch\Service
+ */
 class ExternalFilesService {
 
 
@@ -120,7 +123,7 @@ class ExternalFilesService {
 	/**
 	 * @param string $userId
 	 */
-	public function initExternalFilesForUser($userId) {
+	public function initExternalFilesForUser(string $userId) {
 		$this->externalMounts = [];
 		if (!$this->appManager->isInstalled('files_external')) {
 			return;
@@ -139,7 +142,7 @@ class ExternalFilesService {
 	 * @throws FileIsNotIndexableException
 	 * @throws KnownFileSourceException
 	 */
-	public function getFileSource(Node $file, &$source) {
+	public function getFileSource(Node $file, string &$source) {
 		if ($this->globalStoragesService === null
 			|| $file->getMountPoint()
 					->getMountType() !== 'external') {
@@ -157,7 +160,7 @@ class ExternalFilesService {
 	 * @param FilesDocument $document
 	 * @param array $users
 	 */
-	public function getShareUsers(FilesDocument $document, &$users) {
+	public function getShareUsers(FilesDocument $document, array &$users) {
 		if ($document->getSource() !== ConfigService::FILES_EXTERNAL) {
 			return;
 		}
@@ -209,7 +212,7 @@ class ExternalFilesService {
 	 *
 	 * @return bool
 	 */
-	private function isMountFullGlobal(MountPoint $mount) {
+	private function isMountFullGlobal(MountPoint $mount): bool {
 		if (sizeof($mount->getGroups()) > 0) {
 			return false;
 		}
@@ -232,7 +235,7 @@ class ExternalFilesService {
 	 * @return MountPoint
 	 * @throws FileIsNotIndexableException
 	 */
-	private function getMountPoint(Node $file) {
+	private function getMountPoint(Node $file): MountPoint {
 
 		foreach ($this->externalMounts as $mount) {
 			if (strpos($file->getPath(), $mount->getPath()) === 0) {
@@ -245,11 +248,11 @@ class ExternalFilesService {
 
 
 	/**
-	 * @param $userId
+	 * @param string $userId
 	 *
 	 * @return MountPoint[]
 	 */
-	private function getMountPoints($userId) {
+	private function getMountPoints(string $userId): array {
 
 		$mountPoints = [];
 
@@ -275,7 +278,7 @@ class ExternalFilesService {
 	 * @return MountPoint
 	 * @throws ExternalMountNotFoundException
 	 */
-	private function getExternalMountById($externalMountId) {
+	private function getExternalMountById(int $externalMountId): MountPoint {
 		if ($externalMountId === 0) {
 			throw new ExternalMountNotFoundException();
 		}
@@ -311,16 +314,10 @@ class ExternalFilesService {
 			return;
 		}
 
-//		$this->miscService->log('========>>>>>> ' . json_encode($mount));
-
 		try {
 			$index->setOwnerId($this->getRandomUserFromMountPoint($mount));
 		} catch (Exception $e) {
 		}
-
-//		$this->miscService->log(
-//			'======== ' . $index->getOwnerId() . ' >>>>>> ' . json_encode($mount)
-//		);
 	}
 
 
@@ -330,7 +327,7 @@ class ExternalFilesService {
 	 * @return string
 	 * @throws ExternalMountWithNoViewerException
 	 */
-	private function getRandomUserFromMountPoint(MountPoint $mount) {
+	private function getRandomUserFromMountPoint(MountPoint $mount): string {
 
 		$users = $mount->getUsers();
 		if (sizeof($users) > 0) {
@@ -357,3 +354,4 @@ class ExternalFilesService {
 	}
 
 }
+

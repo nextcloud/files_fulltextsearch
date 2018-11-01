@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -24,10 +27,12 @@
  *
  */
 
+
 namespace OCA\Files_FullTextSearch\Db;
 
 
 use OCP\DB\QueryBuilder\IQueryBuilder;
+
 
 class SharesRequestBuilder extends CoreRequestBuilder {
 
@@ -37,7 +42,7 @@ class SharesRequestBuilder extends CoreRequestBuilder {
 	 *
 	 * @return IQueryBuilder
 	 */
-	protected function getSharesSelectSql() {
+	protected function getSharesSelectSql(): IQueryBuilder {
 		$qb = $this->dbConnection->getQueryBuilder();
 
 		/** @noinspection PhpMethodParametersCountMismatchInspection */
@@ -55,8 +60,9 @@ class SharesRequestBuilder extends CoreRequestBuilder {
 	 *
 	 * @return array
 	 */
-	protected function parseSharesSelectSql($data) {
+	protected function parseSharesSelectSql(array $data): array {
 		return $data;
 	}
 
 }
+

@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -24,7 +27,9 @@
  *
  */
 
+
 namespace OCA\Files_FullTextSearch\Controller;
+
 
 use Exception;
 use OCA\Files_FullTextSearch\AppInfo\Application;
@@ -37,7 +42,14 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
 
+
+/**
+ * Class SettingsController
+ *
+ * @package OCA\Files_FullTextSearch\Controller
+ */
 class SettingsController extends Controller {
+
 
 	/** @var IAppManager */
 	private $appManager;
@@ -53,7 +65,7 @@ class SettingsController extends Controller {
 
 
 	/**
-	 * NavigationController constructor.
+	 * SettingsController constructor.
 	 *
 	 * @param IRequest $request
 	 * @param IAppManager $appManager
@@ -78,7 +90,7 @@ class SettingsController extends Controller {
 	 * @return DataResponse
 	 * @throws Exception
 	 */
-	public function getSettingsAdmin() {
+	public function getSettingsAdmin(): DataResponse {
 		$data = $this->configService->getConfig();
 
 		return new DataResponse($data, Http::STATUS_OK);
@@ -86,12 +98,12 @@ class SettingsController extends Controller {
 
 
 	/**
-	 * @param $data
+	 * @param array $data
 	 *
 	 * @return DataResponse
 	 * @throws Exception
 	 */
-	public function setSettingsAdmin($data) {
+	public function setSettingsAdmin(array $data): DataResponse {
 
 		if ($this->settingsService->checkConfig($data)) {
 			$this->configService->setConfig($data);
@@ -100,5 +112,5 @@ class SettingsController extends Controller {
 		return $this->getSettingsAdmin();
 	}
 
-
 }
+

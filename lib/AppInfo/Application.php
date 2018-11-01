@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -24,7 +27,9 @@
  *
  */
 
+
 namespace OCA\Files_FullTextSearch\AppInfo;
+
 
 use OCA\Files_FullTextSearch\Hooks\FilesHooks;
 use OCA\Files_FullTextSearch\Provider\FilesProvider;
@@ -36,6 +41,12 @@ use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Util;
 
+
+/**
+ * Class Application
+ *
+ * @package OCA\Files_FullTextSearch\AppInfo
+ */
 class Application extends App {
 
 	const APP_NAME = 'files_fulltextsearch';
@@ -53,6 +64,8 @@ class Application extends App {
 
 
 	/**
+	 * Application constructor.
+	 *
 	 * @param array $params
 	 */
 	public function __construct(array $params = []) {
@@ -106,7 +119,6 @@ class Application extends App {
 
 
 	/**
-	 *
 	 * @throws QueryException
 	 */
 	public function registerFilesSearch() {
@@ -136,7 +148,6 @@ class Application extends App {
 					}
 					);
 	}
-
 
 }
 

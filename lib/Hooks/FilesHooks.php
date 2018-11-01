@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -24,6 +27,7 @@
  *
  */
 
+
 namespace OCA\Files_FullTextSearch\Hooks;
 
 
@@ -33,19 +37,22 @@ use OCP\AppFramework\QueryException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 
+
 /**
- * init Files_FullTextSearch' Events
+ * Class FilesHooks
+ *
+ * @package OCA\Files_FullTextSearch\Hooks
  */
 class FilesHooks {
 
 
 	/**
-	 * retreive the FilesEvents' Controller
+	 * retrieve the FilesEvents' Controller
 	 *
 	 * @return FilesEvents
 	 * @throws QueryException
 	 */
-	protected static function getController() {
+	protected static function getController(): FilesEvents {
 		$app = new Application();
 
 		return $app->getContainer()
@@ -62,7 +69,7 @@ class FilesHooks {
 	 * @throws NotFoundException
 	 * @throws QueryException
 	 */
-	public static function onNewFile($params) {
+	public static function onNewFile(array $params) {
 		self::getController()
 			->onNewFile($params);
 	}
@@ -77,11 +84,7 @@ class FilesHooks {
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
-	public static function onFileUpdate($params) {
-
-		\OC::$server->getLogger()
-					->log(2, 'onFileUpdate ' . json_encode($params));
-
+	public static function onFileUpdate(array $params) {
 		self::getController()
 			->onFileUpdate($params);
 	}
@@ -96,7 +99,7 @@ class FilesHooks {
 	 * @throws QueryException
 	 * @throws InvalidPathException
 	 */
-	public static function onFileRename($params) {
+	public static function onFileRename(array $params) {
 		self::getController()
 			->onFileRename($params);
 	}
@@ -111,7 +114,7 @@ class FilesHooks {
 	 * @throws NotFoundException
 	 * @throws QueryException
 	 */
-	public static function onFileTrash($params) {
+	public static function onFileTrash(array $params) {
 		self::getController()
 			->onFileTrash($params);
 	}
@@ -124,10 +127,11 @@ class FilesHooks {
 	 *
 	 * @throws QueryException
 	 */
-	public static function onFileDelete($params) {
+	public static function onFileDelete(array $params) {
 		self::getController()
 			->onFileDelete($params);
 	}
+
 
 	/**
 	 * hook event: file is restored
@@ -138,10 +142,11 @@ class FilesHooks {
 	 * @throws NotFoundException
 	 * @throws QueryException
 	 */
-	public static function onFileRestore($params) {
+	public static function onFileRestore(array $params) {
 		self::getController()
 			->onFileRestore($params);
 	}
+
 
 	/**
 	 * hook event: file is shared
@@ -150,10 +155,11 @@ class FilesHooks {
 	 *
 	 * @throws QueryException
 	 */
-	public static function onFileShare($params) {
+	public static function onFileShare(array $params) {
 		self::getController()
 			->onFileShare($params);
 	}
+
 
 	/**
 	 * hook event: file is unshared
@@ -162,50 +168,55 @@ class FilesHooks {
 	 *
 	 * @throws QueryException
 	 */
-	public static function onFileUnshare($params) {
+	public static function onFileUnshare(array $params) {
 		self::getController()
 			->onFileUnshare($params);
 	}
 
 
 	/**
-	 * @param $params
+	 * @param array $params
 	 *
 	 * @throws QueryException
 	 */
-	public static function onNewRemoteFile2($params) {
+	public static function onNewRemoteFile2(array $params) {
 		self::getController()
 			->onNewScannedFile2($params);
-//		\OC::$server->getLogger()
-//					->log(2, 'onNEwFileRemote ' . json_encode($params));
 	}
 
 
 	/**
-	 * @param $params
+	 * @param array $params
 	 *
 	 * @throws QueryException
 	 */
-	public static function onNewRemoteFile($params) {
+	public static function onNewRemoteFile(array $params) {
 		self::getController()
 			->onNewScannedFile($params);
-//		\OC::$server->getLogger()
-//					->log(2, 'onNEwFileRemote ' . json_encode($params));
 	}
 
 
-	public static function onRemoteFileUpdate($params) {
+	/**
+	 * @param array $params
+	 */
+	public static function onRemoteFileUpdate(array $params) {
 		\OC::$server->getLogger()
 					->log(2, 'onRemoteFileUpdate ' . json_encode($params));
 	}
 
-	public static function onRemoteFileRename($params) {
+	/**
+	 * @param array $params
+	 */
+	public static function onRemoteFileRename(array $params) {
 		\OC::$server->getLogger()
 					->log(2, 'onRemoteFileRename ' . json_encode($params));
 	}
 
 
-	public static function onRemoteFileDelete($params) {
+	/**
+	 * @param array $params
+	 */
+	public static function onRemoteFileDelete(array $params) {
 		\OC::$server->getLogger()
 					->log(2, 'onRemoteFileDelete ' . json_encode($params));
 	}

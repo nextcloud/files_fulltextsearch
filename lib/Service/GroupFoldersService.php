@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -42,6 +45,12 @@ use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\Share\IManager;
 
+
+/**
+ * Class GroupFoldersService
+ *
+ * @package OCA\Files_FullTextSearch\Service
+ */
 class GroupFoldersService {
 
 
@@ -69,9 +78,9 @@ class GroupFoldersService {
 
 
 	/**
-	 * ExternalFilesService constructor.
+	 * GroupFoldersService constructor.
 	 *
-	 * @param $userId
+	 * @param string $userId
 	 * @param IDBConnection $dbConnection
 	 * @param IAppManager $appManager
 	 * @param IManager $shareManager
@@ -81,7 +90,8 @@ class GroupFoldersService {
 	 * @param MiscService $miscService
 	 */
 	public function __construct(
-		$userId, IDBConnection $dbConnection, IAppManager $appManager, IManager $shareManager,
+		string $userId, IDBConnection $dbConnection, IAppManager $appManager,
+		IManager $shareManager,
 		IGroupManager $groupManager, LocalFilesService $localFilesService,
 		ConfigService $configService, MiscService $miscService
 	) {
@@ -105,7 +115,7 @@ class GroupFoldersService {
 	/**
 	 * @param string $userId
 	 */
-	public function initGroupSharesForUser($userId) {
+	public function initGroupSharesForUser(string $userId) {
 		if ($this->folderManager === null) {
 			return;
 		}
@@ -116,12 +126,11 @@ class GroupFoldersService {
 
 	/**
 	 * @param Node $file
-	 *
 	 * @param string $source
 	 *
 	 * @throws KnownFileSourceException
 	 */
-	public function getFileSource(Node $file, &$source) {
+	public function getFileSource(Node $file, string &$source) {
 		if ($file->getMountPoint()
 				 ->getMountType() !== 'group'
 			|| $this->folderManager === null) {
@@ -169,7 +178,7 @@ class GroupFoldersService {
 	 * @param FilesDocument $document
 	 * @param array $users
 	 */
-	public function getShareUsers(FilesDocument $document, &$users) {
+	public function getShareUsers(FilesDocument $document, array &$users) {
 		if ($document->getSource() !== ConfigService::FILES_GROUP_FOLDERS) {
 			return;
 		}
@@ -184,7 +193,7 @@ class GroupFoldersService {
 	 * @return MountPoint
 	 * @throws FileIsNotIndexableException
 	 */
-	private function getMountPoint(Node $file) {
+	private function getMountPoint(Node $file): MountPoint {
 		foreach ($this->groupFolders as $mount) {
 			if (strpos($file->getPath(), $mount->getPath()) === 0) {
 				return $mount;
@@ -201,7 +210,7 @@ class GroupFoldersService {
 	 *
 	 * @return MountPoint[]
 	 */
-	private function getMountPoints($userId) {
+	private function getMountPoints(string $userId): array {
 
 		$mountPoints = [];
 		$mounts = $this->folderManager->getAllFolders();
@@ -220,8 +229,6 @@ class GroupFoldersService {
 
 	/**
 	 * @param IIndex $index
-	 *
-	 * @return string|void
 	 */
 	public function impersonateOwner(IIndex $index) {
 		if ($index->getSource() !== ConfigService::FILES_GROUP_FOLDERS) {
@@ -249,7 +256,7 @@ class GroupFoldersService {
 	 * @return array
 	 * @throws GroupFolderNotFoundException
 	 */
-	private function getGroupFolderById($groupFolderId) {
+	private function getGroupFolderById(int $groupFolderId): array {
 		if ($groupFolderId === 0) {
 			throw new GroupFolderNotFoundException();
 		}
@@ -270,7 +277,7 @@ class GroupFoldersService {
 	 *
 	 * @return string
 	 */
-	private function getRandomUserFromGroups($groups) {
+	private function getRandomUserFromGroups(array $groups): string {
 		foreach ($groups as $groupName) {
 			$group = $this->groupManager->get($groupName);
 			$users = $group->getUsers();
@@ -283,3 +290,4 @@ class GroupFoldersService {
 	}
 
 }
+
