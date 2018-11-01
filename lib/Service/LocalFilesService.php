@@ -265,14 +265,6 @@ class LocalFilesService {
 
 
 	/**
-	 * @param Node $file
-	 * @param FileShares $fileShares
-	 */
-	private function getSharesFromParent(Node $file, FileShares $fileShares) {
-	}
-
-
-	/**
 	 * @param array $share
 	 * @param FileShares $fileShares
 	 */

@@ -273,7 +273,7 @@ class FilesService {
 	private function generateFilesDocumentFromFile(string $viewerId, Node $file): FilesDocument {
 
 		$source = $this->getFileSource($file);
-		$document = new FilesDocument(FilesProvider::FILES_PROVIDER_ID, $file->getId());
+		$document = new FilesDocument(FilesProvider::FILES_PROVIDER_ID, (string) $file->getId());
 
 		if ($file->getId() === -1) {
 			throw new FileIsNotIndexableException();
@@ -419,7 +419,6 @@ class FilesService {
 	 * @throws FileIsNotIndexableException
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
-	 * @throws NotPermittedException
 	 */
 	private function generateDocumentFromIndex(IIndex $index): FilesDocument {
 

@@ -32,7 +32,6 @@ namespace OCA\Files_FullTextSearch\Model;
 
 
 use OCP\Files_FullTextSearch\Model\AFilesDocument;
-use OCP\FullTextSearch\Model\IndexDocument;
 
 
 /**
