@@ -35,7 +35,6 @@ use daita\MySmallPhpTools\Traits\TArrayTools;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Service\FilesService;
 use OCA\Files_FullTextSearch\Service\MiscService;
-use OCP\AppFramework\QueryException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\FullTextSearch\IFullTextSearchManager;
@@ -75,7 +74,7 @@ class FilesEvents {
 	 * @param MiscService $miscService
 	 */
 	public function __construct(
-		string $userId, IFullTextSearchManager $fullTextSearchManager, FilesService $filesService,
+		$userId, IFullTextSearchManager $fullTextSearchManager, FilesService $filesService,
 		MiscService $miscService
 	) {
 		$this->userId = $userId;
@@ -147,7 +146,6 @@ class FilesEvents {
 	 *
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
-	 * @throws QueryException
 	 */
 	public function onFileTrash(array $params) {
 		// check if trashbin does not exist. -> onFileDelete

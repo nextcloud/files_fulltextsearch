@@ -90,7 +90,7 @@ class GroupFoldersService {
 	 * @param MiscService $miscService
 	 */
 	public function __construct(
-		string $userId, IDBConnection $dbConnection, IAppManager $appManager,
+		$userId, IDBConnection $dbConnection, IAppManager $appManager,
 		IManager $shareManager,
 		IGroupManager $groupManager, LocalFilesService $localFilesService,
 		ConfigService $configService, MiscService $miscService

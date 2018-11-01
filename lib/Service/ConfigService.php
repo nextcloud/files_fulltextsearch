@@ -36,7 +36,6 @@ use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCP\FullTextSearch\Model\IIndex;
 use OCP\IConfig;
 use OCP\PreConditionNotMetException;
-use OCP\Util;
 
 
 /**
@@ -88,7 +87,7 @@ class ConfigService {
 	 * @param string $userId
 	 * @param MiscService $miscService
 	 */
-	public function __construct(IConfig $config, string $userId, MiscService $miscService) {
+	public function __construct(IConfig $config, $userId, MiscService $miscService) {
 		$this->config = $config;
 		$this->userId = $userId;
 		$this->miscService = $miscService;
@@ -137,7 +136,7 @@ class ConfigService {
 			$defaultValue = $this->defaults[$key];
 		}
 
-		return $this->config->getAppValue(Application::APP_NAME, $key, $defaultValue);
+		return (string) $this->config->getAppValue(Application::APP_NAME, $key, $defaultValue);
 	}
 
 	/**

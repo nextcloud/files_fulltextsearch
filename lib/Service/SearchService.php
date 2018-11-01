@@ -78,7 +78,7 @@ class SearchService {
 	 * @internal param IProviderFactory $factory
 	 */
 	public function __construct(
-		string $userId, FilesService $filesService, ConfigService $configService,
+		$userId, FilesService $filesService, ConfigService $configService,
 		ExtensionService $extensionService, MiscService $miscService
 	) {
 		$this->userId = $userId;
