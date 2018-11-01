@@ -1,7 +1,11 @@
 # Changelog
 
+### 1.1.1 
 
-### 1.1.0
+- during file events, path can be null.
+
+
+### 1.1.0 (NC14)
 
 - branching stable13
 - Catching Throwable on strange filesystem behavior
