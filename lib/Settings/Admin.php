@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -24,7 +27,9 @@
  *
  */
 
+
 namespace OCA\Files_FullTextSearch\Settings;
+
 
 use Exception;
 use OCA\Files_FullTextSearch\AppInfo\Application;
@@ -35,7 +40,14 @@ use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Settings\ISettings;
 
+
+/**
+ * Class Admin
+ *
+ * @package OCA\Files_FullTextSearch\Settings
+ */
 class Admin implements ISettings {
+
 
 	/** @var IL10N */
 	private $l10n;
@@ -51,13 +63,16 @@ class Admin implements ISettings {
 
 
 	/**
+	 * Admin constructor.
+	 *
 	 * @param IL10N $l10n
 	 * @param IURLGenerator $urlGenerator
 	 * @param ConfigService $configService
 	 * @param MiscService $miscService
 	 */
 	public function __construct(
-		IL10N $l10n, IURLGenerator $urlGenerator, ConfigService $configService, MiscService $miscService
+		IL10N $l10n, IURLGenerator $urlGenerator, ConfigService $configService,
+		MiscService $miscService
 	) {
 		$this->l10n = $l10n;
 		$this->urlGenerator = $urlGenerator;
@@ -70,7 +85,7 @@ class Admin implements ISettings {
 	 * @return TemplateResponse
 	 * @throws Exception
 	 */
-	public function getForm() {
+	public function getForm(): TemplateResponse {
 		return new TemplateResponse(Application::APP_NAME, 'settings.admin', []);
 	}
 
@@ -78,7 +93,7 @@ class Admin implements ISettings {
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
-	public function getSection() {
+	public function getSection(): string {
 		return 'fulltextsearch';
 	}
 
@@ -90,9 +105,9 @@ class Admin implements ISettings {
 	 *
 	 * keep the server setting at the top, right after "server settings"
 	 */
-	public function getPriority() {
+	public function getPriority(): int {
 		return 51;
 	}
 
-
 }
+

@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -24,10 +27,12 @@
  *
  */
 
+
 namespace OCA\Files_FullTextSearch\Db;
 
 
 use OCP\Files\Node;
+
 
 class SharesRequest extends SharesRequestBuilder {
 
@@ -38,7 +43,7 @@ class SharesRequest extends SharesRequestBuilder {
 	 * @deprecated
 	 * @return array
 	 */
-	public function getFromFile(Node $file) {
+	public function getFromFile(Node $file): array {
 
 		$shares = [];
 		try {
@@ -59,3 +64,4 @@ class SharesRequest extends SharesRequestBuilder {
 	}
 
 }
+

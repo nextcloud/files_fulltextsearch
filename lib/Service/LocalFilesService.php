@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -24,6 +27,7 @@
  *
  */
 
+
 namespace OCA\Files_FullTextSearch\Service;
 
 
@@ -33,14 +37,21 @@ use OCA\Files_FullTextSearch\Db\SharesRequest;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Model\FileShares;
-use OCA\FullTextSearch\Model\DocumentAccess;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
+use OCP\FullTextSearch\Model\DocumentAccess;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 
+
+/**
+ * Class LocalFilesService
+ *
+ * @package OCA\Files_FullTextSearch\Service
+ */
 class LocalFilesService {
+
 
 	/** @var IRootFolder */
 	private $rootFolder;
@@ -65,7 +76,7 @@ class LocalFilesService {
 
 
 	/**
-	 * ExternalFilesService constructor.
+	 * LocalFilesService constructor.
 	 *
 	 * @param IRootFolder $rootFolder
 	 * @param IGroupManager $groupManager
@@ -97,7 +108,7 @@ class LocalFilesService {
 	 *
 	 * @throws KnownFileSourceException
 	 */
-	public function getFileSource(Node $file, &$source) {
+	public function getFileSource(Node $file, string &$source) {
 		if ($file->getMountPoint()
 				 ->getMountType() !== '') {
 			return;
@@ -138,7 +149,7 @@ class LocalFilesService {
 	 * @param Node $file
 	 * @param array $users
 	 */
-	public function getShareUsersFromFile(Node $file, &$users) {
+	public function getShareUsersFromFile(Node $file, array &$users) {
 		if ($file->getOwner() === null) {
 			return;
 		}
@@ -170,7 +181,7 @@ class LocalFilesService {
 	 * @param DocumentAccess $access
 	 * @param array $users
 	 */
-	public function getSharedUsersFromAccess(DocumentAccess $access, &$users) {
+	public function getSharedUsersFromAccess(DocumentAccess $access, array &$users) {
 
 		$result = array_merge(
 			$access->getUsers(),
@@ -191,7 +202,7 @@ class LocalFilesService {
 	 *
 	 * @return array
 	 */
-	private function getSharedUsersFromAccessGroups(DocumentAccess $access) {
+	private function getSharedUsersFromAccessGroups(DocumentAccess $access): array {
 
 		$result = [];
 		$users = [];
@@ -219,7 +230,7 @@ class LocalFilesService {
 	 *
 	 * @return array
 	 */
-	private function getSharedUsersFromAccessCircles(DocumentAccess $access) {
+	private function getSharedUsersFromAccessCircles(DocumentAccess $access): array {
 		$result = [];
 
 		return $result;
@@ -254,26 +265,10 @@ class LocalFilesService {
 
 
 	/**
-	 * @param Node $file
-	 * @param FileShares $fileShares
-	 */
-	private function getSharesFromParent(Node $file, FileShares $fileShares) {
-//		$parent = basename($file->getPath());
-//
-//		echo $parent . "\n";
-//
-//		if (strlen($parent) <= 1) {
-//			return;
-//		}
-
-	}
-
-
-	/**
 	 * @param array $share
 	 * @param FileShares $fileShares
 	 */
-	private function parseUsersShares($share, FileShares $fileShares) {
+	private function parseUsersShares(array $share, FileShares $fileShares) {
 		if ((int)$share['share_type'] !== Constants::SHARE_TYPE_USER) {
 			return;
 		}
@@ -286,7 +281,7 @@ class LocalFilesService {
 	 * @param array $share
 	 * @param FileShares $fileShares
 	 */
-	private function parseUsersGroups($share, FileShares $fileShares) {
+	private function parseUsersGroups(array $share, FileShares $fileShares) {
 		if ((int)$share['share_type'] !== Constants::SHARE_TYPE_GROUP) {
 			return;
 		}
@@ -299,7 +294,7 @@ class LocalFilesService {
 	 * @param array $share
 	 * @param FileShares $fileShares
 	 */
-	private function parseUsersCircles($share, FileShares $fileShares) {
+	private function parseUsersCircles(array $share, FileShares $fileShares) {
 		if ((int)$share['share_type'] !== Constants::SHARE_TYPE_CIRCLE) {
 			return;
 		}
@@ -312,7 +307,7 @@ class LocalFilesService {
 	 * @param array $share
 	 * @param FileShares $fileShares
 	 */
-	private function parseUsersLinks($share, FileShares $fileShares) {
+	private function parseUsersLinks(array $share, FileShares $fileShares) {
 		if ((int)$share['share_type'] !== Constants::SHARE_TYPE_LINK) {
 			return;
 		}
@@ -320,123 +315,5 @@ class LocalFilesService {
 		$fileShares->addLink($share['share_with']);
 	}
 
-
-//
-//
-//	/**
-//	 * @param DocumentAccess $access
-//	 *
-//	 * @return array
-//	 */
-//	public function getAllSharesFromExternalFile(DocumentAccess $access) {
-//		$result = $access->getUsers();
-//
-//		if ($access->getOwnerId() !== '') {
-//			array_push($result, $access->getOwnerId());
-//		}
-//
-//		// TODO: get users from groups & circles.
-//		return $result;
-//	}
-//
-//
-//	/**
-//	 * @param FilesDocument $document
-//	 * @param Node $file
-//	 */
-//	public function updateDocumentAccessFromExternalFile(FilesDocument &$document, Node $file) {
-//
-//		if ($document->getSource() !== self::DOCUMENT_SOURCE) {
-//			return;
-//		}
-//
-//		try {
-//			$mount = $this->getExternalMount($file);
-//		} catch (FileIsNotIndexableException $e) {
-//			return;
-//		}
-//
-//		$access = $document->getAccess();
-//
-//		if ($this->isMountFullGlobal($mount)) {
-//			$access->addUsers(['__all']);
-//		} else {
-//			$access->addUsers($mount->getUsers());
-//			$access->addGroups($mount->getGroups());
-////		 	$access->addCircles($mount->getCircles());
-//		}
-//
-//		// twist 'n tweak.
-//		if (!$mount->isGlobal()) {
-//			$access->setOwnerId($mount->getUsers()[0]);
-//		}
-//
-//		$document->setAccess($access);
-//	}
-//
-//
-//	/**
-//	 * @param ExternalMount $mount
-//	 *
-//	 * @return bool
-//	 */
-//	public function isMountFullGlobal(ExternalMount $mount) {
-//		if (sizeof($mount->getGroups()) > 0) {
-//			return false;
-//		}
-//
-//		if (sizeof($mount->getUsers()) !== 1) {
-//			return false;
-//		}
-//
-//		if ($mount->getUsers()[0] === 'all') {
-//			return true;
-//		}
-//
-//		return false;
-//	}
-//
-//
-//	/**
-//	 * @param Node $file
-//	 *
-//	 * @return ExternalMount
-//	 * @throws FileIsNotIndexableException
-//	 */
-//	private function getExternalMount(Node $file) {
-//
-//		foreach ($this->externalMounts as $mount) {
-//			if (strpos($file->getPath(), $mount->getPath()) === 0) {
-//				return $mount;
-//			}
-//		}
-//
-//		throw new FileIsNotIndexableException();
-//	}
-//
-//
-//	/**
-//	 * @param $userId
-//	 *
-//	 * @return ExternalMount[]
-//	 */
-//	private function getExternalMountsForUser($userId) {
-//
-//		$externalMounts = [];
-//
-//		// TODO: deprecated - use UserGlobalStoragesService::getStorages() and UserStoragesService::getStorages()
-//		$mounts = \OC_Mount_Config::getAbsoluteMountPoints($userId);
-//		foreach ($mounts as $mountPoint => $mount) {
-//			$externalMount = new ExternalMount();
-//			$externalMount->setId($mount['id'])
-//						  ->setPath($mountPoint)
-//						  ->setGroups($mount['applicable']['groups'])
-//						  ->setUsers($mount['applicable']['users'])
-//						  ->setGlobal((!$mount['personal']));
-//			$externalMounts[] = $externalMount;
-//		}
-//
-//		return $externalMounts;
-//	}
-
 }
+

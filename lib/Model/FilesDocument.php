@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -24,28 +27,38 @@
  *
  */
 
+
 namespace OCA\Files_FullTextSearch\Model;
 
-use OCA\FullTextSearch\Model\IndexDocument;
 
-class FilesDocument extends IndexDocument {
+use OCP\Files_FullTextSearch\Model\AFilesDocument;
+
+
+/**
+ * Class FilesDocument
+ *
+ * @package OCA\Files_FullTextSearch\Model
+ */
+class FilesDocument extends AFilesDocument {
+
 
 	const STATUS_FILE_ACCESS = 1024;
 
-	/** @var string */
-	private $ownerId;
 
 	/** @var string */
-	private $viewerId;
+	private $ownerId = '';
 
 	/** @var string */
-	private $type;
+	private $viewerId = '';
 
 	/** @var string */
-	private $mimetype;
+	private $type = '';
 
 	/** @var string */
-	private $path;
+	private $mimetype = '';
+
+	/** @var string */
+	private $path = '';
 
 
 	/**
@@ -53,7 +66,7 @@ class FilesDocument extends IndexDocument {
 	 *
 	 * @return $this
 	 */
-	public function setOwnerId($ownerId) {
+	public function setOwnerId(string $ownerId): FilesDocument {
 		$this->ownerId = $ownerId;
 
 		return $this;
@@ -62,7 +75,7 @@ class FilesDocument extends IndexDocument {
 	/**
 	 * @return string
 	 */
-	public function getOwnerId() {
+	public function getOwnerId(): string {
 		return $this->ownerId;
 	}
 
@@ -70,9 +83,9 @@ class FilesDocument extends IndexDocument {
 	/**
 	 * @param string $viewerId
 	 *
-	 * @return $this
+	 * @return FilesDocument
 	 */
-	public function setViewerId($viewerId) {
+	public function setViewerId(string $viewerId): FilesDocument {
 		$this->viewerId = $viewerId;
 
 		return $this;
@@ -81,7 +94,7 @@ class FilesDocument extends IndexDocument {
 	/**
 	 * @return string
 	 */
-	public function getViewerId() {
+	public function getViewerId(): string {
 		return $this->viewerId;
 	}
 
@@ -89,9 +102,9 @@ class FilesDocument extends IndexDocument {
 	/**
 	 * @param string $type
 	 *
-	 * @return $this
+	 * @return FilesDocument
 	 */
-	public function setType($type) {
+	public function setType(string $type): FilesDocument {
 		$this->type = $type;
 
 		return $this;
@@ -100,7 +113,7 @@ class FilesDocument extends IndexDocument {
 	/**
 	 * @return string
 	 */
-	public function getType() {
+	public function getType(): string {
 		return $this->type;
 	}
 
@@ -108,9 +121,9 @@ class FilesDocument extends IndexDocument {
 	/**
 	 * @param string $type
 	 *
-	 * @return $this
+	 * @return FilesDocument
 	 */
-	public function setMimetype($type) {
+	public function setMimetype(string $type): FilesDocument {
 		$this->mimetype = $type;
 
 		return $this;
@@ -119,7 +132,7 @@ class FilesDocument extends IndexDocument {
 	/**
 	 * @return string
 	 */
-	public function getMimetype() {
+	public function getMimetype(): string {
 		return $this->mimetype;
 	}
 
@@ -129,7 +142,7 @@ class FilesDocument extends IndexDocument {
 	 *
 	 * @return $this
 	 */
-	public function setPath($path) {
+	public function setPath(string $path): FilesDocument {
 		$this->path = $path;
 
 		return $this;
@@ -138,10 +151,9 @@ class FilesDocument extends IndexDocument {
 	/**
 	 * @return string
 	 */
-	public function getPath() {
+	public function getPath(): string {
 		return $this->path;
 	}
-
 
 
 	/**
@@ -151,26 +163,11 @@ class FilesDocument extends IndexDocument {
 		parent::__destruct();
 
 		unset($this->ownerId);
+		unset($this->viewerId);
 		unset($this->type);
-		unset($this->source);
 		unset($this->mimetype);
 		unset($this->path);
 	}
 
-
-	/**
-	 * @param IndexDocument $indexDocument
-	 *
-	 * @return FilesDocument
-	 */
-	public static function fromIndexDocument(IndexDocument $indexDocument) {
-		$document = new FilesDocument($indexDocument->getProviderId(), $indexDocument->getId());
-		foreach (get_object_vars($indexDocument) as $key => $name) {
-			$document->$key = $name;
-		}
-
-		return $document;
-	}
-
-
 }
+

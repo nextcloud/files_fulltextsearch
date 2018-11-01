@@ -1,6 +1,9 @@
 <?php
+declare(strict_types=1);
+
+
 /**
- * Files_FullTextSearch - Index the content of your files 
+ * Files_FullTextSearch - Index the content of your files
  *
  * This file is licensed under the Affero General Public License version 3 or
  * later. See the COPYING file.
@@ -21,29 +24,60 @@
  *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *  
+ *
  */
+
 
 namespace OCA\Files_FullTextSearch\AppInfo;
 
+
 use OCA\Files_FullTextSearch\Hooks\FilesHooks;
 use OCA\Files_FullTextSearch\Provider\FilesProvider;
-use OCA\FullTextSearch\Api\v1\FullTextSearch;
 use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\QueryException;
+use OCP\FullTextSearch\IFullTextSearchManager;
+use OCP\IUser;
 use OCP\IUserSession;
 use OCP\Util;
 
+
+/**
+ * Class Application
+ *
+ * @package OCA\Files_FullTextSearch\AppInfo
+ */
 class Application extends App {
 
 	const APP_NAME = 'files_fulltextsearch';
 
+
+	/** @var IAppManager */
+	private $appManager;
+
+	/** @var IFullTextSearchManager */
+	private $fullTextSearchManager;
+
+
+	/** @var IUser */
+	private $user;
+
+
 	/**
+	 * Application constructor.
+	 *
 	 * @param array $params
 	 */
 	public function __construct(array $params = []) {
 		parent::__construct(self::APP_NAME, $params);
+
+		$c = $this->getContainer();
+
+		try {
+			$this->appManager = $c->query(IAppManager::class);
+			$this->fullTextSearchManager = $c->query(IFullTextSearchManager::class);
+		} catch (QueryException $e) {
+		}
 
 		$this->registerHooks();
 	}
@@ -63,11 +97,28 @@ class Application extends App {
 		Util::connectHook('\OCP\Trashbin', 'preDelete', FilesHooks::class, 'onFileDelete');
 		Util::connectHook('OCP\Share', 'post_shared', FilesHooks::class, 'onFileShare');
 		Util::connectHook('OCP\Share', 'post_unshare', FilesHooks::class, 'onFileUnshare');
+
+//
+//		Util::connectHook(
+//			'\OC\Files\Cache\Scanner', 'post_scan_file', FilesHooks::class, 'onNewRemoteFile2'
+//		);
+//
+//		Util::connectHook(
+//			'Scanner', 'addToCache', FilesHooks::class, 'onNewRemoteFile'
+//		);
+//		Util::connectHook(
+//			'Scanner', 'updateCache', FilesHooks::class, 'onRemoteFileUpdate'
+//		);
+//		Util::connectHook(
+//			'\OC\Files\Cache\Scanner', 'updateCache', FilesHooks::class, 'onRemoteFileRename'
+//		);
+//		Util::connectHook(
+//			'\OC\Files\Cache\Scanner', 'removeFromCache', FilesHooks::class, 'onRemoteFileDelete'
+//		);
 	}
 
 
 	/**
-	 *
 	 * @throws QueryException
 	 */
 	public function registerFilesSearch() {
@@ -80,30 +131,23 @@ class Application extends App {
 			return;
 		}
 
-		$user = $userSession->getUser();
+		$this->user = $userSession->getUser();
 
-		if ($container->query(IAppManager::class)
-					  ->isEnabledForUser('fulltextsearch', $user)
-			&& (FullTextSearch::isProviderIndexed(FilesProvider::FILES_PROVIDER_ID))) {
-			Util::addStyle(self::APP_NAME, 'fulltextsearch');
-			$this->includeFullTextSearch();
-		}
-	}
-
-
-	/**
-	 *
-	 */
-	private function includeFullTextSearch() {
 		\OC::$server->getEventDispatcher()
 					->addListener(
 						'OCA\Files::loadAdditionalScripts', function() {
-						FullTextSearch::addJavascriptAPI();
-						Util::addScript(self::APP_NAME, 'files');
+
+						if ($this->appManager->isEnabledForUser('fulltextsearch', $this->user)
+							&& $this->fullTextSearchManager->isProviderIndexed(
+								FilesProvider::FILES_PROVIDER_ID
+							)) {
+							Util::addStyle(self::APP_NAME, 'fulltextsearch');
+							$this->fullTextSearchManager->addJavascriptAPI();
+							Util::addScript(self::APP_NAME, 'files');
+						}
 					}
 					);
 	}
-
 
 }
 

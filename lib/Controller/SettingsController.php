@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -24,22 +27,31 @@
  *
  */
 
+
 namespace OCA\Files_FullTextSearch\Controller;
 
+
 use Exception;
-use OC\App\AppManager;
 use OCA\Files_FullTextSearch\AppInfo\Application;
 use OCA\Files_FullTextSearch\Service\ConfigService;
 use OCA\Files_FullTextSearch\Service\MiscService;
 use OCA\Files_FullTextSearch\Service\SettingsService;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
 
+
+/**
+ * Class SettingsController
+ *
+ * @package OCA\Files_FullTextSearch\Controller
+ */
 class SettingsController extends Controller {
 
-	/** @var AppManager */
+
+	/** @var IAppManager */
 	private $appManager;
 
 	/** @var ConfigService */
@@ -53,16 +65,16 @@ class SettingsController extends Controller {
 
 
 	/**
-	 * NavigationController constructor.
+	 * SettingsController constructor.
 	 *
 	 * @param IRequest $request
-	 * @param AppManager $appManager
+	 * @param IAppManager $appManager
 	 * @param ConfigService $configService
 	 * @param SettingsService $settingsService
 	 * @param MiscService $miscService
 	 */
 	public function __construct(
-		IRequest $request, AppManager $appManager, ConfigService $configService,
+		IRequest $request, IAppManager $appManager, ConfigService $configService,
 		SettingsService $settingsService,
 		MiscService $miscService
 	) {
@@ -78,7 +90,7 @@ class SettingsController extends Controller {
 	 * @return DataResponse
 	 * @throws Exception
 	 */
-	public function getSettingsAdmin() {
+	public function getSettingsAdmin(): DataResponse {
 		$data = $this->configService->getConfig();
 
 		return new DataResponse($data, Http::STATUS_OK);
@@ -86,12 +98,12 @@ class SettingsController extends Controller {
 
 
 	/**
-	 * @param $data
+	 * @param array $data
 	 *
 	 * @return DataResponse
 	 * @throws Exception
 	 */
-	public function setSettingsAdmin($data) {
+	public function setSettingsAdmin(array $data): DataResponse {
 
 		if ($this->settingsService->checkConfig($data)) {
 			$this->configService->setConfig($data);
@@ -100,5 +112,5 @@ class SettingsController extends Controller {
 		return $this->getSettingsAdmin();
 	}
 
-
 }
+

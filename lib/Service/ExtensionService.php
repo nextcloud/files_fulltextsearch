@@ -1,4 +1,7 @@
 <?php
+declare(strict_types=1);
+
+
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -29,12 +32,19 @@ namespace OCA\Files_FullTextSearch\Service;
 
 
 use OCA\Files_FullTextSearch\Model\FilesDocument;
-use OCA\FullTextSearch\Model\SearchRequest;
+use OCP\FullTextSearch\Model\ISearchRequest;
 use OCP\Files\Node;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
+
+/**
+ * Class ExtensionService
+ *
+ * @package OCA\Files_FullTextSearch\Service
+ */
 class ExtensionService {
+
 
 	/** @var EventDispatcher */
 	private $eventDispatcher;
@@ -75,9 +85,9 @@ class ExtensionService {
 
 
 	/**
-	 * @param SearchRequest $request
+	 * @param ISearchRequest $request
 	 */
-	public function searchRequest(SearchRequest &$request) {
+	public function searchRequest(ISearchRequest &$request) {
 		$this->dispatch(
 			'\OCA\Files_FullTextSearch::onSearchRequest',
 			['request' => &$request]
@@ -89,8 +99,9 @@ class ExtensionService {
 	 * @param string $context
 	 * @param array $arguments
 	 */
-	private function dispatch($context, $arguments) {
+	private function dispatch(string $context, array $arguments) {
 		$this->eventDispatcher->dispatch($context, new GenericEvent(null, $arguments));
 	}
 
 }
+
