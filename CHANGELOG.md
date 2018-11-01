@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.2.0 (NC15)
+
+- Compat NC15 + full php7.
+- during file events, path can be null.
+
 
 ### 1.0.2
 
