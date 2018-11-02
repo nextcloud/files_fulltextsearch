@@ -53,6 +53,7 @@ class ConfigService {
 	const FILES_SIZE = 'files_size';
 	const FILES_OFFICE = 'files_office';
 	const FILES_PDF = 'files_pdf';
+	const FILES_ZIP = 'files_zip';
 	const FILES_IMAGE = 'files_image';
 	const FILES_AUDIO = 'files_audio';
 
