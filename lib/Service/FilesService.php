@@ -74,6 +74,7 @@ class FilesService {
 	const MIMETYPE_TEXT = 'files_text';
 	const MIMETYPE_PDF = 'files_pdf';
 	const MIMETYPE_OFFICE = 'files_office';
+	const MIMETYPE_ZIP = 'files_zip';
 	const MIMETYPE_IMAGE = 'files_image';
 	const MIMETYPE_AUDIO = 'files_audio';
 
@@ -273,7 +274,7 @@ class FilesService {
 	private function generateFilesDocumentFromFile(string $viewerId, Node $file): FilesDocument {
 
 		$source = $this->getFileSource($file);
-		$document = new FilesDocument(FilesProvider::FILES_PROVIDER_ID, (string) $file->getId());
+		$document = new FilesDocument(FilesProvider::FILES_PROVIDER_ID, (string)$file->getId());
 
 		if ($file->getId() === -1) {
 			throw new FileIsNotIndexableException();
@@ -561,6 +562,7 @@ class FilesService {
 				$this->extractContentFromFileText($document, $file);
 				$this->extractContentFromFileOffice($document, $file);
 				$this->extractContentFromFilePDF($document, $file);
+				$this->extractContentFromFileZip($document, $file);
 
 				$this->extensionService->fileIndexing($document, $file);
 			}
@@ -616,16 +618,18 @@ class FilesService {
 
 	/**
 	 * @param string $mimeType
+	 * @param string $extension
 	 *
 	 * @return string
 	 */
-	private function parseMimeType(string $mimeType): string {
+	private function parseMimeType(string $mimeType, string $extension): string {
 
 		$parsed = '';
 		try {
-			$this->parseMimeTypeText($mimeType, $parsed);
+			$this->parseMimeTypeText($mimeType, $extension, $parsed);
 			$this->parseMimeTypePDF($mimeType, $parsed);
 			$this->parseMimeTypeOffice($mimeType, $parsed);
+			$this->parseMimeTypeZip($mimeType, $parsed);
 		} catch (KnownFileMimeTypeException $e) {
 		}
 
@@ -669,6 +673,20 @@ class FilesService {
 
 		if ($mimeType === 'application/pdf') {
 			$parsed = self::MIMETYPE_PDF;
+			throw new KnownFileMimeTypeException();
+		}
+	}
+
+
+	/**
+	 * @param string $mimeType
+	 * @param string $parsed
+	 *
+	 * @throws KnownFileMimeTypeException
+	 */
+	private function parseMimeTypeZip(string $mimeType, string &$parsed) {
+		if ($mimeType === 'application/zip') {
+			$parsed = self::MIMETYPE_ZIP;
 			throw new KnownFileMimeTypeException();
 		}
 	}
@@ -740,6 +758,35 @@ class FilesService {
 		}
 
 		if ($this->configService->getAppValue(ConfigService::FILES_PDF) !== '1') {
+			$document->setContent('');
+
+			return;
+		}
+
+		$document->setContent(
+			base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64
+		);
+	}
+
+
+	/**
+	 * @param FilesDocument $document
+	 * @param File $file
+	 *
+	 * @throws NotPermittedException
+	 */
+	private function extractContentFromFileZip(FilesDocument $document, File $file) {
+		if ($this->parseMimeType($document->getMimeType(), $file->getExtension())
+			!== self::MIMETYPE_ZIP) {
+			return;
+		}
+
+		$this->configService->setDocumentIndexOption($document, ConfigService::FILES_ZIP);
+		if (!$this->isSourceIndexable($document)) {
+			return;
+		}
+
+		if ($this->configService->getAppValue(ConfigService::FILES_ZIP) !== '1') {
 			$document->setContent('');
 
 			return;
