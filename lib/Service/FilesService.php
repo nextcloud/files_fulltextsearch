@@ -639,11 +639,12 @@ class FilesService {
 
 	/**
 	 * @param string $mimeType
+	 * @param string $extension
 	 * @param string $parsed
 	 *
 	 * @throws KnownFileMimeTypeException
 	 */
-	private function parseMimeTypeText(string $mimeType, string &$parsed) {
+	private function parseMimeTypeText(string $mimeType, string $extension, string &$parsed) {
 
 		if (substr($mimeType, 0, 5) === 'text/') {
 			$parsed = self::MIMETYPE_TEXT;
@@ -656,6 +657,36 @@ class FilesService {
 
 		foreach ($textMimes as $mime) {
 			if (strpos($mimeType, $mime) === 0) {
+				$parsed = self::MIMETYPE_TEXT;
+				throw new KnownFileMimeTypeException();
+			}
+		}
+
+		$this->parseMimeTypeTextByExtension($mimeType, $extension, $parsed);
+	}
+
+
+	/**
+	 * @param string $mimeType
+	 * @param string $extension
+	 * @param string $parsed
+	 *
+	 * @throws KnownFileMimeTypeException
+	 */
+	private function parseMimeTypeTextByExtension(
+		string $mimeType, string $extension, string &$parsed
+	) {
+		$textMimes = [
+			'application/octet-stream'
+		];
+		$textExtension = [
+		];
+
+		foreach ($textMimes as $mime) {
+			if (strpos($mimeType, $mime) === 0
+				&& in_array(
+					strtolower($extension), $textExtension
+				)) {
 				$parsed = self::MIMETYPE_TEXT;
 				throw new KnownFileMimeTypeException();
 			}
@@ -726,8 +757,8 @@ class FilesService {
 	 * @throws NotPermittedException
 	 */
 	private function extractContentFromFileText(FilesDocument $document, File $file) {
-
-		if ($this->parseMimeType($document->getMimeType()) !== self::MIMETYPE_TEXT) {
+		if ($this->parseMimeType($document->getMimeType(), $file->getExtension())
+			!== self::MIMETYPE_TEXT) {
 			return;
 		}
 
@@ -748,7 +779,8 @@ class FilesService {
 	 * @throws NotPermittedException
 	 */
 	private function extractContentFromFilePDF(FilesDocument $document, File $file) {
-		if ($this->parseMimeType($document->getMimeType()) !== self::MIMETYPE_PDF) {
+		if ($this->parseMimeType($document->getMimeType(), $file->getExtension())
+			!== self::MIMETYPE_PDF) {
 			return;
 		}
 
@@ -805,7 +837,8 @@ class FilesService {
 	 * @throws NotPermittedException
 	 */
 	private function extractContentFromFileOffice(FilesDocument $document, File $file) {
-		if ($this->parseMimeType($document->getMimeType()) !== self::MIMETYPE_OFFICE) {
+		if ($this->parseMimeType($document->getMimeType(), $file->getExtension())
+			!== self::MIMETYPE_OFFICE) {
 			return;
 		}
 
