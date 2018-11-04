@@ -214,9 +214,10 @@ class SearchService {
 		foreach ($indexDocuments as $indexDocument) {
 
 			try {
-				$this->setDocumentInfo($indexDocument);
-				$this->setDocumentTitle($indexDocument);
-				$this->setDocumentLink($indexDocument);
+				$filesDocument = FilesDocument::fromIndexDocument($indexDocument);
+				$this->setDocumentInfo($filesDocument);
+				$this->setDocumentTitle($filesDocument);
+				$this->setDocumentLink($filesDocument);
 
 				$filesDocuments[] = $indexDocument;
 			} catch (Exception $e) {

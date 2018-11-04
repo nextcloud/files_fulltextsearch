@@ -32,6 +32,7 @@ namespace OCA\Files_FullTextSearch\Model;
 
 
 use OCP\Files_FullTextSearch\Model\AFilesDocument;
+use OCP\FullTextSearch\Model\IndexDocument;
 
 
 /**
@@ -153,6 +154,22 @@ class FilesDocument extends AFilesDocument {
 	 */
 	public function getPath(): string {
 		return $this->path;
+	}
+
+
+	/**
+	 * @param IndexDocument $indexDocument
+	 *
+	 * @return FilesDocument
+	 */
+	public static function fromIndexDocument(IndexDocument $indexDocument) {
+		$document = new FilesDocument($indexDocument->getProviderId(), $indexDocument->getId());
+
+		foreach (get_object_vars($indexDocument) as $key => $name) {
+			$document->$key = $name;
+		}
+
+		return $document;
 	}
 
 
