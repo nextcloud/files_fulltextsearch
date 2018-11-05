@@ -34,6 +34,7 @@ namespace OCA\Files_FullTextSearch\Service;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCP\FullTextSearch\Model\ISearchRequest;
 use OCP\Files\Node;
+use OCP\FullTextSearch\Model\ISearchResult;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -91,6 +92,17 @@ class ExtensionService {
 		$this->dispatch(
 			'\OCA\Files_FullTextSearch::onSearchRequest',
 			['request' => &$request]
+		);
+	}
+
+
+	/**
+	 * @param ISearchResult $result
+	 */
+	public function searchResult(ISearchResult &$result) {
+		$this->dispatch(
+			'\OCA\Files_FullTextSearch::onSearchResult',
+			['result' => &$result]
 		);
 	}
 

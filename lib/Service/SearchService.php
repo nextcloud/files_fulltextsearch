@@ -219,12 +219,13 @@ class SearchService {
 				$this->setDocumentTitle($filesDocument);
 				$this->setDocumentLink($filesDocument);
 
-				$filesDocuments[] = $indexDocument;
+				$filesDocuments[] = $filesDocument;
 			} catch (Exception $e) {
 			}
 		}
 
 		$searchResult->setDocuments($filesDocuments);
+		$this->extensionService->searchResult($searchResult);
 	}
 
 
