@@ -317,7 +317,7 @@ class LocalFilesService {
 			return;
 		}
 
-		$fileShares->addLink($share['share_with']);
+		$fileShares->addLink($share['token']);
 	}
 
 
