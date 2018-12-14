@@ -1,5 +1,12 @@
 # Changelog
 
+
+### 1.2.1
+
+- fix an issue with addLink()
+- fix an issue when generating documents
+
+
 ### 1.2.0 (NC15)
 
 - Compat NC15 + full php7.
