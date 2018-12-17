@@ -22,11 +22,17 @@
     "Files" : "Fájlok",
     "Sources" : "Források",
     "Local Files" : "Helyi fájlok",
+    "Index the content of local files." : "Helyi fájl tartalmak rendezése.",
     "External Files" : "Külső Fájlok",
+    "Index the content of external files." : "Külső fájlok tartalmának rendezése.",
     "Group Folders" : "Csoport Könyvtárak",
+    "Index the content of group folders." : "Csoport könyvtárak tartalmának rendezése.",
     "Types" : "Típusok",
     "Maximum file size" : "Maximális fájl méret",
     "Maximum file size to index (in Mb)." : "Maximális fájl méret indexeléshez (Mb).",
-    "Extract PDF" : "PDF kicsomagolása"
+    "Extract PDF" : "PDF kicsomagolása",
+    "Index the content of PDF files." : "PDF fájlok tartalmának rendezése.",
+    "Extract Office" : "Office kicsomagolása",
+    "Index the content of office files." : "Office fájlok tartalmának rendezése."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
