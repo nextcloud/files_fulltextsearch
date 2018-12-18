@@ -132,6 +132,10 @@ class LocalFilesService {
 							->getUID();
 		}
 
+		if (!is_string($ownerId)) {
+			$ownerId = '';
+		}
+
 		$access = new DocumentAccess($ownerId);
 
 		$fileShares = new FileShares();

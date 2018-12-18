@@ -169,7 +169,7 @@ class GroupFoldersService {
 		$access->addGroups($mount->getGroups());
 
 		$document->getIndex()
-				 ->addOptionInt('group_folder_id', $mount->getId());
+				 ->addOption('group_folder_id', $mount->getId());
 		$document->setAccess($access);
 	}
 

@@ -200,7 +200,7 @@ class ExternalFilesService {
 		}
 
 		$document->getIndex()
-				 ->addOptionInt('external_mount_id', $mount->getId());
+				 ->addOption('external_mount_id', $mount->getId());
 		$document->setAccess($access);
 
 		$document->setAccess($access);

@@ -285,6 +285,11 @@ class FilesService {
 			$ownerId = $file->getOwner()
 							->getUID();
 		}
+
+		if (!is_string($ownerId)) {
+			$ownerId = '';
+		}
+
 		$document->setType($file->getType())
 				 ->setOwnerId($ownerId)
 				 ->setPath($this->getPathFromViewerId($file->getId(), $viewerId))

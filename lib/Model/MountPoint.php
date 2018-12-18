@@ -39,7 +39,7 @@ namespace OCA\Files_FullTextSearch\Model;
 class MountPoint implements \JsonSerializable {
 
 
-	/** @var int */
+	/** @var string */
 	private $id;
 
 	/** @var string */
@@ -56,18 +56,18 @@ class MountPoint implements \JsonSerializable {
 
 
 	/**
-	 * @return int
+	 * @return string
 	 */
-	public function getId(): int {
+	public function getId(): string {
 		return $this->id;
 	}
 
 	/**
-	 * @param int $id
+	 * @param string $id
 	 *
 	 * @return $this
 	 */
-	public function setId(int $id): MountPoint {
+	public function setId(string $id): MountPoint {
 		$this->id = $id;
 
 		return $this;
