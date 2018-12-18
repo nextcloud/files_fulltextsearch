@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.2.2
+
+- fixing small logging issue
+- fixing issue with groupfolders
+- 
+
 
 ### 1.2.1
 
