@@ -162,7 +162,7 @@ class FilesDocument extends AFilesDocument {
 	 *
 	 * @return FilesDocument
 	 */
-	public static function fromIndexDocument(IndexDocument $indexDocument) {
+	public static function fromIndexDocument(IndexDocument $indexDocument): FilesDocument {
 		$document = new FilesDocument($indexDocument->getProviderId(), $indexDocument->getId());
 
 		foreach (get_object_vars($indexDocument) as $key => $name) {
