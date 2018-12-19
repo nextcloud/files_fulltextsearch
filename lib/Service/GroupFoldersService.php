@@ -31,6 +31,7 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Service;
 
 
+use daita\MySmallPhpTools\Traits\TArrayTools;
 use Exception;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Exceptions\GroupFolderNotFoundException;
@@ -52,6 +53,9 @@ use OCP\Share\IManager;
  * @package OCA\Files_FullTextSearch\Service
  */
 class GroupFoldersService {
+
+
+	use TArrayTools;
 
 
 	/** @var IManager */
@@ -169,7 +173,7 @@ class GroupFoldersService {
 		$access->addGroups($mount->getGroups());
 
 		$document->getIndex()
-				 ->addOption('group_folder_id', $mount->getId());
+				 ->addOptionInt('group_folder_id', $mount->getId());
 		$document->setAccess($access);
 	}
 
@@ -217,7 +221,7 @@ class GroupFoldersService {
 
 		foreach ($mounts as $path => $mount) {
 			$mountPoint = new MountPoint();
-			$mountPoint->setId($mount['id'])
+			$mountPoint->setId($this->getInt('id', $mount, -1))
 					   ->setPath('/' . $userId . '/files/' . $mount['mount_point'])
 					   ->setGroups(array_keys($mount['groups']));
 			$mountPoints[] = $mountPoint;

@@ -31,6 +31,7 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Service;
 
 
+use daita\MySmallPhpTools\Traits\TArrayTools;
 use Exception;
 use OC\App\AppManager;
 use OCA\Files_External\Lib\StorageConfig;
@@ -56,6 +57,9 @@ use OCP\Share\IManager;
  * @package OCA\Files_FullTextSearch\Service
  */
 class ExternalFilesService {
+
+
+	use TArrayTools;
 
 
 	/** @var IRootFolder */
@@ -200,7 +204,7 @@ class ExternalFilesService {
 		}
 
 		$document->getIndex()
-				 ->addOption('external_mount_id', $mount->getId());
+				 ->addOptionInt('external_mount_id', $mount->getId());
 		$document->setAccess($access);
 
 		$document->setAccess($access);
@@ -260,7 +264,7 @@ class ExternalFilesService {
 		$mounts = \OC_Mount_Config::getAbsoluteMountPoints($userId);
 		foreach ($mounts as $path => $mount) {
 			$mountPoint = new MountPoint();
-			$mountPoint->setId($mount['id'])
+			$mountPoint->setId($this->getInt('id', $mount, -1))
 					   ->setPath($path)
 					   ->setGroups($mount['applicable']['groups'])
 					   ->setUsers($mount['applicable']['users'])
