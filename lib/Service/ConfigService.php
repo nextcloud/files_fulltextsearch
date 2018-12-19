@@ -36,6 +36,7 @@ use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCP\FullTextSearch\Model\IIndex;
 use OCP\IConfig;
 use OCP\PreConditionNotMetException;
+use OCP\Util;
 
 
 /**
@@ -137,7 +138,7 @@ class ConfigService {
 			$defaultValue = $this->defaults[$key];
 		}
 
-		return (string) $this->config->getAppValue(Application::APP_NAME, $key, $defaultValue);
+		return (string)$this->config->getAppValue(Application::APP_NAME, $key, $defaultValue);
 	}
 
 	/**
@@ -256,6 +257,33 @@ class ConfigService {
 		}
 
 		return true;
+	}
+
+	/**
+	 * return the cloud version.
+	 *
+	 * @return int
+	 */
+	public function getFullCloudVersion(): int {
+		$ver = Util::getVersion();
+
+		return ($ver[0] * 1000000) + ($ver[1] * 1000) + $ver[2];
+	}
+
+
+	/**
+	 * @param $major
+	 * @param $sub
+	 * @param $minor
+	 *
+	 * @return bool
+	 */
+	public function isCloudVersionAtLeast($major, $sub, $minor): bool {
+		if ($this->getFullCloudVersion() >= (($major * 1000000) + ($sub * 1000) + $minor)) {
+			return true;
+		}
+
+		return false;
 	}
 
 }
