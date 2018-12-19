@@ -1,10 +1,17 @@
 # Changelog
 
+
+### 1.2.3
+
+- init DocumentAccess on FilesDocuments creation.
+- register Services on hook
+- prepare createIndex for NC 15.0.1
+
+
 ### 1.2.2
 
 - fixing small logging issue
 - fixing issue with groupfolders
-- 
 
 
 ### 1.2.1
