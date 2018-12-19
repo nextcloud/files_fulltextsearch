@@ -33,8 +33,11 @@ namespace OCA\Files_FullTextSearch\Events;
 
 use daita\MySmallPhpTools\Traits\TArrayTools;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
+use OCA\Files_FullTextSearch\Service\ConfigService;
 use OCA\Files_FullTextSearch\Service\FilesService;
 use OCA\Files_FullTextSearch\Service\MiscService;
+use OCP\App\IAppManager;
+use OCP\AppFramework\QueryException;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\FullTextSearch\IFullTextSearchManager;
@@ -55,11 +58,17 @@ class FilesEvents {
 	/** @var string */
 	private $userId;
 
+	/** @var IAppManager */
+	private $appManager;
+
 	/** @var IFullTextSearchManager */
 	private $fullTextSearchManager;
 
 	/** @var FilesService */
 	private $filesService;
+
+	/** @var ConfigService */
+	private $configService;
 
 	/** @var MiscService */
 	private $miscService;
@@ -69,18 +78,40 @@ class FilesEvents {
 	 * FilesEvents constructor.
 	 *
 	 * @param string $userId
+	 * @param IAppManager $appManager
 	 * @param IFullTextSearchManager $fullTextSearchManager
 	 * @param FilesService $filesService
+	 * @param ConfigService $configService
 	 * @param MiscService $miscService
 	 */
 	public function __construct(
-		$userId, IFullTextSearchManager $fullTextSearchManager, FilesService $filesService,
-		MiscService $miscService
+		$userId, IAppManager $appManager, IFullTextSearchManager $fullTextSearchManager,
+		FilesService $filesService, ConfigService $configService, MiscService $miscService
 	) {
 		$this->userId = $userId;
+		$this->appManager = $appManager;
 		$this->fullTextSearchManager = $fullTextSearchManager;
 		$this->filesService = $filesService;
+		$this->configService = $configService;
 		$this->miscService = $miscService;
+	}
+
+
+	/**
+	 * @throws QueryException
+	 */
+	private function registerFullTextSearchServices() {
+
+		if (!$this->appManager->isInstalled('fulltextsearch')
+			|| !class_exists('\OCA\FullTextSearch\AppInfo\Application')) {
+			$this->miscService->log('fulltextsearch not installed', 1);
+
+			return false;
+		}
+		$fulltextsearch = new \OCA\FullTextSearch\AppInfo\Application();
+		$fulltextsearch->registerServices();
+
+		return true;
 	}
 
 
@@ -89,17 +120,24 @@ class FilesEvents {
 	 *
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
+	 * @throws QueryException
 	 */
 	public function onNewFile(array $params) {
+		if (!$this->registerFullTextSearchServices()) {
+			return;
+		}
+
 		$path = $this->get('path', $params, '');
 		if ($path === '') {
 			return;
 		}
 
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
-		$this->fullTextSearchManager->createIndex(
-			'files', (string)$file->getId(), $this->userId, IIndex::INDEX_FULL
-		);
+		if ($this->configService->isCloudVersionAtLeast(15, 0, 1)) {
+			$this->fullTextSearchManager->createIndex(
+				'files', (string)$file->getId(), $this->userId, IIndex::INDEX_FULL
+			);
+		}
 	}
 
 
@@ -108,8 +146,13 @@ class FilesEvents {
 	 *
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
+	 * @throws QueryException
 	 */
 	public function onFileUpdate(array $params) {
+		if (!$this->registerFullTextSearchServices()) {
+			return;
+		}
+
 		$path = $this->get('path', $params, '');
 		if ($path === '') {
 			return;
@@ -127,8 +170,13 @@ class FilesEvents {
 	 *
 	 * @throws NotFoundException
 	 * @throws InvalidPathException
+	 * @throws QueryException
 	 */
 	public function onFileRename(array $params) {
+		if (!$this->registerFullTextSearchServices()) {
+			return;
+		}
+
 		$target = $this->get('newpath', $params, '');
 		if ($target === '') {
 			return;
@@ -146,11 +194,15 @@ class FilesEvents {
 	 *
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
+	 * @throws QueryException
 	 */
 	public function onFileTrash(array $params) {
+		if (!$this->registerFullTextSearchServices()) {
+			return;
+		}
+
 		// check if trashbin does not exist. -> onFileDelete
 		// we do not index trashbin
-
 		$path = $this->get('path', $params, '');
 		if ($path === '') {
 			return;
@@ -168,8 +220,13 @@ class FilesEvents {
 	 *
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
+	 * @throws QueryException
 	 */
 	public function onFileRestore(array $params) {
+		if (!$this->registerFullTextSearchServices()) {
+			return;
+		}
+
 		$path = $this->get('filePath', $params, '');
 		if ($path === '') {
 			return;
@@ -186,6 +243,10 @@ class FilesEvents {
 	 * @param array $params
 	 */
 	public function onFileDelete(array $params) {
+		//		if (!$this->registerFullTextSearchServices()) {
+//			return;
+//		}
+
 //		$path = $this->get('path', $params, '');
 //		if ($path === '') {
 //			return;
@@ -198,8 +259,14 @@ class FilesEvents {
 
 	/**
 	 * @param array $params
+	 *
+	 * @throws QueryException
 	 */
 	public function onFileShare(array $params) {
+		if (!$this->registerFullTextSearchServices()) {
+			return;
+		}
+
 		$fileId = $this->get('itemSource', $params, '');
 		if ($fileId === '') {
 			return;
@@ -213,8 +280,14 @@ class FilesEvents {
 
 	/**
 	 * @param array $params
+	 *
+	 * @throws QueryException
 	 */
 	public function onFileUnshare(array $params) {
+		if (!$this->registerFullTextSearchServices()) {
+			return;
+		}
+
 		$fileId = $this->get('itemSource', $params, '');
 		if ($fileId === '') {
 			return;
