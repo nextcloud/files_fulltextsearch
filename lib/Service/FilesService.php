@@ -51,6 +51,7 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\FullTextSearch\Model\DocumentAccess;
 use OCP\FullTextSearch\Model\IIndex;
 use OCP\FullTextSearch\Model\IIndexOptions;
 use OCP\FullTextSearch\Model\IndexDocument;
@@ -275,6 +276,7 @@ class FilesService {
 
 		$source = $this->getFileSource($file);
 		$document = new FilesDocument(FilesProvider::FILES_PROVIDER_ID, (string)$file->getId());
+		$document->setAccess(new DocumentAccess());
 
 		if ($file->getId() === -1) {
 			throw new FileIsNotIndexableException();
