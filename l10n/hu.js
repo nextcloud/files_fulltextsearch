@@ -21,6 +21,7 @@ OC.L10N.register(
     "Filter by extension" : "Szűrés kiterjesztés szerint",
     "Extension" : "Kiterjesztés",
     "Full text search - Files" : "Teljes szöveges keresés - Fájlok",
+    "Index the content of your files" : "Saját fájl tartalmak rendezése.",
     "Files" : "Fájlok",
     "Sources" : "Források",
     "Local Files" : "Helyi fájlok",
