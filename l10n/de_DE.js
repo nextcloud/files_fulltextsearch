@@ -33,7 +33,7 @@ OC.L10N.register(
     "Index the content of group folders." : "Den Inhalt von Gruppenordnern indizieren.",
     "Types" : "Typen",
     "Maximum file size" : "Maximale Dateigröße",
-    "Maximum file size to index (in Mb)." : "Maximale Dateigröße zum Indizieren (in MB): ",
+    "Maximum file size to index (in Mb)." : "Maximale Dateigröße zum Indizieren (in MB).",
     "Extract PDF" : "PDF indizieren",
     "Index the content of PDF files." : "Den Inhalt von PDF-Dateien indizieren.",
     "Extract Office" : "Office-Dateien indizieren",
