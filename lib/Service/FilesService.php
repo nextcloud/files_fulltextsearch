@@ -397,7 +397,12 @@ class FilesService {
 		$file = array_shift($viewerFiles);
 
 		// TODO: better way to do this : we remove the '/userid/files/'
-		$path = $this->withoutEndSlash(substr($file->getPath(), 8 + strlen($viewerId)));
+		$path = substr($file->getPath(), 8 + strlen($viewerId));
+		if (!is_string($path)) {
+			throw new FileIsNotIndexableException();
+		}
+
+		$path = $this->withoutEndSlash($path);
 
 		return $path;
 	}
@@ -484,7 +489,6 @@ class FilesService {
 	 * @return FilesDocument
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
-	 * @throws NotPermittedException
 	 * @throws FileIsNotIndexableException
 	 */
 	public function updateDocument(IIndex $index): FilesDocument {

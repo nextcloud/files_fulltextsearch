@@ -257,7 +257,6 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @return IndexDocument
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
-	 * @throws NotPermittedException
 	 * @throws FileIsNotIndexableException
 	 */
 	public function updateDocument(IIndex $index): IndexDocument {
