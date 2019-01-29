@@ -520,6 +520,8 @@ class FilesService {
 	/**
 	 * @param FilesDocument $document
 	 * @param Node $file
+	 *
+	 * @throws FileIsNotIndexableException
 	 */
 	private function updateFilesDocumentFromFile(FilesDocument $document, Node $file) {
 
@@ -536,6 +538,8 @@ class FilesService {
 	/**
 	 * @param FilesDocument $document
 	 * @param Node $file
+	 *
+	 * @throws FileIsNotIndexableException
 	 */
 	private function updateDocumentAccess(FilesDocument $document, Node $file) {
 

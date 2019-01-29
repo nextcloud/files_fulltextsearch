@@ -176,18 +176,15 @@ class ExternalFilesService {
 	/**
 	 * @param FilesDocument $document
 	 * @param Node $file
+	 *
+	 * @throws FileIsNotIndexableException
 	 */
 	public function updateDocumentAccess(FilesDocument &$document, Node $file) {
 		if ($document->getSource() !== ConfigService::FILES_EXTERNAL) {
 			return;
 		}
 
-		try {
-			$mount = $this->getMountPoint($file);
-		} catch (FileIsNotIndexableException $e) {
-			return;
-		}
-
+		$mount = $this->getMountPoint($file);
 		$access = $document->getAccess();
 
 		if ($this->isMountFullGlobal($mount)) {
