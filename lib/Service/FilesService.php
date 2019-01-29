@@ -79,6 +79,8 @@ class FilesService {
 	const MIMETYPE_IMAGE = 'files_image';
 	const MIMETYPE_AUDIO = 'files_audio';
 
+	const CHUNK_TREE_SIZE = 2;
+
 
 	/** @var IAppContainer */
 	private $container;
@@ -174,17 +176,73 @@ class FilesService {
 	 * @param IIndexOptions $indexOptions
 	 *
 	 * @return FilesDocument[]
+	 * @throws NotFoundException
+	 * @throws InvalidPathException
+	 */
+	public function getChunksFromUser(string $userId, IIndexOptions $indexOptions): array {
+		$this->initFileSystems($userId);
+
+		/** @var Folder $files */
+		$files = $this->rootFolder->getUserFolder($userId)
+								  ->get($indexOptions->getOption('path', '/'));
+		if ($files instanceof Folder) {
+			return $this->getChunksFromDirectory($userId, $files);
+		} else {
+			return [$files];
+		}
+	}
+
+
+	/**
+	 * @param string $userId
+	 * @param Folder $node
+	 * @param int $level
+	 *
+	 * @return FilesDocument[]
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
-	public function getFilesFromUser(string $userId, IIndexOptions $indexOptions): array {
+	public function getChunksFromDirectory(string $userId, Folder $node, $level = 0): array {
+		$entries = [];
+		$level++;
+
+		$files = $node->getDirectoryListing();
+		if (empty($files)) {
+			$entries[] = $this->getPathFromRoot($node->getPath(), $userId, true);
+		}
+
+		foreach ($files as $file) {
+			if ($file->getType() === FileInfo::TYPE_FOLDER && $level < self::CHUNK_TREE_SIZE) {
+				/** @var $file Folder */
+				$entries =
+					array_merge($entries, $this->getChunksFromDirectory($userId, $file, $level));
+			} else {
+				$entries[] = $this->getPathFromRoot($file->getPath(), $userId, true);
+			}
+		}
+
+		return $entries;
+	}
+
+
+	/**
+	 * @param string $userId
+	 * @param string $chunk
+	 *
+	 * @return FilesDocument[]
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 */
+	public function getFilesFromUser(string $userId, string $chunk): array {
 
 		$this->initFileSystems($userId);
 		$this->sumDocuments = 0;
 
 		/** @var Folder $files */
 		$files = $this->rootFolder->getUserFolder($userId)
-								  ->get($indexOptions->getOption('path', '/'));
+								  ->get($chunk);
+//		$files = $this->rootFolder->getUserFolder($userId)
+//								  ->get($indexOptions->getOption('path', $chunk));
 		if ($files instanceof Folder) {
 			$result = $this->getFilesFromDirectory($userId, $files);
 		} else {
@@ -197,19 +255,6 @@ class FilesService {
 		}
 
 		return $result;
-	}
-
-
-	/**
-	 * @param string $userId
-	 */
-	private function initFileSystems(string $userId) {
-		if ($userId === '') {
-			return;
-		}
-
-		$this->externalFilesService->initExternalFilesForUser($userId);
-		$this->groupFoldersService->initGroupSharesForUser($userId);
 	}
 
 
@@ -259,6 +304,19 @@ class FilesService {
 		}
 
 		return $documents;
+	}
+
+
+	/**
+	 * @param string $userId
+	 */
+	private function initFileSystems(string $userId) {
+		if ($userId === '') {
+			return;
+		}
+
+		$this->externalFilesService->initExternalFilesForUser($userId);
+		$this->groupFoldersService->initGroupSharesForUser($userId);
 	}
 
 
@@ -397,7 +455,7 @@ class FilesService {
 		$file = array_shift($viewerFiles);
 
 		// TODO: better way to do this : we remove the '/userid/files/'
-		$path = substr($file->getPath(), 8 + strlen($viewerId));
+		$path = $this->getPathFromRoot($file->getPath(), $viewerId);
 		if (!is_string($path)) {
 			throw new FileIsNotIndexableException();
 		}
@@ -962,5 +1020,25 @@ class FilesService {
 
 		$this->runner->newIndexError($index, $message, $exception, $sev);
 	}
+
+
+	/**
+	 * @param string $path
+	 * @param string $userId
+	 *
+	 * @param bool $entrySlash
+	 *
+	 * @return string
+	 */
+	private function getPathFromRoot(string $path, string $userId, bool $entrySlash = false) {
+		// TODO: better way to do this : we remove the '/userid/files/'
+		$path = substr($path, 8 + strlen($userId));
+		if (!is_string($path)) {
+			$path = '';
+		}
+
+		return (($entrySlash) ? '/' : '') . $path;
+	}
+
 }
 
