@@ -283,7 +283,8 @@ class ExternalFilesService {
 	 * @throws ExternalMountNotFoundException
 	 */
 	private function getExternalMountById(int $externalMountId): MountPoint {
-		if ($externalMountId === 0) {
+		if ($this->globalStoragesService === null
+			|| $externalMountId === 0) {
 			throw new ExternalMountNotFoundException();
 		}
 
