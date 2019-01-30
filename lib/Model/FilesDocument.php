@@ -43,9 +43,6 @@ use OCP\FullTextSearch\Model\IndexDocument;
 class FilesDocument extends AFilesDocument {
 
 
-	const STATUS_FILE_ACCESS = 1024;
-
-
 	/** @var string */
 	private $ownerId = '';
 
