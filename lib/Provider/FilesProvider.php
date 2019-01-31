@@ -39,7 +39,6 @@ use OCA\Files_FullTextSearch\Service\MiscService;
 use OCA\Files_FullTextSearch\Service\SearchService;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
 use OCP\FullTextSearch\IFullTextSearchPlatform;
 use OCP\FullTextSearch\IFullTextSearchProvider;
 use OCP\FullTextSearch\Model\IIndex;
@@ -126,6 +125,7 @@ class FilesProvider implements IFullTextSearchProvider {
 	 */
 	public function setRunner(IRunner $runner) {
 		$this->runner = $runner;
+		$this->filesService->setRunner($runner);
 	}
 
 
@@ -219,13 +219,27 @@ class FilesProvider implements IFullTextSearchProvider {
 	/**
 	 * @param string $userId
 	 *
+	 * @return array
+	 * @throws InvalidPathException
+	 * @throws NotFoundException
+	 */
+	public function generateChunks(string $userId): array {
+		$chunks = $this->filesService->getChunksFromUser($userId, $this->indexOptions);
+		return $chunks;
+	}
+
+
+	/**
+	 * @param string $userId
+	 *
+	 * @param string $chunk
+	 *
 	 * @return IndexDocument[]
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
-	public function generateIndexableDocuments(string $userId): array {
-		$this->filesService->setRunner($this->runner);
-		$files = $this->filesService->getFilesFromUser($userId, $this->indexOptions);
+	public function generateIndexableDocuments(string $userId, string $chunk): array {
+		$files = $this->filesService->getFilesFromUser($userId, $chunk);
 
 		return $files;
 	}
@@ -320,5 +334,5 @@ class FilesProvider implements IFullTextSearchProvider {
 		$this->runner->setInfo($info, $value);
 	}
 
-
 }
+
