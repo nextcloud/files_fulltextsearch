@@ -241,8 +241,6 @@ class FilesService {
 		/** @var Folder $files */
 		$files = $this->rootFolder->getUserFolder($userId)
 								  ->get($chunk);
-//		$files = $this->rootFolder->getUserFolder($userId)
-//								  ->get($indexOptions->getOption('path', $chunk));
 		if ($files instanceof Folder) {
 			$result = $this->getFilesFromDirectory($userId, $files);
 		} else {
