@@ -1,5 +1,16 @@
 # Changelog
 
+
+### 1.0.5
+
+- sync l10n
+
+
+### 1.0.4
+
+- limit to NC13
+
+
 ### 1.0.3
 
 - improvement: process can be paused during generateIndexFiles
