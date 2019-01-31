@@ -554,10 +554,11 @@ class FilesService {
 	private function updateDocumentAccess(FilesDocument $document, Node $file) {
 
 		$index = $document->getIndex();
-		if (!$index->isStatus(IIndex::INDEX_FULL)
-			&& !$index->isStatus(IIndex::INDEX_META)) {
-			return;
-		}
+		// This should not be needed, let's assume we _need_ to update document access
+//		if (!$index->isStatus(IIndex::INDEX_FULL)
+//			&& !$index->isStatus(IIndex::INDEX_META)) {
+//			return;
+//		}
 
 		$this->localFilesService->updateDocumentAccess($document, $file);
 		$this->externalFilesService->updateDocumentAccess($document, $file);
@@ -965,8 +966,6 @@ class FilesService {
 		if (!$index->isStatus(IIndex::INDEX_META)) {
 			return;
 		}
-
-		$this->miscService->log('META? ' . $index->getStatus());
 
 		try {
 			$file = $this->getFileFromIndex($index);
