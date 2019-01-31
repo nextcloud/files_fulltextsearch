@@ -1,6 +1,19 @@
 # Changelog
 
 
+### 1.3.0 (NC16)
+
+- Implementing indexing-by-chunks
+
+
+### 1.2.4
+
+- indexing external files should now work as expected
+- fixing an issue when creating a new user
+- fixing issue on meta not being updated when unsharing/sharing files
+- content of a folder is also updated when meta is edited.
+
+ 
 ### 1.2.3
 
 - init DocumentAccess on FilesDocuments creation.
