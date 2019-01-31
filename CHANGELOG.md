@@ -1,5 +1,11 @@
 # Changelog
 
+
+### 1.1.2
+
+- fixing minor issues
+
+
 ### 1.1.1 
 
 - during file events, path can be null.
