@@ -32,7 +32,6 @@ namespace OCA\Files_FullTextSearch\Events;
 
 
 use daita\MySmallPhpTools\Traits\TArrayTools;
-use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Service\ConfigService;
 use OCA\Files_FullTextSearch\Service\FilesService;
 use OCA\Files_FullTextSearch\Service\MiscService;
@@ -108,6 +107,7 @@ class FilesEvents {
 
 			return false;
 		}
+
 		$fulltextsearch = new \OCA\FullTextSearch\AppInfo\Application();
 		$fulltextsearch->registerServices();
 
@@ -160,7 +160,7 @@ class FilesEvents {
 
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
 		$this->fullTextSearchManager->updateIndexStatus(
-			'files', (string)$file->getId(), IIndex::INDEX_FULL
+			'files', (string)$file->getId(), IIndex::INDEX_CONTENT
 		);
 	}
 
@@ -272,9 +272,7 @@ class FilesEvents {
 			return;
 		}
 
-		$this->fullTextSearchManager->updateIndexStatus(
-			'files', $fileId, FilesDocument::STATUS_FILE_ACCESS
-		);
+		$this->fullTextSearchManager->updateIndexStatus('files', $fileId, IIndex::INDEX_META);
 	}
 
 
@@ -293,9 +291,7 @@ class FilesEvents {
 			return;
 		}
 
-		$this->fullTextSearchManager->updateIndexStatus(
-			'files', $fileId, FilesDocument::STATUS_FILE_ACCESS
-		);
+		$this->fullTextSearchManager->updateIndexStatus('files', $fileId, IIndex::INDEX_META);
 	}
 
 
@@ -306,7 +302,4 @@ class FilesEvents {
 	public function onNewScannedFile(array $params) {
 	}
 }
-
-
-
 
