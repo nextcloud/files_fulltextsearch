@@ -208,7 +208,7 @@ class FilesService {
 		$this->updateRunnerAction('generateIndexFiles', true);
 		$this->updateRunnerInfo(
 			[
-				'info'          => $node->getPath(),
+				'info' => $node->getPath(),
 				'documentTotal' => $this->sumDocuments
 			]
 		);
@@ -390,8 +390,9 @@ class FilesService {
 			// TODO - update $document with a error status instead of just ignore !
 			$document->getIndex()
 					 ->setStatus(Index::INDEX_IGNORE);
-			echo 'Exception: ' . json_encode($e->getTrace()) . ' - ' . $e->getMessage()
-				 . "\n";
+			$this->miscService->log(
+				'Exception: ' . json_encode($e->getTrace()) . ' - ' . $e->getMessage()
+			);
 		}
 	}
 
