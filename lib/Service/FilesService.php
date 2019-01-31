@@ -51,6 +51,7 @@ use OCP\Files\Node;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\StorageNotAvailableException;
+use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\FullTextSearch\Model\DocumentAccess;
 use OCP\FullTextSearch\Model\IIndex;
 use OCP\FullTextSearch\Model\IIndexOptions;
@@ -112,6 +113,9 @@ class FilesService {
 	/** @var ExtensionService */
 	private $extensionService;
 
+	/** @var IFullTextSearchManager */
+	private $fullTextSearchManager;
+
 	/** @var MiscService */
 	private $miscService;
 
@@ -136,16 +140,17 @@ class FilesService {
 	 * @param ExternalFilesService $externalFilesService
 	 * @param GroupFoldersService $groupFoldersService
 	 * @param ExtensionService $extensionService
+	 * @param IFullTextSearchManager $fullTextSearchManager
 	 * @param MiscService $miscService
 	 *
 	 * @internal param IProviderFactory $factory
 	 */
 	public function __construct(
 		IAppContainer $container, IRootFolder $rootFolder, IAppManager $appManager,
-		IUserManager $userManager, IManager $shareManager,
-		ConfigService $configService, LocalFilesService $localFilesService,
-		ExternalFilesService $externalFilesService, GroupFoldersService $groupFoldersService,
-		ExtensionService $extensionService, MiscService $miscService
+		IUserManager $userManager, IManager $shareManager, ConfigService $configService,
+		LocalFilesService $localFilesService, ExternalFilesService $externalFilesService,
+		GroupFoldersService $groupFoldersService, ExtensionService $extensionService,
+		IFullTextSearchManager $fullTextSearchManager, MiscService $miscService
 	) {
 		$this->container = $container;
 		$this->rootFolder = $rootFolder;
@@ -158,6 +163,7 @@ class FilesService {
 		$this->externalFilesService = $externalFilesService;
 		$this->groupFoldersService = $groupFoldersService;
 		$this->extensionService = $extensionService;
+		$this->fullTextSearchManager = $fullTextSearchManager;
 
 		$this->miscService = $miscService;
 	}
@@ -428,7 +434,8 @@ class FilesService {
 	 * @throws FilesNotFoundException
 	 */
 	public function getFileFromIndex(IIndex $index): Node {
-		$this->impersonateOwner($index);
+		// it seems the method is already call slightly earlier in the process
+//		$this->impersonateOwner($index);
 
 		return $this->getFileFromId($index->getOwnerId(), (int)$index->getDocumentId());
 	}
@@ -551,7 +558,10 @@ class FilesService {
 		$this->impersonateOwner($index);
 		$this->initFileSystems($index->getOwnerId());
 
-		return $this->generateDocumentFromIndex($index);
+		$document = $this->generateDocumentFromIndex($index);
+		$this->updateDirectoryContentIndex($index);
+
+		return $document;
 	}
 
 
@@ -600,10 +610,11 @@ class FilesService {
 	private function updateDocumentAccess(FilesDocument $document, Node $file) {
 
 		$index = $document->getIndex();
-		if (!$index->isStatus(IIndex::INDEX_FULL)
-			&& !$index->isStatus(FilesDocument::STATUS_FILE_ACCESS)) {
-			return;
-		}
+		// This should not be needed, let's assume we _need_ to update document access
+//		if (!$index->isStatus(IIndex::INDEX_FULL)
+//			&& !$index->isStatus(IIndex::INDEX_META)) {
+//			return;
+//		}
 
 		$this->localFilesService->updateDocumentAccess($document, $file);
 		$this->externalFilesService->updateDocumentAccess($document, $file);
@@ -1001,6 +1012,47 @@ class FilesService {
 			IIndex::ERROR_SEV_3
 		);
 		$this->miscService->log(json_encode($t->getTrace()), 0);
+	}
+
+
+	/**
+	 * @param IIndex $index
+	 */
+	private function updateDirectoryContentIndex(IIndex $index) {
+		if (!$index->isStatus(IIndex::INDEX_META)) {
+			return;
+		}
+
+		try {
+			$file = $this->getFileFromIndex($index);
+			if ($file->getType() === File::TYPE_FOLDER) {
+				/** @var Folder $file */
+				$this->updateDirectoryMeta($file);
+			}
+		} catch (Exception $e) {
+		}
+	}
+
+
+	/**
+	 * @param Folder $node
+	 */
+	private function updateDirectoryMeta(Folder $node) {
+		try {
+			$files = $node->getDirectoryListing();
+		} catch (NotFoundException $e) {
+			return;
+		}
+
+		foreach ($files as $file) {
+			try {
+				$this->fullTextSearchManager->updateIndexStatus(
+					'files', (string)$file->getId(), IIndex::INDEX_META
+				);
+			} catch (InvalidPathException $e) {
+			} catch (NotFoundException $e) {
+			}
+		}
 	}
 
 
