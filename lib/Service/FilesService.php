@@ -842,7 +842,14 @@ class FilesService {
 			$document->getIndex(), 'Error while getting file content', $t->getMessage(),
 			Index::ERROR_SEV_3
 		);
-		$this->miscService->log(json_encode($t->getTrace()), 0);
+
+		$trace = $t->getTrace();
+		if (is_array($trace)) {
+			$trace = json_encode($trace);
+		}
+		if (is_string($trace)) {
+			$this->miscService->log($trace, 0);
+		}
 	}
 
 
