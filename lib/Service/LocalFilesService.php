@@ -109,8 +109,8 @@ class LocalFilesService {
 	 * @throws KnownFileSourceException
 	 */
 	public function getFileSource(Node $file, string &$source) {
-		if ($file->getMountPoint()
-				 ->getMountType() !== '') {
+		$mountType = $file->getMountPoint()->getMountType();
+		if ($mountType !== '' && $mountType !== 'shared') {
 			return;
 		}
 
