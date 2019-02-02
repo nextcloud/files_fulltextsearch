@@ -613,7 +613,7 @@ class FilesService {
 	 */
 	private function updateDocumentAccess(FilesDocument $document, Node $file) {
 
-		$index = $document->getIndex();
+//		$index = $document->getIndex();
 		// This should not be needed, let's assume we _need_ to update document access
 //		if (!$index->isStatus(IIndex::INDEX_FULL)
 //			&& !$index->isStatus(IIndex::INDEX_META)) {
