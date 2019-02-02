@@ -319,6 +319,10 @@ class FilesService {
 			return;
 		}
 
+		if ($this->userManager->get($userId) === null) {
+			return;
+		}
+
 		$this->externalFilesService->initExternalFilesForUser($userId);
 		$this->groupFoldersService->initGroupSharesForUser($userId);
 	}
