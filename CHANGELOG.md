@@ -1,6 +1,13 @@
 # Changelog
 
 
+### 1.1.3
+
+- fix some exception
+- fix an issue with shared files
+- fix an issue when deleting a user
+
+
 ### 1.1.2
 
 - fixing minor issues
