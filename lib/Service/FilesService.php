@@ -302,7 +302,7 @@ class FilesService {
 				 ->setOwnerId($ownerId)
 				 ->setPath($this->getPathFromViewerId($file->getId(), $viewerId))
 				 ->setViewerId($viewerId)
-				 ->setMimetype($file->getMimetype());
+				 ->setMimetype((string)$file->getMimetype());
 		$document->setModifiedTime($file->getMTime())
 				 ->setSource($source);
 

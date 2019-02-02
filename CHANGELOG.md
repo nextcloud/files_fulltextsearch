@@ -1,6 +1,13 @@
 # Changelog
 
 
+### 1.2.5
+
+- fix some exception
+- fix an issue with shared files
+- fix an issue when deleting a user 
+
+
 ### 1.2.4
 
 - indexing external files should now work as expected
