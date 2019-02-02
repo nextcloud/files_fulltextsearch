@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
+    "files" : "文件",
     "Go to folder" : "前往文件夹目录",
     "Open folder" : "打开文件夹",
     "Name" : "名称",
@@ -9,8 +10,24 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "无法复制 \"{file}\"，目标已存在",
     "Could not copy \"{file}\"" : "不能复制 \"{file}\"",
     "Copied {origin} inside {destination}" : "在 {destination} 内复制 {origin}",
+    "Within current directory" : "在本地目录内",
+    "Within local files" : "在本地文件内",
+    "Local files" : "本地文件",
     "External files" : "外部文件",
+    "Within group folders" : "在组文件夹内",
     "Files" : "文件",
-    "External Files" : "外部文件"
+    "Sources" : "源",
+    "Local Files" : "本地文件",
+    "External Files" : "外部文件",
+    "Index the content of external files." : "索引外部文件内容",
+    "Group Folders" : "组文件夹",
+    "Index the content of group folders." : "索引组文件夹内容",
+    "Types" : "类型",
+    "Maximum file size" : "最小文件大小",
+    "Maximum file size to index (in Mb)." : "要索引的文件最小大小 (MB)",
+    "Extract PDF" : "导出 PDF 文件",
+    "Index the content of PDF files." : "索引 PDF 文件内容",
+    "Extract Office" : "导出 Office 文件",
+    "Index the content of office files." : "索引 Office 文件内容"
 },
 "nplurals=1; plural=0;");
