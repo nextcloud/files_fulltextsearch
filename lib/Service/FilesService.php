@@ -731,8 +731,9 @@ class FilesService {
 				if ($user === null || $user->getLastLogin() === 0) {
 					continue;
 				}
+				$username = $user->getUID();
 
-				$path = $this->getPathFromViewerId($file->getId(), $username);
+				$path = $this->getPathFromViewerId($file->getId(), (string)$username);
 				$shareNames[$this->miscService->secureUsername($username)] =
 					(!is_string($path)) ? $path = '' : $path;
 
