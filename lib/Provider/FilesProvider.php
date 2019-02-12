@@ -39,7 +39,6 @@ use OCA\Files_FullTextSearch\Service\MiscService;
 use OCA\Files_FullTextSearch\Service\SearchService;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
-use OCP\Files\NotPermittedException;
 use OCP\FullTextSearch\IFullTextSearchPlatform;
 use OCP\FullTextSearch\IFullTextSearchProvider;
 use OCP\FullTextSearch\Model\IIndex;
@@ -237,8 +236,14 @@ class FilesProvider implements IFullTextSearchProvider {
 	 */
 	public function fillIndexDocument(IndexDocument $document) {
 		/** @var FilesDocument $document */
+		$this->updateRunnerInfoArray(
+			[
+				'info'  => $document->getMimetype(),
+				'title' => $document->getPath()
+			]
+		);
+
 		$this->filesService->generateDocument($document);
-		$this->updateRunnerInfo('info', $document->getMimetype());
 	}
 
 
@@ -319,6 +324,17 @@ class FilesProvider implements IFullTextSearchProvider {
 		}
 
 		$this->runner->setInfo($info, $value);
+	}
+
+	/**
+	 * @param array $info
+	 */
+	private function updateRunnerInfoArray(array $info) {
+		if ($this->runner === null) {
+			return;
+		}
+
+		$this->runner->setInfoArray($info);
 	}
 
 
