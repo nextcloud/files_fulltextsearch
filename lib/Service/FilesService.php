@@ -239,6 +239,8 @@ class FilesService {
 		$this->updateRunnerInfo(
 			[
 				'info'          => $node->getPath(),
+				'title'         => '',
+				'content'       => '',
 				'documentTotal' => $this->sumDocuments
 			]
 		);
