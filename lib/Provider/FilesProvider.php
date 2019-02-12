@@ -97,6 +97,7 @@ class FilesProvider implements IFullTextSearchProvider {
 		$this->miscService = $miscService;
 	}
 
+
 	/**
 	 * return unique id of the provider
 	 */
