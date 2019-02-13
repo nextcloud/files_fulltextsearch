@@ -286,6 +286,8 @@ class FilesService {
 	 */
 	private function generateFilesDocumentFromFile(string $viewerId, Node $file): FilesDocument {
 
+		$this->isNodeIndexable($file);
+
 		$source = $this->getFileSource($file);
 		$document = new FilesDocument(FilesProvider::FILES_PROVIDER_ID, (string)$file->getId());
 		$document->setAccess(new DocumentAccess());
@@ -460,6 +462,8 @@ class FilesService {
 			return $document;
 		}
 
+		$this->isNodeIndexable($file);
+
 		$document = $this->generateFilesDocumentFromFile($index->getOwnerId(), $file);
 		$document->setIndex($index);
 
@@ -559,7 +563,7 @@ class FilesService {
 	 */
 	private function updateDocumentAccess(FilesDocument $document, Node $file) {
 
-		$index = $document->getIndex();
+//		$index = $document->getIndex();
 		// This should not be needed, let's assume we _need_ to update document access
 //		if (!$index->isStatus(IIndex::INDEX_FULL)
 //			&& !$index->isStatus(IIndex::INDEX_META)) {
@@ -1027,5 +1031,29 @@ class FilesService {
 
 		$this->runner->newIndexError($index, $message, $exception, $sev);
 	}
+
+
+	/**
+	 * @param Node $file
+	 *
+	 * @throws FileIsNotIndexableException
+	 */
+	private function isNodeIndexable(Node $file) {
+
+		if ($file->getType() === File::TYPE_FOLDER) {
+			/** @var Folder $file */
+			if ($file->nodeExists('.noindex')) {
+				throw new FileIsNotIndexableException();
+			}
+		}
+
+		$parent = $file->getParent();
+		$parentPath = $this->withoutBeginSlash($parent->getPath());
+		$path = substr($parent->getPath(), 8 + strpos($parentPath, '/'));
+		if (is_string($path)) {
+			$this->isNodeIndexable($file->getParent());
+		}
+	}
+
 }
 
