@@ -342,6 +342,8 @@ class FilesService {
 	 */
 	private function generateFilesDocumentFromFile(string $viewerId, Node $file): FilesDocument {
 
+		$this->isNodeIndexable($file);
+
 		$source = $this->getFileSource($file);
 		$document = new FilesDocument(FilesProvider::FILES_PROVIDER_ID, (string)$file->getId());
 		$document->setAccess(new DocumentAccess());
@@ -515,6 +517,8 @@ class FilesService {
 
 			return $document;
 		}
+
+		$this->isNodeIndexable($file);
 
 		$document = $this->generateFilesDocumentFromFile($index->getOwnerId(), $file);
 		$document->setIndex($index);
@@ -1086,6 +1090,29 @@ class FilesService {
 
 
 	/**
+	 * @param Node $file
+	 *
+	 * @throws FileIsNotIndexableException
+	 */
+	private function isNodeIndexable(Node $file) {
+
+		if ($file->getType() === File::TYPE_FOLDER) {
+			/** @var Folder $file */
+			if ($file->nodeExists('.noindex')) {
+				throw new FileIsNotIndexableException();
+			}
+		}
+
+		$parent = $file->getParent();
+		$parentPath = $this->withoutBeginSlash($parent->getPath());
+		$path = substr($parent->getPath(), 8 + strpos($parentPath, '/'));
+		if (is_string($path)) {
+			$this->isNodeIndexable($file->getParent());
+		}
+	}
+
+
+	/**
 	 * @param string $path
 	 * @param string $userId
 	 *
@@ -1095,6 +1122,7 @@ class FilesService {
 	 */
 	private function getPathFromRoot(string $path, string $userId, bool $entrySlash = false) {
 		// TODO: better way to do this : we remove the '/userid/files/'
+		// TODO: do we need userId, or can we crop the path like in isNodeIndexable()
 		$path = substr($path, 8 + strlen($userId));
 		if (!is_string($path)) {
 			$path = '';
