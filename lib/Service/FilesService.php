@@ -260,6 +260,12 @@ class FilesService {
 			return $documents;
 		}
 
+		if ($this->configService->getAppValue(ConfigService::FILES_EXTERNAL) === '2'
+			&& $node->getMountPoint()
+					->getMountType() === 'external') {
+			return $documents;
+		}
+
 		$files = $node->getDirectoryListing();
 		foreach ($files as $file) {
 
@@ -461,6 +467,12 @@ class FilesService {
 
 		try {
 			$file = $this->getFileFromIndex($index);
+
+			if ($file->getMountPoint()
+					 ->getMountType() === 'external'
+				&& $this->configService->getAppValue(ConfigService::FILES_EXTERNAL) === '2') {
+				throw new Exception();
+			}
 		} catch (Exception $e) {
 			$index->setStatus(IIndex::INDEX_REMOVE);
 			$document = new FilesDocument($index->getProviderId(), $index->getDocumentId());
