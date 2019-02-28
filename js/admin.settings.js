@@ -46,7 +46,7 @@ var files_settings = {
 
 	updateSettingPage: function (result) {
 		files_elements.files_local.prop('checked', (result.files_local === '1'));
-		files_elements.files_external.prop('checked', (result.files_external === '1'));
+		files_elements.files_external.val(result.files_external);
 		files_elements.files_group_folders.prop('checked', (result.files_group_folders === '1'));
 		files_elements.files_encrypted.prop('checked', (result.files_encrypted === '1'));
 		files_elements.files_federated.prop('checked', (result.files_federated === '1'));
@@ -63,7 +63,7 @@ var files_settings = {
 	saveSettings: function () {
 		var data = {
 			files_local: (files_elements.files_local.is(':checked')) ? 1 : 0,
-			files_external: (files_elements.files_external.is(':checked')) ? 1 : 0,
+			files_external: files_elements.files_external.val(),
 			files_encrypted: (files_elements.files_encrypted.is(':checked')) ? 1 : 0,
 			files_federated: (files_elements.files_federated.is(':checked')) ? 1 : 0,
 			files_group_folders: (files_elements.files_group_folders.is(':checked')) ? 1 : 0,
