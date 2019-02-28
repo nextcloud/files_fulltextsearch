@@ -2,7 +2,6 @@
 declare(strict_types=1);
 
 
-
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -63,7 +62,11 @@ Util::addScript(Application::APP_NAME, 'admin');
 				<em><?php p($l->t('Index the content of external files.')); ?></em>
 			</div>
 			<div class="div-table-col">
-				<input type="checkbox" id="files_external" value="1"/>
+				<select id="files_external">
+					<option value="0"><?php p($l->t('Index path only')); ?></option>
+					<option value="1"><?php p($l->t('Index path and content')); ?></option>
+					<option value="2"><?php p($l->t('Do not index path nor content')); ?></option>
+				</select>
 			</div>
 		</div>
 
