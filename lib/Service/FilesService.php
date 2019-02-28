@@ -42,6 +42,7 @@ use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Provider\FilesProvider;
 use OCP\App\IAppManager;
 use OCP\AppFramework\IAppContainer;
+use OCP\Comments\ICommentsManager;
 use OCP\Files\File;
 use OCP\Files\FileInfo;
 use OCP\Files\Folder;
@@ -58,7 +59,7 @@ use OCP\FullTextSearch\Model\IIndexOptions;
 use OCP\FullTextSearch\Model\IndexDocument;
 use OCP\FullTextSearch\Model\IRunner;
 use OCP\IUserManager;
-use OCP\Share\IManager;
+use OCP\Share\IManager as IShareManager;
 use Throwable;
 
 
@@ -93,8 +94,11 @@ class FilesService {
 	/** @var IAppManager */
 	private $appManager;
 
-	/** @var IManager */
+	/** @var IShareManager */
 	private $shareManager;
+
+	/** @var ICommentsManager */
+	private $commentsManager;
 
 	/** @var ConfigService */
 	private $configService;
@@ -132,7 +136,8 @@ class FilesService {
 	 * @param IRootFolder $rootFolder
 	 * @param IAppManager $appManager
 	 * @param IUserManager $userManager
-	 * @param IManager $shareManager
+	 * @param IShareManager $shareManager
+	 * @param ICommentsManager $commentsManager
 	 * @param ConfigService $configService
 	 * @param LocalFilesService $localFilesService
 	 * @param ExternalFilesService $externalFilesService
@@ -145,7 +150,8 @@ class FilesService {
 	 */
 	public function __construct(
 		IAppContainer $container, IRootFolder $rootFolder, IAppManager $appManager,
-		IUserManager $userManager, IManager $shareManager, ConfigService $configService,
+		IUserManager $userManager, IShareManager $shareManager, ICommentsManager $commentsManager,
+		ConfigService $configService,
 		LocalFilesService $localFilesService, ExternalFilesService $externalFilesService,
 		GroupFoldersService $groupFoldersService, ExtensionService $extensionService,
 		IFullTextSearchManager $fullTextSearchManager, MiscService $miscService
@@ -155,6 +161,7 @@ class FilesService {
 		$this->appManager = $appManager;
 		$this->userManager = $userManager;
 		$this->shareManager = $shareManager;
+		$this->commentsManager = $commentsManager;
 
 		$this->configService = $configService;
 		$this->localFilesService = $localFilesService;
@@ -611,6 +618,23 @@ class FilesService {
 			$document->getIndex()
 					 ->unsetStatus(IIndex::INDEX_CONTENT);
 		}
+
+		$this->updateCommentsFromFile($document);
+	}
+
+
+	/**
+	 * @param FilesDocument $document
+	 */
+	private function updateCommentsFromFile(FilesDocument $document) {
+		$comments = $this->commentsManager->getForObject('files', $document->getId());
+
+		$part = [];
+		foreach ($comments as $comment) {
+			$part[] = '<' . $comment->getActorId() . '> ' . $comment->getMessage();
+		}
+
+		$document->addPart('comments', implode(" \n ", $part));
 	}
 
 
