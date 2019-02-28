@@ -31,6 +31,7 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\AppInfo;
 
 
+use OCA\Files_FullTextSearch\Events\FilesCommentsEvents;
 use OCA\Files_FullTextSearch\Hooks\FilesHooks;
 use OCA\Files_FullTextSearch\Provider\FilesProvider;
 use OCP\App\IAppManager;
@@ -80,6 +81,7 @@ class Application extends App {
 		}
 
 		$this->registerHooks();
+		$this->registerCommentsHooks();
 	}
 
 
@@ -115,6 +117,17 @@ class Application extends App {
 //		Util::connectHook(
 //			'\OC\Files\Cache\Scanner', 'removeFromCache', FilesHooks::class, 'onRemoteFileDelete'
 //		);
+
+	}
+
+	public function registerCommentsHooks() {
+		\OC::$server->getCommentsManager()
+					->registerEventHandler(
+						function() {
+							return $this->getContainer()
+										->query(FilesCommentsEvents::class);
+						}
+					);
 	}
 
 

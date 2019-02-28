@@ -37,10 +37,12 @@ use OCA\Files_FullTextSearch\Service\FilesService;
 use OCA\Files_FullTextSearch\Service\MiscService;
 use OCP\App\IAppManager;
 use OCP\AppFramework\QueryException;
+use OCP\Comments\CommentsEvent;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\FullTextSearch\Model\IIndex;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 
 /**
@@ -292,6 +294,23 @@ class FilesEvents {
 		}
 
 		$this->fullTextSearchManager->updateIndexStatus('files', $fileId, IIndex::INDEX_META);
+	}
+
+
+	/**
+	 * @param CommentsEvent $event
+	 *
+	 * @throws QueryException
+	 */
+	public function onCommentNew(CommentsEvent $event) {
+		if (!$this->registerFullTextSearchServices()) {
+			return;
+		}
+
+		$comment = $event->getComment();
+		$fileId = $comment->getObjectId();
+
+		$this->fullTextSearchManager->updateIndexStatus('files', $fileId, IIndex::INDEX_CONTENT);
 	}
 
 
