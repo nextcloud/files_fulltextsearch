@@ -605,8 +605,12 @@ class FilesService {
 
 		$document->setTitle($document->getPath());
 
-		if (!$document->getIndex()
-					  ->isStatus(IIndex::INDEX_CONTENT)
+		if ((!$document->getIndex()
+					   ->isStatus(IIndex::INDEX_CONTENT)
+			 &&
+			 !$document->getIndex()
+						  ->isStatus(IIndex::INDEX_META)
+			)
 			|| $file->getType() !== FileInfo::TYPE_FILE) {
 			return;
 		}
