@@ -99,6 +99,7 @@ class SearchService {
 		$this->searchQueryFiltersExtension($request);
 		$this->searchQueryFiltersSource($request);
 
+		$request->addPart('comments');
 		$this->extensionService->searchRequest($request);
 	}
 
