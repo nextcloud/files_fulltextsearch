@@ -726,6 +726,8 @@ class FilesService {
 
 		$shareNames = [];
 		foreach ($users as $username) {
+			$username = (string)$username;
+
 			try {
 				$user = $this->userManager->get($username);
 				if ($user === null || $user->getLastLogin() === 0) {
