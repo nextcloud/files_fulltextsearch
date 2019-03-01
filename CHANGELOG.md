@@ -1,6 +1,15 @@
 # Changelog
 
 
+### 1.2.6
+
+- [hotfix] index content on meta update
+- [enhancement] add options to totally ignore external storage
+- [enhancement] search within files comments
+- [bugfix] fix an issue where .noindex where ignored on document update
+- [UX] smoother display of info during index
+
+
 ### 1.2.5
 
 - fix some exception
