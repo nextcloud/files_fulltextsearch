@@ -33,6 +33,7 @@ namespace OCA\Files_FullTextSearch\Service;
 
 use daita\MySmallPhpTools\Traits\TPathTools;
 use Exception;
+use OC\FullTextSearch\Model\DocumentAccess;
 use OCA\Files_FullTextSearch\Exceptions\EmptyUserException;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Exceptions\FilesNotFoundException;
@@ -53,10 +54,9 @@ use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
 use OCP\Files\StorageNotAvailableException;
 use OCP\FullTextSearch\IFullTextSearchManager;
-use OCP\FullTextSearch\Model\DocumentAccess;
 use OCP\FullTextSearch\Model\IIndex;
+use OCP\FullTextSearch\Model\IIndexDocument;
 use OCP\FullTextSearch\Model\IIndexOptions;
-use OCP\FullTextSearch\Model\IndexDocument;
 use OCP\FullTextSearch\Model\IRunner;
 use OCP\IUserManager;
 use OCP\Share\IManager as IShareManager;
@@ -549,11 +549,11 @@ class FilesService {
 
 
 	/**
-	 * @param IndexDocument $document
+	 * @param IIndexDocument $document
 	 *
 	 * @return bool
 	 */
-	public function isDocumentUpToDate(IndexDocument $document): bool {
+	public function isDocumentUpToDate(IIndexDocument $document): bool {
 		$index = $document->getIndex();
 
 		if (!$this->configService->compareIndexOptions($index)) {
@@ -902,7 +902,7 @@ class FilesService {
 		}
 
 		$document->setContent(
-			base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64
+			base64_encode($file->getContent()), IIndexDocument::ENCODED_BASE64
 		);
 	}
 
@@ -931,7 +931,7 @@ class FilesService {
 		}
 
 		$document->setContent(
-			base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64
+			base64_encode($file->getContent()), IIndexDocument::ENCODED_BASE64
 		);
 	}
 
@@ -960,7 +960,7 @@ class FilesService {
 		}
 
 		$document->setContent(
-			base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64
+			base64_encode($file->getContent()), IIndexDocument::ENCODED_BASE64
 		);
 	}
 
@@ -989,7 +989,7 @@ class FilesService {
 		}
 
 		$document->setContent(
-			base64_encode($file->getContent()), IndexDocument::ENCODED_BASE64
+			base64_encode($file->getContent()), IIndexDocument::ENCODED_BASE64
 		);
 	}
 
@@ -1051,10 +1051,10 @@ class FilesService {
 	}
 
 	/**
-	 * @param IndexDocument $document
+	 * @param IIndexDocument $document
 	 * @param Throwable $t
 	 */
-	private function manageContentErrorException(IndexDocument $document, Throwable $t) {
+	private function manageContentErrorException(IIndexDocument $document, Throwable $t) {
 		$document->getIndex()
 				 ->addError(
 					 'Error while getting file content', $t->getMessage(), IIndex::ERROR_SEV_3

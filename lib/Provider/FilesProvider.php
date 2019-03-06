@@ -31,6 +31,8 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Provider;
 
 
+use OC\FullTextSearch\Model\SearchOption;
+use OC\FullTextSearch\Model\SearchTemplate;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Service\ConfigService;
@@ -42,13 +44,13 @@ use OCP\Files\NotFoundException;
 use OCP\FullTextSearch\IFullTextSearchPlatform;
 use OCP\FullTextSearch\IFullTextSearchProvider;
 use OCP\FullTextSearch\Model\IIndex;
+use OCP\FullTextSearch\Model\IIndexDocument;
 use OCP\FullTextSearch\Model\IIndexOptions;
-use OCP\FullTextSearch\Model\IndexDocument;
 use OCP\FullTextSearch\Model\IRunner;
+use OCP\FullTextSearch\Model\ISearchOption;
 use OCP\FullTextSearch\Model\ISearchRequest;
 use OCP\FullTextSearch\Model\ISearchResult;
-use OCP\FullTextSearch\Model\SearchOption;
-use OCP\FullTextSearch\Model\SearchTemplate;
+use OCP\FullTextSearch\Model\ISearchTemplate;
 use OCP\IL10N;
 
 
@@ -139,28 +141,28 @@ class FilesProvider implements IFullTextSearchProvider {
 
 
 	/**
-	 * @return SearchTemplate
+	 * @return ISearchTemplate
 	 */
-	public function getSearchTemplate(): SearchTemplate {
+	public function getSearchTemplate(): ISearchTemplate {
 		$template = new SearchTemplate('icon-fts-files', 'fulltextsearch');
 
 		$template->addPanelOption(
 			new SearchOption(
 				'files_within_dir', $this->l10n->t('Within current directory'),
-				SearchOption::CHECKBOX
+				ISearchOption::CHECKBOX
 			)
 		);
 
 		$template->addPanelOption(
 			new SearchOption(
 				'files_local', $this->l10n->t('Within local files'),
-				SearchOption::CHECKBOX
+				ISearchOption::CHECKBOX
 			)
 		);
 		$template->addNavigationOption(
 			new SearchOption(
 				'files_local', $this->l10n->t('Local files'),
-				SearchOption::CHECKBOX
+				ISearchOption::CHECKBOX
 			)
 		);
 
@@ -168,12 +170,12 @@ class FilesProvider implements IFullTextSearchProvider {
 			$template->addPanelOption(
 				new SearchOption(
 					'files_external', $this->l10n->t('Within external files'),
-					SearchOption::CHECKBOX
+					ISearchOption::CHECKBOX
 				)
 			);
 			$template->addNavigationOption(
 				new SearchOption(
-					'files_external', $this->l10n->t('External files'), SearchOption::CHECKBOX
+					'files_external', $this->l10n->t('External files'), ISearchOption::CHECKBOX
 				)
 			);
 		}
@@ -182,27 +184,27 @@ class FilesProvider implements IFullTextSearchProvider {
 			$template->addPanelOption(
 				new SearchOption(
 					'files_group_folders', $this->l10n->t('Within group folders'),
-					SearchOption::CHECKBOX
+					ISearchOption::CHECKBOX
 				)
 			);
 			$template->addNavigationOption(
 				new SearchOption(
 					'files_group_folders', $this->l10n->t('Group folders'),
-					SearchOption::CHECKBOX
+					ISearchOption::CHECKBOX
 				)
 			);
 		}
 
 		$template->addPanelOption(
 			new SearchOption(
-				'files_extension', $this->l10n->t('Filter by extension'), SearchOption::INPUT,
-				SearchOption::INPUT_SMALL, 'txt'
+				'files_extension', $this->l10n->t('Filter by extension'), ISearchOption::INPUT,
+				ISearchOption::INPUT_SMALL, 'txt'
 			)
 		);
 		$template->addNavigationOption(
 			new SearchOption(
-				'files_extension', $this->l10n->t('Extension'), SearchOption::INPUT,
-				SearchOption::INPUT_SMALL, 'txt'
+				'files_extension', $this->l10n->t('Extension'), ISearchOption::INPUT,
+				ISearchOption::INPUT_SMALL, 'txt'
 			)
 		);
 
@@ -235,7 +237,7 @@ class FilesProvider implements IFullTextSearchProvider {
 	 *
 	 * @param string $chunk
 	 *
-	 * @return IndexDocument[]
+	 * @return IIndexDocument[]
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
@@ -247,9 +249,9 @@ class FilesProvider implements IFullTextSearchProvider {
 
 
 	/**
-	 * @param IndexDocument $document
+	 * @param IIndexDocument $document
 	 */
-	public function fillIndexDocument(IndexDocument $document) {
+	public function fillIndexDocument(IIndexDocument $document) {
 		/** @var FilesDocument $document */
 		$this->updateRunnerInfoArray(
 			[
@@ -263,11 +265,11 @@ class FilesProvider implements IFullTextSearchProvider {
 
 
 	/**
-	 * @param IndexDocument $document
+	 * @param IIndexDocument $document
 	 *
 	 * @return bool
 	 */
-	public function isDocumentUpToDate(IndexDocument $document): bool {
+	public function isDocumentUpToDate(IIndexDocument $document): bool {
 		return $this->filesService->isDocumentUpToDate($document);
 	}
 
@@ -275,12 +277,12 @@ class FilesProvider implements IFullTextSearchProvider {
 	/**
 	 * @param IIndex $index
 	 *
-	 * @return IndexDocument
+	 * @return IIndexDocument
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws FileIsNotIndexableException
 	 */
-	public function updateDocument(IIndex $index): IndexDocument {
+	public function updateDocument(IIndex $index): IIndexDocument {
 		$document = $this->filesService->updateDocument($index);
 		$this->updateRunnerInfo('info', $document->getMimetype());
 

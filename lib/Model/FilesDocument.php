@@ -32,7 +32,7 @@ namespace OCA\Files_FullTextSearch\Model;
 
 
 use OCP\Files_FullTextSearch\Model\AFilesDocument;
-use OCP\FullTextSearch\Model\IndexDocument;
+use OCP\FullTextSearch\Model\IIndexDocument;
 
 
 /**
@@ -155,11 +155,11 @@ class FilesDocument extends AFilesDocument {
 
 
 	/**
-	 * @param IndexDocument $indexDocument
+	 * @param IIndexDocument $indexDocument
 	 *
 	 * @return FilesDocument
 	 */
-	public static function fromIndexDocument(IndexDocument $indexDocument): FilesDocument {
+	public static function fromIndexDocument(IIndexDocument $indexDocument): FilesDocument {
 		$document = new FilesDocument($indexDocument->getProviderId(), $indexDocument->getId());
 
 		foreach (get_object_vars($indexDocument) as $key => $name) {
