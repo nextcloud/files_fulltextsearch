@@ -134,6 +134,10 @@ class FilesEvents {
 			return;
 		}
 
+        if (!$this->userId) {
+            return;
+        }
+
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
 		if ($this->configService->isCloudVersionAtLeast(15, 0, 1)) {
 			$this->fullTextSearchManager->createIndex(
@@ -160,6 +164,10 @@ class FilesEvents {
 			return;
 		}
 
+        if (!$this->userId) {
+            return;
+        }
+
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
 		$this->fullTextSearchManager->updateIndexStatus(
 			'files', (string)$file->getId(), IIndex::INDEX_CONTENT
@@ -183,6 +191,10 @@ class FilesEvents {
 		if ($target === '') {
 			return;
 		}
+
+		if (!$this->userId) {
+		    return;
+        }
 
 		$file = $this->filesService->getFileFromPath($this->userId, $target);
 		$this->fullTextSearchManager->updateIndexStatus(
@@ -210,6 +222,10 @@ class FilesEvents {
 			return;
 		}
 
+        if (!$this->userId) {
+            return;
+        }
+
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
 		$this->fullTextSearchManager->updateIndexStatus(
 			'files', (string)$file->getId(), IIndex::INDEX_REMOVE, true
@@ -233,6 +249,10 @@ class FilesEvents {
 		if ($path === '') {
 			return;
 		}
+
+        if (!$this->userId) {
+            return;
+        }
 
 		$file = $this->filesService->getFileFromPath($this->userId, $path);
 		$this->fullTextSearchManager->updateIndexStatus(
