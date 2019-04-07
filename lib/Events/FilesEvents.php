@@ -130,7 +130,7 @@ class FilesEvents {
 		}
 
 		$path = $this->get('path', $params, '');
-		if ($path === '') {
+		if ($path === '' || $this->userId === null) {
 			return;
 		}
 
@@ -156,7 +156,7 @@ class FilesEvents {
 		}
 
 		$path = $this->get('path', $params, '');
-		if ($path === '') {
+		if ($path === '' || $this->userId === null) {
 			return;
 		}
 
@@ -180,7 +180,7 @@ class FilesEvents {
 		}
 
 		$target = $this->get('newpath', $params, '');
-		if ($target === '') {
+		if ($target === '' || $this->userId === null) {
 			return;
 		}
 
@@ -206,7 +206,7 @@ class FilesEvents {
 		// check if trashbin does not exist. -> onFileDelete
 		// we do not index trashbin
 		$path = $this->get('path', $params, '');
-		if ($path === '') {
+		if ($path === '' || $this->userId === null) {
 			return;
 		}
 
@@ -230,7 +230,7 @@ class FilesEvents {
 		}
 
 		$path = $this->get('filePath', $params, '');
-		if ($path === '') {
+		if ($path === '' || $this->userId === null) {
 			return;
 		}
 
@@ -270,7 +270,7 @@ class FilesEvents {
 		}
 
 		$fileId = $this->get('itemSource', $params, '');
-		if ($fileId === '') {
+		if ($fileId === '' || $this->userId === null) {
 			return;
 		}
 
@@ -289,7 +289,7 @@ class FilesEvents {
 		}
 
 		$fileId = $this->get('itemSource', $params, '');
-		if ($fileId === '') {
+		if ($fileId === '' || $this->userId === null) {
 			return;
 		}
 
