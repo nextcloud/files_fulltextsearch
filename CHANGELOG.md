@@ -1,6 +1,11 @@
 # Changelog
 
 
+### 1.2.7
+
+- [bugfix] issue with empty userid on guest upload and files:scan
+ 
+
 ### 1.2.6
 
 - [hotfix] index content on meta update
