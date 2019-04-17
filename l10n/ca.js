@@ -25,6 +25,21 @@ OC.L10N.register(
     "Extension to the _Full text search_ app to index your users' files." : "Extensió a l'aplicació de _Cerca de text complet_ per indexar els fitxers dels vostres usuaris.",
     "Files" : "Fitxers",
     "Sources" : "Fonts",
-    "Local Files" : "Fitxers locals"
+    "Local Files" : "Fitxers locals",
+    "Index the content of local files." : "Indexa el contingut dels fitxers locals.",
+    "External Files" : "Fitxers externs",
+    "Index the content of external files." : "Indexa el contingut dels fitxers externs.",
+    "Index path only" : "Indexa només el camí",
+    "Index path and content" : "Indexa el camí i el contingut",
+    "Do not index path nor content" : "No indexis ni el camí ni el contingut",
+    "Group Folders" : "Carpetes de grup",
+    "Index the content of group folders." : "Indexa el contingut de les carpetes de grup.",
+    "Types" : "Tipus",
+    "Maximum file size" : "Mida màxima del fitxer",
+    "Maximum file size to index (in Mb)." : "Mida màxima del fitxer a indexar (en Mb).",
+    "Extract PDF" : "Extrau PDF",
+    "Index the content of PDF files." : "Indexa el contingut dels fitxers PDF.",
+    "Extract Office" : "Extrau Office",
+    "Index the content of office files." : "Indexa el contingut dels fitxers Office."
 },
 "nplurals=2; plural=(n != 1);");
