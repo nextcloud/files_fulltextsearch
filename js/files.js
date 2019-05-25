@@ -110,6 +110,25 @@ FullTextSearch.prototype = {
 				window.open('/apps/files/?dir=' + context.dir + context.filename);
 			}
 		});
+		
+                this.fileActions.registerAction({
+                    name: 'Delete',
+                    displayName: t('files_fulltextsearch', 'Delete'),
+                    mime: 'file',
+                    order: -50,
+                    iconClass: 'icon-delete',
+                    permissions: OC.PERMISSION_NONE,
+                    actionHandler: function (filename, context) {
+                        OC.dialogs.confirmHtml("确认删除该文件吗<br />" + context.dir + "/" + context.filename, "_(:з」∠)_", function (res) {
+                            if(res) {
+                                FileList.do_delete(context.filename, context.dir);
+                                OC.Notification.show("已删除: " + context.filename);
+                                window.setTimeout(OC.Notification.hide, 3000);
+                            }
+                        }, true)
+                    }
+                });
+
 
 		// if (this._detailsView) {
 		// 	this.fileActions.registerAction({
