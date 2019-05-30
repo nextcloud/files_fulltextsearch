@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.2.8
+
+- upgrade on composer lib.
+
 
 ### 1.2.7
 
