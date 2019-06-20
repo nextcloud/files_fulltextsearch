@@ -95,10 +95,6 @@ class ExternalFilesService {
 	private $miscService;
 
 
-	/** @var MountPoint[] */
-	private $externalMounts = [];
-
-
 	/**
 	 * ExternalFilesService constructor.
 	 *
@@ -131,19 +127,14 @@ class ExternalFilesService {
 
 	/**
 	 * @param string $userId
-	 *
-	 * @throws ExternalMountNotFoundException
 	 */
 	public function initExternalFilesForUser(string $userId) {
-		$this->externalMounts = [];
 		if (!$this->appManager->isInstalled('files_external')) {
 			return;
 		}
 
 		$this->userGlobalStoragesService = OC::$server->getUserGlobalStoragesService();
 		$this->globalStoragesService = OC::$server->getGlobalStoragesService();
-
-		$this->externalMounts = $this->getMountPoints($userId);
 	}
 
 
@@ -247,45 +238,14 @@ class ExternalFilesService {
 	 */
 	private function getMountPoint(Node $file): MountPoint {
 
-		foreach ($this->externalMounts as $mount) {
-			if (strpos($file->getPath(), $mount->getPath()) === 0) {
-				return $mount;
-			}
+		try {
+			return $this->getExternalMountById(
+				$file->getMountPoint()
+					 ->getMountId()
+			);
+		} catch (ExternalMountNotFoundException $e) {
+			throw new FileIsNotIndexableException('issue while getMountPoint');
 		}
-
-		throw new FileIsNotIndexableException();
-	}
-
-
-	/**
-	 * @param string $userId
-	 *
-	 * @return MountPoint[]
-	 * @throws ExternalMountNotFoundException
-	 */
-	private function getMountPoints(string $userId): array {
-		if ($this->userGlobalStoragesService === null) {
-			throw new ExternalMountNotFoundException();
-		}
-
-		$mountPoints = [];
-
-		$user = $this->userManager->get($userId);
-		$this->userGlobalStoragesService->setUser($user);
-		$mounts = $this->userGlobalStoragesService->getAllStoragesForUser();
-		foreach ($mounts as $mount) {
-			$mountPoint = new MountPoint();
-			$mountPoint->setId($mount->getId())
-					   ->setPath($mount->getMountPoint())
-					   ->setGroups($mount->getApplicableGroups())
-					   ->setUsers($mount->getApplicableUsers())
-					   ->setGlobal(($mount->getType() !== StorageConfig::MOUNT_TYPE_PERSONAl));
-			$mountPoints[] = $mountPoint;
-		}
-
-		$this->userGlobalStoragesService->resetUser();
-
-		return $mountPoints;
 	}
 
 
