@@ -33,9 +33,11 @@ namespace OCA\Files_FullTextSearch\Service;
 
 use daita\MySmallPhpTools\Traits\TArrayTools;
 use Exception;
+use OC;
 use OC\App\AppManager;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\GlobalStoragesService;
+use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_FullTextSearch\Exceptions\ExternalMountNotFoundException;
 use OCA\Files_FullTextSearch\Exceptions\ExternalMountWithNoViewerException;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
@@ -74,6 +76,9 @@ class ExternalFilesService {
 	/** @var IManager */
 	private $shareManager;
 
+	/** @var UserGlobalStoragesService */
+	private $userGlobalStoragesService;
+
 	/** @var GlobalStoragesService */
 	private $globalStoragesService;
 
@@ -88,10 +93,6 @@ class ExternalFilesService {
 
 	/** @var MiscService */
 	private $miscService;
-
-
-	/** @var MountPoint[] */
-	private $externalMounts = [];
 
 
 	/**
@@ -128,13 +129,12 @@ class ExternalFilesService {
 	 * @param string $userId
 	 */
 	public function initExternalFilesForUser(string $userId) {
-		$this->externalMounts = [];
 		if (!$this->appManager->isInstalled('files_external')) {
 			return;
 		}
 
-		$this->globalStoragesService = \OC::$server->getGlobalStoragesService();
-		$this->externalMounts = $this->getMountPoints($userId);
+		$this->userGlobalStoragesService = OC::$server->getUserGlobalStoragesService();
+		$this->globalStoragesService = OC::$server->getGlobalStoragesService();
 	}
 
 
@@ -238,38 +238,14 @@ class ExternalFilesService {
 	 */
 	private function getMountPoint(Node $file): MountPoint {
 
-		foreach ($this->externalMounts as $mount) {
-			if (strpos($file->getPath(), $mount->getPath()) === 0) {
-				return $mount;
-			}
+		try {
+			return $this->getExternalMountById(
+				$file->getMountPoint()
+					 ->getMountId()
+			);
+		} catch (ExternalMountNotFoundException $e) {
+			throw new FileIsNotIndexableException('issue while getMountPoint');
 		}
-
-		throw new FileIsNotIndexableException();
-	}
-
-
-	/**
-	 * @param string $userId
-	 *
-	 * @return MountPoint[]
-	 */
-	private function getMountPoints(string $userId): array {
-
-		$mountPoints = [];
-
-		// TODO: deprecated - use UserGlobalStoragesService::getStorages() and UserStoragesService::getStorages()
-		$mounts = \OC_Mount_Config::getAbsoluteMountPoints($userId);
-		foreach ($mounts as $path => $mount) {
-			$mountPoint = new MountPoint();
-			$mountPoint->setId($this->getInt('id', $mount, -1))
-					   ->setPath($path)
-					   ->setGroups($mount['applicable']['groups'])
-					   ->setUsers($mount['applicable']['users'])
-					   ->setGlobal((!$mount['personal']));
-			$mountPoints[] = $mountPoint;
-		}
-
-		return $mountPoints;
 	}
 
 
