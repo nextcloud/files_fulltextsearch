@@ -5,6 +5,12 @@
 - upgrade on composer lib.
 
 
+
+### 1.2.9
+
+- upgrading external storage
+
+
 ### 1.2.7
 
 - [bugfix] issue with empty userid on guest upload and files:scan
