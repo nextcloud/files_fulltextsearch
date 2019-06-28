@@ -39,7 +39,7 @@ OC.L10N.register(
     "Maximum file size to index (in Mb)." : "Jaké největší soubory (v MB) ještě indexovat.",
     "Extract PDF" : "Extrahovat PDF",
     "Index the content of PDF files." : "Indexovat obsah PDF souborů.",
-    "Extract Office" : "Extrahovat kancelářské",
+    "Extract Office" : "Extrahovat soubory Office",
     "Index the content of office files." : "Vytvořit rejstřík obsahu souborů s dokumenty, tabulkami a prezentacemi."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");
