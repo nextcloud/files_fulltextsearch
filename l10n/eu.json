@@ -1,0 +1,9 @@
+{ "translations": {
+    "Go to folder" : "Joan karpetara",
+    "Open folder" : "Ireki karpeta",
+    "Name" : "Izena",
+    "Modified" : "Aldatuta",
+    "Size" : "Tamaina",
+    "Files" : "Fitxategiak"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
