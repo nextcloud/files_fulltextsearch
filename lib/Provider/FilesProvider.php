@@ -36,7 +36,6 @@ use OC\FullTextSearch\Model\SearchTemplate;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Service\ConfigService;
-use OCA\Files_FullTextSearch\Service\ExtensionService;
 use OCA\Files_FullTextSearch\Service\FilesService;
 use OCA\Files_FullTextSearch\Service\MiscService;
 use OCA\Files_FullTextSearch\Service\SearchService;
@@ -78,9 +77,6 @@ class FilesProvider implements IFullTextSearchProvider {
 	/** @var SearchService */
 	private $searchService;
 
-	/** @var ExtensionService */
-	private $extensionService;
-
 	/** @var MiscService */
 	private $miscService;
 
@@ -93,13 +89,12 @@ class FilesProvider implements IFullTextSearchProvider {
 
 	public function __construct(
 		IL10N $l10n, ConfigService $configService, FilesService $filesService,
-		SearchService $searchService, ExtensionService $extensionService, MiscService $miscService
+		SearchService $searchService, MiscService $miscService
 	) {
 		$this->l10n = $l10n;
 		$this->configService = $configService;
 		$this->filesService = $filesService;
 		$this->searchService = $searchService;
-		$this->extensionService = $extensionService;
 		$this->miscService = $miscService;
 	}
 
@@ -124,10 +119,7 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @return array
 	 */
 	public function getConfiguration(): array {
-		$config = $this->configService->getConfig();
-		$this->extensionService->getConfig($config);
-
-		return $config;
+		return $this->configService->getConfig();
 	}
 
 
@@ -236,7 +228,6 @@ class FilesProvider implements IFullTextSearchProvider {
 	 */
 	public function generateChunks(string $userId): array {
 		$chunks = $this->filesService->getChunksFromUser($userId, $this->indexOptions);
-
 		return $chunks;
 	}
 

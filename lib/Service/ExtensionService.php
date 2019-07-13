@@ -32,8 +32,6 @@ namespace OCA\Files_FullTextSearch\Service;
 
 
 use OCA\Files_FullTextSearch\Model\FilesDocument;
-use OCP\FullTextSearch\Model\IIndex;
-use OCP\FullTextSearch\Model\IIndexDocument;
 use OCP\FullTextSearch\Model\ISearchRequest;
 use OCP\Files\Node;
 use OCP\FullTextSearch\Model\ISearchResult;
@@ -76,17 +74,6 @@ class ExtensionService {
 
 
 	/**
-	 * @param array $config
-	 */
-	public function getConfig(array &$config) {
-		$this->dispatch(
-			'\OCA\Files_FullTextSearch::onGetConfig',
-			['config' => &$config]
-		);
-	}
-
-
-	/**
 	 * @param FilesDocument $document
 	 * @param Node $file
 	 */
@@ -116,17 +103,6 @@ class ExtensionService {
 		$this->dispatch(
 			'\OCA\Files_FullTextSearch::onSearchResult',
 			['result' => &$result]
-		);
-	}
-
-
-	/**
-	 * @param IIndexDocument $document
-	 */
-	public function indexComparing(IIndexDocument &$document) {
-		$this->dispatch(
-			'\OCA\Files_FullTextSearch::onIndexComparing',
-			['document' => &$document]
 		);
 	}
 
