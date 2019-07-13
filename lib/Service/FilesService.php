@@ -430,7 +430,6 @@ class FilesService {
 	 * @throws EmptyUserException
 	 */
 	public function getFileFromId(string $userId, int $fileId): Node {
-
 		if ($userId === '') {
 			throw new EmptyUserException();
 		}
@@ -466,8 +465,8 @@ class FilesService {
 	 * @param int $fileId
 	 * @param string $viewerId
 	 *
-	 * @throws Exception
 	 * @return string
+	 * @throws Exception
 	 */
 	private function getPathFromViewerId(int $fileId, string $viewerId): string {
 
@@ -554,7 +553,10 @@ class FilesService {
 	 * @return bool
 	 */
 	public function isDocumentUpToDate(IIndexDocument $document): bool {
+		$this->extensionService->indexComparing($document);
+
 		$index = $document->getIndex();
+
 
 		if (!$this->configService->compareIndexOptions($index)) {
 			$index->setStatus(IIndex::INDEX_CONTENT);
@@ -663,8 +665,7 @@ class FilesService {
 
 		if ((!$document->getIndex()
 					   ->isStatus(IIndex::INDEX_CONTENT)
-			 &&
-			 !$document->getIndex()
+			 && !$document->getIndex()
 						  ->isStatus(IIndex::INDEX_META)
 			)
 			|| $file->getType() !== FileInfo::TYPE_FILE) {
