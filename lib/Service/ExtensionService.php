@@ -32,10 +32,9 @@ namespace OCA\Files_FullTextSearch\Service;
 
 
 use OCA\Files_FullTextSearch\Model\FilesDocument;
-use OCP\FullTextSearch\Model\IIndex;
+use OCP\Files\Node;
 use OCP\FullTextSearch\Model\IIndexDocument;
 use OCP\FullTextSearch\Model\ISearchRequest;
-use OCP\Files\Node;
 use OCP\FullTextSearch\Model\ISearchResult;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
