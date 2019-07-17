@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.3.4
+
+- new event onGetConfig
+- new event onIndexComparing
+
 
 ### 1.3.3
 
