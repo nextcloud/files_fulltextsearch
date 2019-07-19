@@ -32,7 +32,8 @@ var fullTextSearch = OCA.FullTextSearch.api;
 var elements = {
 	old_files: null,
 	search_result: null,
-	current_dir: ''
+	current_dir: '',
+	link_attributes: ''
 };
 
 
@@ -223,6 +224,7 @@ FullTextSearch.prototype = {
 		divFile.attr({
 			'data-id': entry.id,
 			'data-type': entry.info.type,
+			'data-link': entry.link,
 			'data-size': entry.info.size,
 			'data-file': entry.info.file,
 			'data-mime': entry.info.mime,
@@ -252,6 +254,7 @@ FullTextSearch.prototype = {
 
 		var dir = resultEntry.attr('data-dir');
 		var filename = resultEntry.attr('data-file');
+		var link = resultEntry.attr('data-link');
 		var mime = resultEntry.attr('data-mime');
 		var type = resultEntry.attr('data-type');
 		var permissions = resultEntry.attr('data-permissions');
@@ -261,7 +264,6 @@ FullTextSearch.prototype = {
 		// }
 
 		if (event.target.id === 'more') {
-
 			this.hackFileActions(resultEntry);
 			// this.fileActions._showMenu(filename, this.hackFileActions(divEntry));
 			return true;
@@ -283,6 +285,11 @@ FullTextSearch.prototype = {
 				dir: dir
 			});
 
+			return true;
+		}
+
+		if (elements.link_attributes !== '') {
+			window.open(link, elements.link_attributes, false);
 			return true;
 		}
 
