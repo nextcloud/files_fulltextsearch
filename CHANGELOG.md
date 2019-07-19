@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.3.5
+
+- allow link_attributes
+
+
 ### 1.3.4
 
 - new event onGetConfig
