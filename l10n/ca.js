@@ -2,7 +2,7 @@ OC.L10N.register(
     "files_fulltextsearch",
     {
     "files" : "fitxers",
-    "Go to folder" : "Ves a la carpeta",
+    "Go to folder" : "Vés a la carpeta",
     "Open folder" : "Obre la carpeta",
     "Name" : "Nom",
     "Modified" : "Modificat",
