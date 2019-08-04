@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.3.6
+
+- bugfix: index chunk path. 
+
+
 ### 1.3.5
 
 - allow link_attributes
