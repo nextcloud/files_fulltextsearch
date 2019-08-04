@@ -215,7 +215,7 @@ class FilesService {
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
-	public function getChunksFromDirectory(string $userId, Folder $node, $level = 0): array {
+	private function getChunksFromDirectory(string $userId, Folder $node, $level = 0): array {
 		$entries = [];
 		$level++;
 
@@ -254,10 +254,12 @@ class FilesService {
 		/** @var Folder $files */
 		$files = $this->rootFolder->getUserFolder($userId)
 								  ->get($chunk);
+
+		$result = [];
 		if ($files instanceof Folder) {
-			$result = $this->getFilesFromDirectory($userId, $files);
+			$result = $this->generateFilesDocumentFromParent($userId, $files);
+			$result = array_merge($result, $this->getFilesFromDirectory($userId, $files));
 		} else {
-			$result = [];
 			try {
 				$result[] = $this->generateFilesDocumentFromFile($userId, $files);
 			} catch (FileIsNotIndexableException $e) {
@@ -340,6 +342,26 @@ class FilesService {
 
 		$this->externalFilesService->initExternalFilesForUser($userId);
 		$this->groupFoldersService->initGroupSharesForUser($userId);
+	}
+
+
+	/**
+	 * @param string $userId
+	 * @param Folder $parent
+	 *
+	 * @return array
+	 */
+	private function generateFilesDocumentFromParent(string $userId, Folder $parent): array {
+		$documents = [];
+		try {
+			for ($i = 0; $i < self::CHUNK_TREE_SIZE; $i++) {
+				$parent = $parent->getParent();
+				$documents[] = $this->generateFilesDocumentFromFile($userId, $parent);
+			}
+		} catch (Exception $e) {
+		}
+
+		return $documents;
 	}
 
 
