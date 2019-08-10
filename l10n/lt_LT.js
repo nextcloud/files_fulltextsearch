@@ -1,9 +1,11 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
+    "files" : "failai",
     "Go to folder" : "Eiti į aplanką",
     "Open folder" : "Atverti aplanką",
     "Name" : "Pavadinimas",
+    "Modified" : "Pakeistas",
     "Size" : "Dydis",
     "Could not copy \"{file}\"" : "Nepavyko nukopijuoti \"{file}\"",
     "Files" : "Failai",
