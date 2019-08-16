@@ -31,7 +31,7 @@ OC.L10N.register(
     "Index the content of external files." : "外部ファイルの内容を索引付けする。",
     "Index path only" : "インデックスパスのみ",
     "Index path and content" : "インデックスパスと内容",
-    "Do not index path nor content" : "パスや内容にインデックスを付けないでください",
+    "Do not index path nor content" : "インデックスパスにも内容にも行わない",
     "Group Folders" : "グループフォルダー",
     "Index the content of group folders." : "グループフォルダーのコンテンツのインデックスを作成します。",
     "Types" : "タイプ",
