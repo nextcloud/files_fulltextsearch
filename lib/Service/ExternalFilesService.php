@@ -237,12 +237,14 @@ class ExternalFilesService {
 	 * @throws FileIsNotIndexableException
 	 */
 	private function getMountPoint(Node $file): MountPoint {
+		$mountId = $file->getMountPoint()
+						->getMountId();
+		if ($mountId === null) {
+			throw new FileIsNotIndexableException('issue with getMountId() returning null');
+		}
 
 		try {
-			return $this->getExternalMountById(
-				$file->getMountPoint()
-					 ->getMountId()
-			);
+			return $this->getExternalMountById($mountId);
 		} catch (ExternalMountNotFoundException $e) {
 			throw new FileIsNotIndexableException('issue while getMountPoint');
 		}
