@@ -22,7 +22,7 @@ OC.L10N.register(
     "Extension" : "Extensión",
     "Full text search - Files" : "Busca de texto completo - Ficheiros",
     "Index the content of your files" : "Indexa o contido dos seus ficheiros",
-    "Extension to the _Full text search_ app to index your users' files." : "Extensión do aplicativo _Buca de texto completo_ para indexar os fiheiros dos seus usuarios.",
+    "Extension to the _Full text search_ app to index your users' files." : "Extensión da aplicación _Buca de texto completo_ para indexar os ficheiros dos seus usuarios.",
     "Files" : "Ficheiros",
     "Sources" : "Orixes",
     "Local Files" : "Ficheiros locais",
