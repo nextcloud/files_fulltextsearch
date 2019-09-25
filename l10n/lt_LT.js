@@ -7,10 +7,14 @@ OC.L10N.register(
     "Name" : "Pavadinimas",
     "Modified" : "Pakeistas",
     "Size" : "Dydis",
+    "Could not copy \"{file}\", target exists" : "Nepavyko nukopijuoti \"{file}\", toks jau yra",
     "Could not copy \"{file}\"" : "Nepavyko nukopijuoti \"{file}\"",
+    "Local files" : "Vietiniai failai",
+    "External files" : "Išoriniai failai",
     "Files" : "Failai",
     "Local Files" : "Vietiniai failai",
     "External Files" : "Išoriniai failai",
-    "Types" : "Tipai"
+    "Types" : "Tipai",
+    "Maximum file size" : "Didžiausias failo dydis"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");
