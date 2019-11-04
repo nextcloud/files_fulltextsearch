@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
+    "files" : "datoteke",
     "Go to folder" : "Pojdi v mapo",
     "Open folder" : "Odpri mapo",
     "Name" : "Ime",
@@ -8,7 +9,17 @@ OC.L10N.register(
     "Size" : "Velikost",
     "Could not copy \"{file}\", target exists" : "Datoteke »{file}« ni mogoče kopirati, ker ta že obstaja",
     "Could not copy \"{file}\"" : "Datoteke »{file}« ni mogoče kopirati.",
+    "Within current directory" : "Znotraj trenutne mape",
+    "Within local files" : "Znotraj krajevnih datotek",
+    "Local files" : "Krajevne datoteke",
+    "Within external files" : "Znotraj zunanjih datotek",
+    "External files" : "Zunanje datoteke",
+    "Within group folders" : "Znotraj skupinskih map",
+    "Group folders" : "Skupinske mape",
+    "Filter by extension" : "Filtriraj po priponi",
+    "Extension" : "Pripona",
     "Full text search - Files" : "Iskanje po polnem besedilu – datoteke",
-    "Files" : "Datoteke"
+    "Files" : "Datoteke",
+    "Sources" : "Viri"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");
