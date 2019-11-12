@@ -11,7 +11,7 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "„{file}“ se nedaří zkopírovat",
     "Copied {origin} inside {destination}" : "{origin} zkopírováno do {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "Zkopírováno {origin} a {nbfiles} dalších souborů uvnitř {destination}",
-    "Within current directory" : "Ve stávající složce",
+    "Within current directory" : "Ve stávajícím adresáři",
     "Within local files" : "Mezi místními soubory",
     "Local files" : "Místní soubory",
     "Within external files" : "Mezi externími soubory",
