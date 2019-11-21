@@ -36,7 +36,7 @@
     "Maximum file size" : "Nejvyšší umožněná velikost souboru",
     "Maximum file size to index (in Mb)." : "Jaké největší soubory (v MB) ještě indexovat.",
     "Extract PDF" : "Extrahovat PDF",
-    "Index the content of PDF files." : "Indexovat obsah PDF souborů.",
+    "Index the content of PDF files." : "Vytvářet rejstřík obsahu PDF souborů.",
     "Extract Office" : "Extrahovat soubory Office",
     "Index the content of office files." : "Vytvořit rejstřík obsahu souborů s dokumenty, tabulkami a prezentacemi."
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
