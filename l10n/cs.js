@@ -38,7 +38,7 @@ OC.L10N.register(
     "Maximum file size" : "Nejvyšší umožněná velikost souboru",
     "Maximum file size to index (in Mb)." : "Jaké největší soubory (v MB) ještě indexovat.",
     "Extract PDF" : "Extrahovat PDF",
-    "Index the content of PDF files." : "Indexovat obsah PDF souborů.",
+    "Index the content of PDF files." : "Vytvářet rejstřík obsahu PDF souborů.",
     "Extract Office" : "Extrahovat soubory Office",
     "Index the content of office files." : "Vytvořit rejstřík obsahu souborů s dokumenty, tabulkami a prezentacemi."
 },
