@@ -1,4 +1,5 @@
 { "translations": {
+    "files" : "files",
     "Go to folder" : "מעבר לתיקייה",
     "Open folder" : "פתיחת תיקייה",
     "Name" : "שם",
@@ -8,6 +9,7 @@
     "Could not copy \"{file}\"" : "לא ניתן להעתיק את „{file}”",
     "Copied {origin} inside {destination}" : "{origin} הועתק לתוך {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} ו־{nbfiles} קבצים נוספים הועתקו לתוך {destination}",
+    "Group folders" : "תיקיות קבוצתיות",
     "Index the content of your files" : "סידור תוכן הקבצים שלך באינדקס",
     "Extension to the _Full text search_ app to index your users' files." : "הרחבה ליישומון _חיפוש טקסט מלא_ כדי לסדר את קובצי המשתמשים שלך באינדקס.",
     "Files" : "קבצים"

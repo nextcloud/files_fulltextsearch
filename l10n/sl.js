@@ -9,6 +9,8 @@ OC.L10N.register(
     "Size" : "Velikost",
     "Could not copy \"{file}\", target exists" : "Datoteke »{file}« ni mogoče kopirati, ker ta že obstaja",
     "Could not copy \"{file}\"" : "Datoteke »{file}« ni mogoče kopirati.",
+    "Copied {origin} inside {destination}" : "Kopirano {origin} v {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopirano {origin} in {nbfiles} ostale datoteke v {destination}",
     "Within current directory" : "Znotraj trenutne mape",
     "Within local files" : "Znotraj krajevnih datotek",
     "Local files" : "Krajevne datoteke",
