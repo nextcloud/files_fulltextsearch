@@ -1,0 +1,9 @@
+{ "translations": {
+    "files" : "files",
+    "Name" : "نام",
+    "Modified" : "تغییر یافته",
+    "Size" : "اندازه",
+    "Group folders" : "پوشه های گروه",
+    "Files" : "فایل ها"
+},"pluralForm" :"nplurals=2; plural=(n > 1);"
+}
