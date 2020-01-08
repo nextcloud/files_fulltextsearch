@@ -1,11 +1,12 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "files",
+    "files" : "فایل‌ها",
+    "Go to folder" : "برو به پوشه",
     "Name" : "نام",
     "Modified" : "تغییر یافته",
     "Size" : "اندازه",
-    "Group folders" : "پوشه های گروه",
-    "Files" : "فایل ها"
+    "Group folders" : "پوشه‌های گروه",
+    "Files" : "فایل‌ها"
 },
 "nplurals=2; plural=(n > 1);");
