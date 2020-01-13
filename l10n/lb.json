@@ -1,0 +1,8 @@
+{ "translations": {
+    "files" : "files",
+    "Name" : "Numm",
+    "Modified" : "Geännert",
+    "Size" : "Gréisst",
+    "Files" : "Fichieren"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

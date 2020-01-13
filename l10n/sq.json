@@ -1,0 +1,10 @@
+{ "translations": {
+    "files" : "skedarë",
+    "Go to folder" : "Shko te dosja",
+    "Name" : "Emri",
+    "Modified" : "Modifikuar ",
+    "Size" : "Madhësi",
+    "Group folders" : "Dosjet e grupit",
+    "Files" : "Skedarët"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
