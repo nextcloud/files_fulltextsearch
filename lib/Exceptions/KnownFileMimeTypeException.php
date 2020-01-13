@@ -31,6 +31,9 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Exceptions;
 
 
-class KnownFileMimeTypeException extends \Exception {
+use Exception;
+
+
+class KnownFileMimeTypeException extends Exception {
 }
 

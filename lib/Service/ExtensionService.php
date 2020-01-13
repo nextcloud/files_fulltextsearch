@@ -32,12 +32,12 @@ namespace OCA\Files_FullTextSearch\Service;
 
 
 use OCA\Files_FullTextSearch\Model\FilesDocument;
+use OCP\EventDispatcher\GenericEvent;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Node;
 use OCP\FullTextSearch\Model\IIndexDocument;
 use OCP\FullTextSearch\Model\ISearchRequest;
 use OCP\FullTextSearch\Model\ISearchResult;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 
 /**
@@ -48,7 +48,7 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 class ExtensionService {
 
 
-	/** @var EventDispatcher */
+	/** @var IEventDispatcher */
 	private $eventDispatcher;
 
 	/** @var ConfigService */
@@ -61,12 +61,12 @@ class ExtensionService {
 	/**
 	 * ExtensionService constructor.
 	 *
-	 * @param EventDispatcher $eventDispatcher
+	 * @param IEventDispatcher $eventDispatcher
 	 * @param ConfigService $configService
 	 * @param MiscService $miscService
 	 */
 	public function __construct(
-		EventDispatcher $eventDispatcher, ConfigService $configService, MiscService $miscService
+		IEventDispatcher $eventDispatcher, ConfigService $configService, MiscService $miscService
 	) {
 		$this->eventDispatcher = $eventDispatcher;
 		$this->configService = $configService;

@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.4.0 (nc18)
+
+- compat nc18
+
+
 ### 1.3.6
 
 - bugfix: index chunk path. 

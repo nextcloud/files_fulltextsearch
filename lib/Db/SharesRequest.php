@@ -31,6 +31,7 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Db;
 
 
+use Exception;
 use OCP\Files\Node;
 
 
@@ -40,7 +41,6 @@ class SharesRequest extends SharesRequestBuilder {
 	/**
 	 * @param Node $file
 	 *
-	 * @deprecated
 	 * @return array
 	 */
 	public function getFromFile(Node $file): array {
@@ -56,7 +56,7 @@ class SharesRequest extends SharesRequestBuilder {
 				$shares[] = $this->parseSharesSelectSql($data);
 			}
 			$cursor->closeCursor();
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			/** issue while doing some DB request */
 		}
 

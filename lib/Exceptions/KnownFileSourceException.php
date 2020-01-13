@@ -31,6 +31,9 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Exceptions;
 
 
-class KnownFileSourceException extends \Exception {
+use Exception;
+
+
+class KnownFileSourceException extends Exception {
 }
 

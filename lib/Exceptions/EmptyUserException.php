@@ -31,6 +31,9 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Exceptions;
 
 
-class EmptyUserException extends \Exception {
+use Exception;
+
+
+class EmptyUserException extends Exception {
 }
 

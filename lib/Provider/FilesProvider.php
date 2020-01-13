@@ -235,9 +235,7 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @throws NotFoundException
 	 */
 	public function generateChunks(string $userId): array {
-		$chunks = $this->filesService->getChunksFromUser($userId, $this->indexOptions);
-
-		return $chunks;
+		return $this->filesService->getChunksFromUser($userId, $this->indexOptions);
 	}
 
 
@@ -251,9 +249,7 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @throws NotFoundException
 	 */
 	public function generateIndexableDocuments(string $userId, string $chunk): array {
-		$files = $this->filesService->getFilesFromUser($userId, $chunk);
-
-		return $files;
+		return $this->filesService->getFilesFromUser($userId, $chunk);
 	}
 
 

@@ -33,7 +33,6 @@ namespace OCA\Files_FullTextSearch\Service;
 
 use Exception;
 use OC\FullTextSearch\Model\DocumentAccess;
-use OC\Share\Constants;
 use OCA\Files_FullTextSearch\Db\SharesRequest;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
@@ -44,6 +43,7 @@ use OCP\FullTextSearch\Model\IDocumentAccess;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\Share\IManager;
+use OCP\Share\IShare;
 
 
 /**
@@ -274,7 +274,7 @@ class LocalFilesService {
 	 * @param FileShares $fileShares
 	 */
 	private function parseUsersShares(array $share, FileShares $fileShares) {
-		if ((int)$share['share_type'] !== Constants::SHARE_TYPE_USER) {
+		if ((int)$share['share_type'] !== IShare::TYPE_USER) {
 			return;
 		}
 
@@ -287,7 +287,7 @@ class LocalFilesService {
 	 * @param FileShares $fileShares
 	 */
 	private function parseUsersGroups(array $share, FileShares $fileShares) {
-		if ((int)$share['share_type'] !== Constants::SHARE_TYPE_GROUP) {
+		if ((int)$share['share_type'] !== IShare::TYPE_GROUP) {
 			return;
 		}
 
@@ -300,7 +300,7 @@ class LocalFilesService {
 	 * @param FileShares $fileShares
 	 */
 	private function parseUsersCircles(array $share, FileShares $fileShares) {
-		if ((int)$share['share_type'] !== Constants::SHARE_TYPE_CIRCLE) {
+		if ((int)$share['share_type'] !== IShare::TYPE_CIRCLE) {
 			return;
 		}
 
@@ -313,7 +313,7 @@ class LocalFilesService {
 	 * @param FileShares $fileShares
 	 */
 	private function parseUsersLinks(array $share, FileShares $fileShares) {
-		if ((int)$share['share_type'] !== Constants::SHARE_TYPE_LINK) {
+		if ((int)$share['share_type'] !== IShare::TYPE_LINK) {
 			return;
 		}
 

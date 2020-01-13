@@ -195,32 +195,5 @@ class FilesHooks {
 			->onNewScannedFile($params);
 	}
 
-
-	/**
-	 * @param array $params
-	 */
-	public static function onRemoteFileUpdate(array $params) {
-		\OC::$server->getLogger()
-					->log(2, 'onRemoteFileUpdate ' . json_encode($params));
-	}
-
-	/**
-	 * @param array $params
-	 */
-	public static function onRemoteFileRename(array $params) {
-		\OC::$server->getLogger()
-					->log(2, 'onRemoteFileRename ' . json_encode($params));
-	}
-
-
-	/**
-	 * @param array $params
-	 */
-	public static function onRemoteFileDelete(array $params) {
-		\OC::$server->getLogger()
-					->log(2, 'onRemoteFileDelete ' . json_encode($params));
-	}
-
-
 }
 

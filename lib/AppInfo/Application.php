@@ -31,12 +31,14 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\AppInfo;
 
 
+use OC;
 use OCA\Files_FullTextSearch\Events\FilesCommentsEvents;
 use OCA\Files_FullTextSearch\Hooks\FilesHooks;
 use OCA\Files_FullTextSearch\Provider\FilesProvider;
 use OCP\App\IAppManager;
 use OCP\AppFramework\App;
 use OCP\AppFramework\QueryException;
+use OCP\EventDispatcher\IEventDispatcher;
 use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\IUser;
 use OCP\IUserSession;
@@ -99,35 +101,16 @@ class Application extends App {
 		Util::connectHook('\OCP\Trashbin', 'preDelete', FilesHooks::class, 'onFileDelete');
 		Util::connectHook('OCP\Share', 'post_shared', FilesHooks::class, 'onFileShare');
 		Util::connectHook('OCP\Share', 'post_unshare', FilesHooks::class, 'onFileUnshare');
-
-//
-//		Util::connectHook(
-//			'\OC\Files\Cache\Scanner', 'post_scan_file', FilesHooks::class, 'onNewRemoteFile2'
-//		);
-//
-//		Util::connectHook(
-//			'Scanner', 'addToCache', FilesHooks::class, 'onNewRemoteFile'
-//		);
-//		Util::connectHook(
-//			'Scanner', 'updateCache', FilesHooks::class, 'onRemoteFileUpdate'
-//		);
-//		Util::connectHook(
-//			'\OC\Files\Cache\Scanner', 'updateCache', FilesHooks::class, 'onRemoteFileRename'
-//		);
-//		Util::connectHook(
-//			'\OC\Files\Cache\Scanner', 'removeFromCache', FilesHooks::class, 'onRemoteFileDelete'
-//		);
-
 	}
 
 	public function registerCommentsHooks() {
-		\OC::$server->getCommentsManager()
-					->registerEventHandler(
-						function() {
-							return $this->getContainer()
-										->query(FilesCommentsEvents::class);
-						}
-					);
+		OC::$server->getCommentsManager()
+				   ->registerEventHandler(
+					   function() {
+						   return $this->getContainer()
+									   ->query(FilesCommentsEvents::class);
+					   }
+				   );
 	}
 
 
@@ -139,6 +122,7 @@ class Application extends App {
 
 		/** @var IUserSession $userSession */
 		$userSession = $container->query(IUserSession::class);
+		$eventDispatcher = $container->query(IEventDispatcher::class);
 
 		if (!$userSession->isLoggedIn()) {
 			return;
@@ -146,20 +130,19 @@ class Application extends App {
 
 		$this->user = $userSession->getUser();
 
-		\OC::$server->getEventDispatcher()
-					->addListener(
-						'OCA\Files::loadAdditionalScripts', function() {
+		$eventDispatcher->addListener(
+			'OCA\Files::loadAdditionalScripts', function() {
 
-						if ($this->appManager->isEnabledForUser('fulltextsearch', $this->user)
-							&& $this->fullTextSearchManager->isProviderIndexed(
-								FilesProvider::FILES_PROVIDER_ID
-							)) {
-							Util::addStyle(self::APP_NAME, 'fulltextsearch');
-							$this->fullTextSearchManager->addJavascriptAPI();
-							Util::addScript(self::APP_NAME, 'files');
-						}
-					}
-					);
+			if ($this->appManager->isEnabledForUser('fulltextsearch', $this->user)
+				&& $this->fullTextSearchManager->isProviderIndexed(
+					FilesProvider::FILES_PROVIDER_ID
+				)) {
+				Util::addStyle(self::APP_NAME, 'fulltextsearch');
+				$this->fullTextSearchManager->addJavascriptAPI();
+				Util::addScript(self::APP_NAME, 'files');
+			}
+		}
+		);
 	}
 
 }

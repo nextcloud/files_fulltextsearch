@@ -31,12 +31,15 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Model;
 
 
+use JsonSerializable;
+
+
 /**
  * Class MountPoint
  *
  * @package OCA\Files_FullTextSearch\Model
  */
-class MountPoint implements \JsonSerializable {
+class MountPoint implements JsonSerializable {
 
 
 	/** @var int */

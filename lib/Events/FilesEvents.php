@@ -42,7 +42,6 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\FullTextSearch\Model\IIndex;
-use Symfony\Component\EventDispatcher\GenericEvent;
 
 
 /**
@@ -99,10 +98,9 @@ class FilesEvents {
 
 
 	/**
-	 * @throws QueryException
+	 * @return bool
 	 */
 	private function registerFullTextSearchServices() {
-
 		if (!$this->appManager->isInstalled('fulltextsearch')
 			|| !class_exists('\OCA\FullTextSearch\AppInfo\Application')) {
 			$this->miscService->log('fulltextsearch not installed', 1);
@@ -122,7 +120,6 @@ class FilesEvents {
 	 *
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
-	 * @throws QueryException
 	 */
 	public function onNewFile(array $params) {
 		if (!$this->registerFullTextSearchServices()) {
@@ -148,7 +145,6 @@ class FilesEvents {
 	 *
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
-	 * @throws QueryException
 	 */
 	public function onFileUpdate(array $params) {
 		if (!$this->registerFullTextSearchServices()) {
@@ -172,7 +168,6 @@ class FilesEvents {
 	 *
 	 * @throws NotFoundException
 	 * @throws InvalidPathException
-	 * @throws QueryException
 	 */
 	public function onFileRename(array $params) {
 		if (!$this->registerFullTextSearchServices()) {
@@ -196,7 +191,6 @@ class FilesEvents {
 	 *
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
-	 * @throws QueryException
 	 */
 	public function onFileTrash(array $params) {
 		if (!$this->registerFullTextSearchServices()) {
@@ -222,7 +216,6 @@ class FilesEvents {
 	 *
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
-	 * @throws QueryException
 	 */
 	public function onFileRestore(array $params) {
 		if (!$this->registerFullTextSearchServices()) {
@@ -261,8 +254,6 @@ class FilesEvents {
 
 	/**
 	 * @param array $params
-	 *
-	 * @throws QueryException
 	 */
 	public function onFileShare(array $params) {
 		if (!$this->registerFullTextSearchServices()) {
@@ -280,8 +271,6 @@ class FilesEvents {
 
 	/**
 	 * @param array $params
-	 *
-	 * @throws QueryException
 	 */
 	public function onFileUnshare(array $params) {
 		if (!$this->registerFullTextSearchServices()) {
@@ -299,8 +288,6 @@ class FilesEvents {
 
 	/**
 	 * @param CommentsEvent $event
-	 *
-	 * @throws QueryException
 	 */
 	public function onCommentNew(CommentsEvent $event) {
 		if (!$this->registerFullTextSearchServices()) {

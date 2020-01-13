@@ -31,6 +31,9 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Exceptions;
 
 
-class GroupFolderNotFoundException extends \Exception {
+use Exception;
+
+
+class GroupFolderNotFoundException extends Exception {
 }
 

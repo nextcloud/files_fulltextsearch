@@ -59,6 +59,7 @@ use OCP\FullTextSearch\Model\IIndexDocument;
 use OCP\FullTextSearch\Model\IIndexOptions;
 use OCP\FullTextSearch\Model\IRunner;
 use OCP\IUserManager;
+use OCP\Lock\LockedException;
 use OCP\Share\IManager as IShareManager;
 use Throwable;
 
@@ -462,9 +463,7 @@ class FilesService {
 			throw new FilesNotFoundException();
 		}
 
-		$file = array_shift($files);
-
-		return $file;
+		return array_shift($files);
 	}
 
 
@@ -911,8 +910,6 @@ class FilesService {
 	/**
 	 * @param FilesDocument $document
 	 * @param File $file
-	 *
-	 * @throws NotPermittedException
 	 */
 	private function extractContentFromFileText(FilesDocument $document, File $file) {
 		if ($this->parseMimeType($document->getMimeType(), $file->getExtension())
@@ -924,17 +921,18 @@ class FilesService {
 			return;
 		}
 
-		$document->setContent(
-			base64_encode($file->getContent()), IIndexDocument::ENCODED_BASE64
-		);
+		try {
+			$document->setContent(
+				base64_encode($file->getContent()), IIndexDocument::ENCODED_BASE64
+			);
+		} catch (NotPermittedException | LockedException $e) {
+		}
 	}
 
 
 	/**
 	 * @param FilesDocument $document
 	 * @param File $file
-	 *
-	 * @throws NotPermittedException
 	 */
 	private function extractContentFromFilePDF(FilesDocument $document, File $file) {
 		if ($this->parseMimeType($document->getMimeType(), $file->getExtension())
@@ -953,17 +951,18 @@ class FilesService {
 			return;
 		}
 
-		$document->setContent(
-			base64_encode($file->getContent()), IIndexDocument::ENCODED_BASE64
-		);
+		try {
+			$document->setContent(
+				base64_encode($file->getContent()), IIndexDocument::ENCODED_BASE64
+			);
+		} catch (NotPermittedException | LockedException $e) {
+		}
 	}
 
 
 	/**
 	 * @param FilesDocument $document
 	 * @param File $file
-	 *
-	 * @throws NotPermittedException
 	 */
 	private function extractContentFromFileZip(FilesDocument $document, File $file) {
 		if ($this->parseMimeType($document->getMimeType(), $file->getExtension())
@@ -982,9 +981,12 @@ class FilesService {
 			return;
 		}
 
-		$document->setContent(
-			base64_encode($file->getContent()), IIndexDocument::ENCODED_BASE64
-		);
+		try {
+			$document->setContent(
+				base64_encode($file->getContent()), IIndexDocument::ENCODED_BASE64
+			);
+		} catch (NotPermittedException | LockedException $e) {
+		}
 	}
 
 
@@ -1011,9 +1013,12 @@ class FilesService {
 			return;
 		}
 
-		$document->setContent(
-			base64_encode($file->getContent()), IIndexDocument::ENCODED_BASE64
-		);
+		try {
+			$document->setContent(
+				base64_encode($file->getContent()), IIndexDocument::ENCODED_BASE64
+			);
+		} catch (NotPermittedException | LockedException $e) {
+		}
 	}
 
 

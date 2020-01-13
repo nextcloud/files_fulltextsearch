@@ -33,6 +33,7 @@ namespace OCA\Files_FullTextSearch\Service;
 
 use daita\MySmallPhpTools\Traits\TPathTools;
 use Exception;
+use OC;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCP\Files\Node;
 use OCP\FullTextSearch\Model\ISearchRequest;
@@ -309,14 +310,14 @@ class SearchService {
 		}
 
 		$document->setLink(
-			\OC::$server->getURLGenerator()
-						->linkToRoute(
-							'files.view.index',
-							[
-								'dir'      => $dir,
-								'scrollto' => $filename,
-							]
-						)
+			OC::$server->getURLGenerator()
+					   ->linkToRoute(
+						   'files.view.index',
+						   [
+							   'dir'      => $dir,
+							   'scrollto' => $filename,
+						   ]
+					   )
 		);
 	}
 
@@ -331,11 +332,11 @@ class SearchService {
 		}
 
 		$document->setLink(
-			\OC::$server->getURLGenerator()
-						->linkToRoute(
-							'files.view.index',
-							['dir' => $dir, 'fileid' => $document->getId()]
-						)
+			OC::$server->getURLGenerator()
+					   ->linkToRoute(
+						   'files.view.index',
+						   ['dir' => $dir, 'fileid' => $document->getId()]
+					   )
 		);
 	}
 

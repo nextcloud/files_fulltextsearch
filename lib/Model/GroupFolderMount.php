@@ -31,12 +31,15 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Model;
 
 
+use JsonSerializable;
+
+
 /**
  * Class GroupFolderMount
  *
  * @package OCA\Files_FullTextSearch\Model
  */
-class GroupFolderMount implements \JsonSerializable {
+class GroupFolderMount implements JsonSerializable {
 
 
 	/** @var int */
