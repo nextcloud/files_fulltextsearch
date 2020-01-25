@@ -11,6 +11,8 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "Ezin izan da \"{file}\" kopiatu",
     "Copied {origin} inside {destination}" : "{origin} {destination} barruan kopiatu da",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} eta beste {nbfiles} fitxategi {destination} barruan kopiatu dira",
+    "Local files" : "Fitxategi lokalak",
+    "External files" : "Kanpo fitxategiak",
     "Group folders" : "Talde karpetak",
     "Files" : "Fitxategiak"
 },
