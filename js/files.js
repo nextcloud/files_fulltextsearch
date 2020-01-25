@@ -70,22 +70,23 @@ FullTextSearch.prototype = {
 	},
 
 	_initFileActions: function () {
+		//
+		// this.fileActions = new OCA.Files.FileActions();
+		// this.fileActions.registerDefaultActions();
+		// this.fileActions.merge(window.FileActions);
+		// this.fileActions.merge(OCA.Files.fileActions)
 
-		this.fileActions = new OCA.Files.FileActions();
-		this.fileActions.registerDefaultActions();
-		this.fileActions.merge(window.FileActions);
-		this.fileActions.merge(OCA.Files.fileActions)
+		this.fileActions = OCA.Files.fileActions;
+		// this._onActionsUpdated = _.bind(this._onActionsUpdated, this);
+		// OCA.Files.fileActions.on('setDefault.app-files', this._onActionsUpdated);
+		// OCA.Files.fileActions.on('registerAction.app-files', this._onActionsUpdated);
+		// window.FileActions.on('setDefault.app-files', this._onActionsUpdated);
+		// window.FileActions.on('registerAction.app-files', this._onActionsUpdated);
 
-		this._onActionsUpdated = _.bind(this._onActionsUpdated, this);
-		OCA.Files.fileActions.on('setDefault.app-files', this._onActionsUpdated);
-		OCA.Files.fileActions.on('registerAction.app-files', this._onActionsUpdated);
-		window.FileActions.on('setDefault.app-files', this._onActionsUpdated);
-		window.FileActions.on('registerAction.app-files', this._onActionsUpdated);
-
-		this.fileActions.actions.all.Rename = undefined;
-		this.fileActions.actions.all.MoveCopy = undefined;
-		this.fileActions.actions.all.Copy = undefined;
-		this.fileActions.actions.all.Delete = undefined;
+		// this.fileActions.actions.all.Rename = undefined;
+		// this.fileActions.actions.all.MoveCopy = undefined;
+		// this.fileActions.actions.all.Copy = undefined;
+		// this.fileActions.actions.all.Delete = undefined;
 
 		this.fileActions.registerAction({
 			name: 'GoToFolder',
@@ -111,20 +112,6 @@ FullTextSearch.prototype = {
 				window.open('/apps/files/?dir=' + context.dir + context.filename);
 			}
 		});
-
-		// if (this._detailsView) {
-		// 	this.fileActions.registerAction({
-		// 		name: 'Details',
-		// 		displayName: t('files', 'Details'),
-		// 		mime: 'all',
-		// 		order: -50,
-		// 		iconClass: 'icon-details',
-		// 		permissions: OC.PERMISSION_NONE,
-		// 		actionHandler: function (fileName, context) {
-		// 			self._updateDetailsView(fileName);
-		// 		}
-		// 	});
-		// }
 	},
 
 
