@@ -388,6 +388,10 @@ class FilesService {
 			throw new FileIsNotIndexableException();
 		}
 
+		if ($file->getExtension() === 'part') {
+			throw new FileIsNotIndexableException('part files are not indexed');
+		}
+
 		$ownerId = '';
 		if ($file->getOwner() !== null) {
 			$ownerId = $file->getOwner()
