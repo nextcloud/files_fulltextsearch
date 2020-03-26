@@ -1,6 +1,12 @@
 # Changelog
 
 
+
+### 1.4.2
+
+- ignore .part files
+
+
 ### 1.4.1
 
 - fixing a conflict with onlyoffice

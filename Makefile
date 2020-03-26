@@ -10,7 +10,7 @@ cert_dir=$(HOME)/.nextcloud/certificates
 github_account=nextcloud
 branch=master
 codecov_token_dir=$(HOME)/.nextcloud/codecov_token
-version+=1.4.1
+version+=1.4.2
 
 all: appstore
 
@@ -55,7 +55,7 @@ appstore: composer clean
 	--exclude=/translationfiles \
 	--exclude=/.tx \
 	--exclude=/tests \
-	--exclude=/.git \
+	--exclude=.git \
 	--exclude=/.github \
 	--exclude=/composer.json \
 	--exclude=/composer.lock \
