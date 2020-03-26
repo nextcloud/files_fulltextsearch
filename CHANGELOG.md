@@ -1,14 +1,19 @@
 # Changelog
 
-### 1.2.8
 
-- upgrade on composer lib.
+### 1.2.10
 
+- ignore .part files.
 
 
 ### 1.2.9
 
 - upgrading external storage
+
+
+### 1.2.8
+
+- upgrade on composer lib.
 
 
 ### 1.2.7

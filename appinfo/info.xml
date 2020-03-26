@@ -10,7 +10,7 @@ Extension to the _Full text search_ app to index your users' files.
 
 	]]>
 	</description>
-	<version>1.2.9</version>
+	<version>1.2.10</version>
 	<licence>agpl</licence>
 	<author>Maxence Lange</author>
 	<namespace>Files_FullTextSearch</namespace>
