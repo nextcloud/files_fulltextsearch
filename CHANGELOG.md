@@ -1,5 +1,11 @@
 # Changelog
 
+
+### 1.3.7
+
+- ignore .part files
+
+
 ### 1.3.6
 
 - bugfix: index chunk path. 
