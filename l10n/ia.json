@@ -1,0 +1,9 @@
+{ "translations": {
+    "files" : "files",
+    "Go to folder" : "Ir al dossier",
+    "Name" : "Nomine",
+    "Modified" : "Modificate",
+    "Size" : "Dimension",
+    "Files" : "Files"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

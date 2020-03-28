@@ -1,0 +1,8 @@
+{ "translations": {
+    "files" : "files",
+    "Name" : "Անուն",
+    "Modified" : "Փոփոխված",
+    "Size" : "Չափս",
+    "Files" : "Ֆայլեր"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

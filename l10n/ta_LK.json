@@ -1,0 +1,8 @@
+{ "translations": {
+    "files" : "files",
+    "Name" : "பெயர்",
+    "Modified" : "மாற்றப்பட்டது",
+    "Size" : "அளவு",
+    "Files" : "கோப்புகள்"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}

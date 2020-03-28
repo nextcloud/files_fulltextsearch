@@ -1,0 +1,8 @@
+{ "translations": {
+    "files" : "files",
+    "Name" : "ชื่อ",
+    "Modified" : "แก้ไขเมื่อ",
+    "Size" : "ขนาด",
+    "Files" : "ไฟล์"
+},"pluralForm" :"nplurals=1; plural=0;"
+}

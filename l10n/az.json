@@ -1,0 +1,8 @@
+{ "translations": {
+    "files" : "files",
+    "Name" : "Ad",
+    "Modified" : "Dəyişdirildi",
+    "Size" : "Həcm",
+    "Files" : "Fayllar"
+},"pluralForm" :"nplurals=2; plural=(n != 1);"
+}
