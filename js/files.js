@@ -263,7 +263,7 @@ FullTextSearch.prototype = {
 		var action = this.fileActions.getDefault(mime, type, permissions);
 		if (action) {
 			event.preventDefault();
-			window.FileActions.currentFile = this.fileActions.currentFile;
+			OCA.Files.fileActions.currentFile = this.fileActions.currentFile;
 			action(filename, {
 				$file: resultEntry,
 				fileName: filename,
