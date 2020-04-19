@@ -11,9 +11,21 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "Ezin izan da \"{file}\" kopiatu",
     "Copied {origin} inside {destination}" : "{origin} {destination} barruan kopiatu da",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} eta beste {nbfiles} fitxategi {destination} barruan kopiatu dira",
+    "Within current directory" : "Uneko karpeta barruan",
+    "Within local files" : "Fitxategi lokalen barruan",
     "Local files" : "Fitxategi lokalak",
+    "Within external files" : "Kanpoko fitxategien barruan",
     "External files" : "Kanpo fitxategiak",
+    "Within group folders" : "Talde-karpeten barruan",
     "Group folders" : "Talde karpetak",
-    "Files" : "Fitxategiak"
+    "Filter by extension" : "Iragazi hedapenaz",
+    "Extension" : "Hedapena",
+    "Files" : "Fitxategiak",
+    "Sources" : "Iturriak",
+    "Local Files" : "Fitxategi lokalak",
+    "External Files" : "Kanpoko fitxategiak",
+    "Group Folders" : "Talde-karpetak",
+    "Types" : "Motak",
+    "Maximum file size" : "Fitxategien tamaina maximoa"
 },
 "nplurals=2; plural=(n != 1);");
