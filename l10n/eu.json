@@ -18,12 +18,26 @@
     "Group folders" : "Talde karpetak",
     "Filter by extension" : "Iragazi hedapenaz",
     "Extension" : "Hedapena",
+    "Full text search - Files" : "Testu osoko bilaketa - fitxategiak",
+    "Index the content of your files" : "Indexatu zure fitxategien edukia",
+    "Extension to the _Full text search_ app to index your users' files." : "_Testu osoko bilakea_ aplikazioaren hedapena zure erabiltzaileen fitxategiak indexatzeko.",
     "Files" : "Fitxategiak",
     "Sources" : "Iturriak",
     "Local Files" : "Fitxategi lokalak",
+    "Index the content of local files." : "Indexatu fitxategi lokalen edukia.",
     "External Files" : "Kanpoko fitxategiak",
+    "Index the content of external files." : "Indexatu kanpoko fitxategien edukia.",
+    "Index path only" : "Indexatu bide-izena soilik",
+    "Index path and content" : "Indexatu bide-izena eta edukia",
+    "Do not index path nor content" : "Ez indexatu bide-izena edota edukia",
     "Group Folders" : "Talde-karpetak",
+    "Index the content of group folders." : "Indexatu talde-karpeten edukia.",
     "Types" : "Motak",
-    "Maximum file size" : "Fitxategien tamaina maximoa"
+    "Maximum file size" : "Fitxategien tamaina maximoa",
+    "Maximum file size to index (in Mb)." : "Indexatzeko fitxategiaren gehienezko tamaina (Mb-etan).",
+    "Extract PDF" : "Atera PDF",
+    "Index the content of PDF files." : "Indexatu PDF fitxategien edukia.",
+    "Extract Office" : "Atera office",
+    "Index the content of office files." : "Indexatu office fitxategien edukia."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
