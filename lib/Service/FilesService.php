@@ -405,8 +405,12 @@ class FilesService {
 		$document->setType($file->getType())
 				 ->setOwnerId($ownerId)
 				 ->setPath($this->getPathFromViewerId($file->getId(), $viewerId))
-				 ->setViewerId($viewerId)
-				 ->setMimetype($file->getMimetype());
+				 ->setViewerId($viewerId);
+
+		if ($file->getMimetype() !== null) {
+			$document->setMimetype($file->getMimetype());
+		}
+
 		$document->setModifiedTime($file->getMTime())
 				 ->setSource($source);
 
