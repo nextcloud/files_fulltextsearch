@@ -2,6 +2,12 @@
 
 
 
+### 1.4.3
+
+- compat nc19
+- small bugfixes
+
+
 ### 1.4.2
 
 - ignore .part files
