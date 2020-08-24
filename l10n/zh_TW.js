@@ -16,6 +16,7 @@ OC.L10N.register(
     "Full text search - Files" : "全文搜尋 - 檔案",
     "Files" : "檔案",
     "Local Files" : "本地檔案",
-    "Index the content of local files." : "對本地檔案內容 做索引"
+    "Index the content of local files." : "對本地檔案內容 做索引",
+    "Group Folders" : "群組資料夾"
 },
 "nplurals=1; plural=0;");
