@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
+    "files" : "restroù",
     "Open folder" : "Digor an teuliad",
     "Name" : "Anv",
     "Modified" : "Cheñchet",
