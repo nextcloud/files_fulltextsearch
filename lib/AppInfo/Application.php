@@ -31,18 +31,18 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\AppInfo;
 
 
-use OC;
-use OCA\Files_FullTextSearch\Events\FilesCommentsEvents;
+use Closure;
 use OCA\Files_FullTextSearch\Hooks\FilesHooks;
-use OCA\Files_FullTextSearch\Provider\FilesProvider;
-use OCP\App\IAppManager;
+use OCA\FullTextSearch\Service\IndexService;
+use OCA\FullTextSearch\Service\ProviderService;
+use OCA\FullTextSearch\Service\SearchService;
 use OCP\AppFramework\App;
-use OCP\AppFramework\QueryException;
-use OCP\EventDispatcher\IEventDispatcher;
-use OCP\FullTextSearch\IFullTextSearchManager;
-use OCP\IUser;
-use OCP\IUserSession;
+use OCP\AppFramework\Bootstrap\IBootContext;
+use OCP\AppFramework\Bootstrap\IBootstrap;
+use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\IServerContainer;
 use OCP\Util;
+use Throwable;
 
 
 /**
@@ -50,20 +50,10 @@ use OCP\Util;
  *
  * @package OCA\Files_FullTextSearch\AppInfo
  */
-class Application extends App {
+class Application extends App implements IBootstrap {
+
 
 	const APP_NAME = 'files_fulltextsearch';
-
-
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var IFullTextSearchManager */
-	private $fullTextSearchManager;
-
-
-	/** @var IUser */
-	private $user;
 
 
 	/**
@@ -73,24 +63,35 @@ class Application extends App {
 	 */
 	public function __construct(array $params = []) {
 		parent::__construct(self::APP_NAME, $params);
+	}
 
-		$c = $this->getContainer();
 
-		try {
-			$this->appManager = $c->query(IAppManager::class);
-			$this->fullTextSearchManager = $c->query(IFullTextSearchManager::class);
-		} catch (QueryException $e) {
-		}
+	/**
+	 * @param IRegistrationContext $context
+	 */
+	public function register(IRegistrationContext $context): void {
+		// TODO: check that files' event are migrated to the last version of event dispatcher
+		// $context->registerEventListener();
+	}
 
-		$this->registerHooks();
-		$this->registerCommentsHooks();
+
+	/**
+	 * @param IBootContext $context
+	 *
+	 * @throws Throwable
+	 */
+	public function boot(IBootContext $context): void {
+		$context->injectFn(Closure::fromCallable([$this, 'registerHooks']));
+		$context->injectFn(Closure::fromCallable([$this, 'registerCommentsHooks']));
 	}
 
 
 	/**
 	 * Register Hooks
+	 *
+	 * @param IServerContainer $container
 	 */
-	public function registerHooks() {
+	public function registerHooks(IServerContainer $container) {
 		Util::connectHook('OC_Filesystem', 'post_create', FilesHooks::class, 'onNewFile');
 		Util::connectHook('OC_Filesystem', 'post_update', FilesHooks::class, 'onFileUpdate');
 		Util::connectHook('OC_Filesystem', 'post_rename', FilesHooks::class, 'onFileRename');
@@ -103,46 +104,16 @@ class Application extends App {
 		Util::connectHook('OCP\Share', 'post_unshare', FilesHooks::class, 'onFileUnshare');
 	}
 
-	public function registerCommentsHooks() {
-		OC::$server->getCommentsManager()
-				   ->registerEventHandler(
-					   function() {
-						   return $this->getContainer()
-									   ->query(FilesCommentsEvents::class);
-					   }
-				   );
-	}
 
-
-	/**
-	 * @throws QueryException
-	 */
-	public function registerFilesSearch() {
-		$container = $this->getContainer();
-
-		/** @var IUserSession $userSession */
-		$userSession = $container->query(IUserSession::class);
-		$eventDispatcher = $container->query(IEventDispatcher::class);
-
-		if (!$userSession->isLoggedIn()) {
-			return;
-		}
-
-		$this->user = $userSession->getUser();
-
-		$eventDispatcher->addListener(
-			'OCA\Files::loadAdditionalScripts', function() {
-
-			if ($this->appManager->isEnabledForUser('fulltextsearch', $this->user)
-				&& $this->fullTextSearchManager->isProviderIndexed(
-					FilesProvider::FILES_PROVIDER_ID
-				)) {
-				Util::addStyle(self::APP_NAME, 'fulltextsearch');
-				$this->fullTextSearchManager->addJavascriptAPI();
-				Util::addScript(self::APP_NAME, 'files');
-			}
-		}
-		);
+	public function registerCommentsHooks(IServerContainer $container) {
+		// TODO: needed ?
+//		OC::$server->getCommentsManager()
+//				   ->registerEventHandler(
+//					   function() {
+//						   return $this->getContainer()
+//									   ->query(FilesCommentsEvents::class);
+//					   }
+//				   );
 	}
 
 }

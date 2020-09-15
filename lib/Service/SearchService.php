@@ -33,11 +33,13 @@ namespace OCA\Files_FullTextSearch\Service;
 
 use daita\MySmallPhpTools\Traits\TPathTools;
 use Exception;
-use OC;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
+use OCP\Files\FileInfo;
+use OCP\Files\IMimeTypeDetector;
 use OCP\Files\Node;
 use OCP\FullTextSearch\Model\ISearchRequest;
 use OCP\FullTextSearch\Model\ISearchResult;
+use OCP\IURLGenerator;
 
 
 /**
@@ -53,6 +55,12 @@ class SearchService {
 
 	/** @var string */
 	private $userId;
+
+	/** @var IMimeTypeDetector */
+	private $mimeTypeDetector;
+
+	/** @var IURLGenerator */
+	private $urlGenerator;
 
 	/** @var FilesService */
 	private $filesService;
@@ -71,6 +79,8 @@ class SearchService {
 	 * SearchService constructor.
 	 *
 	 * @param string $userId
+	 * @param IMimeTypeDetector $mimeTypeDetector
+	 * @param IURLGenerator $urlGenerator
 	 * @param FilesService $filesService
 	 * @param ConfigService $configService
 	 * @param ExtensionService $extensionService
@@ -79,10 +89,13 @@ class SearchService {
 	 * @internal param IProviderFactory $factory
 	 */
 	public function __construct(
-		$userId, FilesService $filesService, ConfigService $configService,
+		$userId, IMimeTypeDetector $mimeTypeDetector, IUrlGenerator $urlGenerator, FilesService $filesService,
+		ConfigService $configService,
 		ExtensionService $extensionService, MiscService $miscService
 	) {
 		$this->userId = $userId;
+		$this->mimeTypeDetector = $mimeTypeDetector;
+		$this->urlGenerator = $urlGenerator;
 		$this->filesService = $filesService;
 		$this->configService = $configService;
 		$this->extensionService = $extensionService;
@@ -221,6 +234,20 @@ class SearchService {
 				$this->setDocumentTitle($filesDocument);
 				$this->setDocumentLink($filesDocument);
 
+				if ($filesDocument->getType() === FileInfo::TYPE_FOLDER) {
+					$icon = 'icon-folder';
+				} else {
+					$icon = $this->mimeTypeDetector->mimeTypeIcon($filesDocument->getInfo('mime'));
+				}
+
+				$filesDocument->setInfoArray(
+					'unified',
+					[
+						'thumbUrl' => '',
+						'icon'     => $icon
+					]
+				);
+
 				$filesDocuments[] = $filesDocument;
 			} catch (Exception $e) {
 			}
@@ -310,14 +337,7 @@ class SearchService {
 		}
 
 		$document->setLink(
-			OC::$server->getURLGenerator()
-					   ->linkToRoute(
-						   'files.view.index',
-						   [
-							   'dir'      => $dir,
-							   'scrollto' => $filename,
-						   ]
-					   )
+			$this->urlGenerator->linkToRoute('files.view.index', ['dir' => $dir, 'scrollto' => $filename])
 		);
 	}
 
@@ -332,11 +352,9 @@ class SearchService {
 		}
 
 		$document->setLink(
-			OC::$server->getURLGenerator()
-					   ->linkToRoute(
-						   'files.view.index',
-						   ['dir' => $dir, 'fileid' => $document->getId()]
-					   )
+			$this->urlGenerator->linkToRoute(
+				'files.view.index', ['dir' => $dir, 'fileid' => $document->getId()]
+			)
 		);
 	}
 
