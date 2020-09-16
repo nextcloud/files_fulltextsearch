@@ -3,13 +3,23 @@
   "description": "files_fulltextsearch",
   "minimum-stability": "stable",
   "license": "agpl",
+  "config": {
+    "vendor-dir": ".",
+    "optimize-autoloader": true,
+    "classmap-authoritative": true,
+    "autoloader-suffix": "Files_FullTextSearch"
+  },
   "authors": [
     {
       "name": "Maxence Lange",
       "email": "maxence@artificial-owl.com"
     }
   ],
-  "require": {
+  "autoload": {
+    "psr-4": {
+      "OCA\\Files_FullTextSearch\\": "../lib/"
+    }
+  },  "require": {
     "daita/my-small-php-tools": "dev-master"
   }
 }
