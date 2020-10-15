@@ -33,9 +33,6 @@ namespace OCA\Files_FullTextSearch\AppInfo;
 
 use Closure;
 use OCA\Files_FullTextSearch\Hooks\FilesHooks;
-use OCA\FullTextSearch\Service\IndexService;
-use OCA\FullTextSearch\Service\ProviderService;
-use OCA\FullTextSearch\Service\SearchService;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -43,6 +40,9 @@ use OCP\AppFramework\Bootstrap\IRegistrationContext;
 use OCP\IServerContainer;
 use OCP\Util;
 use Throwable;
+
+
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 
 /**
