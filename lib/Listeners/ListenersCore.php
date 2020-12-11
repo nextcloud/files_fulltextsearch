@@ -9,7 +9,7 @@ declare(strict_types=1);
  * later. See the COPYING file.
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2018
+ * @copyright 2020
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,104 +28,83 @@ declare(strict_types=1);
  */
 
 
-namespace OCA\Files_FullTextSearch\Events;
+namespace OCA\Files_FullTextSearch\Listeners;
 
 
+use daita\MySmallPhpTools\Traits\Nextcloud\nc20\TNC20Logger;
 use daita\MySmallPhpTools\Traits\TArrayTools;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OCA\Files_FullTextSearch\Service\ConfigService;
 use OCA\Files_FullTextSearch\Service\FilesService;
 use OCA\Files_FullTextSearch\Service\MiscService;
-use OCP\App\IAppManager;
 use OCP\FullTextSearch\IFullTextSearchManager;
-use OCP\FullTextSearch\Model\IIndex;
+use OCP\IUserSession;
 
 
 /**
- * Class FilesEvents
+ * Class CoreFileEvents
  *
- * @package OCA\Files_FullTextSearch\Events
+ * @package OCA\Files_FullTextSearch\Listeners
  */
-class FilesEvents {
+class ListenersCore {
 
 
 	use TArrayTools;
+	use TNC20Logger;
 
 
-	/** @var string */
-	private $userId;
-
-	/** @var IAppManager */
-	private $appManager;
+	/** @var IUserSession */
+	protected $userSession;
 
 	/** @var Coordinator */
-	private $coordinator;
+	protected $coordinator;
 
 	/** @var IFullTextSearchManager */
-	private $fullTextSearchManager;
+	protected $fullTextSearchManager;
 
 	/** @var FilesService */
-	private $filesService;
+	protected $filesService;
 
 	/** @var ConfigService */
-	private $configService;
+	protected $configService;
 
 	/** @var MiscService */
-	private $miscService;
+	protected $miscService;
 
 
 	/**
-	 * FilesEvents constructor.
+	 * CoreFileEvents constructor.
 	 *
-	 * @param string $userId
-	 * @param IAppManager $appManager
 	 * @param Coordinator $coordinator
+	 * @param IUserSession $userSession
 	 * @param IFullTextSearchManager $fullTextSearchManager
 	 * @param FilesService $filesService
 	 * @param ConfigService $configService
 	 * @param MiscService $miscService
 	 */
 	public function __construct(
-		$userId, IAppManager $appManager, Coordinator $coordinator,
-		IFullTextSearchManager $fullTextSearchManager,
+		Coordinator $coordinator, IUserSession $userSession, IFullTextSearchManager $fullTextSearchManager,
 		FilesService $filesService, ConfigService $configService, MiscService $miscService
 	) {
-		$this->userId = $userId;
-		$this->appManager = $appManager;
+		$this->userSession = $userSession;
 		$this->coordinator = $coordinator;
 		$this->fullTextSearchManager = $fullTextSearchManager;
 		$this->filesService = $filesService;
 		$this->configService = $configService;
 		$this->miscService = $miscService;
+
+		$this->setup('app', 'files_fulltextsearch');
 	}
 
 
 	/**
 	 * @return bool
 	 */
-	private function registerFullTextSearchServices() {
+	protected function registerFullTextSearchServices(): bool {
 		$this->coordinator->bootApp('fulltextsearch');
 
 		return $this->fullTextSearchManager->isAvailable();
 	}
-
-
-	/**
-	 * @param array $params
-	 */
-	public function onFileUnshare(array $params) {
-		if (!$this->registerFullTextSearchServices()) {
-			return;
-		}
-
-		$fileId = $this->get('itemSource', $params, '');
-		if ($fileId === '' || $this->userId === null) {
-			return;
-		}
-
-		$this->fullTextSearchManager->updateIndexStatus('files', $fileId, IIndex::INDEX_META);
-	}
-
 
 }
 

@@ -78,10 +78,7 @@ class ExtensionService {
 	 * @param array $config
 	 */
 	public function getConfig(array &$config) {
-		$this->dispatch(
-			'\OCA\Files_FullTextSearch::onGetConfig',
-			['config' => &$config]
-		);
+		$this->dispatch('Files_FullTextSearch.onGetConfig', ['config' => &$config]);
 	}
 
 
@@ -90,10 +87,7 @@ class ExtensionService {
 	 * @param Node $file
 	 */
 	public function fileIndexing(FilesDocument &$document, Node $file) {
-		$this->dispatch(
-			'\OCA\Files_FullTextSearch::onFileIndexing',
-			['file' => $file, 'document' => &$document]
-		);
+		$this->dispatch('Files_FullTextSearch.onFileIndexing', ['file' => $file, 'document' => &$document]);
 	}
 
 
@@ -101,10 +95,7 @@ class ExtensionService {
 	 * @param ISearchRequest $request
 	 */
 	public function searchRequest(ISearchRequest &$request) {
-		$this->dispatch(
-			'\OCA\Files_FullTextSearch::onSearchRequest',
-			['request' => &$request]
-		);
+		$this->dispatch('Files_FullTextSearch.onSearchRequest', ['request' => &$request]);
 	}
 
 
@@ -112,10 +103,7 @@ class ExtensionService {
 	 * @param ISearchResult $result
 	 */
 	public function searchResult(ISearchResult &$result) {
-		$this->dispatch(
-			'\OCA\Files_FullTextSearch::onSearchResult',
-			['result' => &$result]
-		);
+		$this->dispatch('Files_FullTextSearch.onSearchResult', ['result' => &$result]);
 	}
 
 
@@ -123,19 +111,16 @@ class ExtensionService {
 	 * @param IIndexDocument $document
 	 */
 	public function indexComparing(IIndexDocument &$document) {
-		$this->dispatch(
-			'\OCA\Files_FullTextSearch::onIndexComparing',
-			['document' => &$document]
-		);
+		$this->dispatch('Files_FullTextSearch.onIndexComparing', ['document' => &$document]);
 	}
 
 
 	/**
-	 * @param string $context
+	 * @param string $subject
 	 * @param array $arguments
 	 */
-	private function dispatch(string $context, array $arguments) {
-		$this->eventDispatcher->dispatch($context, new GenericEvent(null, $arguments));
+	private function dispatch(string $subject, array $arguments) {
+		$this->eventDispatcher->dispatchTyped(new GenericEvent($subject, $arguments));
 	}
 
 }

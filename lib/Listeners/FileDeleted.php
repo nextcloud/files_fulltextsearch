@@ -31,37 +31,37 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Listeners;
 
-
-use Exception;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\Files\Events\Node\NodeDeletedEvent;
+use OCP\Files\InvalidPathException;
+use OCP\Files\NotFoundException;
 use OCP\FullTextSearch\Model\IIndex;
-use OCP\Share\Events\ShareCreatedEvent;
 
 
 /**
- * Class ShareCreated
+ * Class FileDeleted
  *
- * @package OCA\Circles\Listeners
+ * @package OCA\Circles\Events
  */
-class ShareCreated extends ListenersCore implements IEventListener {
+class FileDeleted extends ListenersCore implements IEventListener {
 
 
 	/**
 	 * @param Event $event
 	 */
 	public function handle(Event $event): void {
-		if (!$this->registerFullTextSearchServices() || !($event instanceof ShareCreatedEvent)) {
+		if (!($event instanceof NodeDeletedEvent)) {
 			return;
 		}
 
-		$share = $event->getShare();
+		$node = $event->getNode();
 		try {
-			$node = $share->getNode();
 			$this->fullTextSearchManager->updateIndexStatus(
-				'files', (string)$node->getId(), IIndex::INDEX_META
+				'files', (string)$node->getId(), IIndex::INDEX_REMOVE, true
 			);
-		} catch (Exception $e) {
+		} catch (InvalidPathException | NotFoundException $e) {
+			$this->exception($e);
 		}
 	}
 

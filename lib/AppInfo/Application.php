@@ -32,12 +32,25 @@ namespace OCA\Files_FullTextSearch\AppInfo;
 
 
 use Closure;
+use OCA\Circles\Listeners\UserDeleted;
 use OCA\Files_FullTextSearch\Hooks\FilesHooks;
+use OCA\Files_FullTextSearch\Listeners\FileChanged;
+use OCA\Files_FullTextSearch\Listeners\FileCreated;
+use OCA\Files_FullTextSearch\Listeners\FileDeleted;
+use OCA\Files_FullTextSearch\Listeners\FileEdit;
+use OCA\Files_FullTextSearch\Listeners\FileNew;
+use OCA\Files_FullTextSearch\Listeners\FileRenamed;
+use OCA\Files_FullTextSearch\Listeners\ShareCreated;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\Files\Events\Node\NodeCreatedEvent;
+use OCP\Files\Events\Node\NodeDeletedEvent;
+use OCP\Files\Events\Node\NodeRenamedEvent;
+use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\IServerContainer;
+use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Util;
 use Throwable;
 
@@ -70,8 +83,13 @@ class Application extends App implements IBootstrap {
 	 * @param IRegistrationContext $context
 	 */
 	public function register(IRegistrationContext $context): void {
-		// TODO: check that files' event are migrated to the last version of event dispatcher
-		// $context->registerEventListener();
+		$context->registerEventListener(NodeCreatedEvent::class, FileCreated::class);
+		$context->registerEventListener(NodeWrittenEvent::class, FileChanged::class);
+		$context->registerEventListener(NodeRenamedEvent::class, FileRenamed::class);
+		$context->registerEventListener(NodeDeletedEvent::class, FileDeleted::class);
+
+		$context->registerEventListener(ShareCreatedEvent::class, ShareCreated::class);
+//		$context->registerEventListener(ShareDeletedEvent::class, ShareDeleted::class);
 	}
 
 
@@ -82,7 +100,6 @@ class Application extends App implements IBootstrap {
 	 */
 	public function boot(IBootContext $context): void {
 		$context->injectFn(Closure::fromCallable([$this, 'registerHooks']));
-		$context->injectFn(Closure::fromCallable([$this, 'registerCommentsHooks']));
 	}
 
 
@@ -92,28 +109,7 @@ class Application extends App implements IBootstrap {
 	 * @param IServerContainer $container
 	 */
 	public function registerHooks(IServerContainer $container) {
-		Util::connectHook('OC_Filesystem', 'post_create', FilesHooks::class, 'onNewFile');
-		Util::connectHook('OC_Filesystem', 'post_update', FilesHooks::class, 'onFileUpdate');
-		Util::connectHook('OC_Filesystem', 'post_rename', FilesHooks::class, 'onFileRename');
-		Util::connectHook('OC_Filesystem', 'delete', FilesHooks::class, 'onFileTrash');
-		Util::connectHook(
-			'\OCA\Files_Trashbin\Trashbin', 'post_restore', FilesHooks::class, 'onFileRestore'
-		);
-		Util::connectHook('\OCP\Trashbin', 'preDelete', FilesHooks::class, 'onFileDelete');
-		Util::connectHook('OCP\Share', 'post_shared', FilesHooks::class, 'onFileShare');
 		Util::connectHook('OCP\Share', 'post_unshare', FilesHooks::class, 'onFileUnshare');
-	}
-
-
-	public function registerCommentsHooks(IServerContainer $container) {
-		// TODO: needed ?
-//		OC::$server->getCommentsManager()
-//				   ->registerEventHandler(
-//					   function() {
-//						   return $this->getContainer()
-//									   ->query(FilesCommentsEvents::class);
-//					   }
-//				   );
 	}
 
 }

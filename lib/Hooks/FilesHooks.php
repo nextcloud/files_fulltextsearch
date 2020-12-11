@@ -34,8 +34,6 @@ namespace OCA\Files_FullTextSearch\Hooks;
 use OCA\Files_FullTextSearch\AppInfo\Application;
 use OCA\Files_FullTextSearch\Events\FilesEvents;
 use OCP\AppFramework\QueryException;
-use OCP\Files\InvalidPathException;
-use OCP\Files\NotFoundException;
 
 
 /**
@@ -44,7 +42,6 @@ use OCP\Files\NotFoundException;
  * @package OCA\Files_FullTextSearch\Hooks
  */
 class FilesHooks {
-
 
 	/**
 	 * retrieve the FilesEvents' Controller
@@ -59,108 +56,6 @@ class FilesHooks {
 				   ->query(FilesEvents::class);
 	}
 
-
-	/**
-	 * hook events: file is created
-	 *
-	 * @param array $params
-	 *
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 * @throws QueryException
-	 */
-	public static function onNewFile(array $params) {
-		self::getController()
-			->onNewFile($params);
-	}
-
-
-	/**
-	 * hook events: file is updated
-	 *
-	 * @param array $params
-	 *
-	 * @throws QueryException
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 */
-	public static function onFileUpdate(array $params) {
-		self::getController()
-			->onFileUpdate($params);
-	}
-
-
-	/**
-	 * hook events: file is renamed
-	 *
-	 * @param array $params
-	 *
-	 * @throws NotFoundException
-	 * @throws QueryException
-	 * @throws InvalidPathException
-	 */
-	public static function onFileRename(array $params) {
-		self::getController()
-			->onFileRename($params);
-	}
-
-
-	/**
-	 * hook event: file is sent to trashbin
-	 *
-	 * @param array $params
-	 *
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 * @throws QueryException
-	 */
-	public static function onFileTrash(array $params) {
-		self::getController()
-			->onFileTrash($params);
-	}
-
-
-	/**
-	 * hook event: file is deleted
-	 *
-	 * @param array $params
-	 *
-	 * @throws QueryException
-	 */
-	public static function onFileDelete(array $params) {
-		self::getController()
-			->onFileDelete($params);
-	}
-
-
-	/**
-	 * hook event: file is restored
-	 *
-	 * @param array $params
-	 *
-	 * @throws InvalidPathException
-	 * @throws NotFoundException
-	 * @throws QueryException
-	 */
-	public static function onFileRestore(array $params) {
-		self::getController()
-			->onFileRestore($params);
-	}
-
-
-	/**
-	 * hook event: file is shared
-	 *
-	 * @param array $params
-	 *
-	 * @throws QueryException
-	 */
-	public static function onFileShare(array $params) {
-		self::getController()
-			->onFileShare($params);
-	}
-
-
 	/**
 	 * hook event: file is unshared
 	 *
@@ -171,28 +66,6 @@ class FilesHooks {
 	public static function onFileUnshare(array $params) {
 		self::getController()
 			->onFileUnshare($params);
-	}
-
-
-	/**
-	 * @param array $params
-	 *
-	 * @throws QueryException
-	 */
-	public static function onNewRemoteFile2(array $params) {
-		self::getController()
-			->onNewScannedFile2($params);
-	}
-
-
-	/**
-	 * @param array $params
-	 *
-	 * @throws QueryException
-	 */
-	public static function onNewRemoteFile(array $params) {
-		self::getController()
-			->onNewScannedFile($params);
 	}
 
 }
