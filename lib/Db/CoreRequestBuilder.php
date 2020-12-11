@@ -31,10 +31,12 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Db;
 
 
-use Doctrine\DBAL\Query\QueryBuilder;
+use OC;
+use OC\SystemConfig;
 use OCA\Files_FullTextSearch\Service\MiscService;
-use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCA\Social\Db\SocialQueryBuilder;
 use OCP\IDBConnection;
+use OCP\ILogger;
 
 
 /**
@@ -48,9 +50,6 @@ class CoreRequestBuilder {
 	const TABLE_SHARES = 'share';
 
 
-	/** @var IDBConnection */
-	protected $dbConnection;
-
 	/** @var MiscService */
 	protected $miscService;
 
@@ -61,51 +60,22 @@ class CoreRequestBuilder {
 	/**
 	 * CoreRequestBuilder constructor.
 	 *
-	 * @param IDBConnection $connection
 	 * @param MiscService $miscService
 	 */
-	public function __construct(
-		IDBConnection $connection, MiscService $miscService
-	) {
-		$this->dbConnection = $connection;
+	public function __construct(MiscService $miscService) {
 		$this->miscService = $miscService;
 	}
 
-
 	/**
-	 * Limit the request to the Id
-	 *
-	 * @param IQueryBuilder $qb
-	 * @param $fileSource
+	 * @return CoreQueryBuilder
 	 */
-	protected function limitToFileSource(IQueryBuilder &$qb, int $fileSource) {
-		$this->limitToDBFieldInt($qb, 'file_source', $fileSource);
+	public function getQueryBuilder(): CoreQueryBuilder {
+		return new CoreQueryBuilder(
+			OC::$server->get(IDBConnection::class),
+			OC::$server->get(SystemConfig::class),
+			OC::$server->get(ILogger::class)
+		);
 	}
-
-
-	/**
-	 * @param IQueryBuilder $qb
-	 * @param string $field
-	 * @param string $value
-	 */
-	private function limitToDBField(IQueryBuilder &$qb, string $field, string $value) {
-		$expr = $qb->expr();
-		$pf = ($qb->getType() === QueryBuilder::SELECT) ? $this->defaultSelectAlias . '.' : '';
-		$qb->andWhere($expr->eq($pf . $field, $qb->createNamedParameter($value)));
-	}
-
-
-	/**
-	 * @param IQueryBuilder $qb
-	 * @param string $field
-	 * @param int $value
-	 */
-	private function limitToDBFieldInt(IQueryBuilder &$qb, string $field, int $value) {
-		$expr = $qb->expr();
-		$pf = ($qb->getType() === QueryBuilder::SELECT) ? $this->defaultSelectAlias . '.' : '';
-		$qb->andWhere($expr->eq($pf . $field, $qb->createNamedParameter($value)));
-	}
-
 
 }
 

@@ -48,12 +48,11 @@ class SharesRequest extends SharesRequestBuilder {
 		$shares = [];
 		try {
 			$qb = $this->getSharesSelectSql();
-
-			$this->limitToFileSource($qb, $file->getId());
+			$qb->limitToFileSource($file->getId());
 
 			$cursor = $qb->execute();
 			while ($data = $cursor->fetch()) {
-				$shares[] = $this->parseSharesSelectSql($data);
+				$shares[] = $data;
 			}
 			$cursor->closeCursor();
 		} catch (Exception $e) {

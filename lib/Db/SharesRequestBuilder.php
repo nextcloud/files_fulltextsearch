@@ -31,37 +31,21 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Db;
 
 
-use OCP\DB\QueryBuilder\IQueryBuilder;
-
-
 class SharesRequestBuilder extends CoreRequestBuilder {
-
 
 	/**
 	 * Base of the Sql Select request for Shares
 	 *
-	 * @return IQueryBuilder
+	 * @return CoreQueryBuilder
 	 */
-	protected function getSharesSelectSql(): IQueryBuilder {
-		$qb = $this->dbConnection->getQueryBuilder();
-
-		/** @noinspection PhpMethodParametersCountMismatchInspection */
+	protected function getSharesSelectSql(): CoreQueryBuilder {
+		$qb = $this->getQueryBuilder();
 		$qb->select('s.*')
 		   ->from(self::TABLE_SHARES, 's');
 
-		$this->defaultSelectAlias = 's';
+		$qb->setDefaultSelectAlias('s');
 
 		return $qb;
-	}
-
-
-	/**
-	 * @param array $data
-	 *
-	 * @return array
-	 */
-	protected function parseSharesSelectSql(array $data): array {
-		return $data;
 	}
 
 }
