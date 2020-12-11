@@ -1,5 +1,15 @@
 # Changelog
 
+
+### 20.0.0
+
+- upgrade deps
+- better QueryBuilder
+- new listeners
+- new events
+- small bugfixes
+
+
 ### 2.0.0
 
 - compat nc20
