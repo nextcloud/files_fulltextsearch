@@ -16,9 +16,10 @@
   ],
   "autoload": {
     "psr-4": {
-      "OCA\\Files_FullTextSearch\\": "../lib/"
+      "OCA\\Files_FullTextSearch\\": "lib/"
     }
-  },  "require": {
+  },
+  "require": {
     "daita/my-small-php-tools": "dev-master"
   }
 }

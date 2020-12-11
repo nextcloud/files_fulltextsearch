@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -9,7 +10,7 @@ declare(strict_types=1);
  * later. See the COPYING file.
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2018
+ * @copyright 2020
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,41 +29,42 @@ declare(strict_types=1);
  */
 
 
-namespace OCA\Files_FullTextSearch\Events;
+namespace OCA\Files_FullTextSearch\Listeners;
 
 
-use OCP\AppFramework\QueryException;
-use OCP\Comments\CommentsEvent;
-use OCP\Comments\ICommentsEventHandler;
+use OCP\EventDispatcher\Event;
+use OCP\EventDispatcher\IEventListener;
+use OCP\Files\Events\Node\NodeCreatedEvent;
+use OCP\Files\InvalidPathException;
+use OCP\Files\NotFoundException;
+use OCP\FullTextSearch\Model\IIndex;
 
 
-class FilesCommentsEvents implements ICommentsEventHandler {
+/**
+ * Class FileCreated
+ *
+ * @package OCA\Circles\Listeners
+ */
+class FileCreatedEvent extends EventCore implements IEventListener {
 
-
-	/** @var FilesEvents */
-	private $filesEvents;
-
-
-	public function __construct(FilesEvents $filesEvents) {
-		$this->filesEvents = $filesEvents;
-	}
 
 	/**
-	 * @param CommentsEvent $event
-	 *
-	 * @throws QueryException
+	 * @param Event $event
 	 */
-	public function handle(CommentsEvent $event) {
-		if ($event->getComment()
-				  ->getObjectType() !== 'files') {
+	public function handle(Event $event): void {
+		if (!$this->registerFullTextSearchServices() || !($event instanceof NodeCreatedEvent)) {
 			return;
 		}
 
-		$eventType = $event->getEvent();
-		if ($eventType === CommentsEvent::EVENT_ADD) {
-			$this->filesEvents->onCommentNew($event);
+		$node = $event->getNode();
+		$user = $this->userSession->getUser();
 
-			return;
+		try {
+			$this->fullTextSearchManager->createIndex(
+				'files', (string)$node->getId(), $user->getUID(), IIndex::INDEX_FULL
+			);
+		} catch (InvalidPathException | NotFoundException $e) {
+			$this->exception($e);
 		}
 	}
 

@@ -12,17 +12,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/daita/my-small-php-tools.git",
-                "reference": "ca9c257dd640576c072cb50282e15ae51147cfc2"
+                "reference": "844b10da6abf50044ae9c40120cb5b927352bd95"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/daita/my-small-php-tools/zipball/ca9c257dd640576c072cb50282e15ae51147cfc2",
-                "reference": "ca9c257dd640576c072cb50282e15ae51147cfc2",
+                "url": "https://api.github.com/repos/daita/my-small-php-tools/zipball/844b10da6abf50044ae9c40120cb5b927352bd95",
+                "reference": "844b10da6abf50044ae9c40120cb5b927352bd95",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.0"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -40,7 +41,11 @@
                 }
             ],
             "description": "My small PHP Tools",
-            "time": "2020-09-29T15:30:16+00:00"
+            "support": {
+                "issues": "https://github.com/daita/my-small-php-tools/issues",
+                "source": "https://github.com/daita/my-small-php-tools/tree/master"
+            },
+            "time": "2020-12-02T14:37:02+00:00"
         }
     ],
     "packages-dev": [],
@@ -53,5 +58,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.0.0"
 }
