@@ -55,7 +55,7 @@ class FileRenamed extends ListenersCore implements IEventListener {
 			return;
 		}
 
-		$node = $event->getSource();
+		$node = $event->getTarget();
 		try {
 			$this->fullTextSearchManager->updateIndexStatus(
 				'files', (string)$node->getId(), IIndex::INDEX_META
