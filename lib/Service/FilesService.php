@@ -202,7 +202,7 @@ class FilesService {
 		if ($files instanceof Folder) {
 			return $this->getChunksFromDirectory($userId, $files);
 		} else {
-			return [$files];
+			return [$this->getPathFromRoot($files->getPath(), $userId, true)];
 		}
 	}
 
