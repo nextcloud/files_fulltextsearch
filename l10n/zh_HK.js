@@ -22,7 +22,7 @@ OC.L10N.register(
     "Extension" : "副檔名",
     "Full text search - Files" : "全文搜尋 - 檔案",
     "Index the content of your files" : "索引您檔案的內容",
-    "Extension to the _Full text search_ app to index your users' files." : "_全文搜尋_ 應用程式的擴充元件，用來索引您使用者的檔案。",
+    "Extension to the _Full text search_ app to index your users' files." : "_全文搜尋_ 應用程式的擴充元件，用來索引您用戶的檔案。",
     "Files" : "檔案",
     "Sources" : "來源",
     "Local Files" : "本地檔案",
