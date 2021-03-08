@@ -58,6 +58,9 @@ class FileCreated extends ListenersCore implements IEventListener {
 
 		$node = $event->getNode();
 		$user = $this->userSession->getUser();
+		if ($user === null) {
+			return;
+		}
 
 		try {
 			$this->fullTextSearchManager->createIndex(
