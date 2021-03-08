@@ -1,9 +1,0 @@
-{ "translations": {
-    "files" : "files",
-    "Name" : "නම",
-    "Modified" : "වෙනස් කළ",
-    "Size" : "ප්‍රමාණය",
-    "Group folders" : "කණ්ඩායම් ගොනු",
-    "Files" : "ගොනු"
-},"pluralForm" :"nplurals=2; plural=(n != 1);"
-}
