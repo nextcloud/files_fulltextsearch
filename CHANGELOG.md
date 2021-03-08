@@ -1,6 +1,11 @@
 # Changelog
 
 
+### 20.0.1
+
+- ignore files with no owner
+
+
 ### 20.0.0
 
 - upgrade deps
