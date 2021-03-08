@@ -31,7 +31,7 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Listeners;
 
 
-use daita\MySmallPhpTools\Traits\Nextcloud\nc20\TNC20Logger;
+use daita\MySmallPhpTools\Traits\Nextcloud\nc21\TNC21Logger;
 use daita\MySmallPhpTools\Traits\TArrayTools;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OCA\Files_FullTextSearch\Service\ConfigService;
@@ -50,7 +50,7 @@ class ListenersCore {
 
 
 	use TArrayTools;
-	use TNC20Logger;
+	use TNC21Logger;
 
 
 	/** @var IUserSession */
