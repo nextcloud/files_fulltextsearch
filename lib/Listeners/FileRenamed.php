@@ -51,7 +51,7 @@ class FileRenamed extends ListenersCore implements IEventListener {
 	 * @param Event $event
 	 */
 	public function handle(Event $event): void {
-		if (!($event instanceof NodeRenamedEvent)) {
+		if (!$this->registerFullTextSearchServices() || !($event instanceof NodeRenamedEvent)) {
 			return;
 		}
 
