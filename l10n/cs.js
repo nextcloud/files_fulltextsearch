@@ -29,7 +29,7 @@ OC.L10N.register(
     "Index the content of local files." : "Vytvořit rejstřík obsahu místních souborů.",
     "External Files" : "Vnější soubory",
     "Index the content of external files." : "Vytvořit rejstřík obsahu externích souborů.",
-    "Index path only" : "Vytvořit rejstřík pouze popisů umístění",
+    "Index path only" : "Vytvářet pouze rejstřík popisů umístění",
     "Index path and content" : "Vytvářet rejstřík popisů umístění a obsahu",
     "Do not index path nor content" : "Nevytvářet rejstřík popisů umístění a obsahu",
     "Group Folders" : "Skupinové složky",
