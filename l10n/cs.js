@@ -35,7 +35,7 @@ OC.L10N.register(
     "Group Folders" : "Skupinové složky",
     "Index the content of group folders." : "Vytvořit rejstřík obsahu skupinových složek.",
     "Types" : "Typy",
-    "Maximum file size" : "Nejvyšší umožněná velikost souboru",
+    "Maximum file size" : "Prohledávat soubory do velikosti nejvýše",
     "Maximum file size to index (in Mb)." : "Jaké největší soubory (v MB) ještě indexovat.",
     "Extract PDF" : "Extrahovat PDF",
     "Index the content of PDF files." : "Vytvářet rejstřík obsahu PDF souborů.",
