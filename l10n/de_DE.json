@@ -28,16 +28,16 @@
     "External Files" : "Externe Dateien",
     "Index the content of external files." : "Den Inhalt von externen Dateien indizieren.",
     "Index path only" : "Nur den Pfad indexieren",
-    "Index path and content" : "Indexiere Pfad und Inhalt",
+    "Index path and content" : "Pfad und Inhalt indexieren",
     "Do not index path nor content" : "Weder Pfad noch Inhalt indexieren",
     "Group Folders" : "Gruppenordner",
     "Index the content of group folders." : "Den Inhalt von Gruppenordnern indizieren.",
     "Types" : "Typen",
     "Maximum file size" : "Maximale Dateigröße",
     "Maximum file size to index (in Mb)." : "Maximale Dateigröße zum Indizieren (in MB).",
-    "Extract PDF" : "PDF indizieren",
+    "Extract PDF" : "PDF extrahieren",
     "Index the content of PDF files." : "Den Inhalt von PDF-Dateien indizieren.",
-    "Extract Office" : "Office-Dateien indizieren",
+    "Extract Office" : "Office-Dateien extrahieren",
     "Index the content of office files." : "Den Inhalt von Office-Dateien indizieren."
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
