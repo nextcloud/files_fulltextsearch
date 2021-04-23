@@ -1,6 +1,17 @@
 # Changelog
 
 
+### 21.0.1
+
+- Fixing some issue with null File
+- Fixing issue with occ fulltextsearch:command
+- adding few logging
+
+### 21.0.0
+
+- Compat NC21
+
+
 ### 20.0.0
 
 - upgrade deps
