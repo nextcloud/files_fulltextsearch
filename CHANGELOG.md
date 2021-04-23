@@ -1,6 +1,12 @@
 # Changelog
 
 
+
+### 20.0.2
+
+- Fixing issue with some null File
+
+
 ### 20.0.1
 
 - ignore files with no owner
