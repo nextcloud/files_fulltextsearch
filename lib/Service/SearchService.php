@@ -252,6 +252,10 @@ class SearchService {
 
 				$filesDocuments[] = $filesDocument;
 			} catch (Exception $e) {
+				$this->miscService->log(
+					'Exception while improving searchresult: ' . $e->getMessage() . ' - trace: '
+					. json_encode($e->getTrace())
+				);
 			}
 		}
 
