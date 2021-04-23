@@ -197,8 +197,15 @@ class FilesService {
 		$this->initFileSystems($userId);
 
 		/** @var Folder $files */
-		$files = $this->rootFolder->getUserFolder($userId)
-								  ->get($indexOptions->getOption('path', '/'));
+		try {
+			$files = $this->rootFolder->getUserFolder($userId)
+									  ->get($indexOptions->getOption('path', '/'));
+		} catch (Throwable $e) {
+			\OC::$server->getLogger()->log(2, 'Issue while retrieving rootFolder for ' . $userId);
+
+			return [];
+		}
+
 		if ($files instanceof Folder) {
 			return $this->getChunksFromDirectory($userId, $files);
 		} else {
@@ -377,6 +384,9 @@ class FilesService {
 	 * @throws Exception
 	 */
 	private function generateFilesDocumentFromFile(string $viewerId, Node $file): FilesDocument {
+		if (is_null($file->getId())) {
+			throw new NotFoundException();
+		}
 
 		$this->isNodeIndexable($file);
 
@@ -467,6 +477,7 @@ class FilesService {
 
 		$files = $this->rootFolder->getUserFolder($userId)
 								  ->getById($fileId);
+
 		if (sizeof($files) === 0) {
 			throw new FilesNotFoundException();
 		}
@@ -1181,11 +1192,15 @@ class FilesService {
 			}
 		}
 
-		$parent = $file->getParent();
+		try {
+			$parent = $file->getParent();
+		} catch (NotFoundException $e) {
+			return;
+		}
 		$parentPath = $this->withoutBeginSlash($parent->getPath());
 		$path = substr($parent->getPath(), 8 + strpos($parentPath, '/'));
 		if (is_string($path)) {
-			$this->isNodeIndexable($file->getParent());
+			$this->isNodeIndexable($parent);
 		}
 	}
 
