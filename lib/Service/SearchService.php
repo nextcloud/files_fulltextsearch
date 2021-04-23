@@ -112,7 +112,9 @@ class SearchService {
 		$this->searchQueryInOptions($request);
 		$this->searchQueryFiltersExtension($request);
 		$this->searchQueryFiltersSource($request);
-
+		if($this->userId === null) {
+			$this->userId = $this->miscService->secureUsername($request->getAuthor());
+		}
 		$request->addPart('comments');
 		$this->extensionService->searchRequest($request);
 	}
