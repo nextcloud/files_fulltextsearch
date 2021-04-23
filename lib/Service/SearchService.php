@@ -112,7 +112,9 @@ class SearchService {
 		$this->searchQueryInOptions($request);
 		$this->searchQueryFiltersExtension($request);
 		$this->searchQueryFiltersSource($request);
-
+		if($this->userId === null) {
+			$this->userId = $this->miscService->secureUsername($request->getAuthor());
+		}
 		$request->addPart('comments');
 		$this->extensionService->searchRequest($request);
 	}
@@ -250,6 +252,10 @@ class SearchService {
 
 				$filesDocuments[] = $filesDocument;
 			} catch (Exception $e) {
+				$this->miscService->log(
+					'Exception while improving searchresult: ' . $e->getMessage() . ' - trace: '
+					. json_encode($e->getTrace())
+				);
 			}
 		}
 
