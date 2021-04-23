@@ -51,7 +51,7 @@ class FileChanged extends ListenersCore implements IEventListener {
 	 * @param Event $event
 	 */
 	public function handle(Event $event): void {
-		if (!($event instanceof NodeWrittenEvent)) {
+		if (!$this->registerFullTextSearchServices() || !($event instanceof NodeWrittenEvent)) {
 			return;
 		}
 
