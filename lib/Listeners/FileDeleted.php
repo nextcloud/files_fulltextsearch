@@ -51,7 +51,7 @@ class FileDeleted extends ListenersCore implements IEventListener {
 	 * @param Event $event
 	 */
 	public function handle(Event $event): void {
-		if (!($event instanceof NodeDeletedEvent)) {
+		if (!$this->registerFullTextSearchServices() || !($event instanceof NodeDeletedEvent)) {
 			return;
 		}
 
