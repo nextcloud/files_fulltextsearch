@@ -2,7 +2,7 @@ OC.L10N.register(
     "files_fulltextsearch",
     {
     "files" : "pliki",
-    "Go to folder" : "Przejdź do folderu",
+    "Go to folder" : "Przejdź do katalogu",
     "Open folder" : "Otwórz katalog",
     "Name" : "Nazwa",
     "Modified" : "Zmodyfikowano",
