@@ -1,6 +1,10 @@
 # Changelog
 
 
+### 1.4.4
+
+- fixing lib dependencies
+
 
 ### 1.4.3
 
