@@ -412,10 +412,14 @@ class FilesService {
 			$ownerId = '';
 		}
 
-		$document->setType($file->getType())
-				 ->setOwnerId($ownerId)
-				 ->setPath($this->getPathFromViewerId($file->getId(), $viewerId))
-				 ->setViewerId($viewerId);
+		try {
+			$document->setType($file->getType())
+					 ->setOwnerId($ownerId)
+					 ->setPath($this->getPathFromViewerId($file->getId(), $viewerId))
+					 ->setViewerId($viewerId);
+		} catch (Throwable $t) {
+			throw new FileIsNotIndexableException();
+		}
 
 		if ($file->getMimetype() !== null) {
 			$document->setMimetype($file->getMimetype());
@@ -779,7 +783,7 @@ class FilesService {
 				$shareNames[$this->miscService->secureUsername($username)] =
 					(!is_string($path)) ? $path = '' : $path;
 
-			} catch (Exception $e) {
+			} catch (Throwable $e) {
 				$this->miscService->log(
 					'Issue while getting information on documentId:' . $document->getId(), 0
 				);
