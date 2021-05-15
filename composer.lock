@@ -4,26 +4,25 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0bdc4e0cc7225a7d091c3c2c830120e5",
+    "content-hash": "736f18c63e745d18a98af1e6c4bf5ce2",
     "packages": [
         {
             "name": "daita/my-small-php-tools",
-            "version": "dev-master",
+            "version": "v21.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/daita/my-small-php-tools.git",
-                "reference": "7d25743c2cd79521df3e3353a9358ec3931c6ad1"
+                "reference": "a1dad07490d32ba772f78e767197fb20bf2fe0b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/daita/my-small-php-tools/zipball/7d25743c2cd79521df3e3353a9358ec3931c6ad1",
-                "reference": "7d25743c2cd79521df3e3353a9358ec3931c6ad1",
+                "url": "https://api.github.com/repos/daita/my-small-php-tools/zipball/a1dad07490d32ba772f78e767197fb20bf2fe0b6",
+                "reference": "a1dad07490d32ba772f78e767197fb20bf2fe0b6",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.0"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -43,17 +42,15 @@
             "description": "My small PHP Tools",
             "support": {
                 "issues": "https://github.com/daita/my-small-php-tools/issues",
-                "source": "https://github.com/daita/my-small-php-tools/tree/master"
+                "source": "https://github.com/daita/my-small-php-tools/tree/v21.0.1"
             },
-            "time": "2021-04-19T21:42:37+00:00"
+            "time": "2021-04-26T12:51:38+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "daita/my-small-php-tools": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
