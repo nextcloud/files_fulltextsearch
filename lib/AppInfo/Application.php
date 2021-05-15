@@ -66,7 +66,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 class Application extends App implements IBootstrap {
 
 
-	const APP_NAME = 'files_fulltextsearch';
+	const APP_ID = 'files_fulltextsearch';
 
 
 	/**
@@ -75,7 +75,7 @@ class Application extends App implements IBootstrap {
 	 * @param array $params
 	 */
 	public function __construct(array $params = []) {
-		parent::__construct(self::APP_NAME, $params);
+		parent::__construct(self::APP_ID, $params);
 	}
 
 
