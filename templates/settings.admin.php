@@ -32,9 +32,9 @@ use OCA\Files_FullTextSearch\AppInfo\Application;
 use OCP\Util;
 
 
-Util::addScript(Application::APP_NAME, 'admin.elements');
-Util::addScript(Application::APP_NAME, 'admin.settings');
-Util::addScript(Application::APP_NAME, 'admin');
+Util::addScript(Application::APP_ID, 'admin.elements');
+Util::addScript(Application::APP_ID, 'admin.settings');
+Util::addScript(Application::APP_ID, 'admin');
 
 
 ?>

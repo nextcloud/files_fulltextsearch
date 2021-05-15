@@ -78,7 +78,7 @@ class SettingsController extends Controller {
 		SettingsService $settingsService,
 		MiscService $miscService
 	) {
-		parent::__construct(Application::APP_NAME, $request);
+		parent::__construct(Application::APP_ID, $request);
 		$this->appManager = $appManager;
 		$this->configService = $configService;
 		$this->settingsService = $settingsService;
