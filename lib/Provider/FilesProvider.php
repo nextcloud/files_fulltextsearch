@@ -31,8 +31,11 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Provider;
 
 
+use daita\MySmallPhpTools\Traits\Nextcloud\nc22\TNC22Logger;
 use OC\FullTextSearch\Model\SearchOption;
 use OC\FullTextSearch\Model\SearchTemplate;
+use OC\User\NoUserException;
+use OCA\Files_FullTextSearch\AppInfo\Application;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Service\ConfigService;
@@ -42,6 +45,7 @@ use OCA\Files_FullTextSearch\Service\MiscService;
 use OCA\Files_FullTextSearch\Service\SearchService;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
+use OCP\Files\NotPermittedException;
 use OCP\FullTextSearch\IFullTextSearchPlatform;
 use OCP\FullTextSearch\IFullTextSearchProvider;
 use OCP\FullTextSearch\Model\IIndex;
@@ -62,6 +66,8 @@ use OCP\IL10N;
  */
 class FilesProvider implements IFullTextSearchProvider {
 
+
+	use TNC22Logger;
 
 	const FILES_PROVIDER_ID = 'files';
 
@@ -101,6 +107,8 @@ class FilesProvider implements IFullTextSearchProvider {
 		$this->searchService = $searchService;
 		$this->extensionService = $extensionService;
 		$this->miscService = $miscService;
+
+		$this->setup('app', Application::APP_ID);
 	}
 
 
@@ -124,8 +132,10 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @return array
 	 */
 	public function getConfiguration(): array {
+		$this->debug('getConfiguration request');
 		$config = $this->configService->getConfig();
 		$this->extensionService->getConfig($config);
+		$this->debug('getConfiguration result', $config);
 
 		return $config;
 	}
@@ -235,7 +245,11 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @throws NotFoundException
 	 */
 	public function generateChunks(string $userId): array {
-		return $this->filesService->getChunksFromUser($userId, $this->indexOptions);
+		$this->debug('generateChunks request', ['userId' => $userId, 'options' => $this->indexOptions]);
+		$chunks = $this->filesService->getChunksFromUser($userId, $this->indexOptions);
+		$this->debug('generateChunks result', $chunks);
+
+		return $chunks;
 	}
 
 
@@ -247,9 +261,15 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @return IIndexDocument[]
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
+	 * @throws NotPermittedException
+	 * @throws NoUserException
 	 */
 	public function generateIndexableDocuments(string $userId, string $chunk): array {
-		return $this->filesService->getFilesFromUser($userId, $chunk);
+		$this->debug('generateIndexableDocuments request', ['userId' => $userId, 'chunk' => $chunk]);
+		$documents = $this->filesService->getFilesFromUser($userId, $chunk);
+		$this->debug('generateIndexableDocuments result', ['documents' => count($documents)]);
+
+		return $documents;
 	}
 
 
@@ -264,8 +284,9 @@ class FilesProvider implements IFullTextSearchProvider {
 				'title' => $document->getPath()
 			]
 		);
-
+		$this->debug('fillIndexDocument request', ['document' => $document]);
 		$this->filesService->generateDocument($document);
+		$this->debug('fillIndexDocument result', ['document' => $document]);
 	}
 
 
@@ -275,7 +296,11 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @return bool
 	 */
 	public function isDocumentUpToDate(IIndexDocument $document): bool {
-		return $this->filesService->isDocumentUpToDate($document);
+		$this->debug('isDocumentUpToDate request', ['document' => $document]);
+		$result = $this->filesService->isDocumentUpToDate($document);
+		$this->debug('isDocumentUpToDate result', ['document' => $document, 'result' => $result]);
+
+		return $result;
 	}
 
 
@@ -288,7 +313,9 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @throws FileIsNotIndexableException
 	 */
 	public function updateDocument(IIndex $index): IIndexDocument {
+		$this->debug('updateDocument request', ['index' => $index]);
 		$document = $this->filesService->updateDocument($index);
+		$this->debug('updateDocument result', ['index' => $index, 'document' => $document]);
 		$this->updateRunnerInfo('info', $document->getMimetype());
 
 		return $document;

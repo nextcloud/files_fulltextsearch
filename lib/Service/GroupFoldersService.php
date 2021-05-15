@@ -31,8 +31,10 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Service;
 
 
+use daita\MySmallPhpTools\Traits\Nextcloud\nc22\TNC22Logger;
 use daita\MySmallPhpTools\Traits\TArrayTools;
 use Exception;
+use OCA\Files_FullTextSearch\AppInfo\Application;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Exceptions\GroupFolderNotFoundException;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
@@ -56,6 +58,7 @@ class GroupFoldersService {
 
 
 	use TArrayTools;
+	use TNC22Logger;
 
 
 	/** @var IManager */
@@ -113,6 +116,7 @@ class GroupFoldersService {
 		$this->localFilesService = $localFilesService;
 		$this->configService = $configService;
 		$this->miscService = $miscService;
+		$this->setup('app', Application::APP_ID);
 	}
 
 
@@ -124,7 +128,9 @@ class GroupFoldersService {
 			return;
 		}
 
+		$this->debug('initGroupSharesForUser request', ['userId' => $userId]);
 		$this->groupFolders = $this->getMountPoints($userId);
+		$this->debug('initGroupSharesForUser result', ['groupFolders' => $this->groupFolders]);
 	}
 
 
