@@ -1,5 +1,9 @@
 # Changelog
 
+### 20.0.3
+
+- Adding some logging
+- Fixing some crashing
 
 
 ### 20.0.2
