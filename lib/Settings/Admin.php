@@ -86,7 +86,7 @@ class Admin implements ISettings {
 	 * @throws Exception
 	 */
 	public function getForm(): TemplateResponse {
-		return new TemplateResponse(Application::APP_NAME, 'settings.admin', []);
+		return new TemplateResponse(Application::APP_ID, 'settings.admin', []);
 	}
 
 
