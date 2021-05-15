@@ -31,7 +31,7 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Service;
 
 
-use daita\MySmallPhpTools\Traits\Nextcloud\nc22\TNC22Logger;
+use OCA\Files_FullTextSearch\TNC22Logger;
 use daita\MySmallPhpTools\Traits\TPathTools;
 use Exception;
 use OC\FullTextSearch\Model\DocumentAccess;
