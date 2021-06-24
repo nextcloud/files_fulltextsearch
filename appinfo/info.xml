@@ -10,7 +10,7 @@ Extension to the _Full text search_ app to index your users' files.
 
 	]]>
 	</description>
-	<version>21.0.2</version>
+	<version>23.0.0</version>
 	<licence>agpl</licence>
 	<author>Maxence Lange</author>
 	<namespace>Files_FullTextSearch</namespace>
@@ -26,7 +26,7 @@ Extension to the _Full text search_ app to index your users' files.
 	<repository>https://github.com/nextcloud/files_fulltextsearch.git</repository>
 	<screenshot>https://raw.githubusercontent.com/nextcloud/fulltextsearch/master/screenshots/0.3.0.png</screenshot>
 	<dependencies>
-		<nextcloud min-version="21" max-version="21"/>
+		<nextcloud min-version="23" max-version="23"/>
 	</dependencies>
 
 	<commands>
