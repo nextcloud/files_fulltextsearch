@@ -1,5 +1,11 @@
 # Changelog
 
+
+### 20.0.4
+
+- Fixing events
+
+
 ### 20.0.3
 
 - Adding some logging
