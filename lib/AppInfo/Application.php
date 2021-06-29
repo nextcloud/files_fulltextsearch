@@ -32,13 +32,10 @@ namespace OCA\Files_FullTextSearch\AppInfo;
 
 
 use Closure;
-use OCA\Circles\Listeners\UserDeleted;
 use OCA\Files_FullTextSearch\Hooks\FilesHooks;
 use OCA\Files_FullTextSearch\Listeners\FileChanged;
 use OCA\Files_FullTextSearch\Listeners\FileCreated;
 use OCA\Files_FullTextSearch\Listeners\FileDeleted;
-use OCA\Files_FullTextSearch\Listeners\FileEdit;
-use OCA\Files_FullTextSearch\Listeners\FileNew;
 use OCA\Files_FullTextSearch\Listeners\FileRenamed;
 use OCA\Files_FullTextSearch\Listeners\ShareCreated;
 use OCP\AppFramework\App;

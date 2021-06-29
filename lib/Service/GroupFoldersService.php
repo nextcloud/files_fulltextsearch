@@ -57,7 +57,6 @@ use OCP\Share\IManager;
 class GroupFoldersService {
 
 
-	use TArrayTools;
 	use TNC22Logger;
 
 

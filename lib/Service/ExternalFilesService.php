@@ -63,7 +63,6 @@ use OCP\Share\IManager;
 class ExternalFilesService {
 
 
-	use TArrayTools;
 	use TNC22Logger;
 
 
