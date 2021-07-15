@@ -18,7 +18,7 @@ OC.L10N.register(
     "External files" : "外部檔案",
     "Within group folders" : "在群組資料夾內",
     "Group folders" : "群組資料夾",
-    "Filter by extension" : "按副檔名過濾",
+    "Filter by extension" : "按檔案擴展名過濾",
     "Extension" : "副檔名",
     "Full text search - Files" : "全文搜尋 - 檔案",
     "Index the content of your files" : "索引您檔案的內容",
