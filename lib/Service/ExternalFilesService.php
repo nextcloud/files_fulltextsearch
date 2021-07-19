@@ -31,8 +31,6 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Service;
 
 
-use OCA\Files_FullTextSearch\TNC22Logger;
-use daita\MySmallPhpTools\Traits\TArrayTools;
 use Exception;
 use OC;
 use OC\App\AppManager;
@@ -46,6 +44,7 @@ use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Model\MountPoint;
+use OCA\Files_FullTextSearch\TNC22Logger;
 use OCP\App\IAppManager;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
@@ -63,7 +62,6 @@ use OCP\Share\IManager;
 class ExternalFilesService {
 
 
-	use TArrayTools;
 	use TNC22Logger;
 
 
@@ -144,7 +142,7 @@ class ExternalFilesService {
 			'initExternalFilesForUser result',
 			[
 				'userGlobalStoragesService' => is_null($this->userGlobalStoragesService),
-				'globalStoragesService'     => is_null($this->globalStoragesService)
+				'globalStoragesService' => is_null($this->globalStoragesService)
 			]
 		);
 	}

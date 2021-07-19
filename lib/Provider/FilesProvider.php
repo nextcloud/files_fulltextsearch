@@ -31,7 +31,6 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Provider;
 
 
-use OCA\Files_FullTextSearch\TNC22Logger;
 use OC\FullTextSearch\Model\SearchOption;
 use OC\FullTextSearch\Model\SearchTemplate;
 use OC\User\NoUserException;
@@ -43,6 +42,7 @@ use OCA\Files_FullTextSearch\Service\ExtensionService;
 use OCA\Files_FullTextSearch\Service\FilesService;
 use OCA\Files_FullTextSearch\Service\MiscService;
 use OCA\Files_FullTextSearch\Service\SearchService;
+use OCA\Files_FullTextSearch\TNC22Logger;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;

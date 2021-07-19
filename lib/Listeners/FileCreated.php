@@ -43,7 +43,7 @@ use OCP\FullTextSearch\Model\IIndex;
 /**
  * Class FileCreated
  *
- * @package OCA\Circles\Listeners
+ * @package OCA\Files_FullTextSearch\Listeners
  */
 class FileCreated extends ListenersCore implements IEventListener {
 

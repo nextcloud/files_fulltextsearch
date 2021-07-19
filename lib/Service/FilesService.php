@@ -31,7 +31,6 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Service;
 
 
-use OCA\Files_FullTextSearch\TNC22Logger;
 use daita\MySmallPhpTools\Traits\TPathTools;
 use Exception;
 use OC\FullTextSearch\Model\DocumentAccess;
@@ -44,6 +43,7 @@ use OCA\Files_FullTextSearch\Exceptions\KnownFileMimeTypeException;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Provider\FilesProvider;
+use OCA\Files_FullTextSearch\TNC22Logger;
 use OCP\App\IAppManager;
 use OCP\AppFramework\IAppContainer;
 use OCP\Comments\ICommentsManager;

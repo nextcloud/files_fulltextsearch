@@ -31,8 +31,6 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Service;
 
 
-use OCA\Files_FullTextSearch\TNC22Logger;
-use daita\MySmallPhpTools\Traits\TArrayTools;
 use Exception;
 use OCA\Files_FullTextSearch\AppInfo\Application;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
@@ -40,6 +38,7 @@ use OCA\Files_FullTextSearch\Exceptions\GroupFolderNotFoundException;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Model\MountPoint;
+use OCA\Files_FullTextSearch\TNC22Logger;
 use OCA\GroupFolders\Folder\FolderManager;
 use OCP\App\IAppManager;
 use OCP\Files\Node;
@@ -57,7 +56,6 @@ use OCP\Share\IManager;
 class GroupFoldersService {
 
 
-	use TArrayTools;
 	use TNC22Logger;
 
 

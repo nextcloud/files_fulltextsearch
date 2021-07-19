@@ -38,9 +38,9 @@ use OCP\Share\Events\ShareDeletedEvent;
 
 
 /**
- * Class ShareCreated
+ * Class ShareDeleted
  *
- * @package OCA\Circles\Listeners
+ * @package OCA\Files_FullTextSearch\Listeners
  */
 class ShareDeleted extends ListenersCore implements IEventListener {
 
