@@ -42,7 +42,7 @@ use OCP\Share\Events\ShareCreatedEvent;
 /**
  * Class ShareCreated
  *
- * @package OCA\Circles\Listeners
+ * @package OCA\Files_FullTextSearch\Listeners
  */
 class ShareCreated extends ListenersCore implements IEventListener {
 

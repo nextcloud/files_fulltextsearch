@@ -31,8 +31,8 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Service;
 
 
-use daita\MySmallPhpTools\Traits\Nextcloud\nc22\TNC22Logger;
-use daita\MySmallPhpTools\Traits\TArrayTools;
+use ArtificialOwl\MySmallPhpTools\Traits\Nextcloud\nc22\TNC22Logger;
+use ArtificialOwl\MySmallPhpTools\Traits\TArrayTools;
 use Exception;
 use OC;
 use OC\App\AppManager;
@@ -63,8 +63,8 @@ use OCP\Share\IManager;
 class ExternalFilesService {
 
 
-	use TArrayTools;
 	use TNC22Logger;
+	use TArrayTools;
 
 
 	/** @var IRootFolder */
@@ -144,7 +144,7 @@ class ExternalFilesService {
 			'initExternalFilesForUser result',
 			[
 				'userGlobalStoragesService' => is_null($this->userGlobalStoragesService),
-				'globalStoragesService'     => is_null($this->globalStoragesService)
+				'globalStoragesService' => is_null($this->globalStoragesService)
 			]
 		);
 	}

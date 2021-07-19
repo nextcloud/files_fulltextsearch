@@ -31,7 +31,7 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Db;
 
 
-use daita\MySmallPhpTools\Db\ExtendedQueryBuilder;
+use ArtificialOwl\MySmallPhpTools\Db\ExtendedQueryBuilder;
 
 
 /**
