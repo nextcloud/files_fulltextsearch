@@ -1,6 +1,12 @@
 # Changelog
 
-### 21.0.2
+
+### 22.0.0
+
+- Fixing events
+
+
+### 21.0.2 
 
 - Adding some logging
 - Fixing some crashing
