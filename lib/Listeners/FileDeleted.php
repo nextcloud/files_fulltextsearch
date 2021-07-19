@@ -42,7 +42,7 @@ use OCP\FullTextSearch\Model\IIndex;
 /**
  * Class FileDeleted
  *
- * @package OCA\Circles\Events
+ * @package OCA\Files_FullTextSearch\Listeners
  */
 class FileDeleted extends ListenersCore implements IEventListener {
 

@@ -31,8 +31,8 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Listeners;
 
 
-use daita\MySmallPhpTools\Traits\Nextcloud\nc21\TNC21Logger;
-use daita\MySmallPhpTools\Traits\TArrayTools;
+use ArtificialOwl\MySmallPhpTools\Traits\Nextcloud\nc21\TNC21Logger;
+use ArtificialOwl\MySmallPhpTools\Traits\TArrayTools;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OCA\Files_FullTextSearch\Service\ConfigService;
 use OCA\Files_FullTextSearch\Service\FilesService;
