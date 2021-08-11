@@ -101,7 +101,8 @@ class GroupFoldersService {
 		ConfigService $configService, MiscService $miscService
 	) {
 
-		if ($appManager->isEnabledForUser('groupfolders', $userId)) {
+		if ($configService->getAppValue(ConfigService::FILES_GROUP_FOLDERS) === '1'
+			&& $appManager->isEnabledForUser('groupfolders', $userId)) {
 			try {
 				$this->folderManager = new FolderManager($dbConnection);
 			} catch (Exception $e) {
