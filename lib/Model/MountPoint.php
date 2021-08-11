@@ -46,16 +46,16 @@ class MountPoint implements JsonSerializable {
 	private $id;
 
 	/** @var string */
-	private $path;
+	private $path = '';
 
 	/** @var bool */
-	private $global;
+	private $global = false;
 
 	/** @var array */
-	private $groups;
+	private $groups = [];
 
 	/** @var array */
-	private $users;
+	private $users = [];
 
 
 	/**
@@ -116,7 +116,7 @@ class MountPoint implements JsonSerializable {
 
 
 	/**
-	 * @return array
+	 * @return array'
 	 */
 	public function getGroups(): array {
 		return $this->groups;
