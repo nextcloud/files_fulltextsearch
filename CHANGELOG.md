@@ -1,5 +1,9 @@
 # Changelog
 
+### 22.0.1
+
+- fixing index of groupfoldets
+
 
 ### 22.0.0
 
