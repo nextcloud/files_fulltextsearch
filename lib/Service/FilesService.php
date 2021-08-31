@@ -1057,6 +1057,10 @@ class FilesService {
 			return;
 		}
 
+		if (substr($file->getName(), 0, 2) === '~$') {
+			return;
+		}
+
 		if ($this->configService->getAppValue(ConfigService::FILES_OFFICE) !== '1') {
 			$document->setContent('');
 
