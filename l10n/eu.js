@@ -15,7 +15,7 @@ OC.L10N.register(
     "Within local files" : "Fitxategi lokalen barruan",
     "Local files" : "Fitxategi lokalak",
     "Within external files" : "Kanpoko fitxategien barruan",
-    "External files" : "Kanpo fitxategiak",
+    "External files" : "Kanpoko fitxategiak",
     "Within group folders" : "Talde-karpeten barruan",
     "Group folders" : "Talde karpetak",
     "Filter by extension" : "Iragazi hedapenaz",
