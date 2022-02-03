@@ -61,6 +61,7 @@ use OCP\FullTextSearch\Model\IIndex;
 use OCP\FullTextSearch\Model\IIndexDocument;
 use OCP\FullTextSearch\Model\IIndexOptions;
 use OCP\FullTextSearch\Model\IRunner;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Lock\LockedException;
 use OCP\Share\IManager as IShareManager;
@@ -104,6 +105,9 @@ class FilesService {
 	/** @var IShareManager */
 	private $shareManager;
 
+	/** @var IURLGenerator */
+	private $urlGenerator;
+
 	/** @var ICommentsManager */
 	private $commentsManager;
 
@@ -144,6 +148,7 @@ class FilesService {
 	 * @param IAppManager $appManager
 	 * @param IUserManager $userManager
 	 * @param IShareManager $shareManager
+	 * @param IURLGenerator $urlGenerator
 	 * @param ICommentsManager $commentsManager
 	 * @param ConfigService $configService
 	 * @param LocalFilesService $localFilesService
@@ -156,18 +161,27 @@ class FilesService {
 	 * @internal param IProviderFactory $factory
 	 */
 	public function __construct(
-		IAppContainer $container, IRootFolder $rootFolder, IAppManager $appManager,
-		IUserManager $userManager, IShareManager $shareManager, ICommentsManager $commentsManager,
+		IAppContainer $container,
+		IRootFolder $rootFolder,
+		IAppManager $appManager,
+		IUserManager $userManager,
+		IShareManager $shareManager,
+		IURLGenerator $urlGenerator,
+		ICommentsManager $commentsManager,
 		ConfigService $configService,
-		LocalFilesService $localFilesService, ExternalFilesService $externalFilesService,
-		GroupFoldersService $groupFoldersService, ExtensionService $extensionService,
-		IFullTextSearchManager $fullTextSearchManager, MiscService $miscService
+		LocalFilesService $localFilesService,
+		ExternalFilesService $externalFilesService,
+		GroupFoldersService $groupFoldersService,
+		ExtensionService $extensionService,
+		IFullTextSearchManager $fullTextSearchManager,
+		MiscService $miscService
 	) {
 		$this->container = $container;
 		$this->rootFolder = $rootFolder;
 		$this->appManager = $appManager;
 		$this->userManager = $userManager;
 		$this->shareManager = $shareManager;
+		$this->urlGenerator = $urlGenerator;
 		$this->commentsManager = $commentsManager;
 
 		$this->configService = $configService;
@@ -258,8 +272,8 @@ class FilesService {
 			'getChunksFromDirectory result',
 			[
 				'userId' => $userId,
-				'level'  => $level,
-				'size'   => count($entries)
+				'level' => $level,
+				'size' => count($entries)
 			]
 		);
 
@@ -319,9 +333,9 @@ class FilesService {
 		$this->updateRunnerAction('generateIndexFiles', true);
 		$this->updateRunnerInfo(
 			[
-				'info'          => $node->getPath(),
-				'title'         => '',
-				'content'       => '',
+				'info' => $node->getPath(),
+				'title' => '',
+				'content' => '',
 				'documentTotal' => $this->sumDocuments
 			]
 		);
@@ -419,7 +433,7 @@ class FilesService {
 
 		$source = $this->getFileSource($file);
 		$document = new FilesDocument(FilesProvider::FILES_PROVIDER_ID, (string)$file->getId());
-		$document->setAccess(new DocumentAccess());
+		$document->setAccess(new DocumentAccess($file->getOwner()->getUID()));
 
 		if ($file->getId() === -1) {
 			throw new FileIsNotIndexableException();
@@ -733,6 +747,12 @@ class FilesService {
 	private function updateContentFromFile(FilesDocument $document, Node $file) {
 
 		$document->setTitle($document->getPath());
+		$document->setLink(
+			$this->urlGenerator->linkToRouteAbsolute(
+				'files.viewcontroller.showFile',
+				['fileid' => $document->getId()]
+			)
+		);
 
 		if ((!$document->getIndex()
 					   ->isStatus(IIndex::INDEX_CONTENT)
@@ -1258,10 +1278,10 @@ class FilesService {
 		$result = (($entrySlash) ? '/' : '') . $path;
 		$this->debug(
 			'getPathFromRoot', [
-								 'path'       => $path,
-								 'userId'     => $userId,
+								 'path' => $path,
+								 'userId' => $userId,
 								 'entrySlash' => $entrySlash,
-								 'result'     => $result
+								 'result' => $result
 							 ]
 		);
 
