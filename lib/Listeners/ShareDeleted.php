@@ -34,6 +34,9 @@ namespace OCA\Files_FullTextSearch\Listeners;
 
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
+use OCP\Files\InvalidPathException;
+use OCP\Files\NotFoundException;
+use OCP\FullTextSearch\Model\IIndex;
 use OCP\Share\Events\ShareDeletedEvent;
 
 
@@ -54,7 +57,16 @@ class ShareDeleted extends ListenersCore implements IEventListener {
 		}
 
 		$share = $event->getShare();
+		try {
+			$node = $share->getNode();
+			$this->fullTextSearchManager->updateIndexStatus(
+				'files',
+				(string)$node->getId(),
+				IIndex::INDEX_META
+			);
+		} catch (InvalidPathException | NotFoundException $e) {
+			$this->exception($e);
+		}
 	}
-
 }
 

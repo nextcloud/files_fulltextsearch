@@ -32,12 +32,12 @@ namespace OCA\Files_FullTextSearch\AppInfo;
 
 
 use Closure;
-use OCA\Files_FullTextSearch\Hooks\FilesHooks;
 use OCA\Files_FullTextSearch\Listeners\FileChanged;
 use OCA\Files_FullTextSearch\Listeners\FileCreated;
 use OCA\Files_FullTextSearch\Listeners\FileDeleted;
 use OCA\Files_FullTextSearch\Listeners\FileRenamed;
 use OCA\Files_FullTextSearch\Listeners\ShareCreated;
+use OCA\Files_FullTextSearch\Listeners\ShareDeleted;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -46,9 +46,8 @@ use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Files\Events\Node\NodeDeletedEvent;
 use OCP\Files\Events\Node\NodeRenamedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
-use OCP\IServerContainer;
 use OCP\Share\Events\ShareCreatedEvent;
-use OCP\Util;
+use OCP\Share\Events\ShareDeletedEvent;
 use Throwable;
 
 
@@ -86,7 +85,7 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(NodeDeletedEvent::class, FileDeleted::class);
 
 		$context->registerEventListener(ShareCreatedEvent::class, ShareCreated::class);
-//		$context->registerEventListener(ShareDeletedEvent::class, ShareDeleted::class);
+		$context->registerEventListener(ShareDeletedEvent::class, ShareDeleted::class);
 	}
 
 
@@ -96,18 +95,6 @@ class Application extends App implements IBootstrap {
 	 * @throws Throwable
 	 */
 	public function boot(IBootContext $context): void {
-		$context->injectFn(Closure::fromCallable([$this, 'registerHooks']));
 	}
-
-
-	/**
-	 * Register Hooks
-	 *
-	 * @param IServerContainer $container
-	 */
-	public function registerHooks(IServerContainer $container) {
-		Util::connectHook('OCP\Share', 'post_unshare', FilesHooks::class, 'onFileUnshare');
-	}
-
 }
 
