@@ -588,8 +588,8 @@ class FilesService {
 			$document->getIndex()
 					 ->setStatus(IIndex::INDEX_IGNORE);
 			$this->miscService->log(
-				'Exception while generateDocument: ' . $e->getMessage() . ' - trace: '
-				. json_encode($e->getTrace())
+				'Exception while generateDocument: ' . $e->getMessage() . ' ('. get_class($e) .') at '
+				. $e->getFile() . ' line ' . $e->getLine()
 			);
 		}
 	}
