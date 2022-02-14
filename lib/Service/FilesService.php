@@ -492,12 +492,13 @@ class FilesService {
 			$document->setTags($tags);
 		}
 
+		$document->setModifiedTime($file->getMTime());
+
 		$stat = $file->stat();
 		$document->setMore(
 			[
-				'mtime' => $file->getMTime(),
-				'ctime' => $this->getInt('ctime', $stat),
-				'atime' => $this->getInt('atime', $stat)
+				'creationTime' => $this->getInt('ctime', $stat),
+				'accessedTime' => $this->getInt('atime', $stat)
 			]
 		);
 
