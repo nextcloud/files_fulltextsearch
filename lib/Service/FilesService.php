@@ -35,6 +35,8 @@ use ArtificialOwl\MySmallPhpTools\Traits\Nextcloud\nc22\TNC22Logger;
 use ArtificialOwl\MySmallPhpTools\Traits\TPathTools;
 use Exception;
 use OC\FullTextSearch\Model\DocumentAccess;
+use OC\SystemTag\SystemTagManager;
+use OC\SystemTag\SystemTagObjectMapper;
 use OC\User\NoUserException;
 use OCA\Files_FullTextSearch\AppInfo\Application;
 use OCA\Files_FullTextSearch\Exceptions\EmptyUserException;
@@ -65,6 +67,7 @@ use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Lock\LockedException;
 use OCP\Share\IManager as IShareManager;
+use OCP\SystemTag\ISystemTag;
 use Throwable;
 
 
@@ -110,6 +113,12 @@ class FilesService {
 
 	/** @var ICommentsManager */
 	private $commentsManager;
+
+	/** @var SystemTagObjectMapper */
+	private $systemTagObjectMapper;
+
+	/** @var SystemTagManager */
+	private $systemTagManager;
 
 	/** @var ConfigService */
 	private $configService;
@@ -168,6 +177,8 @@ class FilesService {
 		IShareManager $shareManager,
 		IURLGenerator $urlGenerator,
 		ICommentsManager $commentsManager,
+		SystemTagObjectMapper $systemTagObjectMapper,
+		SystemTagManager $systemTagManager,
 		ConfigService $configService,
 		LocalFilesService $localFilesService,
 		ExternalFilesService $externalFilesService,
@@ -183,6 +194,8 @@ class FilesService {
 		$this->shareManager = $shareManager;
 		$this->urlGenerator = $urlGenerator;
 		$this->commentsManager = $commentsManager;
+		$this->systemTagObjectMapper = $systemTagObjectMapper;
+		$this->systemTagManager = $systemTagManager;
 
 		$this->configService = $configService;
 		$this->localFilesService = $localFilesService;
@@ -469,6 +482,25 @@ class FilesService {
 		$document->setModifiedTime($file->getMTime())
 				 ->setSource($source);
 
+		$tagIds = $this->systemTagObjectMapper->getTagIdsForObjects([$file->getId()], 'files');
+		if (array_key_exists($file->getId(), $tagIds)) {
+			$tags = array_values(
+				array_map(function (ISystemTag $tag): string {
+					return $tag->getName();
+				}, $this->systemTagManager->getTagsByIds($tagIds[$file->getId()]))
+			);
+			$document->setTags($tags);
+		}
+
+		$stat = $file->stat();
+		$document->setMore(
+			[
+				'mtime' => $file->getMTime(),
+				'ctime' => $this->getInt('ctime', $stat),
+				'atime' => $this->getInt('atime', $stat)
+			]
+		);
+
 		return $document;
 	}
 
@@ -588,7 +620,7 @@ class FilesService {
 			$document->getIndex()
 					 ->setStatus(IIndex::INDEX_IGNORE);
 			$this->miscService->log(
-				'Exception while generateDocument: ' . $e->getMessage() . ' ('. get_class($e) .') at '
+				'Exception while generateDocument: ' . $e->getMessage() . ' (' . get_class($e) . ') at '
 				. $e->getFile() . ' line ' . $e->getLine()
 			);
 		}
