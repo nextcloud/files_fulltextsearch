@@ -1,5 +1,11 @@
 # Changelog
 
+
+### 22.0.2
+
+- ignore office temporary files
+
+
 ### 22.0.1
 
 - fixing index of groupfoldets
