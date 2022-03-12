@@ -37,7 +37,9 @@ OC.L10N.register(
     "Types" : "Typer",
     "Maximum file size" : "Maksimal filstørrelse",
     "Maximum file size to index (in Mb)." : "Maksimum størrelse på fil som skal indekseres (i Mb).",
+    "Extract PDF" : "Trekk ut PDF",
     "Index the content of PDF files." : "Indekser innholdet i PDF-filer.",
+    "Extract Office" : "Trekk ut Office",
     "Index the content of office files." : "Indekser innholdet i kontorprogram-filer."
 },
 "nplurals=2; plural=(n != 1);");
