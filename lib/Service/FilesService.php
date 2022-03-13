@@ -898,6 +898,18 @@ class FilesService {
 			throw new KnownFileMimeTypeException();
 		}
 
+		// 20220219 Parse XML files as TEXT files
+		if (substr($mimeType, 0, 15) === 'application/xml') {
+			$parsed = self::MIMETYPE_TEXT;
+			throw new KnownFileMimeTypeException();
+		}
+
+		// 20220219 Parse .drawio file
+		if ($extension  === 'drawio') {
+			$parsed = self::MIMETYPE_TEXT;
+			throw new KnownFileMimeTypeException();
+		}
+
 		$textMimes = [
 			'application/epub+zip'
 		];
@@ -1039,14 +1051,77 @@ class FilesService {
 			return;
 		}
 
-		try {
-			$document->setContent(
-				base64_encode($file->getContent()), IIndexDocument::ENCODED_BASE64
-			);
-		} catch (NotPermittedException | LockedException $e) {
+		// 20220219 Inflate drawio file
+		if ( $file->getExtension() === 'drawio') {
+			$content = $file->getContent();
+
+			try {
+				$xml = simplexml_load_string($content);
+
+				// Initialize $content
+				$content = '';
+
+				foreach ($xml->diagram as $child) {
+				    $deflated_content = (string)$child;
+				    $base64decoded = base64_decode($deflated_content);
+				    $urlencoded_content = gzinflate($base64decoded);
+				    $urldecoded_content = urldecode($urlencoded_content);
+
+				    // Remove image tag
+				    $diagram_str = preg_replace('/style=\"shape=image[^"]*\"/', '', $urldecoded_content);
+
+				    // Construct XML
+				    $diagram_xml = simplexml_load_string($diagram_str);
+				    $content = $content . ' ' . $this->readDrawioXmlValue($diagram_xml);
+				}
+
+			} catch (\Throwable $t) {
+			}
+
+			try {
+				$document->setContent(
+					// 20220219 Pass content of inflated drawio graph xml
+					base64_encode($content), IIndexDocument::ENCODED_BASE64
+				);
+			} catch (NotPermittedException | LockedException $e) {
+			}
+		} else {
+			try {
+				$document->setContent(
+					base64_encode($file->getContent()), IIndexDocument::ENCODED_BASE64
+				);
+			} catch (NotPermittedException | LockedException $e) {
+			}
 		}
 	}
 
+	// 20220220 Read Draw.io XML elements and return a space separated
+	// strings, stripped of HTML tags, to be indexed.
+	/**
+	 * @param SimpleXMLElement $element
+	 *
+	 * @return string
+	 */
+	private function readDrawioXmlValue(\SimpleXMLElement $element) {
+		$str = '';
+		if( $element['value'] != null && trim(strval($element['value'])) !== '') {
+			$str = $str . " " .  trim(strval($element['value']));
+		}
+		if( $element != null && trim(strval($element)) !== '') {
+			$str = $str . " " . trim(strval($element));
+		}
+
+		try {
+			foreach ($element->children() as $child) {
+				$str = $str . " " . $this->readDrawioXmlValue($child);
+			}
+		} finally {
+		}
+
+		// Strip HTML tags
+		$str_without_tags = preg_replace('/<[^>]*>/', ' ', $str);
+		return $str_without_tags;
+	}
 
 	/**
 	 * @param FilesDocument $document
