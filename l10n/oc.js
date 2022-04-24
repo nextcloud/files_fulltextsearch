@@ -7,6 +7,7 @@ OC.L10N.register(
     "Name" : "Nom",
     "Modified" : "Modificat",
     "Size" : "Talha",
+    "Could not copy \"{file}\"" : "Còpia impossibla « {file} »",
     "Local files" : "Fichièrs locals",
     "External files" : "Fichièrs extèrnes",
     "Extension" : "Extension",
