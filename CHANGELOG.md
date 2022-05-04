@@ -1,5 +1,9 @@
 # Changelog
 
+### 24.0.0
+
+- compat nc24
+
 
 ### 23.0.0
 
