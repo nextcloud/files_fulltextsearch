@@ -29,7 +29,7 @@ OC.L10N.register(
     "Index the content of local files." : "Yerel dosyaların içeriği dizine eklensin.",
     "External Files" : "Dış dosyalar",
     "Index the content of external files." : "Dış dosyaların içeriği dizine eklensin",
-    "Index path only" : "Yalnız dizin yolu",
+    "Index path only" : "Yalnızca dizin yolu",
     "Index path and content" : "Dizin yolu ve içeriği",
     "Do not index path nor content" : "Ne dizin yolu ne de içeriği",
     "Group Folders" : "Grup klasörleri",
