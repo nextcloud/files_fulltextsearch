@@ -34,9 +34,8 @@ namespace OCA\Files_FullTextSearch\Db;
 use OC;
 use OC\SystemConfig;
 use OCA\Files_FullTextSearch\Service\MiscService;
-use OCA\Social\Db\SocialQueryBuilder;
 use OCP\IDBConnection;
-use OCP\ILogger;
+use Psr\Log\LoggerInterface;
 
 
 /**
@@ -73,7 +72,7 @@ class CoreRequestBuilder {
 		return new CoreQueryBuilder(
 			OC::$server->get(IDBConnection::class),
 			OC::$server->get(SystemConfig::class),
-			OC::$server->get(ILogger::class)
+			OC::$server->get(LoggerInterface::class)
 		);
 	}
 
