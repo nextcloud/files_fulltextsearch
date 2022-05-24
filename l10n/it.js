@@ -42,4 +42,4 @@ OC.L10N.register(
     "Extract Office" : "Estrai Office",
     "Index the content of office files." : "Indicizza il contenuto dei file di Office."
 },
-"nplurals=2; plural=(n != 1);");
+"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
