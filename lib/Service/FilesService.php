@@ -493,14 +493,18 @@ class FilesService {
 		}
 
 		$document->setModifiedTime($file->getMTime());
-
 		$stat = $file->stat();
-		$document->setMore(
-			[
-				'creationTime' => $this->getInt('ctime', $stat),
-				'accessedTime' => $this->getInt('atime', $stat)
-			]
-		);
+
+		if (is_array($stat)) {
+			$document->setMore(
+				[
+					'creationTime' => $this->getInt('ctime', $stat),
+					'accessedTime' => $this->getInt('atime', $stat)
+				]
+			);
+		} else {
+			$this->log(2, 'stat() on File #' . $file->getId() . ' is not an array: ' . json_encode($stat));
+		}
 
 		return $document;
 	}
