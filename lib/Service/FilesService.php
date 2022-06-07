@@ -439,6 +439,9 @@ class FilesService {
 			$ownerId = '';
 		}
 
+		$document = new FilesDocument(FilesProvider::FILES_PROVIDER_ID, (string)$file->getId());
+		$document->setAccess(new DocumentAccess($ownerId));
+
 		try {
 			$document->setType($file->getType())
 					 ->setOwnerId($ownerId)
