@@ -31,7 +31,8 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Db;
 
-use ArtificialOwl\MySmallPhpTools\Db\ExtendedQueryBuilder;
+
+use OCA\Files_FullTextSearch\Tools\Db\ExtendedQueryBuilder;
 
 /**
  * Class CoreQueryBuilder
@@ -43,9 +44,9 @@ class CoreQueryBuilder extends ExtendedQueryBuilder {
 	/**
 	 * Limit the request to the Id
 	 *
-	 * @param $fileSource
+	 * @param int $fileSource
 	 */
 	public function limitToFileSource(int $fileSource) {
-		$this->limitToDBFieldInt('file_source', $fileSource);
+		$this->limitInt('file_source', $fileSource);
 	}
 }

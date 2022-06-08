@@ -31,7 +31,8 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Provider;
 
-use ArtificialOwl\MySmallPhpTools\Traits\Nextcloud\nc22\TNC22Logger;
+
+use OCA\Files_FullTextSearch\Tools\Traits\TNCLogger;
 use OC\FullTextSearch\Model\SearchOption;
 use OC\FullTextSearch\Model\SearchTemplate;
 use OC\User\NoUserException;
@@ -64,7 +65,9 @@ use OCP\IL10N;
  * @package OCA\Files_FullTextSearch\Provider
  */
 class FilesProvider implements IFullTextSearchProvider {
-	use TNC22Logger;
+
+
+	use TNCLogger;
 
 	public const FILES_PROVIDER_ID = 'files';
 

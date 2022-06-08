@@ -10,7 +10,7 @@ declare(strict_types=1);
  * later. See the COPYING file.
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2018
+ * @copyright 2022
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,40 +29,14 @@ declare(strict_types=1);
  */
 
 
-namespace OCA\Files_FullTextSearch\Db;
+namespace OCA\Files_FullTextSearch\Tools;
 
-
-use OCA\Files_FullTextSearch\Service\MiscService;
-
-/**
- * Class CoreRequestBuilder
- *
- * @package OCA\Files_FullTextSearch\Db
- */
-class CoreRequestBuilder {
-	public const TABLE_SHARES = 'share';
-
-
-	/** @var MiscService */
-	protected $miscService;
-
-	/** @var string */
-	protected $defaultSelectAlias;
-
+interface IDeserializable {
 
 	/**
-	 * CoreRequestBuilder constructor.
+	 * @param array $data
 	 *
-	 * @param MiscService $miscService
+	 * @return self
 	 */
-	public function __construct(MiscService $miscService) {
-		$this->miscService = $miscService;
-	}
-
-	/**
-	 * @return CoreQueryBuilder
-	 */
-	public function getQueryBuilder(): CoreQueryBuilder {
-		return new CoreQueryBuilder();
-	}
+	public function import(array $data): self;
 }

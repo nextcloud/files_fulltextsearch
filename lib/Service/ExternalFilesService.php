@@ -31,8 +31,9 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Service;
 
-use ArtificialOwl\MySmallPhpTools\Traits\Nextcloud\nc22\TNC22Logger;
-use ArtificialOwl\MySmallPhpTools\Traits\TArrayTools;
+
+use OCA\Files_FullTextSearch\Tools\Traits\TNCLogger;
+use OCA\Files_FullTextSearch\Tools\Traits\TArrayTools;
 use Exception;
 use OC;
 use OC\App\AppManager;
@@ -60,7 +61,9 @@ use OCP\Share\IManager;
  * @package OCA\Files_FullTextSearch\Service
  */
 class ExternalFilesService {
-	use TNC22Logger;
+
+
+	use TNCLogger;
 	use TArrayTools;
 
 

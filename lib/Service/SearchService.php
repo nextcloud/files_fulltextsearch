@@ -31,7 +31,8 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Service;
 
-use ArtificialOwl\MySmallPhpTools\Traits\TPathTools;
+
+use OCA\Files_FullTextSearch\Tools\Traits\TPathTools;
 use Exception;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCP\Files\FileInfo;
