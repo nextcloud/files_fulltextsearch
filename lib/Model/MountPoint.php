@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -30,9 +31,7 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Model;
 
-
 use JsonSerializable;
-
 
 /**
  * Class MountPoint
@@ -170,13 +169,11 @@ class MountPoint implements JsonSerializable {
 	 */
 	public function jsonSerialize(): array {
 		return [
-			'id'     => $this->getId(),
-			'path'   => $this->getPath(),
+			'id' => $this->getId(),
+			'path' => $this->getPath(),
 			'global' => $this->isGlobal(),
 			'groups' => $this->getGroups(),
-			'users'  => $this->getUsers()
+			'users' => $this->getUsers()
 		];
 	}
-
 }
-

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -30,10 +31,8 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Db;
 
-
 use Exception;
 use OCP\Files\Node;
-
 
 class SharesRequest extends SharesRequestBuilder {
 
@@ -44,7 +43,6 @@ class SharesRequest extends SharesRequestBuilder {
 	 * @return array
 	 */
 	public function getFromFile(Node $file): array {
-
 		$shares = [];
 		try {
 			$qb = $this->getSharesSelectSql();
@@ -61,6 +59,4 @@ class SharesRequest extends SharesRequestBuilder {
 
 		return $shares;
 	}
-
 }
-

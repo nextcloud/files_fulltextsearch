@@ -31,14 +31,12 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Listeners;
 
-
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\FullTextSearch\Model\IIndex;
 use OCP\Share\Events\ShareDeletedEvent;
-
 
 /**
  * Class ShareDeleted
@@ -69,4 +67,3 @@ class ShareDeleted extends ListenersCore implements IEventListener {
 		}
 	}
 }
-

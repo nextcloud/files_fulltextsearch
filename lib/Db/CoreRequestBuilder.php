@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -30,13 +31,11 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Db;
 
-
 use OC;
 use OC\SystemConfig;
 use OCA\Files_FullTextSearch\Service\MiscService;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
-
 
 /**
  * Class CoreRequestBuilder
@@ -44,9 +43,7 @@ use Psr\Log\LoggerInterface;
  * @package OCA\Files_FullTextSearch\Db
  */
 class CoreRequestBuilder {
-
-
-	const TABLE_SHARES = 'share';
+	public const TABLE_SHARES = 'share';
 
 
 	/** @var MiscService */
@@ -75,6 +72,4 @@ class CoreRequestBuilder {
 			OC::$server->get(LoggerInterface::class)
 		);
 	}
-
 }
-

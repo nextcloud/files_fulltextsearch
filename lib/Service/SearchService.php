@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -30,7 +31,6 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Service;
 
-
 use ArtificialOwl\MySmallPhpTools\Traits\TPathTools;
 use Exception;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
@@ -41,15 +41,12 @@ use OCP\FullTextSearch\Model\ISearchRequest;
 use OCP\FullTextSearch\Model\ISearchResult;
 use OCP\IURLGenerator;
 
-
 /**
  * Class SearchService
  *
  * @package OCA\Files_FullTextSearch\Service
  */
 class SearchService {
-
-
 	use TPathTools;
 
 
@@ -112,7 +109,7 @@ class SearchService {
 		$this->searchQueryInOptions($request);
 		$this->searchQueryFiltersExtension($request);
 		$this->searchQueryFiltersSource($request);
-		if($this->userId === null) {
+		if ($this->userId === null) {
 			$this->userId = $this->miscService->secureUsername($request->getAuthor());
 		}
 		$request->addPart('comments');
@@ -136,7 +133,6 @@ class SearchService {
 	 * @param ISearchRequest $request
 	 */
 	private function searchQueryWithinDir(ISearchRequest $request) {
-
 		$currentDir = $request->getOption('files_within_dir');
 		if ($currentDir === '') {
 			return;
@@ -176,7 +172,6 @@ class SearchService {
 	 * @param ISearchRequest $request
 	 */
 	private function searchQueryFiltersSource(ISearchRequest $request) {
-
 		$local = $request->getOption('files_local');
 		$external = $request->getOption('files_external');
 		$groupFolders = $request->getOption('files_group_folders');
@@ -229,7 +224,6 @@ class SearchService {
 		$indexDocuments = $searchResult->getDocuments();
 		$filesDocuments = [];
 		foreach ($indexDocuments as $indexDocument) {
-
 			try {
 				$filesDocument = FilesDocument::fromIndexDocument($indexDocument);
 				$this->setDocumentInfo($filesDocument);
@@ -246,7 +240,7 @@ class SearchService {
 					'unified',
 					[
 						'thumbUrl' => '',
-						'icon'     => $icon
+						'icon' => $icon
 					]
 				);
 
@@ -322,7 +316,6 @@ class SearchService {
 	 * @param FilesDocument $document
 	 */
 	private function setDocumentLink(FilesDocument $document) {
-
 		$path = $document->getPath();
 		$filename = $document->getInfo('file');
 		$dir = substr($path, 0, -strlen($filename));
@@ -374,7 +367,4 @@ class SearchService {
 
 		return sprintf("%08s", $fileId) . $instanceId;
 	}
-
-
 }
-

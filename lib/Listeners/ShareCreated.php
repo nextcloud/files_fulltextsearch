@@ -31,13 +31,11 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Listeners;
 
-
 use Exception;
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\FullTextSearch\Model\IIndex;
 use OCP\Share\Events\ShareCreatedEvent;
-
 
 /**
  * Class ShareCreated
@@ -64,6 +62,4 @@ class ShareCreated extends ListenersCore implements IEventListener {
 		} catch (Exception $e) {
 		}
 	}
-
 }
-

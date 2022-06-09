@@ -38,7 +38,6 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\FullTextSearch\Model\IIndex;
 
-
 /**
  * Class FileDeleted
  *
@@ -64,6 +63,4 @@ class FileDeleted extends ListenersCore implements IEventListener {
 			$this->exception($e);
 		}
 	}
-
 }
-

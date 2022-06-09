@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -30,9 +31,7 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Model;
 
-
 use JsonSerializable;
-
 
 /**
  * Class FileShares
@@ -206,12 +205,10 @@ class FileShares implements JsonSerializable {
 	 */
 	public function jsonSerialize(): array {
 		return [
-			'users'   => $this->getUsers(),
-			'groups'  => $this->getGroups(),
+			'users' => $this->getUsers(),
+			'groups' => $this->getGroups(),
 			'circles' => $this->getCircles(),
-			'links'   => $this->getLinks()
+			'links' => $this->getLinks()
 		];
 	}
-
 }
-

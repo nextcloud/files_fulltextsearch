@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -30,7 +31,6 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Provider;
 
-
 use ArtificialOwl\MySmallPhpTools\Traits\Nextcloud\nc22\TNC22Logger;
 use OC\FullTextSearch\Model\SearchOption;
 use OC\FullTextSearch\Model\SearchTemplate;
@@ -58,18 +58,15 @@ use OCP\FullTextSearch\Model\ISearchResult;
 use OCP\FullTextSearch\Model\ISearchTemplate;
 use OCP\IL10N;
 
-
 /**
  * Class FilesProvider
  *
  * @package OCA\Files_FullTextSearch\Provider
  */
 class FilesProvider implements IFullTextSearchProvider {
-
-
 	use TNC22Logger;
 
-	const FILES_PROVIDER_ID = 'files';
+	public const FILES_PROVIDER_ID = 'files';
 
 
 	/** @var IL10N */
@@ -280,7 +277,7 @@ class FilesProvider implements IFullTextSearchProvider {
 		/** @var FilesDocument $document */
 		$this->updateRunnerInfoArray(
 			[
-				'info'  => $document->getMimetype(),
+				'info' => $document->getMimetype(),
 				'title' => $document->getPath()
 			]
 		);
@@ -385,6 +382,4 @@ class FilesProvider implements IFullTextSearchProvider {
 
 		$this->runner->setInfoArray($info);
 	}
-
 }
-
