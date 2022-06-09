@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -30,7 +31,6 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Service;
 
-
 use OCA\Files_FullTextSearch\AppInfo\Application;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCP\FullTextSearch\Model\IIndex;
@@ -38,37 +38,35 @@ use OCP\IConfig;
 use OCP\PreConditionNotMetException;
 use OCP\Util;
 
-
 /**
  * Class ConfigService
  *
  * @package OCA\Files_FullTextSearch\Service
  */
 class ConfigService {
-
-	const FILES_LOCAL = 'files_local';
-	const FILES_EXTERNAL = 'files_external';
-	const FILES_GROUP_FOLDERS = 'files_group_folders';
-	const FILES_ENCRYPTED = 'files_encrypted';
-	const FILES_FEDERATED = 'files_federated';
-	const FILES_SIZE = 'files_size';
-	const FILES_OFFICE = 'files_office';
-	const FILES_PDF = 'files_pdf';
-	const FILES_ZIP = 'files_zip';
-	const FILES_IMAGE = 'files_image';
-	const FILES_AUDIO = 'files_audio';
+	public const FILES_LOCAL = 'files_local';
+	public const FILES_EXTERNAL = 'files_external';
+	public const FILES_GROUP_FOLDERS = 'files_group_folders';
+	public const FILES_ENCRYPTED = 'files_encrypted';
+	public const FILES_FEDERATED = 'files_federated';
+	public const FILES_SIZE = 'files_size';
+	public const FILES_OFFICE = 'files_office';
+	public const FILES_PDF = 'files_pdf';
+	public const FILES_ZIP = 'files_zip';
+	public const FILES_IMAGE = 'files_image';
+	public const FILES_AUDIO = 'files_audio';
 
 	public $defaults = [
-		self::FILES_LOCAL         => '1',
-		self::FILES_EXTERNAL      => '0',
+		self::FILES_LOCAL => '1',
+		self::FILES_EXTERNAL => '0',
 		self::FILES_GROUP_FOLDERS => '0',
-		self::FILES_ENCRYPTED     => '0',
-		self::FILES_FEDERATED     => '0',
-		self::FILES_SIZE          => '20',
-		self::FILES_PDF           => '1',
-		self::FILES_OFFICE        => '1',
-		self::FILES_IMAGE         => '0',
-		self::FILES_AUDIO         => '0'
+		self::FILES_ENCRYPTED => '0',
+		self::FILES_FEDERATED => '0',
+		self::FILES_SIZE => '20',
+		self::FILES_PDF => '1',
+		self::FILES_OFFICE => '1',
+		self::FILES_IMAGE => '0',
+		self::FILES_AUDIO => '0'
 	];
 
 
@@ -285,6 +283,4 @@ class ConfigService {
 
 		return false;
 	}
-
 }
-

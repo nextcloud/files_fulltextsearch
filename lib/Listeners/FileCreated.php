@@ -31,14 +31,12 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Listeners;
 
-
 use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\IEventListener;
 use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\FullTextSearch\Model\IIndex;
-
 
 /**
  * Class FileCreated
@@ -70,6 +68,4 @@ class FileCreated extends ListenersCore implements IEventListener {
 			$this->exception($e);
 		}
 	}
-
 }
-

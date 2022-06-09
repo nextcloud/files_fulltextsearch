@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -30,7 +31,6 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Controller;
 
-
 use Exception;
 use OCA\Files_FullTextSearch\AppInfo\Application;
 use OCA\Files_FullTextSearch\Service\ConfigService;
@@ -41,7 +41,6 @@ use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
-
 
 /**
  * Class SettingsController
@@ -104,13 +103,10 @@ class SettingsController extends Controller {
 	 * @throws Exception
 	 */
 	public function setSettingsAdmin(array $data): DataResponse {
-
 		if ($this->settingsService->checkConfig($data)) {
 			$this->configService->setConfig($data);
 		}
 
 		return $this->getSettingsAdmin();
 	}
-
 }
-

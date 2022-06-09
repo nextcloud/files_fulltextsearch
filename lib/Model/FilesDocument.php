@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -30,10 +31,8 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Model;
 
-
 use OCP\Files_FullTextSearch\Model\AFilesDocument;
 use OCP\FullTextSearch\Model\IIndexDocument;
-
 
 /**
  * Class FilesDocument
@@ -182,6 +181,4 @@ class FilesDocument extends AFilesDocument {
 		unset($this->mimetype);
 		unset($this->path);
 	}
-
 }
-

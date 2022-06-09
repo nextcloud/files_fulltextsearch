@@ -38,7 +38,6 @@ use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\FullTextSearch\Model\IIndex;
 
-
 /**
  * Class FileRenamed
  *
@@ -64,6 +63,4 @@ class FileRenamed extends ListenersCore implements IEventListener {
 			$this->exception($e);
 		}
 	}
-
 }
-

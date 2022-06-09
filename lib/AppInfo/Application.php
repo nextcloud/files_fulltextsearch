@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -30,8 +31,6 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\AppInfo;
 
-
-use Closure;
 use OCA\Files_FullTextSearch\Listeners\FileChanged;
 use OCA\Files_FullTextSearch\Listeners\FileCreated;
 use OCA\Files_FullTextSearch\Listeners\FileDeleted;
@@ -50,7 +49,6 @@ use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
 use Throwable;
 
-
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 
@@ -60,9 +58,7 @@ require_once __DIR__ . '/../../vendor/autoload.php';
  * @package OCA\Files_FullTextSearch\AppInfo
  */
 class Application extends App implements IBootstrap {
-
-
-	const APP_ID = 'files_fulltextsearch';
+	public const APP_ID = 'files_fulltextsearch';
 
 
 	/**
@@ -97,4 +93,3 @@ class Application extends App implements IBootstrap {
 	public function boot(IBootContext $context): void {
 	}
 }
-

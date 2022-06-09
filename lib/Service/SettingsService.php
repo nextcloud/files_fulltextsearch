@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -30,9 +31,7 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Service;
 
-
 use OCP\IConfig;
-
 
 /**
  * Class SettingsService
@@ -76,7 +75,4 @@ class SettingsService {
 
 		return true;
 	}
-
-
 }
-

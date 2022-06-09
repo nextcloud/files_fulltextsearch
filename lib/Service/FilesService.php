@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -29,7 +30,6 @@ declare(strict_types=1);
 
 
 namespace OCA\Files_FullTextSearch\Service;
-
 
 use ArtificialOwl\MySmallPhpTools\Traits\Nextcloud\nc22\TNC22Logger;
 use ArtificialOwl\MySmallPhpTools\Traits\TPathTools;
@@ -70,27 +70,24 @@ use OCP\Share\IManager as IShareManager;
 use OCP\SystemTag\ISystemTag;
 use Throwable;
 
-
 /**
  * Class FilesService
  *
  * @package OCA\Files_FullTextSearch\Service
  */
 class FilesService {
-
-
 	use TPathTools;
 	use TNC22Logger;
 
 
-	const MIMETYPE_TEXT = 'files_text';
-	const MIMETYPE_PDF = 'files_pdf';
-	const MIMETYPE_OFFICE = 'files_office';
-	const MIMETYPE_ZIP = 'files_zip';
-	const MIMETYPE_IMAGE = 'files_image';
-	const MIMETYPE_AUDIO = 'files_audio';
+	public const MIMETYPE_TEXT = 'files_text';
+	public const MIMETYPE_PDF = 'files_pdf';
+	public const MIMETYPE_OFFICE = 'files_office';
+	public const MIMETYPE_ZIP = 'files_zip';
+	public const MIMETYPE_IMAGE = 'files_image';
+	public const MIMETYPE_AUDIO = 'files_audio';
 
-	const CHUNK_TREE_SIZE = 2;
+	public const CHUNK_TREE_SIZE = 2;
 
 
 	/** @var IAppContainer */
@@ -369,7 +366,6 @@ class FilesService {
 
 		$files = $node->getDirectoryListing();
 		foreach ($files as $file) {
-
 			try {
 				$documents[] = $this->generateFilesDocumentFromFile($userId, $file);
 				$this->sumDocuments++;
@@ -587,7 +583,6 @@ class FilesService {
 	 * @throws Exception
 	 */
 	private function getPathFromViewerId(int $fileId, string $viewerId): string {
-
 		$viewerFiles = $this->rootFolder->getUserFolder($viewerId)
 										->getById($fileId);
 
@@ -613,7 +608,6 @@ class FilesService {
 	 * @param FilesDocument $document
 	 */
 	public function generateDocument(FilesDocument $document) {
-
 		try {
 			$this->updateFilesDocument($document);
 		} catch (Exception $e) {
@@ -637,7 +631,6 @@ class FilesService {
 	 * @throws NotFoundException
 	 */
 	private function generateDocumentFromIndex(IIndex $index): FilesDocument {
-
 		try {
 			$file = $this->getFileFromIndex($index);
 
@@ -739,7 +732,6 @@ class FilesService {
 	 * @throws FileIsNotIndexableException
 	 */
 	private function updateFilesDocumentFromFile(FilesDocument $document, Node $file) {
-
 		$document->getIndex()
 				 ->setSource($document->getSource());
 
@@ -778,7 +770,6 @@ class FilesService {
 	 * @param Node $file
 	 */
 	private function updateContentFromFile(FilesDocument $document, Node $file) {
-
 		$document->setTitle($document->getPath());
 		$document->setLink(
 			$this->urlGenerator->linkToRouteAbsolute(
@@ -842,7 +833,6 @@ class FilesService {
 	 * @return array
 	 */
 	private function updateShareNames(FilesDocument $document, Node $file): array {
-
 		$users = [];
 
 		$this->localFilesService->getShareUsersFromFile($file, $users);
@@ -862,7 +852,6 @@ class FilesService {
 				$path = $this->getPathFromViewerId($file->getId(), $username);
 				$shareNames[$this->miscService->secureUsername($username)] =
 					(!is_string($path)) ? $path = '' : $path;
-
 			} catch (Throwable $e) {
 				$this->miscService->log(
 					'Issue while getting information on documentId:' . $document->getId(), 0
@@ -883,7 +872,6 @@ class FilesService {
 	 * @return string
 	 */
 	private function parseMimeType(string $mimeType, string $extension): string {
-
 		$parsed = '';
 		try {
 			$this->parseMimeTypeText($mimeType, $extension, $parsed);
@@ -905,7 +893,6 @@ class FilesService {
 	 * @throws KnownFileMimeTypeException
 	 */
 	private function parseMimeTypeText(string $mimeType, string $extension, string &$parsed) {
-
 		if (substr($mimeType, 0, 5) === 'text/') {
 			$parsed = self::MIMETYPE_TEXT;
 			throw new KnownFileMimeTypeException();
@@ -961,7 +948,6 @@ class FilesService {
 	 * @throws KnownFileMimeTypeException
 	 */
 	private function parseMimeTypePDF(string $mimeType, string &$parsed) {
-
 		if ($mimeType === 'application/pdf') {
 			$parsed = self::MIMETYPE_PDF;
 			throw new KnownFileMimeTypeException();
@@ -990,7 +976,6 @@ class FilesService {
 	 * @throws KnownFileMimeTypeException
 	 */
 	private function parseMimeTypeOffice(string $mimeType, string &$parsed) {
-
 		$officeMimes = [
 			'application/msword',
 			'application/vnd.oasis.opendocument',
@@ -1272,7 +1257,6 @@ class FilesService {
 	 * @throws FileIsNotIndexableException
 	 */
 	private function isNodeIndexable(Node $file) {
-
 		if ($file->getType() === File::TYPE_FOLDER) {
 			/** @var Folder $file */
 			if ($file->nodeExists('.noindex')) {
@@ -1311,15 +1295,13 @@ class FilesService {
 		$result = (($entrySlash) ? '/' : '') . $path;
 		$this->debug(
 			'getPathFromRoot', [
-								 'path' => $path,
-								 'userId' => $userId,
-								 'entrySlash' => $entrySlash,
-								 'result' => $result
-							 ]
+				'path' => $path,
+				'userId' => $userId,
+				'entrySlash' => $entrySlash,
+				'result' => $result
+			]
 		);
 
 		return $result;
 	}
-
 }
-

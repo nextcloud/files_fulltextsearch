@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -33,7 +34,6 @@ namespace OCA\Files_FullTextSearch\Service;
 use OCA\Files_FullTextSearch\AppInfo\Application;
 use OCP\ILogger;
 
-
 /**
  * Class MiscService
  *
@@ -61,7 +61,7 @@ class MiscService {
 	 */
 	public function log(string $message, int $level = 2) {
 		$data = array(
-			'app'   => Application::APP_ID,
+			'app' => Application::APP_ID,
 			'level' => $level
 		);
 
@@ -78,4 +78,3 @@ class MiscService {
 		return str_replace('.', '\.', $username);
 	}
 }
-

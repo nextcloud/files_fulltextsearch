@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -30,7 +31,6 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Service;
 
-
 use Exception;
 use OC\FullTextSearch\Model\DocumentAccess;
 use OCA\Files_FullTextSearch\Db\SharesRequest;
@@ -44,7 +44,6 @@ use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
-
 
 /**
  * Class LocalFilesService
@@ -126,7 +125,6 @@ class LocalFilesService {
 	 * @param Node $file
 	 */
 	public function updateDocumentAccess(FilesDocument $document, Node $file) {
-
 		$ownerId = '';
 		if ($file->getOwner() !== null) {
 			$ownerId = $file->getOwner()
@@ -176,7 +174,6 @@ class LocalFilesService {
 
 			array_push($users, $user);
 		}
-
 	}
 
 
@@ -187,7 +184,6 @@ class LocalFilesService {
 	 * @param array $users
 	 */
 	public function getSharedUsersFromAccess(IDocumentAccess $access, array &$users) {
-
 		$result = array_merge(
 			$access->getUsers(),
 			$this->getSharedUsersFromAccessGroups($access),
@@ -208,7 +204,6 @@ class LocalFilesService {
 	 * @return array
 	 */
 	private function getSharedUsersFromAccessGroups(IDocumentAccess $access): array {
-
 		$result = [];
 		$users = [];
 		foreach ($access->getGroups() as $groupName) {
@@ -247,7 +242,6 @@ class LocalFilesService {
 	 * @param FileShares $fileShares
 	 */
 	private function getSharesFromFile(Node $file, FileShares $fileShares) {
-
 		if (strlen($file->getPath()) <= 1) {
 			return;
 		}
@@ -319,6 +313,4 @@ class LocalFilesService {
 
 		$fileShares->addLink($share['token']);
 	}
-
 }
-

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -30,7 +31,6 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Service;
 
-
 use ArtificialOwl\MySmallPhpTools\Traits\Nextcloud\nc22\TNC22Logger;
 use ArtificialOwl\MySmallPhpTools\Traits\TArrayTools;
 use Exception;
@@ -54,15 +54,12 @@ use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 
-
 /**
  * Class ExternalFilesService
  *
  * @package OCA\Files_FullTextSearch\Service
  */
 class ExternalFilesService {
-
-
 	use TNC22Logger;
 	use TArrayTools;
 
@@ -249,7 +246,6 @@ class ExternalFilesService {
 	 * @throws FileIsNotIndexableException
 	 */
 	private function getMountPoint(Node $file): MountPoint {
-
 		try {
 			if ($file->getMountPoint()->getMountId() === null) {
 				throw new FileIsNotIndexableException('getMountId is null');
@@ -322,7 +318,6 @@ class ExternalFilesService {
 	 * @throws ExternalMountWithNoViewerException
 	 */
 	private function getRandomUserFromMountPoint(MountPoint $mount): string {
-
 		$users = $mount->getUsers();
 		if (sizeof($users) > 0) {
 			return $users[0];
@@ -344,8 +339,5 @@ class ExternalFilesService {
 		throw new ExternalMountWithNoViewerException(
 			'cannot get a valid user for external mount'
 		);
-
 	}
-
 }
-

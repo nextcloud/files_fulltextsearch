@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -30,7 +31,6 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Listeners;
 
-
 use ArtificialOwl\MySmallPhpTools\Traits\Nextcloud\nc21\TNC21Logger;
 use ArtificialOwl\MySmallPhpTools\Traits\TArrayTools;
 use OC\AppFramework\Bootstrap\Coordinator;
@@ -40,15 +40,12 @@ use OCA\Files_FullTextSearch\Service\MiscService;
 use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\IUserSession;
 
-
 /**
  * Class CoreFileEvents
  *
  * @package OCA\Files_FullTextSearch\Listeners
  */
 class ListenersCore {
-
-
 	use TArrayTools;
 	use TNC21Logger;
 
@@ -105,6 +102,4 @@ class ListenersCore {
 
 		return $this->fullTextSearchManager->isAvailable();
 	}
-
 }
-

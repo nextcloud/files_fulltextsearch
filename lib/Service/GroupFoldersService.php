@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -30,7 +31,6 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Service;
 
-
 use ArtificialOwl\MySmallPhpTools\Traits\Nextcloud\nc22\TNC22Logger;
 use ArtificialOwl\MySmallPhpTools\Traits\TArrayTools;
 use Exception;
@@ -48,15 +48,12 @@ use OCP\IDBConnection;
 use OCP\IGroupManager;
 use OCP\Share\IManager;
 
-
 /**
  * Class GroupFoldersService
  *
  * @package OCA\Files_FullTextSearch\Service
  */
 class GroupFoldersService {
-
-
 	use TNC22Logger;
 	use TArrayTools;
 
@@ -102,7 +99,6 @@ class GroupFoldersService {
 		IGroupManager $groupManager, LocalFilesService $localFilesService,
 		ConfigService $configService, MiscService $miscService
 	) {
-
 		if ($configService->getAppValue(ConfigService::FILES_GROUP_FOLDERS) === '1'
 			&& $appManager->isEnabledForUser('groupfolders', $userId)) {
 			try {
@@ -164,7 +160,6 @@ class GroupFoldersService {
 	 * @param Node $file
 	 */
 	public function updateDocumentAccess(FilesDocument &$document, Node $file) {
-
 		if ($document->getSource() !== ConfigService::FILES_GROUP_FOLDERS) {
 			return;
 		}
@@ -212,7 +207,6 @@ class GroupFoldersService {
 		}
 
 		throw new FileIsNotIndexableException();
-
 	}
 
 
@@ -222,7 +216,6 @@ class GroupFoldersService {
 	 * @return MountPoint[]
 	 */
 	private function getMountPoints(string $userId): array {
-
 		$mountPoints = [];
 		$mounts = $this->folderManager->getAllFolders();
 
@@ -299,6 +292,4 @@ class GroupFoldersService {
 
 		return '';
 	}
-
 }
-

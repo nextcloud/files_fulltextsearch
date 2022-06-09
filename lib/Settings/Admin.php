@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -30,7 +31,6 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Settings;
 
-
 use Exception;
 use OCA\Files_FullTextSearch\AppInfo\Application;
 use OCA\Files_FullTextSearch\Service\ConfigService;
@@ -39,7 +39,6 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\IL10N;
 use OCP\IURLGenerator;
 use OCP\Settings\ISettings;
-
 
 /**
  * Class Admin
@@ -108,6 +107,4 @@ class Admin implements ISettings {
 	public function getPriority(): int {
 		return 51;
 	}
-
 }
-

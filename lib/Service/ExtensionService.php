@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 
@@ -30,16 +31,13 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Service;
 
-
 use OCA\Files_FullTextSearch\Model\FilesDocument;
-use OCP\EventDispatcher\Event;
 use OCP\EventDispatcher\GenericEvent;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Node;
 use OCP\FullTextSearch\Model\IIndexDocument;
 use OCP\FullTextSearch\Model\ISearchRequest;
 use OCP\FullTextSearch\Model\ISearchResult;
-
 
 /**
  * Class ExtensionService
@@ -123,6 +121,4 @@ class ExtensionService {
 	private function dispatch(string $subject, array $arguments) {
 		$this->eventDispatcher->dispatchTyped(new GenericEvent($subject, $arguments));
 	}
-
 }
-
