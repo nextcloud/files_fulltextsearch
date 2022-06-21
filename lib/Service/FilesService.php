@@ -418,9 +418,6 @@ class FilesService {
 		$this->isNodeIndexable($file);
 
 		$source = $this->getFileSource($file);
-		$document = new FilesDocument(FilesProvider::FILES_PROVIDER_ID, (string)$file->getId());
-		$document->setAccess(new DocumentAccess());
-
 		if ($file->getId() === -1) {
 			throw new FileIsNotIndexableException();
 		}
