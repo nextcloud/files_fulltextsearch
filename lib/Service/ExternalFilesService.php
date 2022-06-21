@@ -230,7 +230,11 @@ class ExternalFilesService {
 			return false;
 		}
 
-		if (sizeof($mount->getUsers()) !== 1) {
+		if (sizeof($mount->getUsers()) === 0) {
+			return $mount->isGlobal();
+		}
+
+		if (sizeof($mount->getUsers()) > 1) {
 			return false;
 		}
 
