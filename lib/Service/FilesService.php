@@ -230,8 +230,7 @@ class FilesService {
 			$files = $this->rootFolder->getUserFolder($userId)
 									  ->get($indexOptions->getOption('path', '/'));
 		} catch (Throwable $e) {
-			$this->e($e, ['userId' => $userId, 'options' => $indexOptions]);
-			\OC::$server->getLogger()->log(2, 'Issue while retrieving rootFolder for ' . $userId);
+			$this->log(2, 'Issue while retrieving rootFolder for ' . $userId);
 
 			return [];
 		}
@@ -568,9 +567,6 @@ class FilesService {
 	 * @throws FilesNotFoundException
 	 */
 	public function getFileFromIndex(IIndex $index): Node {
-		// it seems the method is already call slightly earlier in the process
-//		$this->impersonateOwner($index);
-
 		return $this->getFileFromId($index->getOwnerId(), (int)$index->getDocumentId());
 	}
 
