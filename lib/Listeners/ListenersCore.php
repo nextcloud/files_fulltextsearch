@@ -31,12 +31,13 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Listeners;
 
-use ArtificialOwl\MySmallPhpTools\Traits\Nextcloud\nc21\TNC21Logger;
-use ArtificialOwl\MySmallPhpTools\Traits\TArrayTools;
+
 use OC\AppFramework\Bootstrap\Coordinator;
 use OCA\Files_FullTextSearch\Service\ConfigService;
 use OCA\Files_FullTextSearch\Service\FilesService;
 use OCA\Files_FullTextSearch\Service\MiscService;
+use OCA\Files_FullTextSearch\Tools\Traits\TArrayTools;
+use OCA\Files_FullTextSearch\Tools\Traits\TNCLogger;
 use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\IUserSession;
 
@@ -47,7 +48,7 @@ use OCP\IUserSession;
  */
 class ListenersCore {
 	use TArrayTools;
-	use TNC21Logger;
+	use TNCLogger;
 
 
 	/** @var IUserSession */

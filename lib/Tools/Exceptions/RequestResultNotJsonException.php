@@ -10,7 +10,7 @@ declare(strict_types=1);
  * later. See the COPYING file.
  *
  * @author Maxence Lange <maxence@artificial-owl.com>
- * @copyright 2018
+ * @copyright 2022
  * @license GNU AGPL version 3 or any later version
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,40 +29,14 @@ declare(strict_types=1);
  */
 
 
-namespace OCA\Files_FullTextSearch\Db;
+namespace OCA\Files_FullTextSearch\Tools\Exceptions;
 
-
-use OCA\Files_FullTextSearch\Service\MiscService;
+use Exception;
 
 /**
- * Class CoreRequestBuilder
+ * Class RequestResultNotJsonException
  *
- * @package OCA\Files_FullTextSearch\Db
+ * @package OCA\Files_FullTextSearch\Tools\Exceptions
  */
-class CoreRequestBuilder {
-	public const TABLE_SHARES = 'share';
-
-
-	/** @var MiscService */
-	protected $miscService;
-
-	/** @var string */
-	protected $defaultSelectAlias;
-
-
-	/**
-	 * CoreRequestBuilder constructor.
-	 *
-	 * @param MiscService $miscService
-	 */
-	public function __construct(MiscService $miscService) {
-		$this->miscService = $miscService;
-	}
-
-	/**
-	 * @return CoreQueryBuilder
-	 */
-	public function getQueryBuilder(): CoreQueryBuilder {
-		return new CoreQueryBuilder();
-	}
+class RequestResultNotJsonException extends Exception {
 }

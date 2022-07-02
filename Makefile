@@ -69,12 +69,8 @@ clean:
 	rm -rf $(build_dir)
 	rm -rf node_modules
 
-# composer packages
-composer:
-	composer install --prefer-dist
-	composer upgrade --prefer-dist
 
-appstore: clean composer
+appstore: clean
 	mkdir -p $(sign_dir)
 	rsync -a \
 	--exclude=/build \
@@ -88,9 +84,7 @@ appstore: clean composer
 	--exclude=/CONTRIBUTING.md \
 	--exclude=/issue_template.md \
 	--exclude=/README.md \
-	--exclude=/composer.json \
 	--exclude=/testConfiguration.json \
-	--exclude=/composer.lock \
 	--exclude=/.gitattributes \
 	--exclude=/.gitignore \
 	--exclude=/.scrutinizer.yml \

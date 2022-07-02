@@ -31,8 +31,9 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Service;
 
-use ArtificialOwl\MySmallPhpTools\Traits\Nextcloud\nc22\TNC22Logger;
-use ArtificialOwl\MySmallPhpTools\Traits\TPathTools;
+
+use OCA\Files_FullTextSearch\Tools\Traits\TNCLogger;
+use OCA\Files_FullTextSearch\Tools\Traits\TPathTools;
 use Exception;
 use OC\FullTextSearch\Model\DocumentAccess;
 use OC\SystemTag\SystemTagManager;
@@ -77,7 +78,7 @@ use Throwable;
  */
 class FilesService {
 	use TPathTools;
-	use TNC22Logger;
+	use TNCLogger;
 
 
 	public const MIMETYPE_TEXT = 'files_text';
