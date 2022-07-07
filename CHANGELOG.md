@@ -1,5 +1,11 @@
 # Changelog
 
+
+### 24.0.1
+
+- fixing an issue on external files
+
+
 ### 24.0.0
 
 - compat nc24
