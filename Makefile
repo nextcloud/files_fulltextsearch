@@ -74,6 +74,16 @@ composer:
 	composer install --prefer-dist
 	composer upgrade --prefer-dist
 
+cs-check: composer-dev
+	composer cs:check
+
+cs-fix: composer-dev
+	composer cs:fix
+
+composer-dev:
+	composer install --prefer-dist --dev
+	composer upgrade --prefer-dist --dev
+
 appstore: clean composer
 	mkdir -p $(sign_dir)
 	rsync -a \

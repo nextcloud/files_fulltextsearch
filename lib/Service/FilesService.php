@@ -229,6 +229,8 @@ class FilesService {
 		try {
 			$files = $this->rootFolder->getUserFolder($userId)
 									  ->get($indexOptions->getOption('path', '/'));
+		} catch (NotFoundException $e) {
+			return [];
 		} catch (Throwable $e) {
 			$this->log(2, 'Issue while retrieving rootFolder for ' . $userId);
 
@@ -782,8 +784,8 @@ class FilesService {
 					   ->isStatus(IIndex::INDEX_CONTENT)
 			 && !$document->getIndex()
 						  ->isStatus(IIndex::INDEX_META)
-			)
-			|| $file->getType() !== FileInfo::TYPE_FILE) {
+		)
+		|| $file->getType() !== FileInfo::TYPE_FILE) {
 			return;
 		}
 
@@ -905,7 +907,7 @@ class FilesService {
 		}
 
 		// 20220219 Parse .drawio file
-		if ($extension  === 'drawio') {
+		if ($extension === 'drawio') {
 			$parsed = self::MIMETYPE_TEXT;
 			throw new KnownFileMimeTypeException();
 		}
@@ -1052,7 +1054,7 @@ class FilesService {
 		}
 
 		// 20220219 Inflate drawio file
-		if ( $file->getExtension() === 'drawio') {
+		if ($file->getExtension() === 'drawio') {
 			$content = $file->getContent();
 
 			try {
@@ -1062,19 +1064,18 @@ class FilesService {
 				$content = '';
 
 				foreach ($xml->diagram as $child) {
-				    $deflated_content = (string)$child;
-				    $base64decoded = base64_decode($deflated_content);
-				    $urlencoded_content = gzinflate($base64decoded);
-				    $urldecoded_content = urldecode($urlencoded_content);
+					$deflated_content = (string)$child;
+					$base64decoded = base64_decode($deflated_content);
+					$urlencoded_content = gzinflate($base64decoded);
+					$urldecoded_content = urldecode($urlencoded_content);
 
-				    // Remove image tag
-				    $diagram_str = preg_replace('/style=\"shape=image[^"]*\"/', '', $urldecoded_content);
+					// Remove image tag
+					$diagram_str = preg_replace('/style=\"shape=image[^"]*\"/', '', $urldecoded_content);
 
-				    // Construct XML
-				    $diagram_xml = simplexml_load_string($diagram_str);
-				    $content = $content . ' ' . $this->readDrawioXmlValue($diagram_xml);
+					// Construct XML
+					$diagram_xml = simplexml_load_string($diagram_str);
+					$content = $content . ' ' . $this->readDrawioXmlValue($diagram_xml);
 				}
-
 			} catch (\Throwable $t) {
 			}
 
@@ -1104,10 +1105,10 @@ class FilesService {
 	 */
 	private function readDrawioXmlValue(\SimpleXMLElement $element) {
 		$str = '';
-		if( $element['value'] != null && trim(strval($element['value'])) !== '') {
-			$str = $str . " " .  trim(strval($element['value']));
+		if ($element['value'] !== null && trim(strval($element['value'])) !== '') {
+			$str = $str . " " . trim(strval($element['value']));
 		}
-		if( $element != null && trim(strval($element)) !== '') {
+		if ($element !== null && trim(strval($element)) !== '') {
 			$str = $str . " " . trim(strval($element));
 		}
 
@@ -1120,6 +1121,7 @@ class FilesService {
 
 		// Strip HTML tags
 		$str_without_tags = preg_replace('/<[^>]*>/', ' ', $str);
+
 		return $str_without_tags;
 	}
 
@@ -1252,10 +1254,14 @@ class FilesService {
 	private function manageContentErrorException(IIndexDocument $document, Throwable $t) {
 		$document->getIndex()
 				 ->addError(
-					 'Error while getting file content', $t->getMessage(), IIndex::ERROR_SEV_3
+				 	'Error while getting file content',
+				 	$t->getMessage(),
+				 	IIndex::ERROR_SEV_3
 				 );
 		$this->updateNewIndexError(
-			$document->getIndex(), 'Error while getting file content', $t->getMessage(),
+			$document->getIndex(),
+			'Error while getting file content',
+			$t->getMessage(),
 			IIndex::ERROR_SEV_3
 		);
 
