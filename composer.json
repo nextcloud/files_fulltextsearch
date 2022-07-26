@@ -6,7 +6,10 @@
   "config": {
     "optimize-autoloader": true,
     "classmap-authoritative": true,
-    "autoloader-suffix": "Files_FullTextSearch"
+    "autoloader-suffix": "Files_FullTextSearch",
+    "platform": {
+      "php": "7.4"
+    }
   },
   "authors": [
     {
