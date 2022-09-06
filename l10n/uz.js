@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Go to folder" : "Jildga o'ting",
     "Name" : "Ism...",
+    "Size" : "Hajmi",
     "Group folders" : "Guruh papkalari",
     "Files" : "Fayllar"
 },
