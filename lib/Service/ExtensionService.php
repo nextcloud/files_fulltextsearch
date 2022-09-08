@@ -87,32 +87,32 @@ class ExtensionService {
 	 * @param FilesDocument $document
 	 * @param Node $file
 	 */
-	public function fileIndexing(FilesDocument &$document, Node $file) {
-		$this->dispatch('Files_FullTextSearch.onFileIndexing', ['file' => $file, 'document' => &$document]);
+	public function fileIndexing(FilesDocument $document, Node $file) {
+		$this->dispatch('Files_FullTextSearch.onFileIndexing', ['file' => $file, 'document' => $document]);
 	}
 
 
 	/**
 	 * @param ISearchRequest $request
 	 */
-	public function searchRequest(ISearchRequest &$request) {
-		$this->dispatch('Files_FullTextSearch.onSearchRequest', ['request' => &$request]);
+	public function searchRequest(ISearchRequest $request) {
+		$this->dispatch('Files_FullTextSearch.onSearchRequest', ['request' => $request]);
 	}
 
 
 	/**
 	 * @param ISearchResult $result
 	 */
-	public function searchResult(ISearchResult &$result) {
-		$this->dispatch('Files_FullTextSearch.onSearchResult', ['result' => &$result]);
+	public function searchResult(ISearchResult $result) {
+		$this->dispatch('Files_FullTextSearch.onSearchResult', ['result' => $result]);
 	}
 
 
 	/**
 	 * @param IIndexDocument $document
 	 */
-	public function indexComparing(IIndexDocument &$document) {
-		$this->dispatch('Files_FullTextSearch.onIndexComparing', ['document' => &$document]);
+	public function indexComparing(IIndexDocument $document) {
+		$this->dispatch('Files_FullTextSearch.onIndexComparing', ['document' => $document]);
 	}
 
 
