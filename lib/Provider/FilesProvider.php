@@ -91,7 +91,7 @@ class FilesProvider implements IFullTextSearchProvider {
 	private $runner;
 
 	/** @var IIndexOptions */
-	private $indexOptions = [];
+	private $indexOptions;
 
 
 	public function __construct(
