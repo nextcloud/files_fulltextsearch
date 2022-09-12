@@ -40,6 +40,7 @@ use OCP\Files\Node;
 use OCP\FullTextSearch\Model\ISearchRequest;
 use OCP\FullTextSearch\Model\ISearchResult;
 use OCP\IURLGenerator;
+use OCP\IUserSession;
 
 
 /**
@@ -78,7 +79,7 @@ class SearchService {
 	/**
 	 * SearchService constructor.
 	 *
-	 * @param string $userId
+	 * @param IUserSession $userSession
 	 * @param IMimeTypeDetector $mimeTypeDetector
 	 * @param IURLGenerator $urlGenerator
 	 * @param FilesService $filesService
@@ -89,11 +90,13 @@ class SearchService {
 	 * @internal param IProviderFactory $factory
 	 */
 	public function __construct(
-		$userId, IMimeTypeDetector $mimeTypeDetector, IUrlGenerator $urlGenerator, FilesService $filesService,
+		IUserSession $userSession, IMimeTypeDetector $mimeTypeDetector, IUrlGenerator $urlGenerator,
+		FilesService $filesService,
 		ConfigService $configService,
 		ExtensionService $extensionService, MiscService $miscService
 	) {
-		$this->userId = $userId;
+		$user = $userSession->getUser();
+		$this->userId = (is_null($user)) ? '' : $user->getUID();
 		$this->mimeTypeDetector = $mimeTypeDetector;
 		$this->urlGenerator = $urlGenerator;
 		$this->filesService = $filesService;
@@ -112,7 +115,7 @@ class SearchService {
 		$this->searchQueryInOptions($request);
 		$this->searchQueryFiltersExtension($request);
 		$this->searchQueryFiltersSource($request);
-		if($this->userId === null) {
+		if ($this->userId === '') {
 			$this->userId = $this->miscService->secureUsername($request->getAuthor());
 		}
 		$request->addPart('comments');
@@ -283,6 +286,9 @@ class SearchService {
 	 * @param Node $file
 	 */
 	private function setDocumentInfoFromFile(FilesDocument $document, Node $file) {
+		if ($this->userId === '') {
+			return;
+		}
 
 		// TODO: better way to do this : we remove the '/userId/files/'
 		$path = $this->withoutEndSlash(substr($file->getPath(), 7 + strlen($this->userId)));
