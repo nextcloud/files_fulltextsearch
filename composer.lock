@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "354f1edc1475febc3f0ca48322e48ed5",
+    "content-hash": "535f78816eff29080f3c0a98427bddd3",
     "packages": [
         {
             "name": "artificial-owl/my-small-php-tools",
@@ -2193,7 +2193,7 @@
     "platform": [],
     "platform-dev": [],
     "platform-overrides": {
-        "php": "7.4"
+        "php": "8.0"
     },
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.3.0"
 }
