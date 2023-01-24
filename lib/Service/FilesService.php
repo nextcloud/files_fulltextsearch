@@ -271,7 +271,8 @@ class FilesService {
 		}
 
 		foreach ($files as $file) {
-			if ($file->getType() === FileInfo::TYPE_FOLDER && $level < self::CHUNK_TREE_SIZE) {
+			if ($file->getType() === FileInfo::TYPE_FOLDER
+				&& $level < $this->configService->getAppValueInt(ConfigService::FILES_CHUNK_SIZE)) {
 				/** @var $file Folder */
 				$entries = array_merge($entries, $this->getChunksFromDirectory($userId, $file, $level));
 			} else {
@@ -413,7 +414,7 @@ class FilesService {
 	private function generateFilesDocumentFromParent(string $userId, Folder $parent): array {
 		$documents = [];
 		try {
-			for ($i = 0; $i < self::CHUNK_TREE_SIZE; $i++) {
+			for ($i = 0; $i < $this->configService->getAppValueInt(ConfigService::FILES_CHUNK_SIZE); $i++) {
 				$parent = $parent->getParent();
 				$documents[] = $this->generateFilesDocumentFromFile($userId, $parent);
 			}
