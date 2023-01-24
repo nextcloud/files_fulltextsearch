@@ -142,6 +142,17 @@ class ConfigService {
 	}
 
 	/**
+	 * Get a integer value by key
+	 *
+	 * @param string $key
+	 *
+	 * @return int
+	 */
+	public function getAppValueInt(string $key): int {
+		return intval($this->getAppValue($key));
+	}
+
+	/**
 	 * Set a value by key
 	 *
 	 * @param string $key
