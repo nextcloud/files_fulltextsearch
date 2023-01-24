@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "files",
+    "files" : "ไฟล์",
     "Name" : "ชื่อ",
     "Modified" : "แก้ไขเมื่อ",
     "Size" : "ขนาด",
