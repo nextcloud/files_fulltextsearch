@@ -57,6 +57,7 @@ class ConfigService {
 	const FILES_ZIP = 'files_zip';
 	const FILES_IMAGE = 'files_image';
 	const FILES_AUDIO = 'files_audio';
+	const FILES_CHUNK_SIZE = 'files_chunk_size';
 
 	public $defaults = [
 		self::FILES_LOCAL         => '1',
@@ -68,7 +69,8 @@ class ConfigService {
 		self::FILES_PDF           => '1',
 		self::FILES_OFFICE        => '1',
 		self::FILES_IMAGE         => '0',
-		self::FILES_AUDIO         => '0'
+		self::FILES_AUDIO         => '0',
+		self::FILES_CHUNK_SIZE => FilesService::CHUNK_TREE_SIZE
 	];
 
 
@@ -139,6 +141,17 @@ class ConfigService {
 		}
 
 		return (string)$this->config->getAppValue(Application::APP_ID, $key, $defaultValue);
+	}
+
+	/**
+	 * Get a integer value by key
+	 *
+	 * @param string $key
+	 *
+	 * @return int
+	 */
+	public function getAppValueInt(string $key): int {
+		return intval($this->getAppValue($key));
 	}
 
 	/**
