@@ -37,6 +37,7 @@ use OCP\Files\Events\Node\NodeCreatedEvent;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\FullTextSearch\Model\IIndex;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class FileCreated
@@ -56,6 +57,11 @@ class FileCreated extends ListenersCore implements IEventListener {
 
 		$node = $event->getNode();
 		$user = $this->userSession->getUser();
+
+		$userId = ($user === null) ? 'null' : $user->getUID();
+		$logger = \OC::$server->get(LoggerInterface::class);
+		$logger->notice('FileCreated event ' . (string)$node->getId() . ' by ' . $userId);
+
 		if ($user === null) {
 			return;
 		}
