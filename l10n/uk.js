@@ -20,7 +20,7 @@ OC.L10N.register(
     "Group folders" : "Групові каталоги",
     "Filter by extension" : "Фільтр за розширенням",
     "Extension" : "Розширення",
-    "Full text search - Files" : "Повнотекстовий пошук - Файли",
+    "Full text search - Files" : "Контекстний пошук - Файли",
     "Index the content of your files" : "Індексувати вміст ваших файлів",
     "Extension to the _Full text search_ app to index your users' files." : "Розширення до застосунку Full text search, яке індексує файли користувача.",
     "Files" : "Файли",
