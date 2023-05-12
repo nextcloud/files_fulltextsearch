@@ -1,10 +1,5 @@
 { "translations": {
-    "files" : "files",
-    "Go to folder" : "Dir a la carpeta",
     "Name" : "Nome",
-    "Modified" : "Modificóse'l",
-    "Size" : "Tamañu",
-    "Group folders" : "Carpetes de grupos",
-    "Files" : "Ficheros"
+    "Size" : "Tamañu"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
