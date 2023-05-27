@@ -1,5 +1,6 @@
 { "translations": {
     "Name" : "Nome",
-    "Size" : "Tamañu"
+    "Size" : "Tamañu",
+    "Extension" : "Estensión"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }
