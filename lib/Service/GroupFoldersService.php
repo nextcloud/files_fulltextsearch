@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -28,105 +27,67 @@ declare(strict_types=1);
  *
  */
 
-
 namespace OCA\Files_FullTextSearch\Service;
 
-use ArtificialOwl\MySmallPhpTools\Traits\Nextcloud\nc22\TNC22Logger;
-use ArtificialOwl\MySmallPhpTools\Traits\TArrayTools;
 use Exception;
-use OCA\Files_FullTextSearch\AppInfo\Application;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Exceptions\GroupFolderNotFoundException;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Model\MountPoint;
+use OCA\Files_FullTextSearch\Tools\Traits\TArrayTools;
 use OCA\GroupFolders\Folder\FolderManager;
 use OCP\App\IAppManager;
+use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Node;
 use OCP\FullTextSearch\Model\IIndex;
 use OCP\IDBConnection;
 use OCP\IGroupManager;
-use OCP\Share\IManager;
+use Psr\Log\LoggerInterface;
 
-/**
- * Class GroupFoldersService
- *
- * @package OCA\Files_FullTextSearch\Service
- */
 class GroupFoldersService {
-	use TNC22Logger;
 	use TArrayTools;
 
-
-	/** @var IManager */
-	private $shareManager;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var FolderManager */
-	private $folderManager;
-
-	/** @var LocalFilesService */
-	private $localFilesService;
-
-	/** @var ConfigService */
-	private $configService;
-
-	/** @var MiscService */
-	private $miscService;
-
-
+	private ?FolderManager $folderManager = null;
 	/** @var MountPoint[] */
-	private $groupFolders = [];
+	private array $groupFolders = [];
 
-
-	/**
-	 * GroupFoldersService constructor.
-	 *
-	 * @param string $userId
-	 * @param IDBConnection $dbConnection
-	 * @param IAppManager $appManager
-	 * @param IManager $shareManager
-	 * @param IGroupManager $groupManager
-	 * @param LocalFilesService $localFilesService
-	 * @param ConfigService $configService
-	 * @param MiscService $miscService
-	 */
 	public function __construct(
-		IDBConnection $dbConnection, IAppManager $appManager, IManager $shareManager,
-		IGroupManager $groupManager, LocalFilesService $localFilesService,
-		ConfigService $configService, MiscService $miscService
+		IDBConnection $dbConnection,
+		IAppManager $appManager,
+		IMimeTypeLoader $mimeTypeLoader,
+		private IGroupManager $groupManager,
+		private LocalFilesService $localFilesService,
+		ConfigService $configService,
+		private LoggerInterface $logger
 	) {
 		if ($configService->getAppValue(ConfigService::FILES_GROUP_FOLDERS) === '1'
 			&& $appManager->isEnabledForUser('groupfolders')) {
 			try {
-				$this->folderManager = new FolderManager($dbConnection);
+				$this->folderManager = new FolderManager(
+					$dbConnection,
+					$groupManager,
+					$mimeTypeLoader,
+					$logger
+				);
 			} catch (Exception $e) {
 				return;
 			}
 		}
-
-		$this->shareManager = $shareManager;
-		$this->groupManager = $groupManager;
-		$this->localFilesService = $localFilesService;
-		$this->configService = $configService;
-		$this->miscService = $miscService;
-		$this->setup('app', Application::APP_ID);
 	}
 
 
 	/**
 	 * @param string $userId
 	 */
-	public function initGroupSharesForUser(string $userId) {
+	public function initGroupSharesForUser(string $userId): void {
 		if ($this->folderManager === null) {
 			return;
 		}
 
-		$this->debug('initGroupSharesForUser request', ['userId' => $userId]);
+		$this->logger->debug('initGroupSharesForUser request', ['userId' => $userId]);
 		$this->groupFolders = $this->getMountPoints($userId);
-		$this->debug('initGroupSharesForUser result', ['groupFolders' => $this->groupFolders]);
+		$this->logger->debug('initGroupSharesForUser result', ['groupFolders' => $this->groupFolders]);
 	}
 
 
@@ -136,7 +97,7 @@ class GroupFoldersService {
 	 *
 	 * @throws KnownFileSourceException
 	 */
-	public function getFileSource(Node $file, string &$source) {
+	public function getFileSource(Node $file, string &$source): void {
 		if ($file->getMountPoint()
 				 ->getMountType() !== 'group'
 			|| $this->folderManager === null) {
@@ -158,7 +119,7 @@ class GroupFoldersService {
 	 * @param FilesDocument $document
 	 * @param Node $file
 	 */
-	public function updateDocumentAccess(FilesDocument &$document, Node $file) {
+	public function updateDocumentAccess(FilesDocument $document, Node $file): void {
 		if ($document->getSource() !== ConfigService::FILES_GROUP_FOLDERS) {
 			return;
 		}
@@ -169,9 +130,14 @@ class GroupFoldersService {
 			return;
 		}
 
-
 		$access = $document->getAccess();
-		$access->addGroups($mount->getGroups());
+		foreach ($mount->getGroups() as $group) {
+			if ($this->groupManager->get($group) === null) {
+				$access->addCircle($group);
+			} else {
+				$access->addGroup($group);
+			}
+		}
 
 		$document->getIndex()
 				 ->addOptionInt('group_folder_id', $mount->getId());
@@ -183,7 +149,7 @@ class GroupFoldersService {
 	 * @param FilesDocument $document
 	 * @param array $users
 	 */
-	public function getShareUsers(FilesDocument $document, array &$users) {
+	public function getShareUsers(FilesDocument $document, array &$users): void {
 		if ($document->getSource() !== ConfigService::FILES_GROUP_FOLDERS) {
 			return;
 		}
@@ -200,7 +166,7 @@ class GroupFoldersService {
 	 */
 	private function getMountPoint(Node $file): MountPoint {
 		foreach ($this->groupFolders as $mount) {
-			if (strpos($file->getPath(), $mount->getPath()) === 0) {
+			if (str_starts_with($file->getPath(), $mount->getPath())) {
 				return $mount;
 			}
 		}
@@ -233,7 +199,7 @@ class GroupFoldersService {
 	/**
 	 * @param IIndex $index
 	 */
-	public function impersonateOwner(IIndex $index) {
+	public function impersonateOwner(IIndex $index): void {
 		if ($index->getSource() !== ConfigService::FILES_GROUP_FOLDERS) {
 			return;
 		}
