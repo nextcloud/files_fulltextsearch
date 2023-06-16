@@ -94,13 +94,12 @@ class GroupFoldersService {
 	 * @param MiscService $miscService
 	 */
 	public function __construct(
-		$userId, IDBConnection $dbConnection, IAppManager $appManager,
-		IManager $shareManager,
+		IDBConnection $dbConnection, IAppManager $appManager, IManager $shareManager,
 		IGroupManager $groupManager, LocalFilesService $localFilesService,
 		ConfigService $configService, MiscService $miscService
 	) {
 		if ($configService->getAppValue(ConfigService::FILES_GROUP_FOLDERS) === '1'
-			&& $appManager->isEnabledForUser('groupfolders', $userId)) {
+			&& $appManager->isEnabledForUser('groupfolders')) {
 			try {
 				$this->folderManager = new FolderManager($dbConnection);
 			} catch (Exception $e) {
