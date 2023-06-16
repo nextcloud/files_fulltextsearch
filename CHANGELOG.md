@@ -1,5 +1,9 @@
 # Changelog
 
+### 27.0.1
+
+- fixing an issue when using groupfolder
+
 
 ### 27.0.0
 
