@@ -3,7 +3,7 @@
 ### 27.0.1
 
 - fixing an issue when using groupfolder
-
+- mimetype must be string
 
 ### 27.0.0
 
