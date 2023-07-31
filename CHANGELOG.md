@@ -1,5 +1,9 @@
 # Changelog
 
+### 25.0.1
+
+- mimetype must be string
+
 ### 24.0.0
 
 - compat nc24
