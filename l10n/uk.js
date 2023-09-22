@@ -7,7 +7,7 @@ OC.L10N.register(
     "Name" : "Ім'я",
     "Modified" : "Змінено",
     "Size" : "Розмір",
-    "Could not copy \"{file}\", target exists" : "Не вдається скопіювати файл \"{file}\", оскільки він вже присутній в точці призначення",
+    "Could not copy \"{file}\", target exists" : "Не вдалося скопіювати файл \"{file}\", оскільки файл з таким ім'ям вже присутній",
     "Could not copy \"{file}\"" : "Неможливо скопіювати \"{file}\"",
     "Copied {origin} inside {destination}" : "Скопійовано {origin} до {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} ті {nbfiles} інших файлів скопійовано в {destination}",
