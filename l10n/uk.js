@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "files",
+    "files" : "файли",
     "Go to folder" : "Перейти до каталогу",
     "Open folder" : "Відкрити каталог",
     "Name" : "Ім'я",
