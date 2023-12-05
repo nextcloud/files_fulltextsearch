@@ -71,7 +71,7 @@ class SettingsService {
 	 * @return bool
 	 */
 	public function checkConfig(array $data): bool {
-//			return false;
+		//			return false;
 
 		return true;
 	}
