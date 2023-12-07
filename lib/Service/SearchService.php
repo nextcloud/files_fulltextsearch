@@ -342,7 +342,7 @@ class SearchService {
 		}
 
 		$document->setLink(
-			$this->urlGenerator->linkToRoute('files.view.index', ['dir' => $dir, 'scrollto' => $filename])
+			$this->urlGenerator->linkToRoute('files.view.index', ['dir' => $this->withoutEndSlash($dir), 'openfile' => $document->getId(), 'scrollto' => $filename])
 		);
 	}
 
