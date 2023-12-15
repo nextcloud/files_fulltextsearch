@@ -55,7 +55,7 @@ var files_elements = {
 		files_elements.files_pdf = $('#files_pdf');
 		files_elements.files_image = $('#files_image');
 		files_elements.files_audio = $('#files_audio');
-		files_elements.files_open_result_directly = $('#open_result_directly');
+		files_elements.files_open_result_directly = $('#files_open_result_directly');
 
 		files_elements.files_local.on('change', files_elements.updateSettings);
 		files_elements.files_external.on('change', files_elements.updateSettings);
