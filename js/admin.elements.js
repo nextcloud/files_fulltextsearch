@@ -41,6 +41,7 @@ var files_elements = {
 	files_pdf: null,
 	files_image: null,
 	files_audio: null,
+	files_open_result_directly: null,
 
 	init: function () {
 		files_elements.files_div = $('#files');
@@ -54,6 +55,7 @@ var files_elements = {
 		files_elements.files_pdf = $('#files_pdf');
 		files_elements.files_image = $('#files_image');
 		files_elements.files_audio = $('#files_audio');
+		files_elements.files_open_result_directly = $('#open_result_directly');
 
 		files_elements.files_local.on('change', files_elements.updateSettings);
 		files_elements.files_external.on('change', files_elements.updateSettings);
@@ -65,6 +67,7 @@ var files_elements = {
 		files_elements.files_pdf.on('change', files_elements.updateSettings);
 		files_elements.files_image.on('change', files_elements.updateSettings);
 		files_elements.files_audio.on('change', files_elements.updateSettings);
+		files_elements.files_open_result_directly.on('change', files_elements.updateSettings);
 	},
 
 

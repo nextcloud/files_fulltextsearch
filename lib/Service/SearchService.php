@@ -341,9 +341,14 @@ class SearchService {
 			return;
 		}
 
-		$document->setLink(
-			$this->urlGenerator->linkToRoute('files.view.index', ['dir' => $dir, 'scrollto' => $filename])
-		);
+		
+		if ($this->configService->getAppValue(ConfigService::FILES_OPEN_RESULT_DIRECTLY) !== '1') {
+			$link = $this->urlGenerator->linkToRoute('files.view.index', ['dir' => $dir, 'scrollto' => $filename]);
+		} else {
+			$link = $this->urlGenerator->linkToRoute('files.view.index', ['dir' => $this->withoutEndSlash($dir), 'openfile' => $document->getId(), 'scrollto' => $filename]);
+		}
+		
+		$document->setLink($link);
 	}
 
 
