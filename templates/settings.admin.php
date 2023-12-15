@@ -152,6 +152,20 @@ Util::addScript(Application::APP_ID, 'admin');
 	-->
 
 		</div>
-	</div>
 
+		<h3 class="hsub"><?php p($l->t('Results')); ?></h3>
+		<div class="div-table">
+			<div class="div-table-row">
+				<div class="div-table-col div-table-col-left">
+					<span class="leftcol"><?php p($l->t('Open Files')); ?>:</span>
+					<br/>
+					<em><?php p($l->t('Directly from search results.')); ?></em>
+				</div>
+				<div class="div-table-col">
+					<input type="checkbox" id="files_open_result_directly" value="1"/>
+				</div>
+			</div>
+		</div>
+
+	</div>
 </div>

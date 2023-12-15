@@ -55,6 +55,7 @@ var files_settings = {
 		files_elements.files_pdf.prop('checked', (result.files_pdf === '1'));
 		files_elements.files_image.prop('checked', (result.files_image === '1'));
 		files_elements.files_audio.prop('checked', (result.files_audio === '1'));
+    	files_elements.files_open_result_directly.prop('checked', (result.files_open_result_directly === '1'));
 
 		fts_admin_settings.tagSettingsAsSaved(files_elements.files_div);
 	},
@@ -71,7 +72,8 @@ var files_settings = {
 			files_office: (files_elements.files_office.is(':checked')) ? 1 : 0,
 			files_pdf: (files_elements.files_pdf.is(':checked')) ? 1 : 0,
 			files_image: (files_elements.files_image.is(':checked')) ? 1 : 0,
-			files_audio: (files_elements.files_audio.is(':checked')) ? 1 : 0
+			files_audio: (files_elements.files_audio.is(':checked')) ? 1 : 0,
+			files_open_result_directly: (files_elements.files_open_result_directly.is(':checked')) ? 1 : 0
 		};
 		$.ajax({
 			method: 'POST',
