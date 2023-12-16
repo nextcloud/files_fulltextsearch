@@ -345,7 +345,7 @@ class SearchService {
 		if ($this->configService->getAppValue(ConfigService::FILES_OPEN_RESULT_DIRECTLY) !== '1') {
 			$link = $this->urlGenerator->linkToRoute('files.view.index', ['dir' => $dir, 'scrollto' => $filename]);
 		} else {
-			$link = $this->urlGenerator->linkToRoute('files.view.index', ['dir' => $this->withoutEndSlash($dir), 'openfile' => $document->getId(), 'scrollto' => $filename]);
+			$link = $this->urlGenerator->linkToRoute('files.View.showFile', ['fileid' => $document->getId()]);
 		}
 		
 		$document->setLink($link);
