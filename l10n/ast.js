@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Name" : "Nome",
     "Size" : "Tamañu",
-    "Extension" : "Estensión"
+    "Extension" : "Estensión",
+    "Files" : "Ficheros"
 },
 "nplurals=2; plural=(n != 1);");
