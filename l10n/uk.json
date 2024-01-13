@@ -35,7 +35,7 @@
     "Types" : "Категорії",
     "Maximum file size" : "Найбільший розмір файлу",
     "Maximum file size to index (in Mb)." : "Найбільший розмір файлу для індексування (у МБ).",
-    "Extract PDF" : "Видобувати PDF",
+    "Extract PDF" : "Видобути PDF",
     "Index the content of PDF files." : "Індексувати вміст файлів PDF.",
     "Extract Office" : "Видобувати офісні файли",
     "Index the content of office files." : "Індексувати вміст офісних файлів."
