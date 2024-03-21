@@ -56,6 +56,7 @@ class ConfigService {
 	public const FILES_IMAGE = 'files_image';
 	public const FILES_AUDIO = 'files_audio';
 	public const FILES_CHUNK_SIZE = 'files_chunk_size';
+	public const FILES_OPEN_RESULT_DIRECTLY = 'files_open_result_directly';
 
 	public $defaults = [
 		self::FILES_LOCAL => '1',
@@ -68,7 +69,8 @@ class ConfigService {
 		self::FILES_OFFICE => '1',
 		self::FILES_IMAGE => '0',
 		self::FILES_AUDIO => '0',
-		self::FILES_CHUNK_SIZE => FilesService::CHUNK_TREE_SIZE
+		self::FILES_CHUNK_SIZE => FilesService::CHUNK_TREE_SIZE,
+		self::FILES_OPEN_RESULT_DIRECTLY => '0'
 	];
 
 
