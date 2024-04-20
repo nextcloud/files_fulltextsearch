@@ -15,6 +15,7 @@ OC.L10N.register(
     "Within external files" : "En los archivos externos",
     "External files" : "Archivos externos",
     "Group folders" : "Carpetas de grupo",
+    "Extension" : "Extensión",
     "Index the content of your files" : "Indexa el contenido de tus archivos",
     "Extension to the _Full text search_ app to index your users' files." : "Extensión a la aplicación _Full text search_  para indexar tus archivos de usuarios.",
     "Files" : "Archivos",
