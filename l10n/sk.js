@@ -40,6 +40,7 @@ OC.L10N.register(
     "Extract PDF" : "Extrahovať PDF",
     "Index the content of PDF files." : "Indexovať obsah PDF súborov.",
     "Extract Office" : "Extrahovať kancelárske",
-    "Index the content of office files." : "Indexovať obsah kancelárskych súborov ( napr. dokumenty, tabuľky alebo prezentácie)."
+    "Index the content of office files." : "Indexovať obsah kancelárskych súborov ( napr. dokumenty, tabuľky alebo prezentácie).",
+    "Results" : "Výsledky"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

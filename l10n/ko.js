@@ -40,6 +40,7 @@ OC.L10N.register(
     "Extract PDF" : "PDF 추출",
     "Index the content of PDF files." : "PDF 파일의 내용을 색인에 추가합니다.",
     "Extract Office" : "오피스 파일 추출",
-    "Index the content of office files." : "오피스 파일의 내용을 색인에 추가합니다."
+    "Index the content of office files." : "오피스 파일의 내용을 색인에 추가합니다.",
+    "Results" : "결과들"
 },
 "nplurals=1; plural=0;");
