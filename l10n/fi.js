@@ -39,6 +39,7 @@ OC.L10N.register(
     "Extract PDF" : "Pura PDF",
     "Index the content of PDF files." : "Indeksoi PDF-tiedostojen sisältö.",
     "Extract Office" : "Pura Office",
-    "Index the content of office files." : "Indeksoi Office-tiedostojen sisältö."
+    "Index the content of office files." : "Indeksoi Office-tiedostojen sisältö.",
+    "Results" : "Tulokset"
 },
 "nplurals=2; plural=(n != 1);");

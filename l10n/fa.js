@@ -40,6 +40,7 @@ OC.L10N.register(
     "Extract PDF" : "استخراج پی دی اف",
     "Index the content of PDF files." : "فهرست فایلهای PDF.",
     "Extract Office" : "دفتر استخراج",
-    "Index the content of office files." : "فهرست محتوای پرونده های اداری"
+    "Index the content of office files." : "فهرست محتوای پرونده های اداری",
+    "Results" : "نتایج"
 },
 "nplurals=2; plural=(n > 1);");

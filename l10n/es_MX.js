@@ -20,6 +20,7 @@ OC.L10N.register(
     "Extension to the _Full text search_ app to index your users' files." : "Extensión a la aplicación _Full text search_  para indexar tus archivos de usuarios.",
     "Files" : "Archivos",
     "Local Files" : "Archivos locales",
-    "External Files" : "Archivos externos"
+    "External Files" : "Archivos externos",
+    "Results" : "Resultados"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

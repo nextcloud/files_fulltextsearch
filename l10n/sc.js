@@ -40,6 +40,7 @@ OC.L10N.register(
     "Extract PDF" : "Boga a fora PDF",
     "Index the content of PDF files." : "Faghe s'ìnditze de is cuntenutos de is archìvios PDF",
     "Extract Office" : "Boga a fora Office",
-    "Index the content of office files." : "Faghe un ìnditze de cuntenutos de is archìvios de Office."
+    "Index the content of office files." : "Faghe un ìnditze de cuntenutos de is archìvios de Office.",
+    "Results" : "Resurtados"
 },
 "nplurals=2; plural=(n != 1);");

@@ -40,6 +40,7 @@ OC.L10N.register(
     "Extract PDF" : "Файлы PDF",
     "Index the content of PDF files." : "Индексировать содержимое файлов в формате PDF.",
     "Extract Office" : "Файлы офисных приложений",
-    "Index the content of office files." : "Индексировать файлы в формате офисных приложений."
+    "Index the content of office files." : "Индексировать файлы в формате офисных приложений.",
+    "Results" : "Результаты"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

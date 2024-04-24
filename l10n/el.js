@@ -40,6 +40,7 @@ OC.L10N.register(
     "Extract PDF" : "Εξαγωγή σε PDF",
     "Index the content of PDF files." : "Ευρετηριοποίηση περιεχομένου των PDF αρχείων.",
     "Extract Office" : "Εξαγωγή Γραφείου",
-    "Index the content of office files." : "Ευρετηριοποίηση περιεχομένων αρχείων γραφείου"
+    "Index the content of office files." : "Ευρετηριοποίηση περιεχομένων αρχείων γραφείου",
+    "Results" : "Αποτελέσματα"
 },
 "nplurals=2; plural=(n != 1);");

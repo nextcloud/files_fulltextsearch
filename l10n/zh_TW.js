@@ -40,6 +40,7 @@ OC.L10N.register(
     "Extract PDF" : "解壓縮 PDF",
     "Index the content of PDF files." : "索引 PDF 檔案的內容。",
     "Extract Office" : "解壓縮 Office",
-    "Index the content of office files." : "索引 Office 檔案的內容。"
+    "Index the content of office files." : "索引 Office 檔案的內容。",
+    "Results" : "結果"
 },
 "nplurals=1; plural=0;");

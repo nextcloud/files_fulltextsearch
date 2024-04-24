@@ -40,6 +40,7 @@ OC.L10N.register(
     "Extract PDF" : "Udpak PDF",
     "Index the content of PDF files." : "Indekser indholdet af PDF-filer.",
     "Extract Office" : "Udpak Office",
-    "Index the content of office files." : "Indekser indholdet af Office-filer."
+    "Index the content of office files." : "Indekser indholdet af Office-filer.",
+    "Results" : "Resultater"
 },
 "nplurals=2; plural=(n != 1);");
