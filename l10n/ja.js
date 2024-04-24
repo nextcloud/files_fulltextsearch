@@ -40,6 +40,7 @@ OC.L10N.register(
     "Extract PDF" : "PDFを抽出する",
     "Index the content of PDF files." : "PDFファイルの内容を索引付けします。",
     "Extract Office" : "オフィスの抽出",
-    "Index the content of office files." : "オフィスファイルの内容を索引付けする。"
+    "Index the content of office files." : "オフィスファイルの内容を索引付けする。",
+    "Results" : "結果"
 },
 "nplurals=1; plural=0;");

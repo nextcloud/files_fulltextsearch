@@ -38,6 +38,7 @@
     "Extract PDF" : "Wyodrębnij PDF",
     "Index the content of PDF files." : "Indeksuj zawartość plików PDF.",
     "Extract Office" : "Wyodrębnij dokument",
-    "Index the content of office files." : "Indeksuj zawartość plików pakietu Office."
+    "Index the content of office files." : "Indeksuj zawartość plików pakietu Office.",
+    "Results" : "Wyniki"
 },"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

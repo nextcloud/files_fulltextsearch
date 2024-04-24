@@ -40,6 +40,7 @@ OC.L10N.register(
     "Extract PDF" : "Extrahovat PDF",
     "Index the content of PDF files." : "Vytvářet rejstřík obsahu PDF souborů.",
     "Extract Office" : "Extrahovat soubory Office",
-    "Index the content of office files." : "Vytvořit rejstřík obsahu souborů s dokumenty, tabulkami a prezentacemi."
+    "Index the content of office files." : "Vytvořit rejstřík obsahu souborů s dokumenty, tabulkami a prezentacemi.",
+    "Results" : "Výsledky"
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

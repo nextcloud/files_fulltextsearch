@@ -40,6 +40,7 @@ OC.L10N.register(
     "Extract PDF" : "Atera PDF",
     "Index the content of PDF files." : "Indexatu PDF fitxategien edukia.",
     "Extract Office" : "Atera office",
-    "Index the content of office files." : "Indexatu office fitxategien edukia."
+    "Index the content of office files." : "Indexatu office fitxategien edukia.",
+    "Results" : "Emaitzak"
 },
 "nplurals=2; plural=(n != 1);");
