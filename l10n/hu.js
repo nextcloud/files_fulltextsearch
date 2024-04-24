@@ -40,6 +40,7 @@ OC.L10N.register(
     "Extract PDF" : "PDF kibontása",
     "Index the content of PDF files." : "PDF-fájlok tartalmának indexelése.",
     "Extract Office" : "Office-fájlok kibontása",
-    "Index the content of office files." : "Office-fájlok tartalmának indexelése."
+    "Index the content of office files." : "Office-fájlok tartalmának indexelése.",
+    "Results" : "Eredmények"
 },
 "nplurals=2; plural=(n != 1);");

@@ -4,6 +4,7 @@ OC.L10N.register(
     "Name" : "Nom",
     "Modified" : "Yettwabeddel",
     "Size" : "Teɣzi",
-    "Files" : "Ifuyla"
+    "Files" : "Ifuyla",
+    "Results" : "Igmaḍ"
 },
 "nplurals=2; plural=(n != 1);");

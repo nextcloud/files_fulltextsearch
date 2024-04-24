@@ -40,6 +40,7 @@ OC.L10N.register(
     "Extract PDF" : "PDF ayıklansın",
     "Index the content of PDF files." : "PDF dosyalarının içeriği dizine eklensin.",
     "Extract Office" : "Ofis dosyaları ayıklansın",
-    "Index the content of office files." : "Ofis dosyalarının içeriği dizine eklensin."
+    "Index the content of office files." : "Ofis dosyalarının içeriği dizine eklensin.",
+    "Results" : "Sonuçlar"
 },
 "nplurals=2; plural=(n > 1);");
