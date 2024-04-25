@@ -38,6 +38,9 @@
     "Extract PDF" : "استخلاص ملف PDF",
     "Index the content of PDF files." : "فهرسة محتويات ملفات PDF.",
     "Extract Office" : "إستخلاص ملفات أوفيس Office",
-    "Index the content of office files." : "فهرسة محتويات ملفات أوفيس Office"
+    "Index the content of office files." : "فهرسة محتويات ملفات أوفيس Office",
+    "Results" : "النتائج ",
+    "Open Files" : "الملفات المفتوحة",
+    "Directly from search results." : "مباشرةً من نتيجة البحث."
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }
