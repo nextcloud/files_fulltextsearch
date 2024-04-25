@@ -41,6 +41,8 @@ OC.L10N.register(
     "Index the content of PDF files." : "Indexa el contingut dels fitxers PDF.",
     "Extract Office" : "Extreu els fitxers de l'Office",
     "Index the content of office files." : "Indexa el contingut dels fitxers de l'Office.",
-    "Results" : "Resultats"
+    "Results" : "Resultats",
+    "Open Files" : "Obriu Fitxers",
+    "Directly from search results." : "Directament des dels resultats de cerca."
 },
 "nplurals=2; plural=(n != 1);");

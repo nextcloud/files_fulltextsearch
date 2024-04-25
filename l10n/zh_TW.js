@@ -41,6 +41,8 @@ OC.L10N.register(
     "Index the content of PDF files." : "索引 PDF 檔案的內容。",
     "Extract Office" : "解壓縮 Office",
     "Index the content of office files." : "索引 Office 檔案的內容。",
-    "Results" : "結果"
+    "Results" : "結果",
+    "Open Files" : "開啟檔案",
+    "Directly from search results." : "直接從搜尋結果。"
 },
 "nplurals=1; plural=0;");
