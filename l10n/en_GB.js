@@ -40,6 +40,9 @@ OC.L10N.register(
     "Extract PDF" : "Extract PDF",
     "Index the content of PDF files." : "Index the content of PDF files.",
     "Extract Office" : "Extract Office",
-    "Index the content of office files." : "Index the content of office files."
+    "Index the content of office files." : "Index the content of office files.",
+    "Results" : "Results",
+    "Open Files" : "Open Files",
+    "Directly from search results." : "Directly from search results."
 },
 "nplurals=2; plural=(n != 1);");

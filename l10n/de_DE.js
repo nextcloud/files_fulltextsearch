@@ -41,6 +41,8 @@ OC.L10N.register(
     "Index the content of PDF files." : "Den Inhalt von PDF-Dateien indizieren.",
     "Extract Office" : "Office-Dateien extrahieren",
     "Index the content of office files." : "Den Inhalt von Office-Dateien indizieren.",
-    "Results" : "Ergebnisse"
+    "Results" : "Ergebnisse",
+    "Open Files" : "Dateien öffnen",
+    "Directly from search results." : "Direkt von den Suchergebnissen."
 },
 "nplurals=2; plural=(n != 1);");
