@@ -5,16 +5,21 @@
 
 - compat nc27
 
+### 27.0.0
+
+- compat nc28
+
+### 27.0.0
+
+- compat nc27
 
 ### 26.0.0
 
 - compat nc26
 
-
 ### 25.0.0
 
 - compat nc25
-
 
 ### 24.0.0
 
