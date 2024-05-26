@@ -41,6 +41,8 @@ OC.L10N.register(
     "Index the content of PDF files." : "Indexatu PDF fitxategien edukia.",
     "Extract Office" : "Atera office",
     "Index the content of office files." : "Indexatu office fitxategien edukia.",
-    "Results" : "Emaitzak"
+    "Results" : "Emaitzak",
+    "Open Files" : "Ireki fitxategiak",
+    "Directly from search results." : "Zuzenean bilaketa emaitzetatik."
 },
 "nplurals=2; plural=(n != 1);");
