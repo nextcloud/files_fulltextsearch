@@ -41,6 +41,8 @@ OC.L10N.register(
     "Index the content of PDF files." : "Indekser innholdet i PDF-filer.",
     "Extract Office" : "Trekk ut Office",
     "Index the content of office files." : "Indekser innholdet i kontorprogram-filer.",
-    "Results" : "Resultater"
+    "Results" : "Resultater",
+    "Open Files" : "Åpne Filer",
+    "Directly from search results." : "Direkte fra søkeresultatene."
 },
 "nplurals=2; plural=(n != 1);");
