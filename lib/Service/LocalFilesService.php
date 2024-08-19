@@ -37,13 +37,13 @@ use OCA\Files_FullTextSearch\Db\SharesRequest;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Model\FileShares;
-use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\FullTextSearch\Model\IDocumentAccess;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class LocalFilesService
@@ -51,54 +51,13 @@ use OCP\Share\IShare;
  * @package OCA\Files_FullTextSearch\Service
  */
 class LocalFilesService {
-
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IManager */
-	private $shareManager;
-
-	/** @var SharesRequest */
-	private $sharesRequest;
-
-	/** @var ConfigService */
-	private $configService;
-
-	/** @var MiscService */
-	private $miscService;
-
-
-	/**
-	 * LocalFilesService constructor.
-	 *
-	 * @param IRootFolder $rootFolder
-	 * @param IGroupManager $groupManager
-	 * @param IUserManager $userManager
-	 * @param IManager $shareManager
-	 * @param SharesRequest $sharesRequest
-	 * @param ConfigService $configService
-	 * @param MiscService $miscService
-	 */
 	public function __construct(
-		IRootFolder $rootFolder, IGroupManager $groupManager, IUserManager $userManager,
-		IManager $shareManager, SharesRequest $sharesRequest, ConfigService $configService,
-		MiscService $miscService
+		private IGroupManager $groupManager,
+		private IUserManager $userManager,
+		private IManager $shareManager,
+		private SharesRequest $sharesRequest,
+		private LoggerInterface $logger,
 	) {
-		$this->rootFolder = $rootFolder;
-		$this->groupManager = $groupManager;
-		$this->userManager = $userManager;
-		$this->shareManager = $shareManager;
-
-		$this->sharesRequest = $sharesRequest;
-		$this->configService = $configService;
-		$this->miscService = $miscService;
 	}
 
 
@@ -163,16 +122,16 @@ class LocalFilesService {
 			return;
 		}
 
-		if (!array_key_exists('users', $shares)) {
-			return;
-		}
-
-		foreach ($shares['users'] as $user => $node) {
+		foreach ($shares['users'] ?? [] as $user => $node) {
+			if (!is_string($user)) {
+				$this->logger->warning('malformed access list: ' . json_encode($shares));
+				continue;
+			}
 			if (in_array($user, $users) || $this->userManager->get($user) === null) {
 				continue;
 			}
 
-			array_push($users, $user);
+			$users[] = $user;
 		}
 	}
 
