@@ -38,10 +38,8 @@ use OCA\Files_FullTextSearch\Model\MountPoint;
 use OCA\Files_FullTextSearch\Tools\Traits\TArrayTools;
 use OCA\GroupFolders\Folder\FolderManager;
 use OCP\App\IAppManager;
-use OCP\Files\IMimeTypeLoader;
 use OCP\Files\Node;
 use OCP\FullTextSearch\Model\IIndex;
-use OCP\IDBConnection;
 use OCP\IGroupManager;
 use Psr\Log\LoggerInterface;
 
@@ -53,9 +51,7 @@ class GroupFoldersService {
 	private array $groupFolders = [];
 
 	public function __construct(
-		IDBConnection $dbConnection,
 		IAppManager $appManager,
-		IMimeTypeLoader $mimeTypeLoader,
 		private IGroupManager $groupManager,
 		private LocalFilesService $localFilesService,
 		ConfigService $configService,
@@ -64,14 +60,8 @@ class GroupFoldersService {
 		if ($configService->getAppValue(ConfigService::FILES_GROUP_FOLDERS) === '1'
 			&& $appManager->isEnabledForUser('groupfolders')) {
 			try {
-				$this->folderManager = new FolderManager(
-					$dbConnection,
-					$groupManager,
-					$mimeTypeLoader,
-					$logger
-				);
-			} catch (Exception $e) {
-				return;
+				$this->folderManager = \OCP\Server::get(FolderManager::class);
+			} catch (Exception) {
 			}
 		}
 	}
