@@ -40,6 +40,7 @@ OC.L10N.register(
     "Extract PDF" : "Екстракт PDF",
     "Index the content of PDF files." : "Индексирај ја содржината на PDF датотеки.",
     "Extract Office" : "Екстракт Office",
-    "Index the content of office files." : "Индексирај ја содржината на office датотеки."
+    "Index the content of office files." : "Индексирај ја содржината на office датотеки.",
+    "Results" : "Резултати"
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");
