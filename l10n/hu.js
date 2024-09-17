@@ -41,6 +41,8 @@ OC.L10N.register(
     "Index the content of PDF files." : "PDF-fájlok tartalmának indexelése.",
     "Extract Office" : "Office-fájlok kibontása",
     "Index the content of office files." : "Office-fájlok tartalmának indexelése.",
-    "Results" : "Eredmények"
+    "Results" : "Eredmények",
+    "Open Files" : "Fájlok megnyitása",
+    "Directly from search results." : "Közvetlenül a keresési eredményekből."
 },
 "nplurals=2; plural=(n != 1);");
