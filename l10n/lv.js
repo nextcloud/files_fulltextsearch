@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "files" : "datnes",
     "Go to folder" : "Doties uz mapi",
-    "Name" : "Vārds",
+    "Name" : "Nosaukums",
     "Modified" : "Mainīts",
     "Size" : "Izmērs",
     "Group folders" : "Grupu mapes",
