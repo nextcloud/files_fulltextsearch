@@ -34,7 +34,6 @@ namespace OCA\Files_FullTextSearch\Command;
 use Exception;
 use OC\Core\Command\Base;
 use OCA\Files_FullTextSearch\Service\ConfigService;
-use OCA\Files_FullTextSearch\Service\MiscService;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -45,26 +44,10 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @package OCA\Files_FullTextSearch\Command
  */
 class Configure extends Base {
-
-
-	/** @var ConfigService */
-	private $configService;
-
-	/** @var MiscService */
-	private $miscService;
-
-
-	/**
-	 * Configure constructor.
-	 *
-	 * @param ConfigService $configService
-	 * @param MiscService $miscService
-	 */
-	public function __construct(ConfigService $configService, MiscService $miscService) {
+	public function __construct(
+		private ConfigService $configService
+	) {
 		parent::__construct();
-
-		$this->configService = $configService;
-		$this->miscService = $miscService;
 	}
 
 

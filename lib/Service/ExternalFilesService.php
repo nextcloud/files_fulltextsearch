@@ -1,8 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
-
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -28,18 +26,14 @@ declare(strict_types=1);
  *
  */
 
-
 namespace OCA\Files_FullTextSearch\Service;
 
-use ArtificialOwl\MySmallPhpTools\Traits\Nextcloud\nc22\TNC22Logger;
 use ArtificialOwl\MySmallPhpTools\Traits\TArrayTools;
 use Exception;
 use OC;
-use OC\App\AppManager;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
-use OCA\Files_FullTextSearch\AppInfo\Application;
 use OCA\Files_FullTextSearch\Exceptions\ExternalMountNotFoundException;
 use OCA\Files_FullTextSearch\Exceptions\ExternalMountWithNoViewerException;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
@@ -53,76 +47,24 @@ use OCP\FullTextSearch\Model\IIndex;
 use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\Share\IManager;
+use Psr\Log\LoggerInterface;
 
-/**
- * Class ExternalFilesService
- *
- * @package OCA\Files_FullTextSearch\Service
- */
 class ExternalFilesService {
-	use TNC22Logger;
 	use TArrayTools;
 
+	private ?UserGlobalStoragesService $userGlobalStoragesService = null;
+	private ?GlobalStoragesService $globalStoragesService = null;
 
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var AppManager */
-	private $appManager;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IManager */
-	private $shareManager;
-
-	/** @var UserGlobalStoragesService */
-	private $userGlobalStoragesService;
-
-	/** @var GlobalStoragesService */
-	private $globalStoragesService;
-
-	/** @var IGroupManager */
-	private $groupManager;
-
-	/** @var LocalFilesService */
-	private $localFilesService;
-
-	/** @var ConfigService */
-	private $configService;
-
-	/** @var MiscService */
-	private $miscService;
-
-
-	/**
-	 * ExternalFilesService constructor.
-	 *
-	 * @param IRootFolder $rootFolder
-	 * @param IAppManager $appManager
-	 * @param IUserManager $userManager
-	 * @param IGroupManager $groupManager
-	 * @param IManager $shareManager
-	 * @param LocalFilesService $localFilesService
-	 * @param ConfigService $configService
-	 * @param MiscService $miscService
-	 */
 	public function __construct(
-		IRootFolder $rootFolder, IAppManager $appManager, IUserManager $userManager,
-		IGroupManager $groupManager, IManager $shareManager, LocalFilesService $localFilesService,
-		ConfigService $configService, MiscService $miscService
+		private IRootFolder $rootFolder,
+		private IAppManager $appManager,
+		private IUserManager $userManager,
+		private IGroupManager $groupManager,
+		private IManager $shareManager,
+		private LocalFilesService $localFilesService,
+		private ConfigService $configService,
+		private LoggerInterface $logger,
 	) {
-		$this->rootFolder = $rootFolder;
-		$this->appManager = $appManager;
-		$this->userManager = $userManager;
-		$this->groupManager = $groupManager;
-		$this->shareManager = $shareManager;
-
-		$this->localFilesService = $localFilesService;
-
-		$this->configService = $configService;
-		$this->miscService = $miscService;
-		$this->setup('app', Application::APP_ID);
 	}
 
 
@@ -134,10 +76,10 @@ class ExternalFilesService {
 			return;
 		}
 
-		$this->debug('initExternalFilesForUser', ['userId' => $userId]);
+		$this->logger->debug('initExternalFilesForUser', ['userId' => $userId]);
 		$this->userGlobalStoragesService = OC::$server->getUserGlobalStoragesService();
 		$this->globalStoragesService = OC::$server->getGlobalStoragesService();
-		$this->debug(
+		$this->logger->debug(
 			'initExternalFilesForUser result',
 			[
 				'userGlobalStoragesService' => is_null($this->userGlobalStoragesService),

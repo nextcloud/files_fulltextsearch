@@ -33,7 +33,6 @@ namespace OCA\Files_FullTextSearch\Db;
 
 use OC;
 use OC\SystemConfig;
-use OCA\Files_FullTextSearch\Service\MiscService;
 use OCP\IDBConnection;
 use Psr\Log\LoggerInterface;
 
@@ -45,21 +44,9 @@ use Psr\Log\LoggerInterface;
 class CoreRequestBuilder {
 	public const TABLE_SHARES = 'share';
 
+	protected string $defaultSelectAlias;
 
-	/** @var MiscService */
-	protected $miscService;
-
-	/** @var string */
-	protected $defaultSelectAlias;
-
-
-	/**
-	 * CoreRequestBuilder constructor.
-	 *
-	 * @param MiscService $miscService
-	 */
-	public function __construct(MiscService $miscService) {
-		$this->miscService = $miscService;
+	public function __construct() {
 	}
 
 	/**

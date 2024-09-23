@@ -1,8 +1,6 @@
 <?php
 
 declare(strict_types=1);
-
-
 /**
  * Files_FullTextSearch - Index the content of your files
  *
@@ -28,7 +26,6 @@ declare(strict_types=1);
  *
  */
 
-
 namespace OCA\Files_FullTextSearch\Service;
 
 use OCA\Files_FullTextSearch\Model\FilesDocument;
@@ -39,37 +36,10 @@ use OCP\FullTextSearch\Model\IIndexDocument;
 use OCP\FullTextSearch\Model\ISearchRequest;
 use OCP\FullTextSearch\Model\ISearchResult;
 
-/**
- * Class ExtensionService
- *
- * @package OCA\Files_FullTextSearch\Service
- */
 class ExtensionService {
-
-
-	/** @var IEventDispatcher */
-	private $eventDispatcher;
-
-	/** @var ConfigService */
-	private $configService;
-
-	/** @var MiscService */
-	private $miscService;
-
-
-	/**
-	 * ExtensionService constructor.
-	 *
-	 * @param IEventDispatcher $eventDispatcher
-	 * @param ConfigService $configService
-	 * @param MiscService $miscService
-	 */
 	public function __construct(
-		IEventDispatcher $eventDispatcher, ConfigService $configService, MiscService $miscService
+		private IEventDispatcher $eventDispatcher
 	) {
-		$this->eventDispatcher = $eventDispatcher;
-		$this->configService = $configService;
-		$this->miscService = $miscService;
 	}
 
 

@@ -41,6 +41,7 @@ use OCP\FullTextSearch\Model\ISearchRequest;
 use OCP\FullTextSearch\Model\ISearchResult;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class SearchService
@@ -50,56 +51,19 @@ use OCP\IUserSession;
 class SearchService {
 	use TPathTools;
 
+	private string $userId;
 
-	/** @var string */
-	private $userId;
-
-	/** @var IMimeTypeDetector */
-	private $mimeTypeDetector;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var FilesService */
-	private $filesService;
-
-	/** @var ConfigService */
-	private $configService;
-
-	/** @var ExtensionService */
-	private $extensionService;
-
-	/** @var MiscService */
-	private $miscService;
-
-
-	/**
-	 * SearchService constructor.
-	 *
-	 * @param IUserSession $userSession
-	 * @param IMimeTypeDetector $mimeTypeDetector
-	 * @param IURLGenerator $urlGenerator
-	 * @param FilesService $filesService
-	 * @param ConfigService $configService
-	 * @param ExtensionService $extensionService
-	 * @param MiscService $miscService
-	 *
-	 * @internal param IProviderFactory $factory
-	 */
 	public function __construct(
-		IUserSession $userSession, IMimeTypeDetector $mimeTypeDetector, IUrlGenerator $urlGenerator,
-		FilesService $filesService,
-		ConfigService $configService,
-		ExtensionService $extensionService, MiscService $miscService
+		IUserSession $userSession,
+		private IMimeTypeDetector $mimeTypeDetector,
+		private IUrlGenerator $urlGenerator,
+		private FilesService $filesService,
+		private ConfigService $configService,
+		private ExtensionService $extensionService,
+		private LoggerInterface $logger,
 	) {
 		$user = $userSession->getUser();
-		$this->userId = (is_null($user)) ? '' : $user->getUID();
-		$this->mimeTypeDetector = $mimeTypeDetector;
-		$this->urlGenerator = $urlGenerator;
-		$this->filesService = $filesService;
-		$this->configService = $configService;
-		$this->extensionService = $extensionService;
-		$this->miscService = $miscService;
+		$this->userId = $user?->getUID() ?? '';
 	}
 
 
@@ -113,7 +77,7 @@ class SearchService {
 		$this->searchQueryFiltersExtension($request);
 		$this->searchQueryFiltersSource($request);
 		if ($this->userId === '') {
-			$this->userId = $this->miscService->secureUsername($request->getAuthor());
+			$this->userId = $this->filesService->secureUsername($request->getAuthor());
 		}
 		$request->addPart('comments');
 		$this->extensionService->searchRequest($request);
@@ -124,7 +88,7 @@ class SearchService {
 	 * @param ISearchRequest $request
 	 */
 	private function searchQueryShareNames(ISearchRequest $request) {
-		$username = $this->miscService->secureUsername($request->getAuthor());
+		$username = $this->filesService->secureUsername($request->getAuthor());
 		$request->addField('share_names.' . $username);
 
 		$request->addWildcardField('title');
@@ -141,7 +105,7 @@ class SearchService {
 			return;
 		}
 
-		$username = $this->miscService->secureUsername($request->getAuthor());
+		$username = $this->filesService->secureUsername($request->getAuthor());
 		$currentDir = $this->withoutBeginSlash($this->withEndSlash($currentDir));
 		$request->addRegexFilters(
 			[
@@ -161,7 +125,7 @@ class SearchService {
 			return;
 		}
 
-		$username = $this->miscService->secureUsername($request->getAuthor());
+		$username = $this->filesService->secureUsername($request->getAuthor());
 		$request->addRegexFilters(
 			[
 				['share_names.' . $username => '.*\.' . $extension],
@@ -197,7 +161,7 @@ class SearchService {
 		$in = $request->getOptionArray('in', []);
 
 		if (in_array('filename', $in)) {
-			$username = $this->miscService->secureUsername($request->getAuthor());
+			$username = $this->filesService->secureUsername($request->getAuthor());
 			$request->addLimitField('share_names.' . $username);
 			$request->addLimitField('title');
 		}
@@ -249,10 +213,7 @@ class SearchService {
 
 				$filesDocuments[] = $filesDocument;
 			} catch (Exception $e) {
-				$this->miscService->log(
-					'Exception while improving searchresult: ' . $e->getMessage() . ' - trace: '
-					. json_encode($e->getTrace())
-				);
+				$this->logger->warning('Exception while improving searchresult', ['exception' => $e]);
 			}
 		}
 
@@ -341,13 +302,13 @@ class SearchService {
 			return;
 		}
 
-		
+
 		if ($this->configService->getAppValue(ConfigService::FILES_OPEN_RESULT_DIRECTLY) !== '1') {
 			$link = $this->urlGenerator->linkToRoute('files.view.index', ['dir' => $dir, 'scrollto' => $filename]);
 		} else {
 			$link = $this->urlGenerator->linkToRoute('files.View.showFile', ['fileid' => $document->getId()]);
 		}
-		
+
 		$document->setLink($link);
 	}
 
