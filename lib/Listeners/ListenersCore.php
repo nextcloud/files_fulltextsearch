@@ -31,12 +31,10 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Listeners;
 
-use ArtificialOwl\MySmallPhpTools\Traits\Nextcloud\nc21\TNC21Logger;
 use ArtificialOwl\MySmallPhpTools\Traits\TArrayTools;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OCA\Files_FullTextSearch\Service\ConfigService;
 use OCA\Files_FullTextSearch\Service\FilesService;
-use OCA\Files_FullTextSearch\Service\MiscService;
 use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\IUserSession;
 
@@ -47,50 +45,14 @@ use OCP\IUserSession;
  */
 class ListenersCore {
 	use TArrayTools;
-	use TNC21Logger;
 
-
-	/** @var IUserSession */
-	protected $userSession;
-
-	/** @var Coordinator */
-	protected $coordinator;
-
-	/** @var IFullTextSearchManager */
-	protected $fullTextSearchManager;
-
-	/** @var FilesService */
-	protected $filesService;
-
-	/** @var ConfigService */
-	protected $configService;
-
-	/** @var MiscService */
-	protected $miscService;
-
-
-	/**
-	 * CoreFileEvents constructor.
-	 *
-	 * @param Coordinator $coordinator
-	 * @param IUserSession $userSession
-	 * @param IFullTextSearchManager $fullTextSearchManager
-	 * @param FilesService $filesService
-	 * @param ConfigService $configService
-	 * @param MiscService $miscService
-	 */
 	public function __construct(
-		Coordinator $coordinator, IUserSession $userSession, IFullTextSearchManager $fullTextSearchManager,
-		FilesService $filesService, ConfigService $configService, MiscService $miscService
+		protected Coordinator $coordinator,
+		protected IUserSession $userSession,
+		protected IFullTextSearchManager $fullTextSearchManager,
+		protected FilesService $filesService,
+		protected ConfigService $configService
 	) {
-		$this->userSession = $userSession;
-		$this->coordinator = $coordinator;
-		$this->fullTextSearchManager = $fullTextSearchManager;
-		$this->filesService = $filesService;
-		$this->configService = $configService;
-		$this->miscService = $miscService;
-
-		$this->setup('app', 'files_fulltextsearch');
 	}
 
 

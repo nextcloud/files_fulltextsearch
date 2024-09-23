@@ -31,14 +31,12 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Service;
 
-use ArtificialOwl\MySmallPhpTools\Traits\Nextcloud\nc22\TNC22Logger;
 use ArtificialOwl\MySmallPhpTools\Traits\TPathTools;
 use Exception;
 use OC\FullTextSearch\Model\DocumentAccess;
 use OC\SystemTag\SystemTagManager;
 use OC\SystemTag\SystemTagObjectMapper;
 use OC\User\NoUserException;
-use OCA\Files_FullTextSearch\AppInfo\Application;
 use OCA\Files_FullTextSearch\Exceptions\EmptyUserException;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Exceptions\FilesNotFoundException;
@@ -46,6 +44,7 @@ use OCA\Files_FullTextSearch\Exceptions\KnownFileMimeTypeException;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Provider\FilesProvider;
+use OCA\Files_FullTextSearch\Tools\Traits\TArrayTools;
 use OCP\App\IAppManager;
 use OCP\AppFramework\IAppContainer;
 use OCP\Comments\ICommentsManager;
@@ -68,6 +67,7 @@ use OCP\IUserManager;
 use OCP\Lock\LockedException;
 use OCP\Share\IManager as IShareManager;
 use OCP\SystemTag\ISystemTag;
+use Psr\Log\LoggerInterface;
 use Throwable;
 
 /**
@@ -77,8 +77,7 @@ use Throwable;
  */
 class FilesService {
 	use TPathTools;
-	use TNC22Logger;
-
+	use TArrayTools;
 
 	public const MIMETYPE_TEXT = 'files_text';
 	public const MIMETYPE_PDF = 'files_pdf';
@@ -89,120 +88,28 @@ class FilesService {
 
 	public const CHUNK_TREE_SIZE = 2;
 
-
-	/** @var IAppContainer */
-	private $container;
-
-	/** @var IRootFolder */
-	private $rootFolder;
-
-	/** @var IUserManager */
-	private $userManager;
-
-	/** @var IAppManager */
-	private $appManager;
-
-	/** @var IShareManager */
-	private $shareManager;
-
-	/** @var IURLGenerator */
-	private $urlGenerator;
-
-	/** @var ICommentsManager */
-	private $commentsManager;
-
-	/** @var SystemTagObjectMapper */
-	private $systemTagObjectMapper;
-
-	/** @var SystemTagManager */
-	private $systemTagManager;
-
-	/** @var ConfigService */
-	private $configService;
-
-	/** @var LocalFilesService */
-	private $localFilesService;
-
-	/** @var ExternalFilesService */
-	private $externalFilesService;
-
-	/** @var GroupFoldersService */
-	private $groupFoldersService;
-
-	/** @var ExtensionService */
-	private $extensionService;
-
-	/** @var IFullTextSearchManager */
-	private $fullTextSearchManager;
-
-	/** @var MiscService */
-	private $miscService;
+	private IRunner $runner;
+	private int $sumDocuments;
 
 
-	/** @var IRunner */
-	private $runner;
-
-	/** @var int */
-	private $sumDocuments;
-
-
-	/**
-	 * FilesService constructor.
-	 *
-	 * @param IAppContainer $container
-	 * @param IRootFolder $rootFolder
-	 * @param IAppManager $appManager
-	 * @param IUserManager $userManager
-	 * @param IShareManager $shareManager
-	 * @param IURLGenerator $urlGenerator
-	 * @param ICommentsManager $commentsManager
-	 * @param ConfigService $configService
-	 * @param LocalFilesService $localFilesService
-	 * @param ExternalFilesService $externalFilesService
-	 * @param GroupFoldersService $groupFoldersService
-	 * @param ExtensionService $extensionService
-	 * @param IFullTextSearchManager $fullTextSearchManager
-	 * @param MiscService $miscService
-	 *
-	 * @internal param IProviderFactory $factory
-	 */
 	public function __construct(
-		IAppContainer $container,
-		IRootFolder $rootFolder,
-		IAppManager $appManager,
-		IUserManager $userManager,
-		IShareManager $shareManager,
-		IURLGenerator $urlGenerator,
-		ICommentsManager $commentsManager,
-		SystemTagObjectMapper $systemTagObjectMapper,
-		SystemTagManager $systemTagManager,
-		ConfigService $configService,
-		LocalFilesService $localFilesService,
-		ExternalFilesService $externalFilesService,
-		GroupFoldersService $groupFoldersService,
-		ExtensionService $extensionService,
-		IFullTextSearchManager $fullTextSearchManager,
-		MiscService $miscService
+		private IAppContainer $container,
+		private IRootFolder $rootFolder,
+		private IAppManager $appManager,
+		private IUserManager $userManager,
+		private IShareManager $shareManager,
+		private IURLGenerator $urlGenerator,
+		private ICommentsManager $commentsManager,
+		private SystemTagObjectMapper $systemTagObjectMapper,
+		private SystemTagManager $systemTagManager,
+		private ConfigService $configService,
+		private LocalFilesService $localFilesService,
+		private ExternalFilesService $externalFilesService,
+		private GroupFoldersService $groupFoldersService,
+		private ExtensionService $extensionService,
+		private IFullTextSearchManager $fullTextSearchManager,
+		private LoggerInterface $logger,
 	) {
-		$this->container = $container;
-		$this->rootFolder = $rootFolder;
-		$this->appManager = $appManager;
-		$this->userManager = $userManager;
-		$this->shareManager = $shareManager;
-		$this->urlGenerator = $urlGenerator;
-		$this->commentsManager = $commentsManager;
-		$this->systemTagObjectMapper = $systemTagObjectMapper;
-		$this->systemTagManager = $systemTagManager;
-
-		$this->configService = $configService;
-		$this->localFilesService = $localFilesService;
-		$this->externalFilesService = $externalFilesService;
-		$this->groupFoldersService = $groupFoldersService;
-		$this->extensionService = $extensionService;
-		$this->fullTextSearchManager = $fullTextSearchManager;
-
-		$this->miscService = $miscService;
-		$this->setup('app', Application::APP_ID);
 	}
 
 
@@ -232,20 +139,19 @@ class FilesService {
 		} catch (NotFoundException $e) {
 			return [];
 		} catch (Throwable $e) {
-			$this->log(2, 'Issue while retrieving rootFolder for ' . $userId);
-
+			$this->logger->warning('Issue while retrieving rootFolder for ' . $userId, ['exception' => $e]);
 			return [];
 		}
 
 		if ($files instanceof Folder) {
-			$this->debug('object from getChunksFromUser is a Folder');
+			$this->logger->debug('object from getChunksFromUser is a Folder');
 			$chunks = $this->getChunksFromDirectory($userId, $files);
-			$this->debug('getChunksFromUser result', ['chunks' => $chunks]);
+			$this->logger->debug('getChunksFromUser result', ['chunks' => $chunks]);
 
 			return $chunks;
 		}
 
-		$this->debug('object from getChunksFromUser is not a Folder', ['path' => $files->getPath()]);
+		$this->logger->debug('object from getChunksFromUser is not a Folder', ['path' => $files->getPath()]);
 
 		return [$this->getPathFromRoot($files->getPath(), $userId, true)];
 	}
@@ -264,7 +170,7 @@ class FilesService {
 		$entries = [];
 		$level++;
 
-		$this->debug('getChunksFromDirectory', ['userId' => $userId, 'level' => $level]);
+		$this->logger->debug('getChunksFromDirectory', ['userId' => $userId, 'level' => $level]);
 		$files = $node->getDirectoryListing();
 		if (empty($files)) {
 			$entries[] = $this->getPathFromRoot($node->getPath(), $userId, true);
@@ -280,7 +186,7 @@ class FilesService {
 			}
 		}
 
-		$this->debug(
+		$this->logger->debug(
 			'getChunksFromDirectory result',
 			[
 				'userId' => $userId,
@@ -313,12 +219,12 @@ class FilesService {
 
 		$result = [];
 		if ($files instanceof Folder) {
-			$this->debug('object from getFilesFromUser is a Folder', ['chunk' => $chunk]);
+			$this->logger->debug('object from getFilesFromUser is a Folder', ['chunk' => $chunk]);
 			$result = $this->generateFilesDocumentFromParent($userId, $files);
 
 			$result = array_merge($result, $this->getFilesFromDirectory($userId, $files));
 		} else {
-			$this->debug('object from getFilesFromUser is a File', ['chunk' => $chunk]);
+			$this->logger->debug('object from getFilesFromUser is a File', ['chunk' => $chunk]);
 			try {
 				$result[] = $this->generateFilesDocumentFromFile($userId, $files);
 			} catch (FileIsNotIndexableException $e) {
@@ -377,8 +283,7 @@ class FilesService {
 
 			if ($file->getType() === FileInfo::TYPE_FOLDER) {
 				/** @var $file Folder */
-				$documents =
-					array_merge($documents, $this->getFilesFromDirectory($userId, $file));
+				$documents = array_merge($documents, $this->getFilesFromDirectory($userId, $file));
 			}
 		}
 
@@ -390,7 +295,7 @@ class FilesService {
 	 * @param string $userId
 	 */
 	private function initFileSystems(string $userId) {
-		$this->debug('initFileSystems', ['userId' => $userId]);
+		$this->logger->debug('initFileSystems', ['userId' => $userId]);
 
 		if ($userId === '') {
 			return;
@@ -501,7 +406,7 @@ class FilesService {
 				]
 			);
 		} else {
-			$this->log(2, 'stat() on File #' . $file->getId() . ' is not an array: ' . json_encode($stat));
+			$this->logger->warning('stat() on File #' . $file->getId() . ' is not an array: ' . json_encode($stat));
 		}
 
 		return $document;
@@ -617,10 +522,7 @@ class FilesService {
 			// TODO - update $document with a error status instead of just ignore !
 			$document->getIndex()
 					 ->setStatus(IIndex::INDEX_IGNORE);
-			$this->miscService->log(
-				'Exception while generateDocument: ' . $e->getMessage() . ' (' . get_class($e) . ') at '
-				. $e->getFile() . ' line ' . $e->getLine()
-			);
+			$this->logger->warning('Exception while generateDocument', ['exception' => $e]);
 		}
 	}
 
@@ -853,12 +755,10 @@ class FilesService {
 				}
 
 				$path = $this->getPathFromViewerId($file->getId(), $username);
-				$shareNames[$this->miscService->secureUsername($username)] =
+				$shareNames[$this->secureUsername($username)] =
 					(!is_string($path)) ? $path = '' : $path;
 			} catch (Throwable $e) {
-				$this->miscService->log(
-					'Issue while getting information on documentId:' . $document->getId(), 0
-				);
+				$this->logger->warning('Issue while getting information on documentId:' . $document->getId(), ['exception' => $e]);
 			}
 		}
 
@@ -1265,14 +1165,6 @@ class FilesService {
 			$t->getMessage(),
 			IIndex::ERROR_SEV_3
 		);
-
-		$trace = $t->getTrace();
-		if (is_array($trace)) {
-			$trace = json_encode($trace);
-		}
-		if (is_string($trace)) {
-			$this->miscService->log($trace, 0);
-		}
 	}
 
 
@@ -1375,7 +1267,7 @@ class FilesService {
 		}
 
 		$result = (($entrySlash) ? '/' : '') . $path;
-		$this->debug(
+		$this->logger->debug(
 			'getPathFromRoot', [
 				'path' => $path,
 				'userId' => $userId,
@@ -1385,5 +1277,9 @@ class FilesService {
 		);
 
 		return $result;
+	}
+
+	public function secureUsername(string $username): string {
+		return str_replace('.', '\.', $username);
 	}
 }

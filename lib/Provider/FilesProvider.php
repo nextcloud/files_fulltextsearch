@@ -31,17 +31,14 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Provider;
 
-use ArtificialOwl\MySmallPhpTools\Traits\Nextcloud\nc22\TNC22Logger;
 use OC\FullTextSearch\Model\SearchOption;
 use OC\FullTextSearch\Model\SearchTemplate;
 use OC\User\NoUserException;
-use OCA\Files_FullTextSearch\AppInfo\Application;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Service\ConfigService;
 use OCA\Files_FullTextSearch\Service\ExtensionService;
 use OCA\Files_FullTextSearch\Service\FilesService;
-use OCA\Files_FullTextSearch\Service\MiscService;
 use OCA\Files_FullTextSearch\Service\SearchService;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
@@ -57,6 +54,7 @@ use OCP\FullTextSearch\Model\ISearchRequest;
 use OCP\FullTextSearch\Model\ISearchResult;
 use OCP\FullTextSearch\Model\ISearchTemplate;
 use OCP\IL10N;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class FilesProvider
@@ -64,48 +62,18 @@ use OCP\IL10N;
  * @package OCA\Files_FullTextSearch\Provider
  */
 class FilesProvider implements IFullTextSearchProvider {
-	use TNC22Logger;
-
 	public const FILES_PROVIDER_ID = 'files';
-
-
-	/** @var IL10N */
-	private $l10n;
-
-	/** @var ConfigService */
-	private $configService;
-
-	/** @var FilesService */
-	private $filesService;
-
-	/** @var SearchService */
-	private $searchService;
-
-	/** @var ExtensionService */
-	private $extensionService;
-
-	/** @var MiscService */
-	private $miscService;
-
-	/** @var IRunner */
-	private $runner;
-
-	/** @var IIndexOptions */
-	private $indexOptions;
-
+	private IRunner $runner;
+	private IIndexOptions $indexOptions;
 
 	public function __construct(
-		IL10N $l10n, ConfigService $configService, FilesService $filesService,
-		SearchService $searchService, ExtensionService $extensionService, MiscService $miscService
+		private IL10N $l10n,
+		private ConfigService $configService,
+		private FilesService $filesService,
+		private SearchService $searchService,
+		private ExtensionService $extensionService,
+		private LoggerInterface $logger,
 	) {
-		$this->l10n = $l10n;
-		$this->configService = $configService;
-		$this->filesService = $filesService;
-		$this->searchService = $searchService;
-		$this->extensionService = $extensionService;
-		$this->miscService = $miscService;
-
-		$this->setup('app', Application::APP_ID);
 	}
 
 
@@ -129,10 +97,10 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @return array
 	 */
 	public function getConfiguration(): array {
-		$this->debug('getConfiguration request');
+		$this->logger->debug('getConfiguration request');
 		$config = $this->configService->getConfig();
 		$this->extensionService->getConfig($config);
-		$this->debug('getConfiguration result', $config);
+		$this->logger->debug('getConfiguration result', ['config' => $config]);
 
 		return $config;
 	}
@@ -242,9 +210,9 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @throws NotFoundException
 	 */
 	public function generateChunks(string $userId): array {
-		$this->debug('generateChunks request', ['userId' => $userId, 'options' => $this->indexOptions]);
+		$this->logger->debug('generateChunks request', ['userId' => $userId, 'options' => $this->indexOptions]);
 		$chunks = $this->filesService->getChunksFromUser($userId, $this->indexOptions);
-		$this->debug('generateChunks result', $chunks);
+		$this->logger->debug('generateChunks result', $chunks);
 
 		return $chunks;
 	}
@@ -262,9 +230,9 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @throws NoUserException
 	 */
 	public function generateIndexableDocuments(string $userId, string $chunk): array {
-		$this->debug('generateIndexableDocuments request', ['userId' => $userId, 'chunk' => $chunk]);
+		$this->logger->debug('generateIndexableDocuments request', ['userId' => $userId, 'chunk' => $chunk]);
 		$documents = $this->filesService->getFilesFromUser($userId, $chunk);
-		$this->debug('generateIndexableDocuments result', ['documents' => count($documents)]);
+		$this->logger->debug('generateIndexableDocuments result', ['documents' => count($documents)]);
 
 		return $documents;
 	}
@@ -281,9 +249,9 @@ class FilesProvider implements IFullTextSearchProvider {
 				'title' => $document->getPath()
 			]
 		);
-		$this->debug('fillIndexDocument request', ['document' => $document]);
+		$this->logger->debug('fillIndexDocument request', ['document' => $document]);
 		$this->filesService->generateDocument($document);
-		$this->debug('fillIndexDocument result', ['document' => $document]);
+		$this->logger->debug('fillIndexDocument result', ['document' => $document]);
 	}
 
 
@@ -293,9 +261,9 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @return bool
 	 */
 	public function isDocumentUpToDate(IIndexDocument $document): bool {
-		$this->debug('isDocumentUpToDate request', ['document' => $document]);
+		$this->logger->debug('isDocumentUpToDate request', ['document' => $document]);
 		$result = $this->filesService->isDocumentUpToDate($document);
-		$this->debug('isDocumentUpToDate result', ['document' => $document, 'result' => $result]);
+		$this->logger->debug('isDocumentUpToDate result', ['document' => $document, 'result' => $result]);
 
 		return $result;
 	}
@@ -310,9 +278,9 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @throws FileIsNotIndexableException
 	 */
 	public function updateDocument(IIndex $index): IIndexDocument {
-		$this->debug('updateDocument request', ['index' => $index]);
+		$this->logger->debug('updateDocument request', ['index' => $index]);
 		$document = $this->filesService->updateDocument($index);
-		$this->debug('updateDocument result', ['index' => $index, 'document' => $document]);
+		$this->logger->debug('updateDocument result', ['index' => $index, 'document' => $document]);
 		$this->updateRunnerInfo('info', $document->getMimetype());
 
 		return $document;
