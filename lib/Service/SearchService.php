@@ -33,6 +33,7 @@ namespace OCA\Files_FullTextSearch\Service;
 
 use ArtificialOwl\MySmallPhpTools\Traits\TPathTools;
 use Exception;
+use OCA\Files_FullTextSearch\Exceptions\FilesNotFoundException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
@@ -212,6 +213,8 @@ class SearchService {
 				);
 
 				$filesDocuments[] = $filesDocument;
+			} catch (FilesNotFoundException $e) {
+				// ignore exception when file is not accessible for current user
 			} catch (Exception $e) {
 				$this->logger->warning('Exception while improving searchresult', ['exception' => $e]);
 			}
