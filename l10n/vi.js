@@ -10,6 +10,7 @@ OC.L10N.register(
     "Copied {origin} inside {destination}" : "Được sao chép {origin} vào trong {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "Đã sao chép {origin} và {nbfiles} các file vào trong {destination}",
     "Extension" : "Tiện ích",
-    "Files" : "Tệp tin"
+    "Files" : "Tệp tin",
+    "Results" : "Kết quả"
 },
 "nplurals=1; plural=0;");
