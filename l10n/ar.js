@@ -10,7 +10,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "لم يستطع نسخ \"{file}\"، المستهدف موجود",
     "Could not copy \"{file}\"" : "لم يُمكن نسخ \"{file}\"",
     "Copied {origin} inside {destination}" : "منسوخ {origin} داخل {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "منسوخ {origin} و {nbfiles} ملفات اخرى داخل {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "تم نسخ {origin} و {nbfiles} ملفات اخرى داخل {destination}",
     "Within current directory" : "داخل المُجلّد الحالي",
     "Within local files" : "داخل الملفات المحلية",
     "Local files" : "الملفات المحلية",
