@@ -3,7 +3,7 @@ OC.L10N.register(
     {
     "files" : "الملفات",
     "Go to folder" : "إنتقل إلى المجلد",
-    "Open folder" : "إفتح المجلد",
+    "Open folder" : "فتح المجلد",
     "Name" : "الاسم",
     "Modified" : "آخر تعديل",
     "Size" : "الحجم",
