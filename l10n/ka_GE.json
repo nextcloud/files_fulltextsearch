@@ -6,8 +6,8 @@
     "Size" : "ზომა",
     "Could not copy \"{file}\", target exists" : "\"{file}\"-ის კოპირება ვერ მოხერხდა, დანიშნულება არსებობს",
     "Could not copy \"{file}\"" : "\"{file}\"-ის კოპირება ვერ მოხერხდა",
-    "Copied {origin} inside {destination}" : "დაკოპირდა {origin} {destionation}-ში",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "დაკოპირდა {origin} და {nbfiles} სხვა ფაილი {destionation}-ში",
+    "Copied {origin} inside {destination}" : "დაკოპირდა {origin} {destination}-ში",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "დაკოპირდა {origin} და {nbfiles} სხვა ფაილი {destination}-ში",
     "Group folders" : "ჯგუფური დირექტორიები",
     "Files" : "ფაილები"
 },"pluralForm" :"nplurals=2; plural=(n!=1);"
