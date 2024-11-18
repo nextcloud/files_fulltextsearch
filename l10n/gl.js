@@ -43,6 +43,6 @@ OC.L10N.register(
     "Index the content of office files." : "Indexa o contido dos ficheiros do Office.",
     "Results" : "Resultados",
     "Open Files" : "Abrir ficheiros",
-    "Directly from search results." : "Directamente dende os resultados da busca."
+    "Directly from search results." : "Directamente desde os resultados da busca."
 },
 "nplurals=2; plural=(n != 1);");
