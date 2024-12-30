@@ -432,10 +432,15 @@ class FilesService {
 	 * @return Node
 	 * @throws FilesNotFoundException
 	 * @throws EmptyUserException
+	 * @throws NoUserException
 	 */
 	public function getFileFromId(string $userId, int $fileId): Node {
 		if ($userId === '') {
 			throw new EmptyUserException();
+		}
+
+		if ($this->userManager->get($userId) === null) {
+			throw new NoUserException('User does not exist: ' . $userId);
 		}
 
 		$files = $this->rootFolder->getUserFolder($userId)
