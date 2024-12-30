@@ -48,7 +48,6 @@ class ExternalFilesService {
 	) {
 	}
 
-
 	/**
 	 * @param string $userId
 	 */
@@ -134,8 +133,6 @@ class ExternalFilesService {
 
 		$document->getIndex()
 				 ->addOptionInt('external_mount_id', $mount->getId());
-		$document->setAccess($access);
-
 		$document->setAccess($access);
 	}
 
@@ -263,8 +260,6 @@ class ExternalFilesService {
 			}
 		}
 
-		throw new ExternalMountWithNoViewerException(
-			'cannot get a valid user for external mount'
-		);
+		throw new ExternalMountWithNoViewerException('cannot get a valid user for external mount');
 	}
 }
