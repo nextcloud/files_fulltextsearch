@@ -40,6 +40,7 @@
     "Extract Office" : "Extrahovať kancelárske",
     "Index the content of office files." : "Indexovať obsah kancelárskych súborov ( napr. dokumenty, tabuľky alebo prezentácie).",
     "Results" : "Výsledky",
-    "Open Files" : "Otvoriť Súbory"
+    "Open Files" : "Otvoriť Súbory",
+    "Directly from search results." : "Priamo z výsledkov hľadania."
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }
