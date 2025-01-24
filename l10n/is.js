@@ -40,6 +40,7 @@ OC.L10N.register(
     "Extract PDF" : "Afþjappa PDF",
     "Index the content of PDF files." : "Gera atriðaskrá yfir efni í PDF-skrám.",
     "Extract Office" : "Afþjappa skrifstofugögn",
-    "Index the content of office files." : "Gera atriðaskrá yfir efni í skrifstofuskjalaskrám."
+    "Index the content of office files." : "Gera atriðaskrá yfir efni í skrifstofuskjalaskrám.",
+    "Results" : "Niðurstöður"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");
