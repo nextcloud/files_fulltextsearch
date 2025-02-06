@@ -11,6 +11,7 @@ OC.L10N.register(
     "Copied {origin} inside {destination}" : "Kopeeris {origin} {destination} sisse",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopeeris {origin} ja {nbfiles} teist faili {destination} sisse",
     "Group folders" : "Grupikaustad",
+    "Extension" : "Laiend",
     "Files" : "Failid"
 },
 "nplurals=2; plural=(n != 1);");
