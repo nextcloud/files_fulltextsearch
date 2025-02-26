@@ -108,7 +108,6 @@ class FilesProvider implements IFullTextSearchProvider {
 		$this->setup('app', Application::APP_ID);
 	}
 
-
 	/**
 	 * return unique id of the provider
 	 */
@@ -116,14 +115,12 @@ class FilesProvider implements IFullTextSearchProvider {
 		return self::FILES_PROVIDER_ID;
 	}
 
-
 	/**
 	 * return name of the provider
 	 */
 	public function getName(): string {
 		return 'Files';
 	}
-
 
 	/**
 	 * @return array
@@ -137,7 +134,6 @@ class FilesProvider implements IFullTextSearchProvider {
 		return $config;
 	}
 
-
 	/**
 	 * @param IRunner $runner
 	 */
@@ -146,14 +142,12 @@ class FilesProvider implements IFullTextSearchProvider {
 		$this->filesService->setRunner($runner);
 	}
 
-
 	/**
 	 * @param IIndexOptions $options
 	 */
 	public function setIndexOptions(IIndexOptions $options) {
 		$this->indexOptions = $options;
 	}
-
 
 	/**
 	 * @return ISearchTemplate
@@ -345,8 +339,8 @@ class FilesProvider implements IFullTextSearchProvider {
 	 *
 	 * @param ISearchRequest $request
 	 */
-	public function improveSearchRequest(ISearchRequest $request) {
-		$this->searchService->improveSearchRequest($request);
+	public function improveSearchRequest(ISearchRequest $searchRequest) {
+		$this->searchService->improveSearchRequest($searchRequest);
 	}
 
 
