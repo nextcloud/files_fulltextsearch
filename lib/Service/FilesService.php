@@ -66,7 +66,7 @@ class FilesService {
 
 	public const CHUNK_TREE_SIZE = 2;
 
-	private IRunner $runner;
+	private ?IRunner $runner = null;
 	private int $sumDocuments;
 
 
@@ -736,7 +736,7 @@ class FilesService {
 				$shareNames[$this->secureUsername($username)] =
 					(!is_string($path)) ? $path = '' : $path;
 			} catch (Throwable $e) {
-				$this->logger->warning('Issue while getting information on documentId:' . $document->getId(), ['exception' => $e]);
+				$this->logger->debug('Issue while getting information on documentId:' . $document->getId(), ['exception' => $e]);
 			}
 		}
 
@@ -1143,6 +1143,8 @@ class FilesService {
 			$t->getMessage(),
 			IIndex::ERROR_SEV_3
 		);
+
+		$this->logger->debug('content error', ['exception' => $t]);
 	}
 
 
