@@ -41,7 +41,7 @@ use Psr\Log\LoggerInterface;
  */
 class FilesProvider implements IFullTextSearchProvider {
 	public const FILES_PROVIDER_ID = 'files';
-	private IRunner $runner;
+	private ?IRunner $runner = null;
 	private IIndexOptions $indexOptions;
 
 	public function __construct(
@@ -54,7 +54,6 @@ class FilesProvider implements IFullTextSearchProvider {
 	) {
 	}
 
-
 	/**
 	 * return unique id of the provider
 	 */
@@ -62,14 +61,12 @@ class FilesProvider implements IFullTextSearchProvider {
 		return self::FILES_PROVIDER_ID;
 	}
 
-
 	/**
 	 * return name of the provider
 	 */
 	public function getName(): string {
 		return 'Files';
 	}
-
 
 	/**
 	 * @return array
@@ -83,7 +80,6 @@ class FilesProvider implements IFullTextSearchProvider {
 		return $config;
 	}
 
-
 	/**
 	 * @param IRunner $runner
 	 */
@@ -92,14 +88,12 @@ class FilesProvider implements IFullTextSearchProvider {
 		$this->filesService->setRunner($runner);
 	}
 
-
 	/**
 	 * @param IIndexOptions $options
 	 */
 	public function setIndexOptions(IIndexOptions $options) {
 		$this->indexOptions = $options;
 	}
-
 
 	/**
 	 * @return ISearchTemplate
@@ -291,8 +285,8 @@ class FilesProvider implements IFullTextSearchProvider {
 	 *
 	 * @param ISearchRequest $request
 	 */
-	public function improveSearchRequest(ISearchRequest $request) {
-		$this->searchService->improveSearchRequest($request);
+	public function improveSearchRequest(ISearchRequest $searchRequest) {
+		$this->searchService->improveSearchRequest($searchRequest);
 	}
 
 

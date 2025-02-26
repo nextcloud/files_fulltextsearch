@@ -33,7 +33,6 @@ class ListenersCore {
 	) {
 	}
 
-
 	/**
 	 * @return bool
 	 */
