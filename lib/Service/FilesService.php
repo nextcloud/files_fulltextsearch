@@ -651,6 +651,7 @@ class FilesService {
 			$index->setStatus(IIndex::INDEX_REMOVE);
 			$document = new FilesDocument($index->getProviderId(), $index->getDocumentId());
 			$document->setIndex($index);
+			$document->setAccess(new DocumentAccess(''));
 
 			return $document;
 		}
