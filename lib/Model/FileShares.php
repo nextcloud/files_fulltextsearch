@@ -37,7 +37,7 @@ class FileShares implements JsonSerializable {
 	 *
 	 * @param FileShares $currentShares
 	 */
-	public function __construct(FileShares $currentShares = null) {
+	public function __construct(?FileShares $currentShares = null) {
 		if ($currentShares === null) {
 			return;
 		}
