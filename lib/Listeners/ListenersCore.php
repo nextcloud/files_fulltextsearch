@@ -93,7 +93,6 @@ class ListenersCore {
 		$this->setup('app', 'files_fulltextsearch');
 	}
 
-
 	/**
 	 * @return bool
 	 */
