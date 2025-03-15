@@ -7,6 +7,7 @@ OC.L10N.register(
     "Size" : "Size",
     "Group folders" : "Group folders",
     "Files" : "Files",
-    "Group Folders" : "Group Folders"
+    "Group Folders" : "Group Folders",
+    "Results" : "Natijalar"
 },
 "nplurals=1; plural=0;");
