@@ -12,6 +12,7 @@ OC.L10N.register(
     "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopeeris {origin} ja {nbfiles} teist faili {destination} sisse",
     "Group folders" : "Grupikaustad",
     "Extension" : "Laiend",
-    "Files" : "Failid"
+    "Files" : "Failid",
+    "Results" : "Tulemused"
 },
 "nplurals=2; plural=(n != 1);");
