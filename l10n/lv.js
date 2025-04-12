@@ -3,11 +3,13 @@ OC.L10N.register(
     {
     "files" : "datnes",
     "Go to folder" : "Doties uz mapi",
+    "Open folder" : "Atvērt mapi",
     "Name" : "Nosaukums",
     "Modified" : "Mainīts",
     "Size" : "Izmērs",
     "Group folders" : "Grupu mapes",
     "Files" : "Datnes",
-    "Results" : "Rezultāti"
+    "Results" : "Rezultāti",
+    "Open Files" : "Atvērt datnes"
 },
 "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);");

@@ -10,6 +10,7 @@ OC.L10N.register(
     "Copied {origin} inside {destination}" : "Copied {origin} inside {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "Copied {origin} and {nbfiles} other files inside {destination}",
     "Group folders" : "Group folders",
-    "Files" : "ფაილები"
+    "Files" : "ფაილები",
+    "Results" : "შედეგი"
 },
 "nplurals=2; plural=(n!=1);");
