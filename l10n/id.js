@@ -9,6 +9,7 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "Tidak dapat menyalin \"{file}\"",
     "Copied {origin} inside {destination}" : "{origin} tersalin ke {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} dan {nbfiles} berkas lainnya tersalin ke {destination}",
+    "Extension" : "Ekstensi",
     "Files" : "Berkas"
 },
 "nplurals=1; plural=0;");
