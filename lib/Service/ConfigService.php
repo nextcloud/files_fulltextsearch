@@ -80,8 +80,8 @@ class ConfigService {
 		$keys = array_keys($this->defaults);
 
 		foreach ($keys as $k) {
-			if (array_key_exists($k, $save)) {
-				$this->setAppValue($k, $save[$k]);
+			if (array_key_exists($k, $save) && is_numeric($save[$k])) {
+				$this->setAppValue($k, (string)$save[$k]);
 			}
 		}
 	}
