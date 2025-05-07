@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "files" : "files",
     "Go to folder" : "Mine kausta",
+    "Open folder" : "Ava kaust",
     "Name" : "Nimi",
     "Modified" : "Muudetud",
     "Size" : "Suurus",
