@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "files" : "files",
     "Go to folder" : "Mine kausta",
+    "Open folder" : "Ava kaust",
     "Name" : "Nimi",
     "Modified" : "Muudetud",
     "Size" : "Suurus",
@@ -13,6 +14,7 @@ OC.L10N.register(
     "Group folders" : "Grupikaustad",
     "Extension" : "Laiend",
     "Files" : "Failid",
+    "Maximum file size" : "Faili suurim lubatud suurus",
     "Results" : "Tulemused"
 },
 "nplurals=2; plural=(n != 1);");
