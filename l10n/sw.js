@@ -3,6 +3,8 @@ OC.L10N.register(
     {
     "Name" : "Jina",
     "Modified" : "Boresha",
+    "Size" : "Ukubwa",
+    "Files" : "Mafaili",
     "Maximum file size" : "Kiwango cha juu cha ukubwa wa faili",
     "Results" : "Matokeo"
 },
