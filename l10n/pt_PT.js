@@ -11,6 +11,7 @@ OC.L10N.register(
     "Copied {origin} inside {destination}" : "Copiado {origin} para {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "Copiados {origin} e {nbfiles} outros ficheiros para dentro de {destination}",
     "Group folders" : "Pastas de grupo",
+    "Extension" : "Extension",
     "Files" : "Ficheiros",
     "Results" : "Resultados"
 },
