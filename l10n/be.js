@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "files" : "файлы",
     "Name" : "Назва",
+    "Modified" : "Зменены",
     "Size" : "Памер",
     "Files" : "Файлы",
     "Results" : "Вынікі"
