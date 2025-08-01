@@ -119,7 +119,7 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * return name of the provider
 	 */
 	public function getName(): string {
-		return 'Files';
+		return $this->l10n->t('Files');
 	}
 
 	/**
