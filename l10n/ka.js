@@ -9,8 +9,8 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "Could not copy \"{file}\"",
     "Copied {origin} inside {destination}" : "Copied {origin} inside {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "Copied {origin} and {nbfiles} other files inside {destination}",
-    "Group folders" : "Group folders",
     "Files" : "ფაილები",
+    "Group folders" : "Group folders",
     "Results" : "შედეგი"
 },
 "nplurals=2; plural=(n!=1);");

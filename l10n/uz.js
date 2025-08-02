@@ -6,8 +6,8 @@ OC.L10N.register(
     "Name" : "Name",
     "Modified" : "Modified",
     "Size" : "Size",
-    "Group folders" : "Group folders",
     "Files" : "Fayllar",
+    "Group folders" : "Group folders",
     "Group Folders" : "Group Folders",
     "Results" : "Natijalar"
 },

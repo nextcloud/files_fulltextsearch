@@ -10,7 +10,7 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "Kon nie \"{file}\" kopieer nie",
     "Copied {origin} inside {destination}" : "{origin} binne {destination} gekopieer",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} en {nbfiles} ander lêers binne {destination} gekopieer",
-    "Group folders" : "Groepvouers",
-    "Files" : "Lêer "
+    "Files" : "Lêer ",
+    "Group folders" : "Groepvouers"
 },
 "nplurals=2; plural=(n != 1);");

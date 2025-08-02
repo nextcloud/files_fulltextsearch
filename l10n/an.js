@@ -4,7 +4,7 @@ OC.L10N.register(
     "Name" : "Nombre",
     "Modified" : "Modificau",
     "Size" : "Grandario",
-    "Group folders" : "Grupo de carpetas",
-    "Files" : "Archivos"
+    "Files" : "Archivos",
+    "Group folders" : "Grupo de carpetas"
 },
 "nplurals=2; plural=(n != 1);");

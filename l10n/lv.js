@@ -7,8 +7,8 @@ OC.L10N.register(
     "Name" : "Nosaukums",
     "Modified" : "Mainīts",
     "Size" : "Izmērs",
-    "Group folders" : "Grupu mapes",
     "Files" : "Datnes",
+    "Group folders" : "Grupu mapes",
     "Results" : "Rezultāti",
     "Open Files" : "Atvērt datnes"
 },
