@@ -8,7 +8,7 @@
     "Could not copy \"{file}\"" : "No se pudo copiar \"{file}\"",
     "Copied {origin} inside {destination}" : "{origin} fue copiado dentro de {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} y otros {nbfiles} archivos fueron copiados dentro de {destination}",
-    "Group folders" : "Carpetas de grupo",
-    "Files" : "Archivos"
+    "Files" : "Archivos",
+    "Group folders" : "Carpetas de grupo"
 },"pluralForm" :"nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;"
 }

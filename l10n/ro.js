@@ -9,8 +9,8 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "Nu s-a putut copia \"{file}\"",
     "Copied {origin} inside {destination}" : "S-a copiat {origin} în {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "S-a copiat {origin} și {nbfiles} alte fișiere în {destination}",
-    "Extension" : "Extensia",
     "Files" : "Fișiere",
+    "Extension" : "Extensia",
     "Maximum file size" : "Dimensiune minimă a fișierelor",
     "Results" : "Rezultate"
 },

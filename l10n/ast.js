@@ -9,8 +9,8 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "Nun se pudo copiar «{file}»",
     "Copied {origin} inside {destination}" : "Copióse «{origin}» dientro de: {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "Copióse «{origin}» y {nbfiles} ficheros más dientro de: {destination}",
-    "Extension" : "Estensión",
     "Files" : "Ficheros",
+    "Extension" : "Estensión",
     "Results" : "Resultaos"
 },
 "nplurals=2; plural=(n != 1);");

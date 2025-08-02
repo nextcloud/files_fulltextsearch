@@ -10,9 +10,9 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "Impossível copiar \"{file}\"",
     "Copied {origin} inside {destination}" : "Copiado {origin} para {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "Copiados {origin} e {nbfiles} outros ficheiros para dentro de {destination}",
+    "Files" : "Ficheiros",
     "Group folders" : "Pastas de grupo",
     "Extension" : "Extension",
-    "Files" : "Ficheiros",
     "Results" : "Resultados"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

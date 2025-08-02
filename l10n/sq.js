@@ -6,7 +6,7 @@ OC.L10N.register(
     "Name" : "Emri",
     "Modified" : "Modifikuar ",
     "Size" : "Madhësi",
-    "Group folders" : "Dosjet e grupit",
-    "Files" : "Skedarët"
+    "Files" : "Skedarët",
+    "Group folders" : "Dosjet e grupit"
 },
 "nplurals=2; plural=(n != 1);");
