@@ -9,8 +9,8 @@ OC.L10N.register(
     "Could not copy \"{file}\"" : "Không thể sao chép tệp tin \"{file}\"",
     "Copied {origin} inside {destination}" : "Được sao chép {origin} vào trong {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "Đã sao chép {origin} và {nbfiles} các file vào trong {destination}",
-    "Extension" : "Tiện ích",
     "Files" : "Tệp tin",
+    "Extension" : "Tiện ích",
     "Results" : "Kết quả"
 },
 "nplurals=1; plural=0;");
