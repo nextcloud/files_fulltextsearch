@@ -21,7 +21,7 @@ OC.L10N.register(
     "Group folders" : "Klasörleri grupla",
     "Filter by extension" : "Uzantıya göre süz",
     "Extension" : "Uzantı",
-    "Full text search - Files" : "Tam metin arama - Dosyalar",
+    "Full text search - Files" : "Tam yazı arama - Dosyalar",
     "Index the content of your files" : "Dosyalarınızın içeriğini arama dizinine ekler",
     "Extension to the _Full text search_ app to index your users' files." : "Kullanıcılarınızın dosya içeriklerini arama dizinine ekleyen _Full text search_ uygulaması eklentisi.",
     "Sources" : "Kaynaklar",
