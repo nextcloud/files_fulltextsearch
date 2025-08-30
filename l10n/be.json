@@ -3,6 +3,10 @@
     "Name" : "Назва",
     "Modified" : "Зменены",
     "Size" : "Памер",
+    "Could not copy \"{file}\", target exists" : "Не удалося скапіяваць \"{file}\", файл з такой назвай ужо існуе",
+    "Could not copy \"{file}\"" : "Не удалося скапіяваць \"{file}\"",
+    "Copied {origin} inside {destination}" : "Скапіяваны {origin} у {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Скапіяваны {origin} і {nbfiles} іншых файлаў у {destination}",
     "Files" : "Файлы",
     "Extension" : "Пашырэнне",
     "Results" : "Вынікі"
