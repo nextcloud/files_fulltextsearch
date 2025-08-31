@@ -159,6 +159,7 @@ class FilesService {
 				&& $level < $this->configService->getAppValueInt(ConfigService::FILES_CHUNK_SIZE)) {
 				/** @var $file Folder */
 				$entries = array_merge($entries, $this->getChunksFromDirectory($userId, $file, $level));
+                $entries[] = $this->getPathFromRoot($file->getPath(), $userId, true);
 			} else {
 				$entries[] = $this->getPathFromRoot($file->getPath(), $userId, true);
 			}
