@@ -9,10 +9,10 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Listeners;
 
-use ArtificialOwl\MySmallPhpTools\Traits\TArrayTools;
 use OC\AppFramework\Bootstrap\Coordinator;
 use OCA\Files_FullTextSearch\Service\ConfigService;
 use OCA\Files_FullTextSearch\Service\FilesService;
+use OCA\Files_FullTextSearch\Tools\Traits\TArrayTools;
 use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\IUserSession;
 
@@ -29,7 +29,7 @@ class ListenersCore {
 		protected IUserSession $userSession,
 		protected IFullTextSearchManager $fullTextSearchManager,
 		protected FilesService $filesService,
-		protected ConfigService $configService
+		protected ConfigService $configService,
 	) {
 	}
 

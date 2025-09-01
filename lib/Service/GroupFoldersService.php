@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Service;
 
 use Exception;
+use OCA\Files_FullTextSearch\ConfigLexicon;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Exceptions\GroupFolderNotFoundException;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
@@ -18,6 +19,7 @@ use OCA\Files_FullTextSearch\Model\MountPoint;
 use OCA\Files_FullTextSearch\Tools\Traits\TArrayTools;
 use OCA\GroupFolders\Folder\FolderManager;
 use OCP\App\IAppManager;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\Files\Node;
 use OCP\FullTextSearch\Model\IIndex;
 use OCP\IGroupManager;
@@ -34,11 +36,10 @@ class GroupFoldersService {
 		IAppManager $appManager,
 		private IGroupManager $groupManager,
 		private LocalFilesService $localFilesService,
-		ConfigService $configService,
-		private LoggerInterface $logger
+		IAppConfig $appConfig,
+		private LoggerInterface $logger,
 	) {
-		if ($configService->getAppValue(ConfigService::FILES_GROUP_FOLDERS) === '1'
-			&& $appManager->isEnabledForUser('groupfolders')) {
+		if ($appConfig->getAppValueBool(ConfigLexicon::FILES_GROUP_FOLDERS)) {
 			try {
 				$this->folderManager = \OCP\Server::get(FolderManager::class);
 			} catch (Exception) {
@@ -69,7 +70,7 @@ class GroupFoldersService {
 	 */
 	public function getFileSource(Node $file, string &$source): void {
 		if ($file->getMountPoint()
-				 ->getMountType() !== 'group'
+			->getMountType() !== 'group'
 			|| $this->folderManager === null) {
 			return;
 		}
@@ -80,7 +81,7 @@ class GroupFoldersService {
 			return;
 		}
 
-		$source = ConfigService::FILES_GROUP_FOLDERS;
+		$source = ConfigLexicon::FILES_GROUP_FOLDERS;
 		throw new KnownFileSourceException();
 	}
 
@@ -90,7 +91,7 @@ class GroupFoldersService {
 	 * @param Node $file
 	 */
 	public function updateDocumentAccess(FilesDocument $document, Node $file): void {
-		if ($document->getSource() !== ConfigService::FILES_GROUP_FOLDERS) {
+		if ($document->getSource() !== ConfigLexicon::FILES_GROUP_FOLDERS) {
 			return;
 		}
 
@@ -110,7 +111,7 @@ class GroupFoldersService {
 		}
 
 		$document->getIndex()
-				 ->addOptionInt('group_folder_id', $mount->getId());
+			->addOptionInt('group_folder_id', $mount->getId());
 		$document->setAccess($access);
 	}
 
@@ -120,7 +121,7 @@ class GroupFoldersService {
 	 * @param array $users
 	 */
 	public function getShareUsers(FilesDocument $document, array &$users): void {
-		if ($document->getSource() !== ConfigService::FILES_GROUP_FOLDERS) {
+		if ($document->getSource() !== ConfigLexicon::FILES_GROUP_FOLDERS) {
 			return;
 		}
 
@@ -157,8 +158,8 @@ class GroupFoldersService {
 		foreach ($mounts as $path => $mount) {
 			$mountPoint = new MountPoint();
 			$mountPoint->setId($this->getInt('id', $mount, -1))
-					   ->setPath('/' . $userId . '/files/' . $mount['mount_point'])
-					   ->setGroups(array_keys($mount['groups']));
+				->setPath('/' . $userId . '/files/' . $mount['mount_point'])
+				->setGroups(array_keys($mount['groups']));
 			$mountPoints[] = $mountPoint;
 		}
 
@@ -170,7 +171,7 @@ class GroupFoldersService {
 	 * @param IIndex $index
 	 */
 	public function impersonateOwner(IIndex $index): void {
-		if ($index->getSource() !== ConfigService::FILES_GROUP_FOLDERS) {
+		if ($index->getSource() !== ConfigLexicon::FILES_GROUP_FOLDERS) {
 			return;
 		}
 

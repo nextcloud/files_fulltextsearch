@@ -49,7 +49,10 @@ class SettingsController extends Controller {
 	 * @throws Exception
 	 */
 	public function setSettingsAdmin(array $data): DataResponse {
-		$this->configService->setConfig($data);
+		if ($this->configService->checkConfig($data)) {
+			$this->configService->setConfig($data);
+		}
+
 		return $this->getSettingsAdmin();
 	}
 }

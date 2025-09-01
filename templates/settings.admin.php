@@ -115,20 +115,6 @@ Util::addScript(Application::APP_ID, 'admin');
 					<input type="checkbox" id="files_office" value="1"/>
 				</div>
 			</div>
-
-			<!--
-			<div class="div-table-row">
-				<div class="div-table-col div-table-col-left">
-					<span class="leftcol">Index audio:</span>
-					<br/>
-					<em>Index the content of audio files.</em>
-				</div>
-				<div class="div-table-col">
-					<input type="checkbox" id="files_audio" value="1"/>
-				</div>
-			</div>
-	-->
-
 		</div>
 
 		<h3 class="hsub"><?php p($l->t('Results')); ?></h3>

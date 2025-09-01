@@ -6,33 +6,36 @@ declare(strict_types=1);
  * SPDX-FileCopyrightText: 2018 Nextcloud GmbH and Nextcloud contributors
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
-
 namespace OCA\Files_FullTextSearch\Db;
 
 use Exception;
+use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\Files\Node;
+use OCP\IDBConnection;
+use Psr\Log\LoggerInterface;
 
-class SharesRequest extends SharesRequestBuilder {
+class SharesRequest {
+	public function __construct(
+		private readonly IDBConnection $connection,
+		private readonly LoggerInterface $logger,
+	) {
+	}
 
-
-	/**
-	 * @param Node $file
-	 *
-	 * @return array
-	 */
 	public function getFromFile(Node $file): array {
+		$qb = $this->connection->getQueryBuilder();
+		$qb->select('*')
+			->from('share');
+
 		$shares = [];
 		try {
-			$qb = $this->getSharesSelectSql();
-			$qb->limitToFileSource($file->getId());
-
+			$qb->where('file_source', $qb->createNamedParameter($file->getId(), IQueryBuilder::PARAM_INT));
 			$cursor = $qb->execute();
 			while ($data = $cursor->fetch()) {
 				$shares[] = $data;
 			}
 			$cursor->closeCursor();
 		} catch (Exception $e) {
-			/** issue while doing some DB request */
+			$this->logger->warning('could not get shares about file', ['exception' => $e]);
 		}
 
 		return $shares;

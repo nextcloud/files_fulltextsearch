@@ -9,14 +9,16 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Service;
 
-use ArtificialOwl\MySmallPhpTools\Traits\TPathTools;
 use Exception;
+use OCA\Files_FullTextSearch\ConfigLexicon;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\Files\FileInfo;
 use OCP\Files\IMimeTypeDetector;
 use OCP\Files\Node;
 use OCP\FullTextSearch\Model\ISearchRequest;
 use OCP\FullTextSearch\Model\ISearchResult;
+use OCP\IConfig;
 use OCP\IURLGenerator;
 use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
@@ -27,16 +29,15 @@ use Psr\Log\LoggerInterface;
  * @package OCA\Files_FullTextSearch\Service
  */
 class SearchService {
-	use TPathTools;
-
 	private string $userId;
 
 	public function __construct(
 		IUserSession $userSession,
 		private IMimeTypeDetector $mimeTypeDetector,
 		private IUrlGenerator $urlGenerator,
+		private readonly IAppConfig $appConfig,
 		private FilesService $filesService,
-		private ConfigService $configService,
+		private IConfig $config,
 		private ExtensionService $extensionService,
 		private LoggerInterface $logger,
 	) {
@@ -84,7 +85,7 @@ class SearchService {
 		}
 
 		$username = $this->filesService->secureUsername($request->getAuthor());
-		$currentDir = $this->withoutBeginSlash($this->withEndSlash($currentDir));
+		$currentDir = trim(str_replace('//', '/', $currentDir), '/') . '/'; // we want the format 'folder/'
 		$request->addRegexFilters(
 			[
 				['share_names.' . $username => $currentDir . '.*'],
@@ -224,22 +225,23 @@ class SearchService {
 		}
 
 		// TODO: better way to do this : we remove the '/userId/files/'
-		$path = $this->withoutEndSlash(substr($file->getPath(), 7 + strlen($this->userId)));
+		$path = substr($file->getPath(), 7 + strlen($this->userId));
+		$path = rtrim(str_replace('//', '/', $path), '/');
 		$pathInfo = pathinfo($path);
 
 		$document->setPath($path);
 		$document->setInfo('path', $path)
-				 ->setInfo('type', $file->getType())
-				 ->setInfo('file', $pathInfo['basename'])
-				 ->setInfo('dir', $pathInfo['dirname'])
-				 ->setInfo('mime', $file->getMimetype())
-				 ->setInfoBool('favorite', false); // FIXME: get the favorite status
+			->setInfo('type', $file->getType())
+			->setInfo('file', $pathInfo['basename'])
+			->setInfo('dir', $pathInfo['dirname'])
+			->setInfo('mime', $file->getMimetype())
+			->setInfoBool('favorite', false); // FIXME: get the favorite status
 
 		try {
 			$document->setInfoInt('size', $file->getSize())
-					 ->setInfoInt('mtime', $file->getMTime())
-					 ->setInfo('etag', $file->getEtag())
-					 ->setInfoInt('permissions', $file->getPermissions());
+				->setInfoInt('mtime', $file->getMTime())
+				->setInfo('etag', $file->getEtag())
+				->setInfoInt('permissions', $file->getPermissions());
 		} catch (Exception $e) {
 		}
 	}
@@ -250,7 +252,7 @@ class SearchService {
 	 */
 	private function setDocumentTitle(FilesDocument $document) {
 		if (!is_null($document->getPath()) && $document->getPath() !== '') {
-			$document->setTitle($this->withoutBeginSlash($document->getPath()));
+			$document->setTitle(ltrim(str_replace('//', '/', $document->getPath()), '/'));
 		} else {
 			$document->setTitle($document->getTitle());
 		}
@@ -281,7 +283,7 @@ class SearchService {
 		}
 
 
-		if ($this->configService->getAppValue(ConfigService::FILES_OPEN_RESULT_DIRECTLY) !== '1') {
+		if (!$this->appConfig->getAppValueBool(ConfigLexicon::FILES_OPEN_RESULT_DIRECTLY)) {
 			$link = $this->urlGenerator->linkToRoute('files.view.index', ['dir' => $dir, 'scrollto' => $filename]);
 		} else {
 			$link = $this->urlGenerator->linkToRoute('files.View.showFile', ['fileid' => $document->getId()]);
@@ -313,8 +315,6 @@ class SearchService {
 	 * @return string
 	 */
 	private function getWebdavId(int $fileId): string {
-		$instanceId = $this->configService->getSystemValue('instanceid');
-
-		return sprintf("%08s", $fileId) . $instanceId;
+		return sprintf('%08s', $fileId) . $this->config->getSystemValue('instanceid');
 	}
 }
