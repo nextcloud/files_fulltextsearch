@@ -42,7 +42,7 @@ class FileCreated extends ListenersCore implements IEventListener {
 			$this->fullTextSearchManager->createIndex(
 				'files', (string)$node->getId(), $user->getUID(), IIndex::INDEX_FULL
 			);
-		} catch (InvalidPathException | NotFoundException $e) {
+		} catch (InvalidPathException|NotFoundException $e) {
 			$this->exception($e);
 		}
 	}

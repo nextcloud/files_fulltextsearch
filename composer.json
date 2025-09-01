@@ -8,7 +8,7 @@
     "classmap-authoritative": true,
     "autoloader-suffix": "Files_FullTextSearch",
     "platform": {
-      "php": "7.4"
+      "php": "8.2"
     }
   },
   "authors": [
@@ -31,9 +31,9 @@
     "psalm:update-baseline": "psalm --threads=1 --update-baseline"
   },
   "require": {
-    "artificial-owl/my-small-php-tools": "~23"
   },
   "require-dev": {
-    "nextcloud/coding-standard": "^1.0"
+    "nextcloud/coding-standard": "^v1.4",
+    "nextcloud/ocp": "dev-master"
   }
 }

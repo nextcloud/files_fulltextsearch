@@ -11,6 +11,7 @@ namespace OCA\Files_FullTextSearch\Service;
 
 use Exception;
 use OC\FullTextSearch\Model\DocumentAccess;
+use OCA\Files_FullTextSearch\ConfigLexicon;
 use OCA\Files_FullTextSearch\Db\SharesRequest;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
@@ -51,7 +52,7 @@ class LocalFilesService {
 			return;
 		}
 
-		$source = ConfigService::FILES_LOCAL;
+		$source = ConfigLexicon::FILES_LOCAL;
 
 		throw new KnownFileSourceException();
 	}
@@ -65,7 +66,7 @@ class LocalFilesService {
 		$ownerId = '';
 		if ($file->getOwner() !== null) {
 			$ownerId = $file->getOwner()
-							->getUID();
+				->getUID();
 		}
 
 		if (!is_string($ownerId)) {

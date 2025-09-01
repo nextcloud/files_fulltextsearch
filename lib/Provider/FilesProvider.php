@@ -12,12 +12,14 @@ namespace OCA\Files_FullTextSearch\Provider;
 use OC\FullTextSearch\Model\SearchOption;
 use OC\FullTextSearch\Model\SearchTemplate;
 use OC\User\NoUserException;
+use OCA\Files_FullTextSearch\ConfigLexicon;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Service\ConfigService;
 use OCA\Files_FullTextSearch\Service\ExtensionService;
 use OCA\Files_FullTextSearch\Service\FilesService;
 use OCA\Files_FullTextSearch\Service\SearchService;
+use OCP\AppFramework\Services\IAppConfig;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\Files\NotPermittedException;
@@ -46,6 +48,7 @@ class FilesProvider implements IFullTextSearchProvider {
 
 	public function __construct(
 		private IL10N $l10n,
+		private readonly IAppConfig $appConfig,
 		private ConfigService $configService,
 		private FilesService $filesService,
 		private SearchService $searchService,
@@ -121,7 +124,7 @@ class FilesProvider implements IFullTextSearchProvider {
 			)
 		);
 
-		if ($this->configService->getAppValue(ConfigService::FILES_EXTERNAL) === '1') {
+		if ($this->appConfig->getAppValueInt(ConfigLexicon::FILES_EXTERNAL) === 1) {
 			$template->addPanelOption(
 				new SearchOption(
 					'files_external', $this->l10n->t('Within external files'),
@@ -135,7 +138,7 @@ class FilesProvider implements IFullTextSearchProvider {
 			);
 		}
 
-		if ($this->configService->getAppValue(ConfigService::FILES_GROUP_FOLDERS) === '1') {
+		if ($this->appConfig->getAppValueBool(ConfigLexicon::FILES_GROUP_FOLDERS)) {
 			$template->addPanelOption(
 				new SearchOption(
 					'files_group_folders', $this->l10n->t('Within group folders'),

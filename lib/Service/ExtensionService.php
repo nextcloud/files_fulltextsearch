@@ -19,7 +19,7 @@ use OCP\FullTextSearch\Model\ISearchResult;
 
 class ExtensionService {
 	public function __construct(
-		private IEventDispatcher $eventDispatcher
+		private IEventDispatcher $eventDispatcher,
 	) {
 	}
 
