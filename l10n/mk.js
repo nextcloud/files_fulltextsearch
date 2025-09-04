@@ -21,7 +21,7 @@ OC.L10N.register(
     "Group folders" : "Групни папки",
     "Filter by extension" : "Филтрирај по екстензија",
     "Extension" : "Екстензија",
-    "Full text search - Files" : "Целосоно текстуално пребарување - Датотеки",
+    "Full text search - Files" : "Пребарување на целосен текст - Датотеки",
     "Index the content of your files" : "Индексирање на содржината на датотеките",
     "Extension to the _Full text search_ app to index your users' files." : "Екстензии за _Full text search_ апликацијата ги индексира датотеките на корисниците.",
     "Sources" : "Извори",
