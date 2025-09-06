@@ -37,12 +37,12 @@ OC.L10N.register(
     "Types" : "Types",
     "Maximum file size" : "Taille maximale du fichier",
     "Maximum file size to index (in Mb)." : "Taille maximale du fichier à indexer (en Mo).",
-    "Extract PDF" : "Extraire en PDF",
+    "Extract PDF" : "Extraire le PDF",
     "Index the content of PDF files." : "Indexer le contenu des fichiers PDF.",
-    "Extract Office" : "Extraire au format Office",
+    "Extract Office" : "Extraire le format Office",
     "Index the content of office files." : "Indexe le contenu des fichiers Office.",
     "Results" : "Résultats",
-    "Open Files" : "Ouvrir Fichiers",
+    "Open Files" : "Ouvrir les fichiers",
     "Directly from search results." : "Directement depuis les résultats de recherche."
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
