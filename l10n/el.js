@@ -41,6 +41,8 @@ OC.L10N.register(
     "Index the content of PDF files." : "Ευρετηριοποίηση περιεχομένου των PDF αρχείων.",
     "Extract Office" : "Εξαγωγή Γραφείου",
     "Index the content of office files." : "Ευρετηριοποίηση περιεχομένων αρχείων γραφείου",
-    "Results" : "Αποτελέσματα"
+    "Results" : "Αποτελέσματα",
+    "Open Files" : "Άνοιγμα Αρχείων",
+    "Directly from search results." : "Απευθείας από τα αποτελέσματα αναζήτησης."
 },
 "nplurals=2; plural=(n != 1);");
