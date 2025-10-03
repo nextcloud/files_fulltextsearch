@@ -782,6 +782,11 @@ class FilesService {
 			throw new KnownFileMimeTypeException();
 		}
 
+		if ($mimeType === 'message/rfc822') {
+			$parsed = self::MIMETYPE_TEXT;
+			throw new KnownFileMimeTypeException();
+		}
+
 		// 20220219 Parse XML files as TEXT files
 		if (substr($mimeType, 0, 15) === 'application/xml') {
 			$parsed = self::MIMETYPE_TEXT;
