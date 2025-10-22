@@ -157,6 +157,7 @@ class GroupFoldersService {
 
 		foreach ($mounts as $path => $mount) {
 			$mountPoint = new MountPoint();
+			$mount = $mount->toArray();
 			$mountPoint->setId($this->getInt('id', $mount, -1))
 				->setPath('/' . $userId . '/files/' . $mount['mount_point'])
 				->setGroups(array_keys($mount['groups']));
