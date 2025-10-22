@@ -4,6 +4,13 @@
 -->
 # Changelog
 
+### 32.0.1
+
+- fix group folders mount format
+
+### 32.0.0
+
+- compat nc32
 
 ### 27.0.0
 
