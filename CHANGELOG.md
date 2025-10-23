@@ -4,6 +4,11 @@
 -->
 # Changelog
 
+### 32.0.2
+
+- fix files external api call
+- fix request on file shares
+
 ### 32.0.1
 
 - fix group folders mount format
