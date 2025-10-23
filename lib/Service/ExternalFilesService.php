@@ -10,7 +10,6 @@ declare(strict_types=1);
 namespace OCA\Files_FullTextSearch\Service;
 
 use Exception;
-use OC;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\GlobalStoragesService;
 use OCA\Files_External\Service\UserGlobalStoragesService;
@@ -34,9 +33,6 @@ use Psr\Log\LoggerInterface;
 class ExternalFilesService {
 	use TArrayTools;
 
-	private ?UserGlobalStoragesService $userGlobalStoragesService = null;
-	private ?GlobalStoragesService $globalStoragesService = null;
-
 	public function __construct(
 		private IRootFolder $rootFolder,
 		private IAppManager $appManager,
@@ -44,31 +40,12 @@ class ExternalFilesService {
 		private IGroupManager $groupManager,
 		private IManager $shareManager,
 		private LocalFilesService $localFilesService,
+		private ?UserGlobalStoragesService $userGlobalStoragesService,
+		private ?GlobalStoragesService $globalStoragesService,
 		private ConfigService $configService,
 		private LoggerInterface $logger,
 	) {
 	}
-
-	/**
-	 * @param string $userId
-	 */
-	public function initExternalFilesForUser(string $userId) {
-		if (!$this->appManager->isInstalled('files_external')) {
-			return;
-		}
-
-		$this->logger->debug('initExternalFilesForUser', ['userId' => $userId]);
-		$this->userGlobalStoragesService = OC::$server->getUserGlobalStoragesService();
-		$this->globalStoragesService = OC::$server->getGlobalStoragesService();
-		$this->logger->debug(
-			'initExternalFilesForUser result',
-			[
-				'userGlobalStoragesService' => is_null($this->userGlobalStoragesService),
-				'globalStoragesService' => is_null($this->globalStoragesService)
-			]
-		);
-	}
-
 
 	/**
 	 * @param Node $file
