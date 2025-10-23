@@ -15,6 +15,7 @@ use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Files\InvalidPathException;
 use OCP\Files\NotFoundException;
 use OCP\FullTextSearch\Model\IIndex;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class FileChanged
@@ -33,6 +34,9 @@ class FileChanged extends ListenersCore implements IEventListener {
 		}
 
 		$node = $event->getNode();
+
+		$logger = \OC::$server->get(LoggerInterface::class);
+		$logger->notice('FileChanged event ' . (string)$node->getId());
 
 		try {
 			$this->fullTextSearchManager->updateIndexStatus(
