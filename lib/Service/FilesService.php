@@ -281,7 +281,6 @@ class FilesService {
 			return;
 		}
 
-		$this->externalFilesService->initExternalFilesForUser($userId);
 		$this->groupFoldersService->initGroupSharesForUser($userId);
 	}
 
