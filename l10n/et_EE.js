@@ -17,6 +17,7 @@ OC.L10N.register(
     "Group folders" : "Grupikaustad",
     "Extension" : "Laiend",
     "Index the content of your files" : "Indekseeri oma failide sisu",
+    "Sources" : "llikad",
     "Index path only" : "Indekseeri vaid asukoht",
     "Index path and content" : "Indekseeri asukoht ja sisu",
     "Do not index path nor content" : "Ära indekseeri asukohta ega sisu",
