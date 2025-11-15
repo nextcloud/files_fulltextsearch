@@ -5,6 +5,8 @@ OC.L10N.register(
     "Name" : "ຊື່",
     "Modified" : "\"{name}\" ແມ່ນຊື່ໄຟລ໌ທີ່ບໍ່ຖືກຕ້ອງ.",
     "Size" : "ຂະຫນາດ",
-    "Files" : "ຟາຍ"
+    "Files" : "ຟາຍ",
+    "Maximum file size" : "ຂະໜາດໄຟລ໌ສູງສຸດ",
+    "Results" : "ຜົນລັບ"
 },
 "nplurals=1; plural=0;");
