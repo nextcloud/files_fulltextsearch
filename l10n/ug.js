@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "files",
+    "files" : "ھۆججەتلەر",
     "Go to folder" : "ھۆججەت قىسقۇچقا بېرىڭ",
     "Open folder" : "ھۆججەت قىسقۇچنى ئېچىڭ",
     "Name" : "ئاتى",
