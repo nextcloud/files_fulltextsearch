@@ -542,8 +542,29 @@ class FilesService {
 				&& ($file->getMountPoint()->getMountType() === 'external')) {
 				throw new Exception();
 			}
-		} catch (Exception $e) {
+		} catch (FilesNotFoundException|NotFoundException $e) {
+			// file removed -> remove from index
 			$index->setStatus(IIndex::INDEX_REMOVE);
+			$document = new FilesDocument($index->getProviderId(), $index->getDocumentId());
+			$document->setIndex($index);
+			$document->setAccess(new DocumentAccess(''));
+
+			return $document;
+		} catch (StorageNotAvailableException $e) {
+			// storage temporarily unavailable -> do not remove index, set to ignore and record error
+			$index->addError('Storage not available', $e->getMessage(), IIndex::ERROR_SEV_3);
+			$this->updateNewIndexError($index, 'Storage not available', $e->getMessage(), IIndex::ERROR_SEV_3);
+			$index->setStatus(IIndex::INDEX_IGNORE);
+			$document = new FilesDocument($index->getProviderId(), $index->getDocumentId());
+			$document->setIndex($index);
+			$document->setAccess(new DocumentAccess(''));
+
+			return $document;
+		} catch (Exception $e) {
+			// unexpected error -> add an error and ignore this index for now
+			$index->addError('Unexpected error while resolving file for index', $e->getMessage(), IIndex::ERROR_SEV_3);
+			$this->updateNewIndexError($index, 'Unexpected error while resolving file for index', $e->getMessage(), IIndex::ERROR_SEV_3);
+			$index->setStatus(IIndex::INDEX_IGNORE);
 			$document = new FilesDocument($index->getProviderId(), $index->getDocumentId());
 			$document->setIndex($index);
 			$document->setAccess(new DocumentAccess(''));

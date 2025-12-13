@@ -17,6 +17,8 @@ use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Model\FileShares;
 use OCP\Files\Node;
+use OCP\Files\NotFoundException;
+use OCP\Files\StorageNotAvailableException;
 use OCP\FullTextSearch\Model\IDocumentAccess;
 use OCP\IGroupManager;
 use OCP\IUserManager;
@@ -47,7 +49,13 @@ class LocalFilesService {
 	 * @throws KnownFileSourceException
 	 */
 	public function getFileSource(Node $file, string &$source) {
-		$mountType = $file->getMountPoint()->getMountType();
+		try {
+			$mountType = $file->getMountPoint()->getMountType();
+		} catch (NotFoundException|StorageNotAvailableException $e) {
+			$this->logger->warning('Local mount not available when getting file source', ['exception' => $e]);
+			return;
+		}
+
 		if ($mountType !== '' && $mountType !== 'shared') {
 			return;
 		}
