@@ -205,7 +205,11 @@ class FilesService {
 			try {
 				$result[] = $this->generateFilesDocumentFromFile($userId, $files);
 			} catch (FileIsNotIndexableException $e) {
-				/** we do nothin' */
+				// file is not indexable - skip
+			} catch (NotFoundException|StorageNotAvailableException $e) {
+				$this->logger->warning('File not available when getting files from user, skipping', ['path' => $files->getPath(), 'exception' => $e]);
+			} catch (Throwable $e) {
+				$this->logger->warning('Unexpected error while getting files from user, skipping', ['path' => $files->getPath(), 'exception' => $e]);
 			}
 		}
 
@@ -254,6 +258,15 @@ class FilesService {
 				$documents[] = $this->generateFilesDocumentFromFile($userId, $file);
 				$this->sumDocuments++;
 			} catch (FileIsNotIndexableException $e) {
+				// file is not indexable - skip
+				continue;
+			} catch (NotFoundException|StorageNotAvailableException $e) {
+				// file not found or storage temporarily not available - skip and continue
+				$this->logger->warning('File not available while listing directory, skipping', ['path' => $file->getPath(), 'exception' => $e]);
+				continue;
+			} catch (Throwable $e) {
+				// unexpected errors should not stop indexing
+				$this->logger->warning('Unexpected error while processing file, skipping', ['path' => $file->getPath(), 'exception' => $e]);
 				continue;
 			}
 
@@ -320,9 +333,10 @@ class FilesService {
 			throw new NotFoundException();
 		}
 
-		$this->isNodeIndexable($file);
+		try {
+			$this->isNodeIndexable($file);
 
-		$source = $this->getFileSource($file);
+			$source = $this->getFileSource($file);
 		if ($file->getId() === -1) {
 			throw new FileIsNotIndexableException();
 		}
@@ -357,8 +371,8 @@ class FilesService {
 			$document->setMimetype($file->getMimetype());
 		}
 
-		$document->setModifiedTime($file->getMTime())
-			->setSource($source);
+			$document->setModifiedTime($file->getMTime())
+				->setSource($source);
 
 		$tagIds = $this->systemTagObjectMapper->getTagIdsForObjects([$file->getId()], 'files');
 		if (array_key_exists($file->getId(), $tagIds)) {
@@ -371,7 +385,7 @@ class FilesService {
 		}
 
 		$document->setModifiedTime($file->getMTime());
-		$stat = $file->stat();
+			$stat = $file->stat();
 
 		if (is_array($stat)) {
 			$document->setMore(
@@ -382,6 +396,11 @@ class FilesService {
 			);
 		} else {
 			$this->logger->warning('stat() on File #' . $file->getId() . ' is not an array: ' . json_encode($stat));
+		}
+
+		} catch (NotFoundException|StorageNotAvailableException|NotPermittedException|LockedException $e) {
+			// storage not available or file removed / access issue - mark as not indexable
+			throw new FileIsNotIndexableException($e->getMessage());
 		}
 
 		return $document;
