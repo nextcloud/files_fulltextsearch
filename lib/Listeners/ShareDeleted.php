@@ -40,8 +40,8 @@ class ShareDeleted extends ListenersCore implements IEventListener {
 				(string)$node->getId(),
 				IIndex::INDEX_META
 			);
-		} catch (InvalidPathException | NotFoundException $e) {
-			$this->exception($e);
+		} catch (InvalidPathException|NotFoundException $e) {
+			$this->logger->warning('issue while updating index status', ['exception' => $e]);
 		}
 	}
 }

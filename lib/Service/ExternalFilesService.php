@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Service;
 
-use ArtificialOwl\MySmallPhpTools\Traits\TArrayTools;
 use Exception;
 use OC;
 use OCA\Files_External\Lib\StorageConfig;
@@ -21,6 +20,7 @@ use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Model\MountPoint;
+use OCA\Files_FullTextSearch\Tools\Traits\TArrayTools;
 use OCP\App\IAppManager;
 use OCP\Files\IRootFolder;
 use OCP\Files\Node;
