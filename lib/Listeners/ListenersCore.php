@@ -39,6 +39,7 @@ use OCA\Files_FullTextSearch\Service\FilesService;
 use OCA\Files_FullTextSearch\Service\MiscService;
 use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class CoreFileEvents
@@ -68,6 +69,8 @@ class ListenersCore {
 	/** @var MiscService */
 	protected $miscService;
 
+	/** @var LoggerInterface */
+	protected $logger;
 
 	/**
 	 * CoreFileEvents constructor.
@@ -81,7 +84,7 @@ class ListenersCore {
 	 */
 	public function __construct(
 		Coordinator $coordinator, IUserSession $userSession, IFullTextSearchManager $fullTextSearchManager,
-		FilesService $filesService, ConfigService $configService, MiscService $miscService
+		FilesService $filesService, ConfigService $configService, MiscService $miscService, LoggerInterface $logger,
 	) {
 		$this->userSession = $userSession;
 		$this->coordinator = $coordinator;
@@ -89,6 +92,7 @@ class ListenersCore {
 		$this->filesService = $filesService;
 		$this->configService = $configService;
 		$this->miscService = $miscService;
+		$this->logger = $logger;
 
 		$this->setup('app', 'files_fulltextsearch');
 	}
