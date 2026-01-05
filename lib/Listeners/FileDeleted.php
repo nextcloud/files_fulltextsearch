@@ -38,7 +38,7 @@ class FileDeleted extends ListenersCore implements IEventListener {
 				'files', (string)$node->getId(), IIndex::INDEX_REMOVE, true
 			);
 		} catch (InvalidPathException|NotFoundException $e) {
-			$this->exception($e);
+			$this->logger->warning('issue while updating index status', ['exception' => $e]);
 		}
 	}
 }
