@@ -38,7 +38,7 @@ class FileRenamed extends ListenersCore implements IEventListener {
 				'files', (string)$node->getId(), IIndex::INDEX_META
 			);
 		} catch (InvalidPathException|NotFoundException $e) {
-			$this->exception($e);
+			$this->logger->warning('issue while updating index status', ['exception' => $e]);
 		}
 	}
 }

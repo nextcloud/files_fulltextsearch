@@ -15,6 +15,7 @@ use OCA\Files_FullTextSearch\Service\FilesService;
 use OCA\Files_FullTextSearch\Tools\Traits\TArrayTools;
 use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\IUserSession;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class CoreFileEvents
@@ -30,6 +31,7 @@ class ListenersCore {
 		protected IFullTextSearchManager $fullTextSearchManager,
 		protected FilesService $filesService,
 		protected ConfigService $configService,
+		protected LoggerInterface $logger,
 	) {
 	}
 
