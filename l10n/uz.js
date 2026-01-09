@@ -8,6 +8,7 @@ OC.L10N.register(
     "Size" : "Size",
     "Files" : "Fayllar",
     "Group folders" : "Group folders",
+    "Sources" : "Manbalar",
     "Group Folders" : "Group Folders",
     "Results" : "Natijalar"
 },
