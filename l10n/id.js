@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_fulltextsearch",
     {
     "files" : "files",
+    "Open folder" : "Buka folder",
     "Name" : "Nama",
     "Modified" : "Dimodifikasi",
     "Size" : "Ukuran",
@@ -10,6 +11,7 @@ OC.L10N.register(
     "Copied {origin} inside {destination}" : "{origin} tersalin ke {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} dan {nbfiles} berkas lainnya tersalin ke {destination}",
     "Files" : "Berkas",
-    "Extension" : "Ekstensi"
+    "Extension" : "Ekstensi",
+    "Results" : "Hasil"
 },
 "nplurals=1; plural=0;");
