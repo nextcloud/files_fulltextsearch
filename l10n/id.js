@@ -12,6 +12,7 @@ OC.L10N.register(
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} dan {nbfiles} berkas lainnya tersalin ke {destination}",
     "Files" : "Berkas",
     "Extension" : "Ekstensi",
+    "Sources" : "Sumber",
     "Results" : "Hasil"
 },
 "nplurals=1; plural=0;");
