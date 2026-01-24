@@ -10,6 +10,7 @@
     "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} dan {nbfiles} berkas lainnya tersalin ke {destination}",
     "Files" : "Berkas",
     "Extension" : "Ekstensi",
+    "Sources" : "Sumber",
     "Results" : "Hasil"
 },"pluralForm" :"nplurals=1; plural=0;"
 }
