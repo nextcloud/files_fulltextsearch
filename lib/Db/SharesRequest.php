@@ -29,7 +29,7 @@ class SharesRequest {
 		$shares = [];
 		try {
 			$qb->where($qb->expr()->eq('file_source', $qb->createNamedParameter($file->getId(), IQueryBuilder::PARAM_INT)));
-			$cursor = $qb->execute();
+			$cursor = $qb->executeQuery();
 			while ($data = $cursor->fetch()) {
 				$shares[] = $data;
 			}
