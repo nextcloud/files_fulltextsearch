@@ -15,6 +15,7 @@ OC.L10N.register(
     "Local files" : "Vietiniai failai",
     "External files" : "Išoriniai failai",
     "Group folders" : "Grupės aplankai",
+    "Extension" : "Plėtinys",
     "Local Files" : "Vietiniai failai",
     "External Files" : "Išoriniai failai",
     "Types" : "Tipai",
