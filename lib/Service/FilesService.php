@@ -24,7 +24,6 @@ use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Provider\FilesProvider;
 use OCA\Files_FullTextSearch\Tools\Traits\TArrayTools;
 use OCP\App\IAppManager;
-use OCP\AppFramework\IAppContainer;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\Comments\ICommentsManager;
 use OCP\Files\File;
@@ -69,7 +68,6 @@ class FilesService {
 
 
 	public function __construct(
-		private IAppContainer $container,
 		private IRootFolder $rootFolder,
 		private IAppManager $appManager,
 		private readonly IAppConfig $appConfig,
