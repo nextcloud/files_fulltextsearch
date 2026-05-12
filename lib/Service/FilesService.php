@@ -643,8 +643,6 @@ class FilesService {
 		$this->localFilesService->updateDocumentAccess($document, $file);
 		$this->externalFilesService->updateDocumentAccess($document, $file);
 		$this->groupFoldersService->updateDocumentAccess($document, $file);
-
-		$this->updateShareNames($document, $file);
 	}
 
 
@@ -707,44 +705,6 @@ class FilesService {
 
 		$document->addPart('comments', implode(" \n ", $part));
 	}
-
-
-	/**
-	 * @param FilesDocument $document
-	 * @param Node $file
-	 *
-	 * @return array
-	 */
-	private function updateShareNames(FilesDocument $document, Node $file): array {
-		$users = [];
-
-		$this->localFilesService->getShareUsersFromFile($file, $users);
-		$this->externalFilesService->getShareUsers($document, $users);
-		$this->groupFoldersService->getShareUsers($document, $users);
-
-		$shareNames = [];
-		foreach ($users as $username) {
-			$username = (string)$username;
-
-			try {
-				$user = $this->userManager->get($username);
-				if ($user === null || $user->getLastLogin() === 0) {
-					continue;
-				}
-
-				$path = $this->getPathFromViewerId($file->getId(), $username);
-				$shareNames[$this->secureUsername($username)]
-					= (!is_string($path)) ? $path = '' : $path;
-			} catch (Throwable $e) {
-				$this->logger->debug('Issue while getting information on documentId:' . $document->getId(), ['exception' => $e]);
-			}
-		}
-
-		$document->setInfoArray('share_names', $shareNames);
-
-		return $shareNames;
-	}
-
 
 	/**
 	 * @param string $mimeType

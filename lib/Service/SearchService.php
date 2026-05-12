@@ -50,8 +50,8 @@ class SearchService {
 	 * @param ISearchRequest $request
 	 */
 	public function improveSearchRequest(ISearchRequest $request) {
-		$this->searchQueryShareNames($request);
-		$this->searchQueryWithinDir($request);
+        $request->addWildcardField('title');
+
 		$this->searchQueryInOptions($request);
 		$this->searchQueryFiltersExtension($request);
 		$this->searchQueryFiltersSource($request);
@@ -61,39 +61,6 @@ class SearchService {
 		$request->addPart('comments');
 		$this->extensionService->searchRequest($request);
 	}
-
-
-	/**
-	 * @param ISearchRequest $request
-	 */
-	private function searchQueryShareNames(ISearchRequest $request) {
-		$username = $this->filesService->secureUsername($request->getAuthor());
-		$request->addField('share_names.' . $username);
-
-		$request->addWildcardField('title');
-		$request->addWildcardField('share_names.' . $username);
-	}
-
-
-	/**
-	 * @param ISearchRequest $request
-	 */
-	private function searchQueryWithinDir(ISearchRequest $request) {
-		$currentDir = $request->getOption('files_within_dir');
-		if ($currentDir === '') {
-			return;
-		}
-
-		$username = $this->filesService->secureUsername($request->getAuthor());
-		$currentDir = trim(str_replace('//', '/', $currentDir), '/') . '/'; // we want the format 'folder/'
-		$request->addRegexFilters(
-			[
-				['share_names.' . $username => $currentDir . '.*'],
-				['title' => $currentDir . '.*']
-			]
-		);
-	}
-
 
 	/**
 	 * @param ISearchRequest $request
@@ -107,7 +74,6 @@ class SearchService {
 		$username = $this->filesService->secureUsername($request->getAuthor());
 		$request->addRegexFilters(
 			[
-				['share_names.' . $username => '.*\.' . $extension],
 				['title' => '.*\.' . $extension]
 			]
 		);
@@ -140,8 +106,6 @@ class SearchService {
 		$in = $request->getOptionArray('in', []);
 
 		if (in_array('filename', $in)) {
-			$username = $this->filesService->secureUsername($request->getAuthor());
-			$request->addLimitField('share_names.' . $username);
 			$request->addLimitField('title');
 		}
 
