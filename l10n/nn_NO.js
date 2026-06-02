@@ -6,6 +6,7 @@ OC.L10N.register(
     "Modified" : "Endra",
     "Size" : "Storleik",
     "Files" : "Filer",
-    "Group folders" : "Gruppemapper"
+    "Group folders" : "Gruppemapper",
+    "Results" : "Resultat"
 },
 "nplurals=2; plural=(n != 1);");
