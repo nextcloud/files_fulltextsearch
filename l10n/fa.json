@@ -5,10 +5,10 @@
     "Name" : "نام",
     "Modified" : "تغییر یافته",
     "Size" : "اندازه",
-    "Could not copy \"{file}\", target exists" : "پرونده کپی نشد،هدف وجود دارد",
-    "Could not copy \"{file}\"" : "{پرونده} کپی نشد",
-    "Copied {origin} inside {destination}" : "کپی شده {مبدا} درونٍ {مقصد}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "کپی شده از {مبدا} و {فایل های ام بی} و فایل های دیگر در {مقصد} . ",
+    "Could not copy \"{file}\", target exists" : "کپی «{file}» ممکن نشد، مقصد از قبل وجود دارد",
+    "Could not copy \"{file}\"" : "کپی «{file}» ممکن نشد",
+    "Copied {origin} inside {destination}" : "{origin} درون {destination} کپی شد",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} و {nbfiles} فایل دیگر درون {destination} کپی شدند",
     "Files" : "فایل‌ها",
     "Within current directory" : "در فهرست اصلی",
     "Within local files" : "در پرونده های محلی",
@@ -39,6 +39,8 @@
     "Index the content of PDF files." : "فهرست فایلهای PDF.",
     "Extract Office" : "دفتر استخراج",
     "Index the content of office files." : "فهرست محتوای پرونده های اداری",
-    "Results" : "نتایج"
+    "Results" : "نتایج",
+    "Open Files" : "باز کردن فایل‌ها",
+    "Directly from search results." : "مستقیماً از نتایج جست‌وجو."
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
