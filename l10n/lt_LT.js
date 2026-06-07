@@ -39,8 +39,8 @@ OC.L10N.register(
     "Maximum file size to index (in Mb)." : "Didžiausias indeksuojamo failo dydis (MB).",
     "Extract PDF" : "Išgauti tekstą iš PDF dokumentų",
     "Index the content of PDF files." : "Indeksuoti PDF failų turinį.",
-    "Extract Office" : "Išgauti tekstą iš „Office“ dokumentų",
-    "Index the content of office files." : "Indeksuoti „Office“ failų turinį.",
+    "Extract Office" : "Išskleisti „Office“",
+    "Index the content of office files." : "Indeksuoti biuro failų turinį.",
     "Results" : "Rezultatai",
     "Open Files" : "Atverti Failus",
     "Directly from search results." : "Tiesiai iš paieškos rezultatų."
