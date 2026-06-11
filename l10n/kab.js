@@ -1,6 +1,7 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
+    "Open folder" : "Ldi akaram",
     "Name" : "Nom",
     "Modified" : "Yettwabeddel",
     "Size" : "Teɣzi",
