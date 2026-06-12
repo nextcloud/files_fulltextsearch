@@ -6,6 +6,7 @@ OC.L10N.register(
     "Modified" : "Yettwabeddel",
     "Size" : "Teɣzi",
     "Files" : "Ifuyla",
+    "Extension" : "Asiɣzef",
     "Results" : "Igmaḍ"
 },
 "nplurals=2; plural=(n != 1);");
