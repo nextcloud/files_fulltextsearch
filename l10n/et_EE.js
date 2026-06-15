@@ -21,6 +21,7 @@ OC.L10N.register(
     "Index path only" : "Indekseeri vaid asukoht",
     "Index path and content" : "Indekseeri asukoht ja sisu",
     "Do not index path nor content" : "Ära indekseeri asukohta ega sisu",
+    "Types" : "Tüübid",
     "Maximum file size" : "Faili suurim lubatud suurus",
     "Results" : "Tulemused",
     "Open Files" : "Ava failid",
