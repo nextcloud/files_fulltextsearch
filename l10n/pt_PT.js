@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "files" : "ficheiros",
     "Go to folder" : "Ir para a pasta",
+    "Open folder" : "Abrir pasta",
     "Name" : "Nome",
     "Modified" : "Modificado",
     "Size" : "Tamanho",
