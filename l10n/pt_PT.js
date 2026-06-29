@@ -12,13 +12,18 @@ OC.L10N.register(
     "Copied {origin} inside {destination}" : "Copiado {origin} para {destination}",
     "Copied {origin} and {nbfiles} other files inside {destination}" : "Copiados {origin} e {nbfiles} outros ficheiros para dentro de {destination}",
     "Files" : "Ficheiros",
+    "Local files" : "Arquivos locais",
     "External files" : "Arquivos externos",
     "Group folders" : "Pastas de grupo",
     "Extension" : "Extension",
+    "Index the content of your files" : "Indexar o conteúdo de seus arquivos",
     "Extension to the _Full text search_ app to index your users' files." : "Extensão para o aplicativo _Full text search_ para indexar os arquivos dos usuários.",
     "Index the content of external files." : "Indexar o conteúdo de arquivos externos.",
+    "Index path only" : "Indexar somente o caminho",
     "Index the content of group folders." : "Indexar o conteúdo de pastas de grupo.",
+    "Maximum file size" : "Tamanho máximo de arquivos",
     "Index the content of PDF files." : "Indexar o conteúdo de arquivos PDF.",
-    "Results" : "Resultados"
+    "Results" : "Resultados",
+    "Open Files" : "Abrir Arquivos"
 },
 "nplurals=3; plural=(n == 0 || n == 1) ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");
