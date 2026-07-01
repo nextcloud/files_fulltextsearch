@@ -39,8 +39,8 @@ OC.L10N.register(
     "Maximum file size to index (in Mb)." : "Tamanho máximo de arquivo a indexar (em Mb).",
     "Extract PDF" : "Extrair PDF",
     "Index the content of PDF files." : "Indexar o conteúdo de arquivos PDF.",
-    "Extract Office" : "Extrair Office",
-    "Index the content of office files." : "Indexar o conteúdo de arquivos do office.",
+    "Extract Office" : "Extrair do Office",
+    "Index the content of office files." : "Indexar o conteúdo de arquivos do Office.",
     "Results" : "Resultados",
     "Open Files" : "Abrir Arquivos",
     "Directly from search results." : "Diretamente dos resultados da pesquisa."
