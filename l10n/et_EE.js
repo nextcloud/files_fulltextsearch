@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "files",
+    "files" : "faili",
     "Go to folder" : "Mine kausta",
     "Open folder" : "Ava kaust",
     "Name" : "Nimi",
