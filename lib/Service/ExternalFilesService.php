@@ -29,6 +29,8 @@ use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 use Psr\Log\LoggerInterface;
+use OCP\Files\NotFoundException;
+use OCP\Files\StorageNotAvailableException;
 
 class ExternalFilesService {
 	use TArrayTools;
@@ -62,7 +64,20 @@ class ExternalFilesService {
 			return;
 		}
 
-		$this->getMountPoint($file);
+		try {
+			$this->getMountPoint($file);
+		} catch (FileIsNotIndexableException $e) {
+			return;
+		} catch (StorageNotAvailableException|NotFoundException $e) {
+			$path = '';
+			try {
+				$path = $file->getPath();
+			} catch (\Throwable $_) {
+			}
+			$this->logger->warning('External storage not available when getting file source', ['path' => $path, 'exception' => $e]);
+			return;
+		}
+
 		$source = ConfigLexicon::FILES_EXTERNAL;
 
 		throw new KnownFileSourceException();
@@ -93,7 +108,19 @@ class ExternalFilesService {
 			return;
 		}
 
-		$mount = $this->getMountPoint($file);
+		try {
+			$mount = $this->getMountPoint($file);
+		} catch (FileIsNotIndexableException $e) {
+			return;
+		} catch (StorageNotAvailableException|NotFoundException $e) {
+			$path = '';
+			try {
+				$path = $file->getPath();
+			} catch (\Throwable $_) {
+			}
+			$this->logger->warning('External storage not available when updating document access', ['path' => $path, 'exception' => $e]);
+			return;
+		}
 		$access = $document->getAccess();
 
 		if ($this->isMountFullGlobal($mount)) {
@@ -159,6 +186,8 @@ class ExternalFilesService {
 			);
 		} catch (ExternalMountNotFoundException $e) {
 			throw new FileIsNotIndexableException('issue while getMountPoint');
+		} catch (NotFoundException|StorageNotAvailableException $e) {
+			throw new FileIsNotIndexableException('storage not available');
 		}
 	}
 

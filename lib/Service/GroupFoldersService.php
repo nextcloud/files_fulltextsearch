@@ -79,6 +79,14 @@ class GroupFoldersService {
 			$this->getMountPoint($file);
 		} catch (FileIsNotIndexableException $e) {
 			return;
+		} catch (\OCP\Files\StorageNotAvailableException|\OCP\Files\NotFoundException $e) {
+			$path = '';
+			try {
+				$path = $file->getPath();
+			} catch (\Throwable $_) {
+			}
+			$this->logger->warning('Group folder storage not available when getting file source', ['path' => $path, 'exception' => $e]);
+			return;
 		}
 
 		$source = ConfigLexicon::FILES_GROUP_FOLDERS;
@@ -98,6 +106,14 @@ class GroupFoldersService {
 		try {
 			$mount = $this->getMountPoint($file);
 		} catch (FileIsNotIndexableException $e) {
+			return;
+		} catch (\OCP\Files\StorageNotAvailableException|\OCP\Files\NotFoundException $e) {
+			$path = '';
+			try {
+				$path = $file->getPath();
+			} catch (\Throwable $_) {
+			}
+			$this->logger->warning('Group folder storage not available when updating document access', ['path' => $path, 'exception' => $e]);
 			return;
 		}
 
