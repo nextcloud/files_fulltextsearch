@@ -60,25 +60,20 @@ class ConfigService {
 		}
 	}
 
-	public function setDocumentIndexOption(FilesDocument $document, string $option) {
+	public function setDocumentIndexOption(FilesDocument $document, string $option): void {
 		$document->getIndex()->addOption('_' . $option, $this->getCurrentIndexOptionStatus($option) ? '1' : '0');
 	}
 
-	/**
-	 * @param IIndex $index
-	 *
-	 * @return bool
-	 */
 	public function compareIndexOptions(IIndex $index): bool {
 		$options = $index->getOptions();
 
 		$ak = array_keys($options);
 		foreach ($ak as $k) {
-			if (!str_starts_with($k, '_')) {
+			if (!str_starts_with((string)$k, '_')) {
 				continue;
 			}
 
-			$currentValue = $this->getCurrentIndexOptionStatus(substr($k, 1)) ? '1' : '0';
+			$currentValue = $this->getCurrentIndexOptionStatus(substr((string)$k, 1)) ? '1' : '0';
 			if ($options[$k] !== $currentValue) {
 				return false;
 			}

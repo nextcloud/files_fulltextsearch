@@ -40,20 +40,13 @@ use Throwable;
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'files_fulltextsearch';
 
-
 	/**
 	 * Application constructor.
-	 *
-	 * @param array $params
 	 */
 	public function __construct(array $params = []) {
 		parent::__construct(self::APP_ID, $params);
 	}
 
-
-	/**
-	 * @param IRegistrationContext $context
-	 */
 	public function register(IRegistrationContext $context): void {
 		$context->registerEventListener(NodeCreatedEvent::class, FileCreated::class);
 		$context->registerEventListener(NodeWrittenEvent::class, FileChanged::class);
@@ -68,10 +61,7 @@ class Application extends App implements IBootstrap {
 		$context->registerConfigLexicon(ConfigLexicon::class);
 	}
 
-
 	/**
-	 * @param IBootContext $context
-	 *
 	 * @throws Throwable
 	 */
 	public function boot(IBootContext $context): void {

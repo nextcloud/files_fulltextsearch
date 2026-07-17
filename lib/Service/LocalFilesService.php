@@ -22,7 +22,6 @@ use OCP\IGroupManager;
 use OCP\IUserManager;
 use OCP\Share\IManager;
 use OCP\Share\IShare;
-use Psr\Log\LoggerInterface;
 
 /**
  * Class LocalFilesService
@@ -31,22 +30,18 @@ use Psr\Log\LoggerInterface;
  */
 class LocalFilesService {
 	public function __construct(
-		private IGroupManager $groupManager,
-		private IUserManager $userManager,
-		private IManager $shareManager,
-		private SharesRequest $sharesRequest,
-		private LoggerInterface $logger,
+		private readonly IGroupManager $groupManager,
+		private readonly IUserManager $userManager,
+		private readonly IManager $shareManager,
+		private readonly SharesRequest $sharesRequest,
 	) {
 	}
 
-
 	/**
-	 * @param Node $file
-	 * @param string $source
 	 *
 	 * @throws KnownFileSourceException
 	 */
-	public function getFileSource(Node $file, string &$source) {
+	public function getFileSource(Node $file, string &$source): void {
 		$mountType = $file->getMountPoint()->getMountType();
 		if ($mountType !== '' && $mountType !== 'shared') {
 			return;
@@ -57,20 +52,11 @@ class LocalFilesService {
 		throw new KnownFileSourceException();
 	}
 
-
-	/**
-	 * @param FilesDocument $document
-	 * @param Node $file
-	 */
-	public function updateDocumentAccess(FilesDocument $document, Node $file) {
+	public function updateDocumentAccess(FilesDocument $document, Node $file): void {
 		$ownerId = '';
 		if ($file->getOwner() !== null) {
 			$ownerId = $file->getOwner()
 				->getUID();
-		}
-
-		if (!is_string($ownerId)) {
-			$ownerId = '';
 		}
 
 		$access = new DocumentAccess($ownerId);
@@ -85,27 +71,18 @@ class LocalFilesService {
 		$document->setAccess($access);
 	}
 
-
-	/**
-	 * @param Node $file
-	 * @param array $users
-	 */
-	public function getShareUsersFromFile(Node $file, array &$users) {
+	public function getShareUsersFromFile(Node $file, array &$users): void {
 		if ($file->getOwner() === null) {
 			return;
 		}
 
 		try {
 			$shares = $this->shareManager->getAccessList($file, true, true);
-		} catch (Exception $e) {
+		} catch (Exception) {
 			return;
 		}
 
 		foreach ($shares['users'] ?? [] as $user => $node) {
-			if (!is_string($user)) {
-				$this->logger->warning('malformed access list: ' . json_encode($shares));
-				continue;
-			}
 			if (in_array($user, $users) || $this->userManager->get($user) === null) {
 				continue;
 			}
@@ -114,18 +91,14 @@ class LocalFilesService {
 		}
 	}
 
-
 	/**
 	 * same a getShareUsers, but we do it 'manually'
-	 *
-	 * @param IDocumentAccess $access
-	 * @param array $users
 	 */
-	public function getSharedUsersFromAccess(IDocumentAccess $access, array &$users) {
+	public function getSharedUsersFromAccess(IDocumentAccess $access, array &$users): void {
 		$result = array_merge(
 			$access->getUsers(),
 			$this->getSharedUsersFromAccessGroups($access),
-			$this->getSharedUsersFromAccessCircles($access)
+			$this->getSharedUsersFromAccessCircles()
 		);
 
 		foreach ($result as $user) {
@@ -135,12 +108,6 @@ class LocalFilesService {
 		}
 	}
 
-
-	/**
-	 * @param IDocumentAccess $access
-	 *
-	 * @return array
-	 */
 	private function getSharedUsersFromAccessGroups(IDocumentAccess $access): array {
 		$result = [];
 		$users = [];
@@ -160,26 +127,16 @@ class LocalFilesService {
 		return $result;
 	}
 
-
 	/**
 	 * // TODO: get users from circles.
 	 *
-	 * @param IDocumentAccess $access
 	 *
-	 * @return array
 	 */
-	private function getSharedUsersFromAccessCircles(IDocumentAccess $access): array {
-		$result = [];
-
-		return $result;
+	private function getSharedUsersFromAccessCircles(): array {
+		return [];
 	}
 
-
-	/**
-	 * @param Node $file
-	 * @param FileShares $fileShares
-	 */
-	private function getSharesFromFile(Node $file, FileShares $fileShares) {
+	private function getSharesFromFile(Node $file, FileShares $fileShares): void {
 		if (strlen($file->getPath()) <= 1) {
 			return;
 		}
@@ -200,12 +157,7 @@ class LocalFilesService {
 		}
 	}
 
-
-	/**
-	 * @param array $share
-	 * @param FileShares $fileShares
-	 */
-	private function parseUsersShares(array $share, FileShares $fileShares) {
+	private function parseUsersShares(array $share, FileShares $fileShares): void {
 		if ((int)$share['share_type'] !== IShare::TYPE_USER) {
 			return;
 		}
@@ -213,12 +165,7 @@ class LocalFilesService {
 		$fileShares->addUser($share['share_with']);
 	}
 
-
-	/**
-	 * @param array $share
-	 * @param FileShares $fileShares
-	 */
-	private function parseUsersGroups(array $share, FileShares $fileShares) {
+	private function parseUsersGroups(array $share, FileShares $fileShares): void {
 		if ((int)$share['share_type'] !== IShare::TYPE_GROUP) {
 			return;
 		}
@@ -226,12 +173,7 @@ class LocalFilesService {
 		$fileShares->addGroup($share['share_with']);
 	}
 
-
-	/**
-	 * @param array $share
-	 * @param FileShares $fileShares
-	 */
-	private function parseUsersCircles(array $share, FileShares $fileShares) {
+	private function parseUsersCircles(array $share, FileShares $fileShares): void {
 		if ((int)$share['share_type'] !== IShare::TYPE_CIRCLE) {
 			return;
 		}
@@ -239,12 +181,7 @@ class LocalFilesService {
 		$fileShares->addCircle($share['share_with']);
 	}
 
-
-	/**
-	 * @param array $share
-	 * @param FileShares $fileShares
-	 */
-	private function parseUsersLinks(array $share, FileShares $fileShares) {
+	private function parseUsersLinks(array $share, FileShares $fileShares): void {
 		if ((int)$share['share_type'] !== IShare::TYPE_LINK) {
 			return;
 		}

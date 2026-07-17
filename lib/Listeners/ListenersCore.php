@@ -35,9 +35,6 @@ class ListenersCore {
 	) {
 	}
 
-	/**
-	 * @return bool
-	 */
 	protected function registerFullTextSearchServices(): bool {
 		$this->coordinator->bootApp('fulltextsearch');
 

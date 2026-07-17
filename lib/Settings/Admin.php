@@ -24,13 +24,12 @@ use OCP\Util;
  */
 class Admin implements ISettings {
 	public function __construct(
-		private ConfigService $configService,
-		private IInitialState $initialStateService,
+		private readonly ConfigService $configService,
+		private readonly IInitialState $initialStateService,
 	) {
 	}
 
 	/**
-	 * @return TemplateResponse
 	 * @throws Exception
 	 */
 	public function getForm(): TemplateResponse {
@@ -42,14 +41,12 @@ class Admin implements ISettings {
 		return new TemplateResponse(Application::APP_ID, 'settings.admin', []);
 	}
 
-
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
 	public function getSection(): string {
 		return 'fulltextsearch';
 	}
-
 
 	/**
 	 * @return int whether the form should be rather on the top or bottom of
