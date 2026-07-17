@@ -7,22 +7,31 @@
 /** global: files_elements */
 /** global: files_settings */
 
+function ready(callback) {
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', callback);
+	} else {
+		callback();
+	}
+}
 
-$(document).ready(function () {
+
+ready(function () {
 
 
 	/**
 	 * @constructs Fts_Files
 	 */
 	var Fts_Files = function () {
-		$.extend(Fts_Files.prototype, files_elements);
-		$.extend(Fts_Files.prototype, files_settings);
+		Object.assign(Fts_Files.prototype, files_elements, files_settings);
 
 		files_elements.init();
 		files_settings.refreshSettingPage();
 	};
 
-	OCA.FullTextSearchAdmin.files = Fts_Files;
-	OCA.FullTextSearchAdmin.files.settings = new Fts_Files();
+	window.OCA = window.OCA || {};
+	window.OCA.FullTextSearchAdmin = window.OCA.FullTextSearchAdmin || {};
+	window.OCA.FullTextSearchAdmin.files = Fts_Files;
+	window.OCA.FullTextSearchAdmin.files.settings = new Fts_Files();
 
 });
