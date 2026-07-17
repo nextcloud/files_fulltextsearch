@@ -23,10 +23,6 @@ use OCP\Share\Events\ShareDeletedEvent;
  */
 class ShareDeleted extends ListenersCore implements IEventListener {
 
-
-	/**
-	 * @param Event $event
-	 */
 	public function handle(Event $event): void {
 		if (!$this->registerFullTextSearchServices() || !($event instanceof ShareDeletedEvent)) {
 			return;

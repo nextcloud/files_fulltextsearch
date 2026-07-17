@@ -210,15 +210,6 @@ trait TArrayTools {
 		return false;
 	}
 
-
-	/**
-	 * @param string $k
-	 * @param array $arr
-	 * @param array $import
-	 * @param array $default
-	 *
-	 * @return array
-	 */
 	protected function getList(string $k, array $arr, array $import, array $default = []): array {
 		$list = $this->getArray($k, $arr, $default);
 
@@ -230,18 +221,14 @@ trait TArrayTools {
 				$o->$method($item);
 
 				$r[] = $o;
-			} catch (Exception $e) {
+			} catch (Exception) {
 			}
 		}
 
 		return $r;
 	}
 
-
 	/**
-	 * @param string $k
-	 * @param string $value
-	 * @param array $list
 	 *
 	 * @return mixed
 	 * @throws ArrayNotFoundException
@@ -260,13 +247,8 @@ trait TArrayTools {
 		throw new ArrayNotFoundException();
 	}
 
-
 	/**
-	 * @param string $key
-	 * @param array $arr
-	 * @param bool $root
 	 *
-	 * @return string
 	 * @throws ItemNotFoundException
 	 * @throws UnknownTypeException
 	 */
@@ -316,10 +298,7 @@ trait TArrayTools {
 		throw new ItemNotFoundException();
 	}
 
-
 	/**
-	 * @param array $keys
-	 * @param array $arr
 	 *
 	 * @throws MalformedArrayException
 	 */
@@ -333,14 +312,10 @@ trait TArrayTools {
 		}
 	}
 
-
-	/**
-	 * @param array $arr
-	 */
 	protected function cleanArray(array &$arr) {
 		$arr = array_filter(
 			$arr,
-			function ($v) {
+			function ($v): bool {
 				if (is_string($v)) {
 					return ($v !== '');
 				}

@@ -22,10 +22,6 @@ use OCP\Share\Events\ShareCreatedEvent;
  */
 class ShareCreated extends ListenersCore implements IEventListener {
 
-
-	/**
-	 * @param Event $event
-	 */
 	public function handle(Event $event): void {
 		if (!$this->registerFullTextSearchServices() || !($event instanceof ShareCreatedEvent)) {
 			return;

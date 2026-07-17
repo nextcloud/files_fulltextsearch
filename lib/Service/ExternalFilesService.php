@@ -12,7 +12,6 @@ namespace OCA\Files_FullTextSearch\Service;
 use Exception;
 use OCA\Files_External\Lib\StorageConfig;
 use OCA\Files_External\Service\GlobalStoragesService;
-use OCA\Files_External\Service\UserGlobalStoragesService;
 use OCA\Files_FullTextSearch\ConfigLexicon;
 use OCA\Files_FullTextSearch\Exceptions\ExternalMountNotFoundException;
 use OCA\Files_FullTextSearch\Exceptions\ExternalMountWithNoViewerException;
@@ -21,41 +20,27 @@ use OCA\Files_FullTextSearch\Exceptions\KnownFileSourceException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Model\MountPoint;
 use OCA\Files_FullTextSearch\Tools\Traits\TArrayTools;
-use OCP\App\IAppManager;
-use OCP\Files\IRootFolder;
 use OCP\Files\Node;
 use OCP\FullTextSearch\Model\IIndex;
 use OCP\IGroupManager;
-use OCP\IUserManager;
-use OCP\Share\IManager;
-use Psr\Log\LoggerInterface;
 
 class ExternalFilesService {
 	use TArrayTools;
 
 	public function __construct(
-		private IRootFolder $rootFolder,
-		private IAppManager $appManager,
-		private IUserManager $userManager,
-		private IGroupManager $groupManager,
-		private IManager $shareManager,
-		private LocalFilesService $localFilesService,
-		private ?UserGlobalStoragesService $userGlobalStoragesService,
-		private ?GlobalStoragesService $globalStoragesService,
-		private ConfigService $configService,
-		private LoggerInterface $logger,
+		private readonly IGroupManager $groupManager,
+		private readonly LocalFilesService $localFilesService,
+		private readonly ?GlobalStoragesService $globalStoragesService,
 	) {
 	}
 
 	/**
-	 * @param Node $file
 	 *
-	 * @param string $source
 	 *
 	 * @throws FileIsNotIndexableException
 	 * @throws KnownFileSourceException
 	 */
-	public function getFileSource(Node $file, string &$source) {
+	public function getFileSource(Node $file, string &$source): void {
 		if ($this->globalStoragesService === null
 			|| $file->getMountPoint()
 				->getMountType() !== 'external') {
@@ -68,12 +53,7 @@ class ExternalFilesService {
 		throw new KnownFileSourceException();
 	}
 
-
-	/**
-	 * @param FilesDocument $document
-	 * @param array $users
-	 */
-	public function getShareUsers(FilesDocument $document, array &$users) {
+	public function getShareUsers(FilesDocument $document, array &$users): void {
 		if ($document->getSource() !== ConfigLexicon::FILES_EXTERNAL) {
 			return;
 		}
@@ -81,14 +61,11 @@ class ExternalFilesService {
 		$this->localFilesService->getSharedUsersFromAccess($document->getAccess(), $users);
 	}
 
-
 	/**
-	 * @param FilesDocument $document
-	 * @param Node $file
 	 *
 	 * @throws FileIsNotIndexableException
 	 */
-	public function updateDocumentAccess(FilesDocument $document, Node $file) {
+	public function updateDocumentAccess(FilesDocument $document, Node $file): void {
 		if ($document->getSource() !== ConfigLexicon::FILES_EXTERNAL) {
 			return;
 		}
@@ -114,12 +91,6 @@ class ExternalFilesService {
 		$document->setAccess($access);
 	}
 
-
-	/**
-	 * @param MountPoint $mount
-	 *
-	 * @return bool
-	 */
 	private function isMountFullGlobal(MountPoint $mount): bool {
 		if (sizeof($mount->getGroups()) > 0) {
 			return false;
@@ -140,11 +111,7 @@ class ExternalFilesService {
 		return false;
 	}
 
-
 	/**
-	 * @param Node $file
-	 *
-	 * @return MountPoint
 	 * @throws FileIsNotIndexableException
 	 */
 	private function getMountPoint(Node $file): MountPoint {
@@ -157,16 +124,12 @@ class ExternalFilesService {
 				$file->getMountPoint()
 					->getMountId()
 			);
-		} catch (ExternalMountNotFoundException $e) {
+		} catch (ExternalMountNotFoundException) {
 			throw new FileIsNotIndexableException('issue while getMountPoint');
 		}
 	}
 
-
 	/**
-	 * @param int $externalMountId
-	 *
-	 * @return MountPoint
 	 * @throws ExternalMountNotFoundException
 	 */
 	private function getExternalMountById(int $externalMountId): MountPoint {
@@ -183,18 +146,14 @@ class ExternalFilesService {
 				->setGroups($mount->getApplicableGroups())
 				->setUsers($mount->getApplicableUsers())
 				->setGlobal(($mount->getType() === StorageConfig::MOUNT_TYPE_ADMIN));
-		} catch (Exception $e) {
+		} catch (Exception) {
 			throw new ExternalMountNotFoundException();
 		}
 
 		return $mountPoint;
 	}
 
-
-	/**
-	 * @param IIndex $index
-	 */
-	public function impersonateOwner(IIndex $index) {
+	public function impersonateOwner(IIndex $index): void {
 		if ($index->getSource() !== ConfigLexicon::FILES_EXTERNAL) {
 			return;
 		}
@@ -202,21 +161,17 @@ class ExternalFilesService {
 		$groupFolderId = $index->getOptionInt('external_mount_id', 0);
 		try {
 			$mount = $this->getExternalMountById($groupFolderId);
-		} catch (ExternalMountNotFoundException $e) {
+		} catch (ExternalMountNotFoundException) {
 			return;
 		}
 
 		try {
 			$index->setOwnerId($this->getRandomUserFromMountPoint($mount));
-		} catch (Exception $e) {
+		} catch (Exception) {
 		}
 	}
 
-
 	/**
-	 * @param MountPoint $mount
-	 *
-	 * @return string
 	 * @throws ExternalMountWithNoViewerException
 	 */
 	private function getRandomUserFromMountPoint(MountPoint $mount): string {

@@ -25,14 +25,12 @@ use OCP\IRequest;
 class SettingsController extends Controller {
 	public function __construct(
 		IRequest $request,
-		private ConfigService $configService,
+		private readonly ConfigService $configService,
 	) {
 		parent::__construct(Application::APP_ID, $request);
 	}
 
-
 	/**
-	 * @return DataResponse
 	 * @throws Exception
 	 */
 	public function getSettingsAdmin(): DataResponse {
@@ -41,11 +39,7 @@ class SettingsController extends Controller {
 		return new DataResponse($data, Http::STATUS_OK);
 	}
 
-
 	/**
-	 * @param array $data
-	 *
-	 * @return DataResponse
 	 * @throws Exception
 	 */
 	public function setSettingsAdmin(array $data): DataResponse {

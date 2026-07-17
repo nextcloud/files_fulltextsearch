@@ -13,7 +13,6 @@ Util::addScript(Application::APP_ID, 'admin.elements');
 Util::addScript(Application::APP_ID, 'admin.settings');
 Util::addScript(Application::APP_ID, 'admin');
 
-
 ?>
 
 <div id="files" class="section" style="display: none;">
