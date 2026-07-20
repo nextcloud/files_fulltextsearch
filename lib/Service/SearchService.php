@@ -50,7 +50,7 @@ class SearchService {
 	 * @param ISearchRequest $request
 	 */
 	public function improveSearchRequest(ISearchRequest $request) {
-        $request->addWildcardField('title');
+		$request->addWildcardField('title');
 
 		$this->searchQueryInOptions($request);
 		$this->searchQueryFiltersExtension($request);
