@@ -767,6 +767,12 @@ class FilesService {
 			}
 		}
 
+		// 20260520 Parse JSON files as TEXT files
+		if ($mimeType === 'application/json') {
+			$parsed = self::MIMETYPE_TEXT;
+			throw new KnownFileMimeTypeException();
+		}
+
 		$this->parseMimeTypeTextByExtension($mimeType, $extension, $parsed);
 	}
 
