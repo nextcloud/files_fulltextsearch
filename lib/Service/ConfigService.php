@@ -54,7 +54,7 @@ class ConfigService {
 				case ConfigLexicon::FILES_PDF:
 				case ConfigLexicon::FILES_ZIP:
 				case ConfigLexicon::FILES_OPEN_RESULT_DIRECTLY:
-					$this->appConfig->setAppValueBool($k, $save[$k]);
+					$this->appConfig->setAppValueBool($k, (bool)$save[$k]);
 					break;
 			}
 		}
