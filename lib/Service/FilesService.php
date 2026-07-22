@@ -88,7 +88,7 @@ class FilesService {
 
 	/**
 	 *
-	 * @return string[]
+	 * @return list<string>
 	 * @throws NotFoundException
 	 * @throws InvalidPathException
 	 */
@@ -112,14 +112,14 @@ class FilesService {
 		}
 
 		$this->logger->debug('object from getChunksFromUser is a Folder');
-		$chunks = array_map(strval(...), $this->getChunksFromDirectory($userId, $files));
+		$chunks = $this->getChunksFromDirectory($userId, $files);
 		$this->logger->debug('getChunksFromUser result', ['chunks' => $chunks]);
 
 		return $chunks;
 	}
 
 	/**
-	 * @return FilesDocument[]
+	 * @return list<string>
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 */
@@ -133,13 +133,11 @@ class FilesService {
 			$entries[] = $this->getPathFromRoot($node->getPath(), $userId, true);
 		}
 
-		foreach ($files as $file) {
-			if ($file->getType() === FileInfo::TYPE_FOLDER
-				&& $level < $this->appConfig->getAppValueInt(ConfigLexicon::FILES_CHUNK_SIZE)) {
-				/** @var Folder $file */
-				$entries = array_merge($entries, $this->getChunksFromDirectory($userId, $file, $level));
+		foreach ($files as $subNode) {
+			if ($subNode instanceof Folder && $level < $this->appConfig->getAppValueInt(ConfigLexicon::FILES_CHUNK_SIZE)) {
+				$entries = array_merge($entries, $this->getChunksFromDirectory($userId, $subNode, $level));
 			} else {
-				$entries[] = $this->getPathFromRoot($file->getPath(), $userId, true);
+				$entries[] = $this->getPathFromRoot($subNode->getPath(), $userId, true);
 			}
 		}
 
@@ -157,7 +155,7 @@ class FilesService {
 
 	/**
 	 *
-	 * @return FilesDocument[]
+	 * @return list<IIndexDocument>
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
@@ -190,7 +188,7 @@ class FilesService {
 
 	/**
 	 *
-	 * @return FilesDocument[]
+	 * @return list<FilesDocument>
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws Exception
@@ -222,17 +220,16 @@ class FilesService {
 		}
 
 		$files = $node->getDirectoryListing();
-		foreach ($files as $file) {
+		foreach ($files as $subNode) {
 			try {
-				$documents[] = $this->generateFilesDocumentFromFile($userId, $file);
+				$documents[] = $this->generateFilesDocumentFromFile($userId, $subNode);
 				$this->sumDocuments++;
 			} catch (FileIsNotIndexableException) {
 				continue;
 			}
 
-			if ($file->getType() === FileInfo::TYPE_FOLDER) {
-				/** @var Folder $file */
-				$documents = array_merge($documents, $this->getFilesFromDirectory($userId, $file));
+			if ($subNode instanceof Folder) {
+				$documents = array_merge($documents, $this->getFilesFromDirectory($userId, $subNode));
 			}
 		}
 
@@ -253,6 +250,9 @@ class FilesService {
 		$this->groupFoldersService->initGroupSharesForUser($userId);
 	}
 
+	/**
+	 * @return list<IIndexDocument>
+	 */
 	private function generateFilesDocumentFromParent(string $userId, Folder $parent): array {
 		$documents = [];
 		try {

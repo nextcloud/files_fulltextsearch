@@ -55,8 +55,5 @@ jobs:
       - name: Check for vulnerable PHP dependencies
         run: composer require --dev roave/security-advisories:dev-latest
 
-      - name: Install nextcloud/ocp
-        run: composer require --dev nextcloud/ocp:dev-${{ steps.versions.outputs.branches-max }} --ignore-platform-reqs --with-dependencies
-
       - name: Run coding standards check
         run: composer run phpstan -- --no-progress

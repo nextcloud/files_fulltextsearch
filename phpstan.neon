@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
 # SPDX-License-Identifier: AGPL-3.0-or-later
 parameters:
-	level: 4
+	level: 5
 	phpVersion:
 		min: 80200
 		max: 80500
@@ -13,9 +13,10 @@ parameters:
 		- tests/stubs
 		- templates # will be removed soonish
 		- lib/Listeners/ListenersCore.php # Use fully private APIs
+		- lib/Controller/SettingsController.php # DataResponse in NC33 doesn't play well with phpstan
 	#- tests/bootstrap.php
 	scanDirectories:
-		- vendor/nextcloud/ocp
+		- vendor-bin/phpstan/vendor/nextcloud/ocp
 		#- vendor-bin/phpunit/vendor/phpunit/phpunit
 	scanFiles:
 		- tests/stubs/oc_fulltextsearch_fulltextsearchmanager.stub
@@ -61,4 +62,6 @@ parameters:
 		- tests/stubs/symfony_component_console_formatter_outputformatterstyle.php
 		- tests/stubs/symfony_component_console_formatter_outputformatterinterface.php
 		- tests/stubs/symfony_component_routing_exception_routenotfoundexception.php
-
+	ignoreErrors:
+		- message: '#Instanceof between .* and .* will always evaluate to true.#'
+		  path: lib/Listeners/*
