@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2026 Nextcloud GmbH and Nextcloud contributors
 # SPDX-License-Identifier: AGPL-3.0-or-later
 parameters:
-	level: 4
+	level: 5
 	phpVersion:
 		min: 80200
 		max: 80500
@@ -13,6 +13,7 @@ parameters:
 		- tests/stubs
 		- templates # will be removed soonish
 		- lib/Listeners/ListenersCore.php # Use fully private APIs
+		- lib/Controller/SettingsController.php # DataResponse in NC33 doesn't play well with phpstan
 	#- tests/bootstrap.php
 	scanDirectories:
 		- vendor/nextcloud/ocp

@@ -167,14 +167,14 @@ class FilesProvider implements IFullTextSearchProvider {
 	 *
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
-	 * @return string[]
+	 * @return list<string>
 	 */
 	public function generateChunks(string $userId): array {
 		$this->logger->debug('generateChunks request', ['userId' => $userId, 'options' => $this->indexOptions]);
 		$chunks = $this->filesService->getChunksFromUser($userId, $this->indexOptions);
 		$this->logger->debug('generateChunks result', $chunks);
 
-		return array_map(strval(...), $chunks);
+		return $chunks;
 	}
 
 	/**

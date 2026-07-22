@@ -25,6 +25,9 @@ class ConfigService {
 	) {
 	}
 
+	/**
+	 * @return array<string, int|bool>
+	 */
 	public function getConfig(): array {
 		return [
 			ConfigLexicon::FILES_LOCAL => $this->appConfig->getAppValueBool(ConfigLexicon::FILES_LOCAL),

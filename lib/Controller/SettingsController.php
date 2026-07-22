@@ -31,16 +31,18 @@ class SettingsController extends Controller {
 	}
 
 	/**
+	 * @return DataResponse<Http::STATUS_OK, array<string, int|bool>, array{}>
 	 * @throws Exception
 	 */
 	public function getSettingsAdmin(): DataResponse {
 		$data = $this->configService->getConfig();
 
-		return new DataResponse($data, Http::STATUS_OK);
+		return new DataResponse($data);
 	}
 
 	/**
 	 * @throws Exception
+	 * @return DataResponse<Http::STATUS_OK, array, array{}>
 	 */
 	public function setSettingsAdmin(array $data): DataResponse {
 		if ($this->configService->checkConfig($data)) {
