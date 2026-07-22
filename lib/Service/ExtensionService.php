@@ -19,57 +19,31 @@ use OCP\FullTextSearch\Model\ISearchResult;
 
 class ExtensionService {
 	public function __construct(
-		private IEventDispatcher $eventDispatcher,
+		private readonly IEventDispatcher $eventDispatcher,
 	) {
 	}
 
-
-	/**
-	 * @param array $config
-	 */
-	public function getConfig(array &$config) {
+	public function getConfig(array &$config): void {
 		$this->dispatch('Files_FullTextSearch.onGetConfig', ['config' => &$config]);
 	}
 
-
-	/**
-	 * @param FilesDocument $document
-	 * @param Node $file
-	 */
-	public function fileIndexing(FilesDocument $document, Node $file) {
+	public function fileIndexing(FilesDocument $document, Node $file): void {
 		$this->dispatch('Files_FullTextSearch.onFileIndexing', ['file' => $file, 'document' => $document]);
 	}
 
-
-	/**
-	 * @param ISearchRequest $request
-	 */
-	public function searchRequest(ISearchRequest $request) {
+	public function searchRequest(ISearchRequest $request): void {
 		$this->dispatch('Files_FullTextSearch.onSearchRequest', ['request' => $request]);
 	}
 
-
-	/**
-	 * @param ISearchResult $result
-	 */
-	public function searchResult(ISearchResult $result) {
+	public function searchResult(ISearchResult $result): void {
 		$this->dispatch('Files_FullTextSearch.onSearchResult', ['result' => $result]);
 	}
 
-
-	/**
-	 * @param IIndexDocument $document
-	 */
-	public function indexComparing(IIndexDocument $document) {
+	public function indexComparing(IIndexDocument $document): void {
 		$this->dispatch('Files_FullTextSearch.onIndexComparing', ['document' => $document]);
 	}
 
-
-	/**
-	 * @param string $subject
-	 * @param array $arguments
-	 */
-	private function dispatch(string $subject, array $arguments) {
+	private function dispatch(string $subject, array $arguments): void {
 		$this->eventDispatcher->dispatchTyped(new GenericEvent($subject, $arguments));
 	}
 }

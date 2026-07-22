@@ -20,18 +20,12 @@ use OCP\Settings\ISettings;
  * @package OCA\Files_FullTextSearch\Settings
  */
 class Admin implements ISettings {
-	public function __construct(
-	) {
-	}
-
 	/**
-	 * @return TemplateResponse
 	 * @throws Exception
 	 */
 	public function getForm(): TemplateResponse {
 		return new TemplateResponse(Application::APP_ID, 'settings.admin', []);
 	}
-
 
 	/**
 	 * @return string the section ID, e.g. 'sharing'
@@ -39,7 +33,6 @@ class Admin implements ISettings {
 	public function getSection(): string {
 		return 'fulltextsearch';
 	}
-
 
 	/**
 	 * @return int whether the form should be rather on the top or bottom of

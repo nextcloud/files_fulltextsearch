@@ -23,10 +23,6 @@ use OCP\FullTextSearch\Model\IIndex;
  */
 class FileDeleted extends ListenersCore implements IEventListener {
 
-
-	/**
-	 * @param Event $event
-	 */
 	public function handle(Event $event): void {
 		if (!$this->registerFullTextSearchServices() || !($event instanceof NodeDeletedEvent)) {
 			return;

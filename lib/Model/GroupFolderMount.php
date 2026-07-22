@@ -18,117 +18,65 @@ use JsonSerializable;
  */
 class GroupFolderMount implements JsonSerializable {
 
+	private ?int $id = null;
 
-	/** @var int */
-	private $id;
+	private ?string $path = null;
 
-	/** @var string */
-	private $path;
+	private ?bool $global = null;
 
-	/** @var bool */
-	private $global;
+	private ?array $groups = null;
 
-	/** @var array */
-	private $groups;
+	private ?array $users = null;
 
-	/** @var array */
-	private $users;
-
-
-	/**
-	 * @return int
-	 */
 	public function getId(): int {
 		return $this->id;
 	}
 
-	/**
-	 * @param int $id
-	 *
-	 * @return $this
-	 */
 	public function setId(int $id): GroupFolderMount {
 		$this->id = $id;
 
 		return $this;
 	}
 
-
-	/**
-	 * @return string
-	 */
 	public function getPath(): string {
 		return $this->path;
 	}
 
-	/**
-	 * @param string $path
-	 *
-	 * @return $this
-	 */
 	public function setPath(string $path): GroupFolderMount {
 		$this->path = $path;
 
 		return $this;
 	}
 
-
-	/**
-	 * @return bool
-	 */
 	public function isGlobal(): bool {
 		return $this->global;
 	}
 
-	/**
-	 * @param bool $global
-	 *
-	 * @return $this
-	 */
 	public function setGlobal(bool $global): GroupFolderMount {
 		$this->global = $global;
 
 		return $this;
 	}
 
-
-	/**
-	 * @return array
-	 */
 	public function getGroups(): array {
 		return $this->groups;
 	}
 
-	/**
-	 * @param array $groups
-	 *
-	 * @return $this
-	 */
 	public function setGroups(array $groups): GroupFolderMount {
 		$this->groups = $groups;
 
 		return $this;
 	}
 
-
-	/**
-	 * @return array
-	 */
 	public function getUsers(): array {
 		return $this->users;
 	}
 
-	/**
-	 * @param array $users
-	 *
-	 * @return $this
-	 */
 	public function setUsers(array $users): GroupFolderMount {
 		$this->users = $users;
 
 		return $this;
 	}
-
 
 	/**
 	 *
@@ -141,10 +89,6 @@ class GroupFolderMount implements JsonSerializable {
 		unset($this->users);
 	}
 
-
-	/**
-	 * @return array
-	 */
 	public function jsonSerialize():array {
 		return [
 			'id' => $this->getId(),

@@ -47,13 +47,13 @@ class FilesProvider implements IFullTextSearchProvider {
 	private IIndexOptions $indexOptions;
 
 	public function __construct(
-		private IL10N $l10n,
+		private readonly IL10N $l10n,
 		private readonly IAppConfig $appConfig,
-		private ConfigService $configService,
-		private FilesService $filesService,
-		private SearchService $searchService,
-		private ExtensionService $extensionService,
-		private LoggerInterface $logger,
+		private readonly ConfigService $configService,
+		private readonly FilesService $filesService,
+		private readonly SearchService $searchService,
+		private readonly ExtensionService $extensionService,
+		private readonly LoggerInterface $logger,
 	) {
 	}
 
@@ -71,9 +71,6 @@ class FilesProvider implements IFullTextSearchProvider {
 		return $this->l10n->t('Files');
 	}
 
-	/**
-	 * @return array
-	 */
 	public function getConfiguration(): array {
 		$this->logger->debug('getConfiguration request');
 		$config = $this->configService->getConfig();
@@ -83,24 +80,15 @@ class FilesProvider implements IFullTextSearchProvider {
 		return $config;
 	}
 
-	/**
-	 * @param IRunner $runner
-	 */
-	public function setRunner(IRunner $runner) {
+	public function setRunner(IRunner $runner): void {
 		$this->runner = $runner;
 		$this->filesService->setRunner($runner);
 	}
 
-	/**
-	 * @param IIndexOptions $options
-	 */
-	public function setIndexOptions(IIndexOptions $options) {
+	public function setIndexOptions(IIndexOptions $options): void {
 		$this->indexOptions = $options;
 	}
 
-	/**
-	 * @return ISearchTemplate
-	 */
 	public function getSearchTemplate(): ISearchTemplate {
 		$template = new SearchTemplate('icon-fts-files', 'fulltextsearch');
 
@@ -169,20 +157,17 @@ class FilesProvider implements IFullTextSearchProvider {
 		return $template;
 	}
 
-
 	/**
 	 *
 	 */
 	public function loadProvider() {
 	}
 
-
 	/**
-	 * @param string $userId
 	 *
-	 * @return array
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
+	 * @return list<string>
 	 */
 	public function generateChunks(string $userId): array {
 		$this->logger->debug('generateChunks request', ['userId' => $userId, 'options' => $this->indexOptions]);
@@ -192,11 +177,8 @@ class FilesProvider implements IFullTextSearchProvider {
 		return $chunks;
 	}
 
-
 	/**
-	 * @param string $userId
 	 *
-	 * @param string $chunk
 	 *
 	 * @return IIndexDocument[]
 	 * @throws InvalidPathException
@@ -212,11 +194,7 @@ class FilesProvider implements IFullTextSearchProvider {
 		return $documents;
 	}
 
-
-	/**
-	 * @param IIndexDocument $document
-	 */
-	public function fillIndexDocument(IIndexDocument $document) {
+	public function fillIndexDocument(IIndexDocument $document): void {
 		/** @var FilesDocument $document */
 		$this->updateRunnerInfoArray(
 			[
@@ -229,12 +207,6 @@ class FilesProvider implements IFullTextSearchProvider {
 		$this->logger->debug('fillIndexDocument result', ['document' => $document]);
 	}
 
-
-	/**
-	 * @param IIndexDocument $document
-	 *
-	 * @return bool
-	 */
 	public function isDocumentUpToDate(IIndexDocument $document): bool {
 		$this->logger->debug('isDocumentUpToDate request', ['document' => $document]);
 		$result = $this->filesService->isDocumentUpToDate($document);
@@ -243,11 +215,8 @@ class FilesProvider implements IFullTextSearchProvider {
 		return $result;
 	}
 
-
 	/**
-	 * @param IIndex $index
 	 *
-	 * @return IIndexDocument
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws FileIsNotIndexableException
@@ -261,53 +230,33 @@ class FilesProvider implements IFullTextSearchProvider {
 		return $document;
 	}
 
-
-	/**
-	 * @param IFullTextSearchPlatform $platform
-	 */
 	public function onInitializingIndex(IFullTextSearchPlatform $platform) {
 	}
 
-
-	/**
-	 * @param IFullTextSearchPlatform $platform
-	 */
 	public function onResettingIndex(IFullTextSearchPlatform $platform) {
 	}
-
 
 	/**
 	 * not used yet
 	 */
-	public function unloadProvider() {
+	public function unloadProvider(): void {
 	}
-
 
 	/**
 	 * before a search, improve the request
-	 *
-	 * @param ISearchRequest $request
 	 */
-	public function improveSearchRequest(ISearchRequest $searchRequest) {
+	public function improveSearchRequest(ISearchRequest $searchRequest): void {
 		$this->searchService->improveSearchRequest($searchRequest);
 	}
 
-
 	/**
 	 * after a search, improve results
-	 *
-	 * @param ISearchResult $searchResult
 	 */
-	public function improveSearchResult(ISearchResult $searchResult) {
+	public function improveSearchResult(ISearchResult $searchResult): void {
 		$this->searchService->improveSearchResult($searchResult);
 	}
 
-
-	/**
-	 * @param string $info
-	 * @param string $value
-	 */
-	private function updateRunnerInfo(string $info, string $value) {
+	private function updateRunnerInfo(string $info, string $value): void {
 		if ($this->runner === null) {
 			return;
 		}
@@ -315,10 +264,7 @@ class FilesProvider implements IFullTextSearchProvider {
 		$this->runner->setInfo($info, $value);
 	}
 
-	/**
-	 * @param array $info
-	 */
-	private function updateRunnerInfoArray(array $info) {
+	private function updateRunnerInfoArray(array $info): void {
 		if ($this->runner === null) {
 			return;
 		}

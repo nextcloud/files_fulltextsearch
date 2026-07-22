@@ -23,11 +23,10 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class Configure extends Base {
 	public function __construct(
-		private ConfigService $configService,
+		private readonly ConfigService $configService,
 	) {
 		parent::__construct();
 	}
-
 
 	/**
 	 *
@@ -39,17 +38,14 @@ class Configure extends Base {
 			->setDescription('Configure the installation');
 	}
 
-
 	/**
-	 * @param InputInterface $input
-	 * @param OutputInterface $output
 	 *
-	 * @return int
 	 * @throws Exception
 	 */
-	protected function execute(InputInterface $input, OutputInterface $output) {
-		if ($input->getArgument('json')) {
-			$this->configService->setConfig(json_decode($input->getArgument('json') ?? '', true) ?? []);
+	protected function execute(InputInterface $input, OutputInterface $output): int {
+		$json = $input->getArgument('json');
+		if ($json !== false && $json !== '') {
+			$this->configService->setConfig(json_decode((string)$json, true) ?? []);
 		}
 
 		$output->writeln(json_encode($this->configService->getConfig(), JSON_PRETTY_PRINT));
