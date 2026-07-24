@@ -87,7 +87,7 @@ Util::addScript(Application::APP_ID, 'admin');
 				<div class="div-table-col div-table-col-left">
 					<span class="leftcol"><?php p($l->t('Maximum file size')); ?>:</span>
 					<br/>
-					<em><?php p($l->t('Maximum file size to index (in Mb).')); ?></em>
+					<em><?php p($l->t('Maximum file size to index (in MiB).')); ?></em>
 				</div>
 				<div class="div-table-col">
 					<input type="text" class="small" id="files_size" value=""/>
