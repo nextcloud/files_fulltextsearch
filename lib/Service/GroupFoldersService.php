@@ -18,22 +18,33 @@ use OCA\Files_FullTextSearch\Model\FilesDocument;
 use OCA\Files_FullTextSearch\Model\MountPoint;
 use OCA\Files_FullTextSearch\Tools\Traits\TArrayTools;
 use OCA\GroupFolders\Folder\FolderManager;
-use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IAppConfig;
 use OCP\Files\Node;
 use OCP\FullTextSearch\Model\IIndex;
 use OCP\IGroupManager;
 use Psr\Log\LoggerInterface;
 
+/**
+ * @phpstan-type GroupFoldersApplicable = array{
+ *      displayName: string,
+ *      permissions: int,
+ *      type: 'group'|'circle',
+ *  }
+ *
+ * @phpstan-type GroupFoldersAclManage = array{
+ *      displayname: string,
+ *      id: string,
+ *      type: 'user'|'group'|'circle',
+ *  }
+ */
 class GroupFoldersService {
 	use TArrayTools;
 
 	private ?FolderManager $folderManager = null;
-	/** @var MountPoint[] */
+	/** @var list<MountPoint> */
 	private array $groupFolders = [];
 
 	public function __construct(
-		IAppManager $appManager,
 		private IGroupManager $groupManager,
 		private LocalFilesService $localFilesService,
 		IAppConfig $appConfig,
@@ -47,10 +58,6 @@ class GroupFoldersService {
 		}
 	}
 
-
-	/**
-	 * @param string $userId
-	 */
 	public function initGroupSharesForUser(string $userId): void {
 		if ($this->folderManager === null) {
 			return;
@@ -61,10 +68,7 @@ class GroupFoldersService {
 		$this->logger->debug('initGroupSharesForUser result', ['groupFolders' => $this->groupFolders]);
 	}
 
-
 	/**
-	 * @param Node $file
-	 * @param string $source
 	 *
 	 * @throws KnownFileSourceException
 	 */
@@ -77,7 +81,7 @@ class GroupFoldersService {
 
 		try {
 			$this->getMountPoint($file);
-		} catch (FileIsNotIndexableException $e) {
+		} catch (FileIsNotIndexableException) {
 			return;
 		}
 
@@ -85,11 +89,6 @@ class GroupFoldersService {
 		throw new KnownFileSourceException();
 	}
 
-
-	/**
-	 * @param FilesDocument $document
-	 * @param Node $file
-	 */
 	public function updateDocumentAccess(FilesDocument $document, Node $file): void {
 		if ($document->getSource() !== ConfigLexicon::FILES_GROUP_FOLDERS) {
 			return;
@@ -97,7 +96,7 @@ class GroupFoldersService {
 
 		try {
 			$mount = $this->getMountPoint($file);
-		} catch (FileIsNotIndexableException $e) {
+		} catch (FileIsNotIndexableException) {
 			return;
 		}
 
@@ -115,11 +114,6 @@ class GroupFoldersService {
 		$document->setAccess($access);
 	}
 
-
-	/**
-	 * @param FilesDocument $document
-	 * @param array $users
-	 */
 	public function getShareUsers(FilesDocument $document, array &$users): void {
 		if ($document->getSource() !== ConfigLexicon::FILES_GROUP_FOLDERS) {
 			return;
@@ -128,11 +122,7 @@ class GroupFoldersService {
 		$this->localFilesService->getSharedUsersFromAccess($document->getAccess(), $users);
 	}
 
-
 	/**
-	 * @param Node $file
-	 *
-	 * @return MountPoint
 	 * @throws FileIsNotIndexableException
 	 */
 	private function getMountPoint(Node $file): MountPoint {
@@ -145,17 +135,14 @@ class GroupFoldersService {
 		throw new FileIsNotIndexableException();
 	}
 
-
 	/**
-	 * @param string $userId
-	 *
-	 * @return MountPoint[]
+	 * @return list<MountPoint>
 	 */
 	private function getMountPoints(string $userId): array {
 		$mountPoints = [];
 		$mounts = $this->folderManager->getAllFolders();
 
-		foreach ($mounts as $path => $mount) {
+		foreach ($mounts as $mount) {
 			$mountPoint = new MountPoint();
 			$mount = $mount->toArray();
 			$mountPoint->setId($this->getInt('id', $mount, -1))
@@ -167,10 +154,6 @@ class GroupFoldersService {
 		return $mountPoints;
 	}
 
-
-	/**
-	 * @param IIndex $index
-	 */
 	public function impersonateOwner(IIndex $index): void {
 		if ($index->getSource() !== ConfigLexicon::FILES_GROUP_FOLDERS) {
 			return;
@@ -183,41 +166,40 @@ class GroupFoldersService {
 		$groupFolderId = $index->getOptionInt('group_folder_id', 0);
 		try {
 			$mount = $this->getGroupFolderById($groupFolderId);
-		} catch (GroupFolderNotFoundException $e) {
+		} catch (GroupFolderNotFoundException) {
 			return;
 		}
 
 		$index->setOwnerId($this->getRandomUserFromGroups(array_keys($mount['groups'])));
 	}
 
-
 	/**
-	 * @param int $groupFolderId
-	 *
-	 * @return array
 	 * @throws GroupFolderNotFoundException
+	 * @return array{
+	 *      id: int,
+	 *      mount_point: string,
+	 *      quota: int,
+	 *      acl: bool,
+	 *      acl_default_no_permission: bool,
+	 *      storage_id: int,
+	 *      root_id: int,
+	 *      groups: array<string, GroupFoldersApplicable>,
+	 *      manage: list<GroupFoldersAclManage>,
+	 *  }
 	 */
 	private function getGroupFolderById(int $groupFolderId): array {
 		if ($groupFolderId === 0) {
 			throw new GroupFolderNotFoundException();
 		}
 
-		$mounts = $this->folderManager->getAllFolders();
-		foreach ($mounts as $path => $mount) {
-			if ($mount['id'] === $groupFolderId) {
-				return $mount;
-			}
+		$mount = $this->folderManager->getFolder($groupFolderId);
+		if ($mount === null) {
+			throw new GroupFolderNotFoundException();
 		}
 
-		throw new GroupFolderNotFoundException();
+		return $mount->toArray();
 	}
 
-
-	/**
-	 * @param array $groups
-	 *
-	 * @return string
-	 */
 	private function getRandomUserFromGroups(array $groups): string {
 		foreach ($groups as $groupName) {
 			$group = $this->groupManager->get($groupName);
