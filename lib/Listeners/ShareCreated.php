@@ -16,16 +16,10 @@ use OCP\FullTextSearch\Model\IIndex;
 use OCP\Share\Events\ShareCreatedEvent;
 
 /**
- * Class ShareCreated
- *
- * @package OCA\Files_FullTextSearch\Listeners
+ * @template-implements IEventListener<ShareCreatedEvent>
  */
 class ShareCreated extends ListenersCore implements IEventListener {
-
-
-	/**
-	 * @param Event $event
-	 */
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!$this->registerFullTextSearchServices() || !($event instanceof ShareCreatedEvent)) {
 			return;

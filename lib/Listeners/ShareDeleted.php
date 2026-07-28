@@ -17,16 +17,10 @@ use OCP\FullTextSearch\Model\IIndex;
 use OCP\Share\Events\ShareDeletedEvent;
 
 /**
- * Class ShareDeleted
- *
- * @package OCA\Files_FullTextSearch\Listeners
+ * @template-implements IEventListener<ShareDeletedEvent>
  */
 class ShareDeleted extends ListenersCore implements IEventListener {
-
-
-	/**
-	 * @param Event $event
-	 */
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!$this->registerFullTextSearchServices() || !($event instanceof ShareDeletedEvent)) {
 			return;
