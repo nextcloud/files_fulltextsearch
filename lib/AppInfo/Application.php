@@ -16,6 +16,8 @@ use OCA\Files_FullTextSearch\Listeners\FileDeleted;
 use OCA\Files_FullTextSearch\Listeners\FileRenamed;
 use OCA\Files_FullTextSearch\Listeners\ShareCreated;
 use OCA\Files_FullTextSearch\Listeners\ShareDeleted;
+use OCA\Files_FullTextSearch\Listeners\TagAssigned;
+use OCA\Files_FullTextSearch\Listeners\TagUnassigned;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -26,6 +28,8 @@ use OCP\Files\Events\Node\NodeRenamedEvent;
 use OCP\Files\Events\Node\NodeWrittenEvent;
 use OCP\Share\Events\ShareCreatedEvent;
 use OCP\Share\Events\ShareDeletedEvent;
+use OCP\SystemTag\TagAssignedEvent;
+use OCP\SystemTag\TagUnassignedEvent;
 use Throwable;
 
 /**
@@ -58,6 +62,9 @@ class Application extends App implements IBootstrap {
 
 		$context->registerEventListener(ShareCreatedEvent::class, ShareCreated::class);
 		$context->registerEventListener(ShareDeletedEvent::class, ShareDeleted::class);
+
+		$context->registerEventListener(TagAssignedEvent::class, TagAssigned::class);
+		$context->registerEventListener(TagUnassignedEvent::class, TagUnassigned::class);
 		$context->registerConfigLexicon(ConfigLexicon::class);
 	}
 

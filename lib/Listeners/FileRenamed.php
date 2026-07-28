@@ -17,16 +17,10 @@ use OCP\Files\NotFoundException;
 use OCP\FullTextSearch\Model\IIndex;
 
 /**
- * Class FileRenamed
- *
- * @package OCA\Files_FullTextSearch\Listeners
+ * @template-implements IEventListener<NodeRenamedEvent>
  */
 class FileRenamed extends ListenersCore implements IEventListener {
-
-
-	/**
-	 * @param Event $event
-	 */
+	#[\Override]
 	public function handle(Event $event): void {
 		if (!$this->registerFullTextSearchServices() || !($event instanceof NodeRenamedEvent)) {
 			return;
