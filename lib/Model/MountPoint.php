@@ -18,91 +18,57 @@ use JsonSerializable;
  */
 class MountPoint implements JsonSerializable {
 
+	private ?int $id = null;
 
-	/** @var int */
-	private $id;
+	private string $path = '';
 
-	/** @var string */
-	private $path = '';
+	private bool $global = false;
 
-	/** @var bool */
-	private $global = false;
+	/** @var list<string> */
+	private array $groups = [];
 
-	/** @var array */
-	private $groups = [];
+	/** @var list<string> */
+	private array $users = [];
 
-	/** @var array */
-	private $users = [];
-
-
-	/**
-	 * @return int
-	 */
 	public function getId(): int {
 		return $this->id;
 	}
 
-	/**
-	 * @param int $id
-	 *
-	 * @return $this
-	 */
 	public function setId(int $id): MountPoint {
 		$this->id = $id;
 
 		return $this;
 	}
 
-
-	/**
-	 * @return string
-	 */
 	public function getPath(): string {
 		return $this->path;
 	}
 
-	/**
-	 * @param string $path
-	 *
-	 * @return $this
-	 */
 	public function setPath(string $path): MountPoint {
 		$this->path = $path;
 
 		return $this;
 	}
 
-
-	/**
-	 * @return bool
-	 */
 	public function isGlobal(): bool {
 		return $this->global;
 	}
 
-	/**
-	 * @param bool $global
-	 *
-	 * @return $this
-	 */
 	public function setGlobal(bool $global): MountPoint {
 		$this->global = $global;
 
 		return $this;
 	}
 
-
 	/**
-	 * @return array'
+	 * @return list<string>
 	 */
 	public function getGroups(): array {
 		return $this->groups;
 	}
 
 	/**
-	 * @param array $groups
-	 *
-	 * @return $this
+	 * @param list<string> $groups
 	 */
 	public function setGroups(array $groups): MountPoint {
 		$this->groups = $groups;
@@ -110,25 +76,21 @@ class MountPoint implements JsonSerializable {
 		return $this;
 	}
 
-
 	/**
-	 * @return array
+	 * @return list<string>
 	 */
 	public function getUsers(): array {
 		return $this->users;
 	}
 
 	/**
-	 * @param array $users
-	 *
-	 * @return $this
+	 * @param list<string> $users
 	 */
 	public function setUsers(array $users): MountPoint {
 		$this->users = $users;
 
 		return $this;
 	}
-
 
 	/**
 	 *
@@ -141,10 +103,6 @@ class MountPoint implements JsonSerializable {
 		unset($this->users);
 	}
 
-
-	/**
-	 * @return array
-	 */
 	public function jsonSerialize(): array {
 		return [
 			'id' => $this->getId(),
