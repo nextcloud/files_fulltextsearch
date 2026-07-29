@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "Faili",
-    "Go to folder" : "Nenda kwenye folda",
-    "Open folder" : "Fungua folda",
-    "Name" : "Jina",
-    "Modified" : "Boresha",
-    "Size" : "Ukubwa",
-    "Could not copy \"{file}\", target exists" : "Haiwezi kunakili \"{file}\" lengo lililopo",
-    "Could not copy \"{file}\"" : "Haikuweza kunakili {file}",
-    "Copied {origin} inside {destination}" : "Imenakili {origin} ndani ya {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Imenakili {origin} na {nbfiles} faili zingine ndani ya {destination}",
     "Files" : "Mafaili",
     "Within current directory" : "Ndani ya saraka ya sasa",
     "Within local files" : "Ndani ya faili za nje",
@@ -43,6 +33,16 @@ OC.L10N.register(
     "Index the content of office files." : " Fahirisha yaliyomo kwenye faili za ofisi.",
     "Results" : "Matokeo",
     "Open Files" : "Fungua faili",
-    "Directly from search results." : "Moja kwa moja kutoka kwenye matokeo ya utafutaji."
+    "Directly from search results." : "Moja kwa moja kutoka kwenye matokeo ya utafutaji.",
+    "files" : "Faili",
+    "Go to folder" : "Nenda kwenye folda",
+    "Open folder" : "Fungua folda",
+    "Name" : "Jina",
+    "Modified" : "Boresha",
+    "Size" : "Ukubwa",
+    "Could not copy \"{file}\", target exists" : "Haiwezi kunakili \"{file}\" lengo lililopo",
+    "Could not copy \"{file}\"" : "Haikuweza kunakili {file}",
+    "Copied {origin} inside {destination}" : "Imenakili {origin} ndani ya {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Imenakili {origin} na {nbfiles} faili zingine ndani ya {destination}"
 },
 "nplurals=2; plural=(n != 1);");

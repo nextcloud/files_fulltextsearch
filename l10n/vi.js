@@ -1,6 +1,9 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
+    "Files" : "Tệp tin",
+    "Extension" : "Tiện ích",
+    "Results" : "Kết quả",
     "files" : "files",
     "Name" : "Tên",
     "Modified" : "Thay đổi",
@@ -8,9 +11,6 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "Không thể sao chép \"{file}\",  tệp tin đích đã tồn tại",
     "Could not copy \"{file}\"" : "Không thể sao chép tệp tin \"{file}\"",
     "Copied {origin} inside {destination}" : "Được sao chép {origin} vào trong {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Đã sao chép {origin} và {nbfiles} các file vào trong {destination}",
-    "Files" : "Tệp tin",
-    "Extension" : "Tiện ích",
-    "Results" : "Kết quả"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Đã sao chép {origin} và {nbfiles} các file vào trong {destination}"
 },
 "nplurals=1; plural=0;");

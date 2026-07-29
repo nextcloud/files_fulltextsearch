@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "ファイル",
-    "Go to folder" : "フォルダーへ移動",
-    "Open folder" : "フォルダーを開く",
-    "Name" : "名前",
-    "Modified" : "更新",
-    "Size" : "サイズ",
-    "Could not copy \"{file}\", target exists" : "ターゲットが存在するため、\"{file}\"をコピーできません",
-    "Could not copy \"{file}\"" : "\"{file}\"をコピーできません",
-    "Copied {origin} inside {destination}" : "コピー先{origin} {destination}内",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "コピー先{origin}と{nbfiles}他のファイル{destination}",
     "Files" : "ファイル",
     "Within current directory" : "現在のディレクトリ内",
     "Within local files" : "ローカルファイル内",
@@ -43,6 +33,16 @@ OC.L10N.register(
     "Index the content of office files." : "オフィスファイルの内容を索引付けする。",
     "Results" : "結果",
     "Open Files" : "ファイルを開く",
-    "Directly from search results." : "検索結果から直接。"
+    "Directly from search results." : "検索結果から直接。",
+    "files" : "ファイル",
+    "Go to folder" : "フォルダーへ移動",
+    "Open folder" : "フォルダーを開く",
+    "Name" : "名前",
+    "Modified" : "更新",
+    "Size" : "サイズ",
+    "Could not copy \"{file}\", target exists" : "ターゲットが存在するため、\"{file}\"をコピーできません",
+    "Could not copy \"{file}\"" : "\"{file}\"をコピーできません",
+    "Copied {origin} inside {destination}" : "コピー先{origin} {destination}内",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "コピー先{origin}と{nbfiles}他のファイル{destination}"
 },
 "nplurals=1; plural=0;");

@@ -1,6 +1,9 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
+    "Files" : "Файлы",
+    "Extension" : "Пашырэнне",
+    "Results" : "Вынікі",
     "files" : "файлы",
     "Name" : "Назва",
     "Modified" : "Зменены",
@@ -8,9 +11,6 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "Не удалося скапіяваць \"{file}\", файл з такой назвай ужо існуе",
     "Could not copy \"{file}\"" : "Не удалося скапіяваць \"{file}\"",
     "Copied {origin} inside {destination}" : "Скапіяваны {origin} у {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Скапіяваны {origin} і {nbfiles} іншых файлаў у {destination}",
-    "Files" : "Файлы",
-    "Extension" : "Пашырэнне",
-    "Results" : "Вынікі"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Скапіяваны {origin} і {nbfiles} іншых файлаў у {destination}"
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

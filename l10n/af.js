@@ -1,6 +1,8 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
+    "Files" : "Lêer ",
+    "Group folders" : "Groepvouers",
     "files" : "lêers",
     "Go to folder" : "Gaan na vouer",
     "Name" : "Naam",
@@ -9,8 +11,6 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "Kon nie \"{file}\" kopieer nie, teiken bestaan",
     "Could not copy \"{file}\"" : "Kon nie \"{file}\" kopieer nie",
     "Copied {origin} inside {destination}" : "{origin} binne {destination} gekopieer",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} en {nbfiles} ander lêers binne {destination} gekopieer",
-    "Files" : "Lêer ",
-    "Group folders" : "Groepvouers"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} en {nbfiles} ander lêers binne {destination} gekopieer"
 },
 "nplurals=2; plural=(n != 1);");

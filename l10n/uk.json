@@ -1,14 +1,4 @@
 { "translations": {
-    "files" : "файли",
-    "Go to folder" : "Перейти до каталогу",
-    "Open folder" : "Відкрити каталог",
-    "Name" : "Ім'я",
-    "Modified" : "Змінено",
-    "Size" : "Розмір",
-    "Could not copy \"{file}\", target exists" : "Не вдалося скопіювати файл \"{file}\", оскільки файл з таким ім'ям вже присутній",
-    "Could not copy \"{file}\"" : "Неможливо скопіювати \"{file}\"",
-    "Copied {origin} inside {destination}" : "Скопійовано {origin} до {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} ті {nbfiles} інших файлів скопійовано в {destination}",
     "Files" : "Файли",
     "Within current directory" : "У поточному каталозі",
     "Within local files" : "Серед файлів на пристрої",
@@ -41,6 +31,16 @@
     "Index the content of office files." : "Індексувати вміст офісних файлів.",
     "Results" : "Результат",
     "Open Files" : "Перейти до Файлів",
-    "Directly from search results." : "Прямо у результатах пошуку."
+    "Directly from search results." : "Прямо у результатах пошуку.",
+    "files" : "файли",
+    "Go to folder" : "Перейти до каталогу",
+    "Open folder" : "Відкрити каталог",
+    "Name" : "Ім'я",
+    "Modified" : "Змінено",
+    "Size" : "Розмір",
+    "Could not copy \"{file}\", target exists" : "Не вдалося скопіювати файл \"{file}\", оскільки файл з таким ім'ям вже присутній",
+    "Could not copy \"{file}\"" : "Неможливо скопіювати \"{file}\"",
+    "Copied {origin} inside {destination}" : "Скопійовано {origin} до {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} ті {nbfiles} інших файлів скопійовано в {destination}"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);"
 }

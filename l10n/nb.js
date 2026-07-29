@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "filer",
-    "Go to folder" : "Gå til mappe",
-    "Open folder" : "Åpne mappe",
-    "Name" : "Navn",
-    "Modified" : "Endret",
-    "Size" : "Størrelse",
-    "Could not copy \"{file}\", target exists" : "Klarte ikke å kopiere \"{file}\", målfilen finnes",
-    "Could not copy \"{file}\"" : "Klarte ikke å kopiere \"{file}\"",
-    "Copied {origin} inside {destination}" : "Kopierte {origin} i {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopierte {origin} og {nbfiles} andre filer i {destination}",
     "Files" : "Filer",
     "Within current directory" : "I nåværende mappe",
     "Within local files" : "Blant lokale filer",
@@ -43,6 +33,16 @@ OC.L10N.register(
     "Index the content of office files." : "Indekser innholdet i kontorprogram-filer.",
     "Results" : "Resultater",
     "Open Files" : "Åpne Filer",
-    "Directly from search results." : "Direkte fra søkeresultatene."
+    "Directly from search results." : "Direkte fra søkeresultatene.",
+    "files" : "filer",
+    "Go to folder" : "Gå til mappe",
+    "Open folder" : "Åpne mappe",
+    "Name" : "Navn",
+    "Modified" : "Endret",
+    "Size" : "Størrelse",
+    "Could not copy \"{file}\", target exists" : "Klarte ikke å kopiere \"{file}\", målfilen finnes",
+    "Could not copy \"{file}\"" : "Klarte ikke å kopiere \"{file}\"",
+    "Copied {origin} inside {destination}" : "Kopierte {origin} i {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopierte {origin} og {nbfiles} andre filer i {destination}"
 },
 "nplurals=2; plural=(n != 1);");

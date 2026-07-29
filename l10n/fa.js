@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "پرونده‌ها",
-    "Go to folder" : "رفتن به پوشه",
-    "Open folder" : "باز کردن پوشه",
-    "Name" : "نام",
-    "Modified" : "تاریخ تغییر",
-    "Size" : "اندازه",
-    "Could not copy \"{file}\", target exists" : "نمی‌توان \"{file}\" را کپی کرد، مقصد وجود دارد",
-    "Could not copy \"{file}\"" : "نمی‌توان \"{file}\" را کپی کرد",
-    "Copied {origin} inside {destination}" : "{origin} درون {destination} کپی شد",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} و {nbfiles} پرونده دیگر درون {destination} کپی شدند",
     "Files" : "پرونده‌ها",
     "Within current directory" : "درون شاخه جاری",
     "Within local files" : "درون پرونده‌های محلی",
@@ -43,6 +33,16 @@ OC.L10N.register(
     "Index the content of office files." : "نمایه‌سازی محتوای پرونده‌های آفیس.",
     "Results" : "نتایج",
     "Open Files" : "باز کردن پرونده‌ها",
-    "Directly from search results." : "مستقیماً از نتایج جستجو."
+    "Directly from search results." : "مستقیماً از نتایج جستجو.",
+    "files" : "پرونده‌ها",
+    "Go to folder" : "رفتن به پوشه",
+    "Open folder" : "باز کردن پوشه",
+    "Name" : "نام",
+    "Modified" : "تاریخ تغییر",
+    "Size" : "اندازه",
+    "Could not copy \"{file}\", target exists" : "نمی‌توان \"{file}\" را کپی کرد، مقصد وجود دارد",
+    "Could not copy \"{file}\"" : "نمی‌توان \"{file}\" را کپی کرد",
+    "Copied {origin} inside {destination}" : "{origin} درون {destination} کپی شد",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} و {nbfiles} پرونده دیگر درون {destination} کپی شدند"
 },
 "nplurals=2; plural=(n > 1);");

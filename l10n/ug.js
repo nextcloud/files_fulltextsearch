@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "ھۆججەتلەر",
-    "Go to folder" : "ھۆججەت قىسقۇچقا بېرىڭ",
-    "Open folder" : "ھۆججەت قىسقۇچنى ئېچىڭ",
-    "Name" : "ئاتى",
-    "Modified" : "ئۆزگەرتكەن",
-    "Size" : "چوڭلۇقى",
-    "Could not copy \"{file}\", target exists" : "\"{file}\" نى كۆچۈرەلمىدى ، نىشان مەۋجۇت",
-    "Could not copy \"{file}\"" : "\"{file}\" نى كۆچۈرەلمىدى",
-    "Copied {origin} inside {destination}" : "كۆچۈرۈلگەن {origin} ئىچىدىكى {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} ئىچىدىكى {destination} ۋە {nbfiles} باشقا ھۆججەتلەر كۆچۈرۈلگەن",
     "Files" : "ھۆججەتلەر",
     "Within current directory" : "نۆۋەتتىكى مۇندەرىجە ئىچىدە",
     "Within local files" : "يەرلىك ھۆججەتلەر ئىچىدە",
@@ -43,6 +33,16 @@ OC.L10N.register(
     "Index the content of office files." : "ئىشخانا ھۆججەتلىرىنىڭ مەزمۇنىنى كۆرسەت.",
     "Results" : "نەتىجە",
     "Open Files" : "ھۆججەتلەرنى ئېچىڭ",
-    "Directly from search results." : "ئىزدەش نەتىجىسىدىن بىۋاسىتە."
+    "Directly from search results." : "ئىزدەش نەتىجىسىدىن بىۋاسىتە.",
+    "files" : "ھۆججەتلەر",
+    "Go to folder" : "ھۆججەت قىسقۇچقا بېرىڭ",
+    "Open folder" : "ھۆججەت قىسقۇچنى ئېچىڭ",
+    "Name" : "ئاتى",
+    "Modified" : "ئۆزگەرتكەن",
+    "Size" : "چوڭلۇقى",
+    "Could not copy \"{file}\", target exists" : "\"{file}\" نى كۆچۈرەلمىدى ، نىشان مەۋجۇت",
+    "Could not copy \"{file}\"" : "\"{file}\" نى كۆچۈرەلمىدى",
+    "Copied {origin} inside {destination}" : "كۆچۈرۈلگەن {origin} ئىچىدىكى {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} ئىچىدىكى {destination} ۋە {nbfiles} باشقا ھۆججەتلەر كۆچۈرۈلگەن"
 },
 "nplurals=2; plural=(n != 1);");

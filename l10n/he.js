@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "files",
-    "Go to folder" : "מעבר לתיקייה",
-    "Open folder" : "פתיחת תיקייה",
-    "Name" : "שם",
-    "Modified" : "מועד שינוי",
-    "Size" : "גודל",
-    "Could not copy \"{file}\", target exists" : "לא ניתן להעתיק את „{file}”, היעד קיים",
-    "Could not copy \"{file}\"" : "לא ניתן להעתיק את „{file}”",
-    "Copied {origin} inside {destination}" : "{origin} הועתק לתוך {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} ו־{nbfiles} קבצים נוספים הועתקו לתוך {destination}",
     "Files" : "קבצים",
     "Within current directory" : "בתוך התיקייה הנוכחית",
     "Within local files" : "בין הקבצים המקומיים",
@@ -40,6 +30,16 @@ OC.L10N.register(
     "Extract PDF" : "חילוץ PDF",
     "Index the content of PDF files." : "סידור תוכן של קובצי PDF באינדקס.",
     "Extract Office" : "חילוץ Office",
-    "Index the content of office files." : "סידור תוכן של קובצי Office באינדקס."
+    "Index the content of office files." : "סידור תוכן של קובצי Office באינדקס.",
+    "files" : "files",
+    "Go to folder" : "מעבר לתיקייה",
+    "Open folder" : "פתיחת תיקייה",
+    "Name" : "שם",
+    "Modified" : "מועד שינוי",
+    "Size" : "גודל",
+    "Could not copy \"{file}\", target exists" : "לא ניתן להעתיק את „{file}”, היעד קיים",
+    "Could not copy \"{file}\"" : "לא ניתן להעתיק את „{file}”",
+    "Copied {origin} inside {destination}" : "{origin} הועתק לתוך {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} ו־{nbfiles} קבצים נוספים הועתקו לתוך {destination}"
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");
