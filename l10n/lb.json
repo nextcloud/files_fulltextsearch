@@ -1,8 +1,8 @@
 { "translations": {
+    "Files" : "Fichieren",
     "files" : "files",
     "Name" : "Numm",
     "Modified" : "Geännert",
-    "Size" : "Gréisst",
-    "Files" : "Fichieren"
+    "Size" : "Gréisst"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

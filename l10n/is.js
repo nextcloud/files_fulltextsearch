@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "skrár",
-    "Go to folder" : "Fara í möppu",
-    "Open folder" : "Opna möppu",
-    "Name" : "Heiti",
-    "Modified" : "Breytt",
-    "Size" : "Stærð",
-    "Could not copy \"{file}\", target exists" : "Gat ekki afritað \"{file}\", markskrá er til",
-    "Could not copy \"{file}\"" : "Gat ekki afritað \"{file}\"",
-    "Copied {origin} inside {destination}" : "Afritaði {origin} inn í {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Afritaði {origin} og {nbfiles} aðrar skrár inn í {destination}",
     "Files" : "Skrár",
     "Within current directory" : "Innan núverandi möppu",
     "Within local files" : "Inni í skrám á tölvunni",
@@ -41,6 +31,16 @@ OC.L10N.register(
     "Index the content of PDF files." : "Gera atriðaskrá yfir efni í PDF-skrám.",
     "Extract Office" : "Afþjappa skrifstofugögn",
     "Index the content of office files." : "Gera atriðaskrá yfir efni í skrifstofuskjalaskrám.",
-    "Results" : "Niðurstöður"
+    "Results" : "Niðurstöður",
+    "files" : "skrár",
+    "Go to folder" : "Fara í möppu",
+    "Open folder" : "Opna möppu",
+    "Name" : "Heiti",
+    "Modified" : "Breytt",
+    "Size" : "Stærð",
+    "Could not copy \"{file}\", target exists" : "Gat ekki afritað \"{file}\", markskrá er til",
+    "Could not copy \"{file}\"" : "Gat ekki afritað \"{file}\"",
+    "Copied {origin} inside {destination}" : "Afritaði {origin} inn í {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Afritaði {origin} og {nbfiles} aðrar skrár inn í {destination}"
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

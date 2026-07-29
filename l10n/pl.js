@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "pliki",
-    "Go to folder" : "Przejdź do katalogu",
-    "Open folder" : "Otwórz katalog",
-    "Name" : "Nazwa",
-    "Modified" : "Zmodyfikowano",
-    "Size" : "Rozmiar",
-    "Could not copy \"{file}\", target exists" : "Nie można skopiować \"{file}\", plik istnieje",
-    "Could not copy \"{file}\"" : "Nie można skopiować \"{file}\"",
-    "Copied {origin} inside {destination}" : "Skopiowano {origin} wewnątrz {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Skopiowano {origin} i {nbfiles} oraz inne pliki wewnątrz {destination}",
     "Files" : "Pliki",
     "Within current directory" : "W bieżącym katalogu",
     "Within local files" : "W plikach lokalnych",
@@ -41,6 +31,16 @@ OC.L10N.register(
     "Index the content of PDF files." : "Indeksuj zawartość plików PDF.",
     "Extract Office" : "Wyodrębnij dokument",
     "Index the content of office files." : "Indeksuj zawartość plików pakietu Office.",
-    "Results" : "Wyniki"
+    "Results" : "Wyniki",
+    "files" : "pliki",
+    "Go to folder" : "Przejdź do katalogu",
+    "Open folder" : "Otwórz katalog",
+    "Name" : "Nazwa",
+    "Modified" : "Zmodyfikowano",
+    "Size" : "Rozmiar",
+    "Could not copy \"{file}\", target exists" : "Nie można skopiować \"{file}\", plik istnieje",
+    "Could not copy \"{file}\"" : "Nie można skopiować \"{file}\"",
+    "Copied {origin} inside {destination}" : "Skopiowano {origin} wewnątrz {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Skopiowano {origin} i {nbfiles} oraz inne pliki wewnątrz {destination}"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

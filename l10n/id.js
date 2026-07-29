@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "file",
-    "Go to folder" : "Buka folder",
-    "Open folder" : "Buka folder",
-    "Name" : "Nama",
-    "Modified" : "Diubah",
-    "Size" : "Ukuran",
-    "Could not copy \"{file}\", target exists" : "Tidak dapat menyalin \"{file}\", target sudah ada",
-    "Could not copy \"{file}\"" : "Tidak dapat menyalin \"{file}\"",
-    "Copied {origin} inside {destination}" : "{origin} disalin ke dalam {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} dan {nbfiles} file lainnya disalin ke dalam {destination}",
     "Files" : "File",
     "Within current directory" : "Dalam direktori saat ini",
     "Within local files" : "Dalam file lokal",
@@ -43,6 +33,16 @@ OC.L10N.register(
     "Index the content of office files." : "Indeks konten file Office.",
     "Results" : "Hasil",
     "Open Files" : "Buka File",
-    "Directly from search results." : "Langsung dari hasil pencarian."
+    "Directly from search results." : "Langsung dari hasil pencarian.",
+    "files" : "file",
+    "Go to folder" : "Buka folder",
+    "Open folder" : "Buka folder",
+    "Name" : "Nama",
+    "Modified" : "Diubah",
+    "Size" : "Ukuran",
+    "Could not copy \"{file}\", target exists" : "Tidak dapat menyalin \"{file}\", target sudah ada",
+    "Could not copy \"{file}\"" : "Tidak dapat menyalin \"{file}\"",
+    "Copied {origin} inside {destination}" : "{origin} disalin ke dalam {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} dan {nbfiles} file lainnya disalin ke dalam {destination}"
 },
 "nplurals=1; plural=0;");

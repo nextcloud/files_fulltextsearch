@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "Archìvios",
-    "Go to folder" : "Bae a sa cartella ",
-    "Open folder" : "Aberi cartella",
-    "Name" : "Nùmene",
-    "Modified" : "Modificadu",
-    "Size" : "Mannària",
-    "Could not copy \"{file}\", target exists" : " Cumpartzi cun megus tràmite Nextcloud",
-    "Could not copy \"{file}\"" : "No at afatu a copiare \"{file}\"",
-    "Copied {origin} inside {destination}" : "Copiadu {origin} in {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Copiados {origin} e {nbfiles} àteros archìvios in {destination}",
     "Files" : "Archìvios",
     "Within current directory" : "In sa cartella atuale",
     "Within local files" : "In is archìvios locales",
@@ -41,6 +31,16 @@ OC.L10N.register(
     "Index the content of PDF files." : "Faghe s'ìnditze de is cuntenutos de is archìvios PDF",
     "Extract Office" : "Boga a fora Office",
     "Index the content of office files." : "Faghe un ìnditze de cuntenutos de is archìvios de Office.",
-    "Results" : "Resurtados"
+    "Results" : "Resurtados",
+    "files" : "Archìvios",
+    "Go to folder" : "Bae a sa cartella ",
+    "Open folder" : "Aberi cartella",
+    "Name" : "Nùmene",
+    "Modified" : "Modificadu",
+    "Size" : "Mannària",
+    "Could not copy \"{file}\", target exists" : " Cumpartzi cun megus tràmite Nextcloud",
+    "Could not copy \"{file}\"" : "No at afatu a copiare \"{file}\"",
+    "Copied {origin} inside {destination}" : "Copiadu {origin} in {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Copiados {origin} e {nbfiles} àteros archìvios in {destination}"
 },
 "nplurals=2; plural=(n != 1);");

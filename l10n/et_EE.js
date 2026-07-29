@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "faili",
-    "Go to folder" : "Mine kausta",
-    "Open folder" : "Ava kaust",
-    "Name" : "Nimi",
-    "Modified" : "Muudetud",
-    "Size" : "Suurus",
-    "Could not copy \"{file}\", target exists" : "\"{file}\" kopeerimine ebaõnnestus, sihtfail on juba olemas",
-    "Could not copy \"{file}\"" : "\"{file}\" kopeerimine ebaõnnestus",
-    "Copied {origin} inside {destination}" : "Kopeeris {origin} {destination} sisse",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopeeris {origin} ja {nbfiles} teist faili {destination} sisse",
     "Files" : "Failid",
     "Within current directory" : "Praeguse kausta seest",
     "Within local files" : "Kohalike failide seast",
@@ -43,6 +33,16 @@ OC.L10N.register(
     "Index the content of office files." : "Indekseeri kontoritarkvarafailidest eraldatud sisu.",
     "Results" : "Tulemused",
     "Open Files" : "Ava failid",
-    "Directly from search results." : "Otse otsingutulemustest."
+    "Directly from search results." : "Otse otsingutulemustest.",
+    "files" : "faili",
+    "Go to folder" : "Mine kausta",
+    "Open folder" : "Ava kaust",
+    "Name" : "Nimi",
+    "Modified" : "Muudetud",
+    "Size" : "Suurus",
+    "Could not copy \"{file}\", target exists" : "\"{file}\" kopeerimine ebaõnnestus, sihtfail on juba olemas",
+    "Could not copy \"{file}\"" : "\"{file}\" kopeerimine ebaõnnestus",
+    "Copied {origin} inside {destination}" : "Kopeeris {origin} {destination} sisse",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopeeris {origin} ja {nbfiles} teist faili {destination} sisse"
 },
 "nplurals=2; plural=(n != 1);");

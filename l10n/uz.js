@@ -1,15 +1,15 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "Fayllar",
-    "Go to folder" : "Go to folder",
-    "Name" : "Name",
-    "Modified" : "Modified",
-    "Size" : "Size",
     "Files" : "Fayllar",
     "Group folders" : "Group folders",
     "Sources" : "Manbalar",
     "Group Folders" : "Group Folders",
-    "Results" : "Natijalar"
+    "Results" : "Natijalar",
+    "files" : "Fayllar",
+    "Go to folder" : "Go to folder",
+    "Name" : "Name",
+    "Modified" : "Modified",
+    "Size" : "Size"
 },
 "nplurals=1; plural=0;");
