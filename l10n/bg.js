@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "файлове",
-    "Go to folder" : "Отиди до папка",
-    "Open folder" : "Отвори папката",
-    "Name" : "Име",
-    "Modified" : "Промяна",
-    "Size" : "Размер",
-    "Could not copy \"{file}\", target exists" : "Файлът \"{file}\" не може да бъде копиран, дестинацията съществува",
-    "Could not copy \"{file}\"" : "Файлът \"{file}\" не може да бъде копиран",
-    "Copied {origin} inside {destination}" : "Копиран {origin} вътре в {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Копирани {origin} и {nbfiles} други файлове вътре в {destination}",
     "Files" : "Файлове",
     "Within current directory" : "В рамките на текущата директория",
     "Within local files" : "В рамките на локални файлове",
@@ -41,6 +31,16 @@ OC.L10N.register(
     "Index the content of PDF files." : "Индексиране на съдържанието на PDF файлове.",
     "Extract Office" : "Извличане на офис",
     "Index the content of office files." : "Индексиране на съдържанието на офис файлове.",
-    "Results" : "Резултати"
+    "Results" : "Резултати",
+    "files" : "файлове",
+    "Go to folder" : "Отиди до папка",
+    "Open folder" : "Отвори папката",
+    "Name" : "Име",
+    "Modified" : "Промяна",
+    "Size" : "Размер",
+    "Could not copy \"{file}\", target exists" : "Файлът \"{file}\" не може да бъде копиран, дестинацията съществува",
+    "Could not copy \"{file}\"" : "Файлът \"{file}\" не може да бъде копиран",
+    "Copied {origin} inside {destination}" : "Копиран {origin} вътре в {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Копирани {origin} и {nbfiles} други файлове вътре в {destination}"
 },
 "nplurals=2; plural=(n != 1);");

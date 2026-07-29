@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "datoteke",
-    "Go to folder" : "Pojdi v mapo",
-    "Open folder" : "Odpri mapo",
-    "Name" : "Ime",
-    "Modified" : "Spremenjeno",
-    "Size" : "Velikost",
-    "Could not copy \"{file}\", target exists" : "Datoteke »{file}« ni mogoče kopirati, ker ta že obstaja",
-    "Could not copy \"{file}\"" : "Datoteke »{file}« ni mogoče kopirati.",
-    "Copied {origin} inside {destination}" : "Kopirano {origin} v {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopirano {origin} in {nbfiles} ostale datoteke v {destination}",
     "Files" : "Datoteke",
     "Within current directory" : "Znotraj trenutne mape",
     "Within local files" : "Znotraj krajevnih datotek",
@@ -41,6 +31,16 @@ OC.L10N.register(
     "Index the content of PDF files." : "Ustvarjaj kazalo vsebine datotek PDF.",
     "Extract Office" : "Razširi pisarniške datoteke",
     "Index the content of office files." : "Ustvarjaj kazalo vsebine pisarniških datotek.",
-    "Results" : "Zadetki"
+    "Results" : "Zadetki",
+    "files" : "datoteke",
+    "Go to folder" : "Pojdi v mapo",
+    "Open folder" : "Odpri mapo",
+    "Name" : "Ime",
+    "Modified" : "Spremenjeno",
+    "Size" : "Velikost",
+    "Could not copy \"{file}\", target exists" : "Datoteke »{file}« ni mogoče kopirati, ker ta že obstaja",
+    "Could not copy \"{file}\"" : "Datoteke »{file}« ni mogoče kopirati.",
+    "Copied {origin} inside {destination}" : "Kopirano {origin} v {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopirano {origin} in {nbfiles} ostale datoteke v {destination}"
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

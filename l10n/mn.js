@@ -1,6 +1,11 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
+    "Files" : "файлууд",
+    "Extension" : "Өргөтгөл",
+    "Sources" : "Эх сурвалжууд",
+    "Maximum file size" : "Хамгийн их файлын хэмжээ",
+    "Results" : "Үр дүн",
     "files" : "файлууд",
     "Go to folder" : "хавтас руу очих",
     "Open folder" : "Хавтас нээх",
@@ -9,11 +14,6 @@ OC.L10N.register(
     "Size" : "Хэмжээ",
     "Could not copy \"{file}\", target exists" : "\"{file}\"-г зөөж чадсангүй, файлын нэр давхцаж байна",
     "Could not copy \"{file}\"" : "\"{file}\"-г зөөж чадсангүй",
-    "Copied {origin} inside {destination}" : "Хуулбар хийгдэж {destination} дотор {origin} байршлаа",
-    "Files" : "файлууд",
-    "Extension" : "Өргөтгөл",
-    "Sources" : "Эх сурвалжууд",
-    "Maximum file size" : "Хамгийн их файлын хэмжээ",
-    "Results" : "Үр дүн"
+    "Copied {origin} inside {destination}" : "Хуулбар хийгдэж {destination} дотор {origin} байршлаа"
 },
 "nplurals=2; plural=(n != 1);");

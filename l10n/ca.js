@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "fitxers",
-    "Go to folder" : "Ves a la carpeta",
-    "Open folder" : "Obre la carpeta",
-    "Name" : "Nom",
-    "Modified" : "Darrera modificació",
-    "Size" : "Mida",
-    "Could not copy \"{file}\", target exists" : "No s'ha pogut copiar «{file}», la destinació ja existeix",
-    "Could not copy \"{file}\"" : "No s'ha pogut copiar «{file}»",
-    "Copied {origin} inside {destination}" : "S'ha copiat {origin} a {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "S'han copiat {origin} i {nbfiles} fitxers més a {destination}",
     "Files" : "Fitxers",
     "Within current directory" : "En la carpeta actual",
     "Within local files" : "En els fitxers locals",
@@ -43,6 +33,16 @@ OC.L10N.register(
     "Index the content of office files." : "Indexa el contingut dels fitxers de l'Office.",
     "Results" : "Resultats",
     "Open Files" : "Obriu Fitxers",
-    "Directly from search results." : "Directament des dels resultats de cerca."
+    "Directly from search results." : "Directament des dels resultats de cerca.",
+    "files" : "fitxers",
+    "Go to folder" : "Ves a la carpeta",
+    "Open folder" : "Obre la carpeta",
+    "Name" : "Nom",
+    "Modified" : "Darrera modificació",
+    "Size" : "Mida",
+    "Could not copy \"{file}\", target exists" : "No s'ha pogut copiar «{file}», la destinació ja existeix",
+    "Could not copy \"{file}\"" : "No s'ha pogut copiar «{file}»",
+    "Copied {origin} inside {destination}" : "S'ha copiat {origin} a {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "S'han copiat {origin} i {nbfiles} fitxers més a {destination}"
 },
 "nplurals=2; plural=(n != 1);");

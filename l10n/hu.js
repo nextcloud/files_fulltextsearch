@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "fájlok",
-    "Go to folder" : "Ugrás a mappához",
-    "Open folder" : "Mappa megnyitása",
-    "Name" : "Név",
-    "Modified" : "Módosítva",
-    "Size" : "Méret",
-    "Could not copy \"{file}\", target exists" : "A(z) „{file}” másolása nem sikerült, a cél már létezik",
-    "Could not copy \"{file}\"" : "A(z) „{file}” másolása sikertelen",
-    "Copied {origin} inside {destination}" : "A(z) {origin} átmásolva ide: {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} és {nbfiles} egyéb fájl átmásolva ide: {destination}",
     "Files" : "Fájlok",
     "Within current directory" : "A jelenlegi könyvtárban",
     "Within local files" : "Helyi fájlokban",
@@ -43,6 +33,16 @@ OC.L10N.register(
     "Index the content of office files." : "Office-fájlok tartalmának indexelése.",
     "Results" : "Eredmények",
     "Open Files" : "Fájlok megnyitása",
-    "Directly from search results." : "Közvetlenül a keresési eredményekből."
+    "Directly from search results." : "Közvetlenül a keresési eredményekből.",
+    "files" : "fájlok",
+    "Go to folder" : "Ugrás a mappához",
+    "Open folder" : "Mappa megnyitása",
+    "Name" : "Név",
+    "Modified" : "Módosítva",
+    "Size" : "Méret",
+    "Could not copy \"{file}\", target exists" : "A(z) „{file}” másolása nem sikerült, a cél már létezik",
+    "Could not copy \"{file}\"" : "A(z) „{file}” másolása sikertelen",
+    "Copied {origin} inside {destination}" : "A(z) {origin} átmásolva ide: {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} és {nbfiles} egyéb fájl átmásolva ide: {destination}"
 },
 "nplurals=2; plural=(n != 1);");

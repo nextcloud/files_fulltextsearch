@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "檔案",
-    "Go to folder" : "前往資料夾",
-    "Open folder" : "開啟資料夾",
-    "Name" : "名稱",
-    "Modified" : "已修改",
-    "Size" : "大小",
-    "Could not copy \"{file}\", target exists" : "無法複製\"{file}\"，目標已存在",
-    "Could not copy \"{file}\"" : "無法複製\"{file}\"",
-    "Copied {origin} inside {destination}" : "已複製 {origin} 至 {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "已複製 {origin} 和其他 {nbfiles} 個檔案至 {destination}",
     "Files" : "檔案",
     "Within current directory" : "在目前的目錄內",
     "Within local files" : "在近端檔案內",
@@ -43,6 +33,16 @@ OC.L10N.register(
     "Index the content of office files." : "索引 Office 檔案的內容。",
     "Results" : "結果",
     "Open Files" : "開啟檔案",
-    "Directly from search results." : "直接從搜尋結果。"
+    "Directly from search results." : "直接從搜尋結果。",
+    "files" : "檔案",
+    "Go to folder" : "前往資料夾",
+    "Open folder" : "開啟資料夾",
+    "Name" : "名稱",
+    "Modified" : "已修改",
+    "Size" : "大小",
+    "Could not copy \"{file}\", target exists" : "無法複製\"{file}\"，目標已存在",
+    "Could not copy \"{file}\"" : "無法複製\"{file}\"",
+    "Copied {origin} inside {destination}" : "已複製 {origin} 至 {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "已複製 {origin} 和其他 {nbfiles} 個檔案至 {destination}"
 },
 "nplurals=1; plural=0;");

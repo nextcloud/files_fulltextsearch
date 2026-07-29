@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "dosieroj",
-    "Go to folder" : "Iri al dosierujo",
-    "Open folder" : "Malfermi dosierujon",
-    "Name" : "Nomo",
-    "Modified" : "Modifita",
-    "Size" : "Grando",
-    "Could not copy \"{file}\", target exists" : "Ne eblis kopii „{file}“: la celo jam ekzistas",
-    "Could not copy \"{file}\"" : "Ne eblis kopii „{file}“",
-    "Copied {origin} inside {destination}" : "Kopiiĝis {origin} ene de {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopiiĝis {origin} and {nbfiles} pliaj dosieroj ene de {destination}",
     "Files" : "Dosieroj",
     "Within current directory" : "En la aktuala dosierujo",
     "Within local files" : "En lokaj dosieroj",
@@ -40,6 +30,16 @@ OC.L10N.register(
     "Extract PDF" : "Analizi PDF-dosierojn",
     "Index the content of PDF files." : "Indeksi la enhavon de PDF-dosieroj.",
     "Extract Office" : "Analizi oficejajn dosierojn",
-    "Index the content of office files." : "Indeksi la enhavon de oficejaj dosieroj."
+    "Index the content of office files." : "Indeksi la enhavon de oficejaj dosieroj.",
+    "files" : "dosieroj",
+    "Go to folder" : "Iri al dosierujo",
+    "Open folder" : "Malfermi dosierujon",
+    "Name" : "Nomo",
+    "Modified" : "Modifita",
+    "Size" : "Grando",
+    "Could not copy \"{file}\", target exists" : "Ne eblis kopii „{file}“: la celo jam ekzistas",
+    "Could not copy \"{file}\"" : "Ne eblis kopii „{file}“",
+    "Copied {origin} inside {destination}" : "Kopiiĝis {origin} ene de {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopiiĝis {origin} and {nbfiles} pliaj dosieroj ene de {destination}"
 },
 "nplurals=2; plural=(n != 1);");

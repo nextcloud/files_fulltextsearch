@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "comhaid",
-    "Go to folder" : "Téigh go dtí fillteán",
-    "Open folder" : "Oscail fillteán",
-    "Name" : "Ainm",
-    "Modified" : "Athraithe",
-    "Size" : "Méid",
-    "Could not copy \"{file}\", target exists" : "Níorbh fhéidir \"{file}\" a chóipeáil, tá an sprioc ann",
-    "Could not copy \"{file}\"" : "Níorbh fhéidir \"{file}\" a chóipeáil",
-    "Copied {origin} inside {destination}" : "Cóipeáladh {origin} taobh istigh de {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Cóipeáladh {origin} agus {nbfiles} comhaid eile laistigh de {destination}",
     "Files" : "Comhaid",
     "Within current directory" : "Laistigh den eolaire reatha",
     "Within local files" : "Laistigh de chomhaid áitiúla",
@@ -43,6 +33,16 @@ OC.L10N.register(
     "Index the content of office files." : "Innéacs ábhar na gcomhad oifige.",
     "Results" : "Torthaí",
     "Open Files" : "Oscail Comhaid",
-    "Directly from search results." : "Go díreach ó thorthaí cuardaigh."
+    "Directly from search results." : "Go díreach ó thorthaí cuardaigh.",
+    "files" : "comhaid",
+    "Go to folder" : "Téigh go dtí fillteán",
+    "Open folder" : "Oscail fillteán",
+    "Name" : "Ainm",
+    "Modified" : "Athraithe",
+    "Size" : "Méid",
+    "Could not copy \"{file}\", target exists" : "Níorbh fhéidir \"{file}\" a chóipeáil, tá an sprioc ann",
+    "Could not copy \"{file}\"" : "Níorbh fhéidir \"{file}\" a chóipeáil",
+    "Copied {origin} inside {destination}" : "Cóipeáladh {origin} taobh istigh de {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Cóipeáladh {origin} agus {nbfiles} comhaid eile laistigh de {destination}"
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

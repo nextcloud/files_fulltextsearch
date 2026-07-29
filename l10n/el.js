@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "αρχεία",
-    "Go to folder" : "Μετακίνηση στον φάκελο",
-    "Open folder" : "Άνοιγμα φακέλου",
-    "Name" : "Όνομα",
-    "Modified" : "Τροποποιήθηκε",
-    "Size" : "Μέγεθος",
-    "Could not copy \"{file}\", target exists" : "Αδυναμία αντιγραφής του \"{file}\", υπάρχει ήδη.",
-    "Could not copy \"{file}\"" : "Αδυναμία αντιγραφής του \"{file}\"",
-    "Copied {origin} inside {destination}" : "Αντιγράφτηκε το {origin} στο {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Αντιγράφτηκε το {origin} και {nbfiles} άλλα αρχεία στο {destination}",
     "Files" : "Αρχεία",
     "Within current directory" : "Στον τρέχοντα κατάλογο",
     "Within local files" : "Στα τρέχοντα αρχεία",
@@ -43,6 +33,16 @@ OC.L10N.register(
     "Index the content of office files." : "Ευρετηριοποίηση περιεχομένων αρχείων γραφείου",
     "Results" : "Αποτελέσματα",
     "Open Files" : "Άνοιγμα Αρχείων",
-    "Directly from search results." : "Απευθείας από τα αποτελέσματα αναζήτησης."
+    "Directly from search results." : "Απευθείας από τα αποτελέσματα αναζήτησης.",
+    "files" : "αρχεία",
+    "Go to folder" : "Μετακίνηση στον φάκελο",
+    "Open folder" : "Άνοιγμα φακέλου",
+    "Name" : "Όνομα",
+    "Modified" : "Τροποποιήθηκε",
+    "Size" : "Μέγεθος",
+    "Could not copy \"{file}\", target exists" : "Αδυναμία αντιγραφής του \"{file}\", υπάρχει ήδη.",
+    "Could not copy \"{file}\"" : "Αδυναμία αντιγραφής του \"{file}\"",
+    "Copied {origin} inside {destination}" : "Αντιγράφτηκε το {origin} στο {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Αντιγράφτηκε το {origin} και {nbfiles} άλλα αρχεία στο {destination}"
 },
 "nplurals=2; plural=(n != 1);");

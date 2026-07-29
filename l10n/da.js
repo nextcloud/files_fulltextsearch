@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "filer",
-    "Go to folder" : "Gå til mappe",
-    "Open folder" : "Åbn mappe",
-    "Name" : "Navn",
-    "Modified" : "Ændret",
-    "Size" : "Størrelse",
-    "Could not copy \"{file}\", target exists" : "Kunne ikke kopiere \"{file}\" - målet findes allerede",
-    "Could not copy \"{file}\"" : "Kunne ikke kopiere \"{file}\"",
-    "Copied {origin} inside {destination}" : "Kopierede {origin} ind i {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopierede {origin} og {nbfiles} andre filer ind i {destination}",
     "Files" : "Filer",
     "Within current directory" : "Inden for den aktuelle mappe",
     "Within local files" : "I lokale filer",
@@ -41,6 +31,16 @@ OC.L10N.register(
     "Index the content of PDF files." : "Indekser indholdet af PDF-filer.",
     "Extract Office" : "Udpak Office",
     "Index the content of office files." : "Indekser indholdet af Office-filer.",
-    "Results" : "Resultater"
+    "Results" : "Resultater",
+    "files" : "filer",
+    "Go to folder" : "Gå til mappe",
+    "Open folder" : "Åbn mappe",
+    "Name" : "Navn",
+    "Modified" : "Ændret",
+    "Size" : "Størrelse",
+    "Could not copy \"{file}\", target exists" : "Kunne ikke kopiere \"{file}\" - målet findes allerede",
+    "Could not copy \"{file}\"" : "Kunne ikke kopiere \"{file}\"",
+    "Copied {origin} inside {destination}" : "Kopierede {origin} ind i {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopierede {origin} og {nbfiles} andre filer ind i {destination}"
 },
 "nplurals=2; plural=(n != 1);");

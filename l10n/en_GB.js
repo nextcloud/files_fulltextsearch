@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "files",
-    "Go to folder" : "Go to folder",
-    "Open folder" : "Open folder",
-    "Name" : "Name",
-    "Modified" : "Modified",
-    "Size" : "Size",
-    "Could not copy \"{file}\", target exists" : "Could not copy \"{file}\", target exists",
-    "Could not copy \"{file}\"" : "Could not copy \"{file}\"",
-    "Copied {origin} inside {destination}" : "Copied {origin} inside {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Copied {origin} and {nbfiles} other files inside {destination}",
     "Files" : "Files",
     "Within current directory" : "Within current directory",
     "Within local files" : "Within local files",
@@ -43,6 +33,16 @@ OC.L10N.register(
     "Index the content of office files." : "Index the content of office files.",
     "Results" : "Results",
     "Open Files" : "Open Files",
-    "Directly from search results." : "Directly from search results."
+    "Directly from search results." : "Directly from search results.",
+    "files" : "files",
+    "Go to folder" : "Go to folder",
+    "Open folder" : "Open folder",
+    "Name" : "Name",
+    "Modified" : "Modified",
+    "Size" : "Size",
+    "Could not copy \"{file}\", target exists" : "Could not copy \"{file}\", target exists",
+    "Could not copy \"{file}\"" : "Could not copy \"{file}\"",
+    "Copied {origin} inside {destination}" : "Copied {origin} inside {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Copied {origin} and {nbfiles} other files inside {destination}"
 },
 "nplurals=2; plural=(n != 1);");

@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "الملفات",
-    "Go to folder" : "إنتقل إلى المجلد",
-    "Open folder" : "فتح المجلد",
-    "Name" : "الاسم",
-    "Modified" : "آخر تعديل",
-    "Size" : "الحجم",
-    "Could not copy \"{file}\", target exists" : "لم يستطع نسخ \"{file}\"، المستهدف موجود",
-    "Could not copy \"{file}\"" : "لم يُمكن نسخ \"{file}\"",
-    "Copied {origin} inside {destination}" : "منسوخ {origin} داخل {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "تم نسخ {origin} و {nbfiles} ملفات اخرى داخل {destination}",
     "Files" : "الملفات",
     "Within current directory" : "داخل المُجلّد الحالي",
     "Within local files" : "داخل الملفات المحلية",
@@ -43,6 +33,16 @@ OC.L10N.register(
     "Index the content of office files." : "فهرسة محتويات ملفات أوفيس Office",
     "Results" : "النتائج ",
     "Open Files" : "الملفات المفتوحة",
-    "Directly from search results." : "مباشرةً من نتيجة البحث."
+    "Directly from search results." : "مباشرةً من نتيجة البحث.",
+    "files" : "الملفات",
+    "Go to folder" : "إنتقل إلى المجلد",
+    "Open folder" : "فتح المجلد",
+    "Name" : "الاسم",
+    "Modified" : "آخر تعديل",
+    "Size" : "الحجم",
+    "Could not copy \"{file}\", target exists" : "لم يستطع نسخ \"{file}\"، المستهدف موجود",
+    "Could not copy \"{file}\"" : "لم يُمكن نسخ \"{file}\"",
+    "Copied {origin} inside {destination}" : "منسوخ {origin} داخل {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "تم نسخ {origin} و {nbfiles} ملفات اخرى داخل {destination}"
 },
 "nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;");
