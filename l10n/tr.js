@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "dosya",
-    "Go to folder" : "Klasöre git",
-    "Open folder" : "Klasörü aç",
-    "Name" : "Ad",
-    "Modified" : "Değiştirilme",
-    "Size" : "Boyut",
-    "Could not copy \"{file}\", target exists" : "\"{file}\" kopyalanamadı, hedef zaten var",
-    "Could not copy \"{file}\"" : "\"{file}\" kopyalanamadı",
-    "Copied {origin} inside {destination}" : "{origin} dosyası, {destination} içine kopyalandı",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} ve {nbfiles} diğer dosya {destination} içine kopyalandı",
     "Files" : "Dosyalar",
     "Within current directory" : "Geçerli klasörde",
     "Within local files" : "Yerel dosyalarda",
@@ -43,6 +33,16 @@ OC.L10N.register(
     "Index the content of office files." : "Ofis dosyalarının içeriği dizine eklensin.",
     "Results" : "Sonuçlar",
     "Open Files" : "Açık dosyalar",
-    "Directly from search results." : "Doğrudan arama sonuçlarından."
+    "Directly from search results." : "Doğrudan arama sonuçlarından.",
+    "files" : "dosya",
+    "Go to folder" : "Klasöre git",
+    "Open folder" : "Klasörü aç",
+    "Name" : "Ad",
+    "Modified" : "Değiştirilme",
+    "Size" : "Boyut",
+    "Could not copy \"{file}\", target exists" : "\"{file}\" kopyalanamadı, hedef zaten var",
+    "Could not copy \"{file}\"" : "\"{file}\" kopyalanamadı",
+    "Copied {origin} inside {destination}" : "{origin} dosyası, {destination} içine kopyalandı",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} ve {nbfiles} diğer dosya {destination} içine kopyalandı"
 },
 "nplurals=2; plural=(n > 1);");

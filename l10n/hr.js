@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "datoteke",
-    "Go to folder" : "Idi u mapu",
-    "Open folder" : "Otvori mapu",
-    "Name" : "Naziv",
-    "Modified" : "Promijenjeno",
-    "Size" : "Veličina",
-    "Could not copy \"{file}\", target exists" : "Neuspješno kopiranje „{file}”, ciljna datoteka postoji",
-    "Could not copy \"{file}\"" : "Neuspješno kopiranje „{file}”",
-    "Copied {origin} inside {destination}" : "Kopirano {origin} unutar {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopirano {origin} i {nbfiles} ostalih datoteka unutar {destination}",
     "Files" : "Datoteke",
     "Within current directory" : "Unutar trenutnog direktorija",
     "Within local files" : "Unutar lokalnih datoteka",
@@ -43,6 +33,16 @@ OC.L10N.register(
     "Index the content of office files." : "Indeksirajte sadržaj datoteka paketa Office.",
     "Results" : "Rezultati",
     "Open Files" : "Otvori Datoteke",
-    "Directly from search results." : "Direktno iz rezultata pretraživanja."
+    "Directly from search results." : "Direktno iz rezultata pretraživanja.",
+    "files" : "datoteke",
+    "Go to folder" : "Idi u mapu",
+    "Open folder" : "Otvori mapu",
+    "Name" : "Naziv",
+    "Modified" : "Promijenjeno",
+    "Size" : "Veličina",
+    "Could not copy \"{file}\", target exists" : "Neuspješno kopiranje „{file}”, ciljna datoteka postoji",
+    "Could not copy \"{file}\"" : "Neuspješno kopiranje „{file}”",
+    "Copied {origin} inside {destination}" : "Kopirano {origin} unutar {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopirano {origin} i {nbfiles} ostalih datoteka unutar {destination}"
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

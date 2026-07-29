@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "failai",
-    "Go to folder" : "Eiti į aplanką",
-    "Open folder" : "Atverti aplanką",
-    "Name" : "Pavadinimas",
-    "Modified" : "Pakeistas",
-    "Size" : "Dydis",
-    "Could not copy \"{file}\", target exists" : "Nepavyko nukopijuoti \"{file}\", toks jau yra",
-    "Could not copy \"{file}\"" : "Nepavyko nukopijuoti \"{file}\"",
-    "Copied {origin} inside {destination}" : "Nukopijuota {origin} viduje {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Nukopijuota {origin} ir dar {nbfiles} failus viduje {destination}",
     "Files" : "Failai",
     "Within current directory" : "Dabartiniame kataloge",
     "Within local files" : "Vietiniuose failuose",
@@ -43,6 +33,16 @@ OC.L10N.register(
     "Index the content of office files." : "Indeksuoti biuro failų turinį.",
     "Results" : "Rezultatai",
     "Open Files" : "Atverti Failus",
-    "Directly from search results." : "Tiesiai iš paieškos rezultatų."
+    "Directly from search results." : "Tiesiai iš paieškos rezultatų.",
+    "files" : "failai",
+    "Go to folder" : "Eiti į aplanką",
+    "Open folder" : "Atverti aplanką",
+    "Name" : "Pavadinimas",
+    "Modified" : "Pakeistas",
+    "Size" : "Dydis",
+    "Could not copy \"{file}\", target exists" : "Nepavyko nukopijuoti \"{file}\", toks jau yra",
+    "Could not copy \"{file}\"" : "Nepavyko nukopijuoti \"{file}\"",
+    "Copied {origin} inside {destination}" : "Nukopijuota {origin} viduje {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Nukopijuota {origin} ir dar {nbfiles} failus viduje {destination}"
 },
 "nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);");

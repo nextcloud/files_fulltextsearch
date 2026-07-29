@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "súbory",
-    "Go to folder" : "Prejsť do priečinka",
-    "Open folder" : "Otvoriť priečinok",
-    "Name" : "Názov",
-    "Modified" : "Upravené",
-    "Size" : "Veľkosť",
-    "Could not copy \"{file}\", target exists" : "Nie je možné kopírovať \"{file}\", cieľ už existuje",
-    "Could not copy \"{file}\"" : "Nie je možné skopírovať \"{file}\"",
-    "Copied {origin} inside {destination}" : "Skopírované {origin} do {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Skopírované {origin} a {nbfiles} ostatných súborov do {destination}",
     "Files" : "Súbory",
     "Within current directory" : "V aktuálnom priečinku",
     "Within local files" : "V rámci lokálnych súborov",
@@ -43,6 +33,16 @@ OC.L10N.register(
     "Index the content of office files." : "Indexovať obsah kancelárskych súborov ( napr. dokumenty, tabuľky alebo prezentácie).",
     "Results" : "Výsledky",
     "Open Files" : "Otvoriť Súbory",
-    "Directly from search results." : "Priamo z výsledkov hľadania."
+    "Directly from search results." : "Priamo z výsledkov hľadania.",
+    "files" : "súbory",
+    "Go to folder" : "Prejsť do priečinka",
+    "Open folder" : "Otvoriť priečinok",
+    "Name" : "Názov",
+    "Modified" : "Upravené",
+    "Size" : "Veľkosť",
+    "Could not copy \"{file}\", target exists" : "Nie je možné kopírovať \"{file}\", cieľ už existuje",
+    "Could not copy \"{file}\"" : "Nie je možné skopírovať \"{file}\"",
+    "Copied {origin} inside {destination}" : "Skopírované {origin} do {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Skopírované {origin} a {nbfiles} ostatných súborov do {destination}"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");

@@ -1,14 +1,4 @@
 { "translations": {
-    "files" : "файлы",
-    "Go to folder" : "Перейти в папку",
-    "Open folder" : "Открыть папку",
-    "Name" : "Имя",
-    "Modified" : "Дата изменения",
-    "Size" : "Размер",
-    "Could not copy \"{file}\", target exists" : "Невозможно скопировать «{file}», он уже существует в каталоге назначения",
-    "Could not copy \"{file}\"" : "Не удалось скопировать «{file}»",
-    "Copied {origin} inside {destination}" : "«{origin}» скопирован в «{destination}»",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "«{origin}» и {nbfiles} других файлов скопированы в «{destination}»",
     "Files" : "Файлы",
     "Within current directory" : "В текущем каталоге",
     "Within local files" : "В локальных файлах",
@@ -41,6 +31,16 @@
     "Index the content of office files." : "Индексировать файлы в формате офисных приложений.",
     "Results" : "Результаты",
     "Open Files" : "Открыть файлы",
-    "Directly from search results." : "Прямо из результатов поиска."
+    "Directly from search results." : "Прямо из результатов поиска.",
+    "files" : "файлы",
+    "Go to folder" : "Перейти в папку",
+    "Open folder" : "Открыть папку",
+    "Name" : "Имя",
+    "Modified" : "Дата изменения",
+    "Size" : "Размер",
+    "Could not copy \"{file}\", target exists" : "Невозможно скопировать «{file}», он уже существует в каталоге назначения",
+    "Could not copy \"{file}\"" : "Не удалось скопировать «{file}»",
+    "Copied {origin} inside {destination}" : "«{origin}» скопирован в «{destination}»",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "«{origin}» и {nbfiles} других файлов скопированы в «{destination}»"
 },"pluralForm" :"nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);"
 }

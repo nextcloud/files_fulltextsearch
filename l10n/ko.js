@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "파일",
-    "Go to folder" : "폴더로 이동",
-    "Open folder" : "폴더를 열 수 없음",
-    "Name" : "이름",
-    "Modified" : "수정한 날짜",
-    "Size" : "크기",
-    "Could not copy \"{file}\", target exists" : "\"{file}\"을(를) 복사할 수 없음, 대상이 존재함",
-    "Could not copy \"{file}\"" : "\"{file}\"을(를) 복사할 수 없음",
-    "Copied {origin} inside {destination}" : "{origin}을(를) {destination}(으)로 복사함",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} 및 다른 파일 {nbfiles}개를 {destination}(으)로 복사함",
     "Files" : "파일",
     "Within current directory" : "현재 디렉터리 내에서",
     "Within local files" : "로컬 파일 내에서",
@@ -43,6 +33,16 @@ OC.L10N.register(
     "Index the content of office files." : "오피스 파일의 내용을 색인에 추가합니다.",
     "Results" : "결과들",
     "Open Files" : "파일 열기",
-    "Directly from search results." : "검색 결과에서 직접."
+    "Directly from search results." : "검색 결과에서 직접.",
+    "files" : "파일",
+    "Go to folder" : "폴더로 이동",
+    "Open folder" : "폴더를 열 수 없음",
+    "Name" : "이름",
+    "Modified" : "수정한 날짜",
+    "Size" : "크기",
+    "Could not copy \"{file}\", target exists" : "\"{file}\"을(를) 복사할 수 없음, 대상이 존재함",
+    "Could not copy \"{file}\"" : "\"{file}\"을(를) 복사할 수 없음",
+    "Copied {origin} inside {destination}" : "{origin}을(를) {destination}(으)로 복사함",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} 및 다른 파일 {nbfiles}개를 {destination}(으)로 복사함"
 },
 "nplurals=1; plural=0;");

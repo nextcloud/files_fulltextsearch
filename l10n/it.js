@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "file",
-    "Go to folder" : "Vai alla cartella",
-    "Open folder" : "Apri cartella",
-    "Name" : "Nome",
-    "Modified" : "Modificato",
-    "Size" : "Dimensione",
-    "Could not copy \"{file}\", target exists" : "Impossibile copiare \"{file}\", la destinazione esiste già",
-    "Could not copy \"{file}\"" : "Impossibile copiare \"{file}\"",
-    "Copied {origin} inside {destination}" : "Copiato {origin} in {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Copiati {origin} e {nbfiles} altri file in {destination}",
     "Files" : "File",
     "Within current directory" : "Nella cartella attuale",
     "Within local files" : "Nei file locali",
@@ -41,6 +31,16 @@ OC.L10N.register(
     "Index the content of PDF files." : "Indicizza il contenuto dei file PDF.",
     "Extract Office" : "Estrai Office",
     "Index the content of office files." : "Indicizza il contenuto dei file di Office.",
-    "Results" : "Risultati"
+    "Results" : "Risultati",
+    "files" : "file",
+    "Go to folder" : "Vai alla cartella",
+    "Open folder" : "Apri cartella",
+    "Name" : "Nome",
+    "Modified" : "Modificato",
+    "Size" : "Dimensione",
+    "Could not copy \"{file}\", target exists" : "Impossibile copiare \"{file}\", la destinazione esiste già",
+    "Could not copy \"{file}\"" : "Impossibile copiare \"{file}\"",
+    "Copied {origin} inside {destination}" : "Copiato {origin} in {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Copiati {origin} e {nbfiles} altri file in {destination}"
 },
 "nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;");

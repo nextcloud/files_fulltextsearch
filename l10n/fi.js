@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "tiedostot",
-    "Go to folder" : "Siirry kansioon",
-    "Open folder" : "Avaa kansio",
-    "Name" : "Nimi",
-    "Modified" : "Muokattu",
-    "Size" : "Koko",
-    "Could not copy \"{file}\", target exists" : "Tiedostoa \"{file}\" ei voitu kopioida, kohde on olemassa",
-    "Could not copy \"{file}\"" : "Ei voitu kopioida tiedostoa \"{file}\"",
-    "Copied {origin} inside {destination}" : "Kopioitu {origin} kohteeseen {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopioitu {origin} ja {nbfiles} muuta tiedostoa kohteeseen {destination}",
     "Files" : "Tiedostot",
     "Within current directory" : "Nykyisen kansion sisältä",
     "Within local files" : "Paikallisten tiedostojen joukosta",
@@ -40,6 +30,16 @@ OC.L10N.register(
     "Index the content of PDF files." : "Indeksoi PDF-tiedostojen sisältö.",
     "Extract Office" : "Pura Office",
     "Index the content of office files." : "Indeksoi Office-tiedostojen sisältö.",
-    "Results" : "Tulokset"
+    "Results" : "Tulokset",
+    "files" : "tiedostot",
+    "Go to folder" : "Siirry kansioon",
+    "Open folder" : "Avaa kansio",
+    "Name" : "Nimi",
+    "Modified" : "Muokattu",
+    "Size" : "Koko",
+    "Could not copy \"{file}\", target exists" : "Tiedostoa \"{file}\" ei voitu kopioida, kohde on olemassa",
+    "Could not copy \"{file}\"" : "Ei voitu kopioida tiedostoa \"{file}\"",
+    "Copied {origin} inside {destination}" : "Kopioitu {origin} kohteeseen {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopioitu {origin} ja {nbfiles} muuta tiedostoa kohteeseen {destination}"
 },
 "nplurals=2; plural=(n != 1);");

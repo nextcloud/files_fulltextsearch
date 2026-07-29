@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "filer",
-    "Go to folder" : "Gå till mapp",
-    "Open folder" : "Öppna mapp",
-    "Name" : "Namn",
-    "Modified" : "Ändrad",
-    "Size" : "Storlek",
-    "Could not copy \"{file}\", target exists" : "Det gick inte att kopiera ”{file}” eftersom målet redan finns",
-    "Could not copy \"{file}\"" : "Det gick inte att kopiera ”{file}”",
-    "Copied {origin} inside {destination}" : "Kopierade {origin} till {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopierade {origin} och {nbfiles} andra filer till {destination}",
     "Files" : "Filer",
     "Within current directory" : "I den aktuella mappen",
     "Within local files" : "Bland lokala filer",
@@ -43,6 +33,16 @@ OC.L10N.register(
     "Index the content of office files." : "Indexera innehållet i Office-filer.",
     "Results" : "Resultat",
     "Open Files" : "Öppna filer",
-    "Directly from search results." : "Direkt från sökresultat."
+    "Directly from search results." : "Direkt från sökresultat.",
+    "files" : "filer",
+    "Go to folder" : "Gå till mapp",
+    "Open folder" : "Öppna mapp",
+    "Name" : "Namn",
+    "Modified" : "Ändrad",
+    "Size" : "Storlek",
+    "Could not copy \"{file}\", target exists" : "Det gick inte att kopiera ”{file}” eftersom målet redan finns",
+    "Could not copy \"{file}\"" : "Det gick inte att kopiera ”{file}”",
+    "Copied {origin} inside {destination}" : "Kopierade {origin} till {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopierade {origin} och {nbfiles} andra filer till {destination}"
 },
 "nplurals=2; plural=(n != 1);");

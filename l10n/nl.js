@@ -1,16 +1,6 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "files" : "bestanden",
-    "Go to folder" : "Ga naar map",
-    "Open folder" : "Open map",
-    "Name" : "Naam",
-    "Modified" : "Gewijzigd",
-    "Size" : "Omvang",
-    "Could not copy \"{file}\", target exists" : "Kon \"{file}\" niet kopiëren, doel bestaat al",
-    "Could not copy \"{file}\"" : "Kon \"{file}\" niet kopiëren",
-    "Copied {origin} inside {destination}" : "Kopieerde {origin} binnen {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Heeft {origin} en {nbfiles} andere bestanden in {destination} gekopieerd",
     "Files" : "Bestanden",
     "Within current directory" : "Binnen de huidige directory",
     "Within local files" : "Binnen lokale bestanden",
@@ -43,6 +33,16 @@ OC.L10N.register(
     "Index the content of office files." : "Indexeer de inhoud van Office-bestanden",
     "Results" : "Resultaten",
     "Open Files" : "Bestanden openen",
-    "Directly from search results." : "Direct uit zoekresultaten."
+    "Directly from search results." : "Direct uit zoekresultaten.",
+    "files" : "bestanden",
+    "Go to folder" : "Ga naar map",
+    "Open folder" : "Open map",
+    "Name" : "Naam",
+    "Modified" : "Gewijzigd",
+    "Size" : "Omvang",
+    "Could not copy \"{file}\", target exists" : "Kon \"{file}\" niet kopiëren, doel bestaat al",
+    "Could not copy \"{file}\"" : "Kon \"{file}\" niet kopiëren",
+    "Copied {origin} inside {destination}" : "Kopieerde {origin} binnen {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Heeft {origin} en {nbfiles} andere bestanden in {destination} gekopieerd"
 },
 "nplurals=2; plural=(n != 1);");
