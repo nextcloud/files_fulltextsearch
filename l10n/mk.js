@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "Пребарување на целосен текст - Датотеки",
     "Index the content of your files" : "Индексирање на содржината на датотеките",
     "Extension to the _Full text search_ app to index your users' files." : "Екстензии за _Full text search_ апликацијата ги индексира датотеките на корисниците.",
+    "Index path only" : "Индексирај ја само патеката",
+    "Index path and content" : "Индексирај ја патеката и содржината",
+    "Do not index path nor content" : "Не ја индексирај патеката ни содржината",
     "Sources" : "Извори",
     "Local Files" : "Локални датотеки",
     "Index the content of local files." : "Индексирај ја содржината на локалните датотеки.",
     "External Files" : "Надворешни датотеки",
-    "Index the content of external files." : "Индексирај ја содржината на надворешните датотеки.",
-    "Index path only" : "Индексирај ја само патеката",
-    "Index path and content" : "Индексирај ја патеката и содржината",
-    "Do not index path nor content" : "Не ја индексирај патеката ни содржината",
     "Group Folders" : "Групни папки",
     "Index the content of group folders." : "Индексирање на содржината на групните папки.",
     "Types" : "Видови",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "Не може да се копира \"{file}\", веќе постои",
     "Could not copy \"{file}\"" : "Не може да се копира \"{file}\"",
     "Copied {origin} inside {destination}" : "Копирана {origin} во {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Копирана {origin} и {nbfiles} други датотеки во {destination}"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Копирана {origin} и {nbfiles} други датотеки во {destination}",
+    "Index the content of external files." : "Индексирај ја содржината на надворешните датотеки."
 },
 "nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;");

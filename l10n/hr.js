@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "Pretraživanje cijelog teksta – datoteke",
     "Index the content of your files" : "Indeksiraj sadržaj datoteka",
     "Extension to the _Full text search_ app to index your users' files." : "Proširenje na _Full text search_ radi indeksiranja datoteka korisnika.",
+    "Index path only" : "Samo put indeksa",
+    "Index path and content" : "Put i sadržaj indeksa",
+    "Do not index path nor content" : "Ne indeksiraj put ni sadržaj",
     "Sources" : "Izvori",
     "Local Files" : "Lokalne datoteke",
     "Index the content of local files." : "Indeksiraj sadržaj lokalnih datoteka.",
     "External Files" : "Vanjske datoteke",
-    "Index the content of external files." : "Indeksiraj sadržaj vanjskih datoteka.",
-    "Index path only" : "Samo put indeksa",
-    "Index path and content" : "Put i sadržaj indeksa",
-    "Do not index path nor content" : "Ne indeksiraj put ni sadržaj",
     "Group Folders" : "Mape grupe",
     "Index the content of group folders." : "Indeksiraj sadržaj mapa grupe.",
     "Types" : "Vrste",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "Neuspješno kopiranje „{file}”, ciljna datoteka postoji",
     "Could not copy \"{file}\"" : "Neuspješno kopiranje „{file}”",
     "Copied {origin} inside {destination}" : "Kopirano {origin} unutar {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopirano {origin} i {nbfiles} ostalih datoteka unutar {destination}"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopirano {origin} i {nbfiles} ostalih datoteka unutar {destination}",
+    "Index the content of external files." : "Indeksiraj sadržaj vanjskih datoteka."
 },
 "nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;");

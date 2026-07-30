@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "Teljes szöveges keresés – Fájlok",
     "Index the content of your files" : "Saját fájltartalmak indexelése.",
     "Extension to the _Full text search_ app to index your users' files." : "A _Teljes szöveges keresés_ alkalmazás kiterjesztése a felhasználók fájljainak indexeléséhez.",
+    "Index path only" : "Csak az útvonalak indexelése",
+    "Index path and content" : "Útvonal és tartalom indexelése",
+    "Do not index path nor content" : "Ne indexelje se az útvonalat, se a tartalmat",
     "Sources" : "Források",
     "Local Files" : "Helyi fájlok",
     "Index the content of local files." : "Helyi fájlok tartalmának indexelése.",
     "External Files" : "Külső fájlok",
-    "Index the content of external files." : "Külső fájlok tartalmának indexelése.",
-    "Index path only" : "Csak az útvonalak indexelése",
-    "Index path and content" : "Útvonal és tartalom indexelése",
-    "Do not index path nor content" : "Ne indexelje se az útvonalat, se a tartalmat",
     "Group Folders" : "Csoport mappák",
     "Index the content of group folders." : "Csoport mappák tartalmának indexelése.",
     "Types" : "Típusok",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "A(z) „{file}” másolása nem sikerült, a cél már létezik",
     "Could not copy \"{file}\"" : "A(z) „{file}” másolása sikertelen",
     "Copied {origin} inside {destination}" : "A(z) {origin} átmásolva ide: {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} és {nbfiles} egyéb fájl átmásolva ide: {destination}"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} és {nbfiles} egyéb fájl átmásolva ide: {destination}",
+    "Index the content of external files." : "Külső fájlok tartalmának indexelése."
 },
 "nplurals=2; plural=(n != 1);");

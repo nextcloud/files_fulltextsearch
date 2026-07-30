@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "חיפוש טקסט מלא - קבצים",
     "Index the content of your files" : "סידור תוכן הקבצים שלך באינדקס",
     "Extension to the _Full text search_ app to index your users' files." : "הרחבה ליישומון _חיפוש טקסט מלא_ כדי לסדר את קובצי המשתמשים שלך באינדקס.",
+    "Index path only" : "לשמור רק את הנתיב באינדקס",
+    "Index path and content" : "לשמור את הנתיב ואת התוכן באינדקס",
+    "Do not index path nor content" : "לא לשמור באינדקס את הנתיב או את התוכן",
     "Sources" : "מקורות",
     "Local Files" : "קבצים מקומיים",
     "Index the content of local files." : "סידור תוכן הקבצים המקומיים באינדקס.",
     "External Files" : "קבצים חיצוניים",
-    "Index the content of external files." : "סידור תוכן הקבצים החיצוניים באינדקס.",
-    "Index path only" : "לשמור רק את הנתיב באינדקס",
-    "Index path and content" : "לשמור את הנתיב ואת התוכן באינדקס",
-    "Do not index path nor content" : "לא לשמור באינדקס את הנתיב או את התוכן",
     "Group Folders" : "תיקיות הקבוצה",
     "Index the content of group folders." : "סידור תוכן תיקיות הקבוצה באינדקס.",
     "Types" : "סוגים",
@@ -40,6 +39,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "לא ניתן להעתיק את „{file}”, היעד קיים",
     "Could not copy \"{file}\"" : "לא ניתן להעתיק את „{file}”",
     "Copied {origin} inside {destination}" : "{origin} הועתק לתוך {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} ו־{nbfiles} קבצים נוספים הועתקו לתוך {destination}"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} ו־{nbfiles} קבצים נוספים הועתקו לתוך {destination}",
+    "Index the content of external files." : "סידור תוכן הקבצים החיצוניים באינדקס."
 },
 "nplurals=3; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: 2;");

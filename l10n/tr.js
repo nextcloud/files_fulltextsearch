@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "Tam yazı arama - Dosyalar",
     "Index the content of your files" : "Dosyalarınızın içeriğini arama dizinine ekler",
     "Extension to the _Full text search_ app to index your users' files." : "Kullanıcılarınızın dosya içeriklerini arama dizinine ekleyen _Full text search_ uygulaması eklentisi.",
+    "Index path only" : "Yalnızca dizin yolu",
+    "Index path and content" : "Dizin yolu ve içeriği",
+    "Do not index path nor content" : "Ne dizin yolu ne de içeriği",
     "Sources" : "Kaynaklar",
     "Local Files" : "Yerel dosyalar",
     "Index the content of local files." : "Yerel dosyaların içeriği dizine eklensin.",
     "External Files" : "Dış dosyalar",
-    "Index the content of external files." : "Dış dosyaların içeriği dizine eklensin",
-    "Index path only" : "Yalnızca dizin yolu",
-    "Index path and content" : "Dizin yolu ve içeriği",
-    "Do not index path nor content" : "Ne dizin yolu ne de içeriği",
     "Group Folders" : "Grup klasörleri",
     "Index the content of group folders." : "Grup klasörlerinin içeriği dizine eklensin",
     "Types" : "Türler",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "\"{file}\" kopyalanamadı, hedef zaten var",
     "Could not copy \"{file}\"" : "\"{file}\" kopyalanamadı",
     "Copied {origin} inside {destination}" : "{origin} dosyası, {destination} içine kopyalandı",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} ve {nbfiles} diğer dosya {destination} içine kopyalandı"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} ve {nbfiles} diğer dosya {destination} içine kopyalandı",
+    "Index the content of external files." : "Dış dosyaların içeriği dizine eklensin"
 },
 "nplurals=2; plural=(n > 1);");

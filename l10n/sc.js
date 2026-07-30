@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "Chirca de su testu integrale - Archìvios",
     "Index the content of your files" : "Faghe un ìnditze de is cuntenutos de is archìvios tuos",
     "Extension to the _Full text search_ app to index your users' files." : "Estensione de s'apilicatzione de chirca de su testu cumpretu pro fàghere un'ìnditze de is archìvios de is utentes.",
+    "Index path only" : "Faghe un'ìnditze petzi de su percursu ",
+    "Index path and content" : "Faghe un'ìnditze de percursos e cuntenutos",
+    "Do not index path nor content" : "Non fatzat ìnditze nen de percursos nen de cuntenutos",
     "Sources" : "Fontes",
     "Local Files" : "Archìvios locales",
     "Index the content of local files." : "Ìnditze de su cuntenutu de archìvios locales.",
     "External Files" : "Archìvios locales",
-    "Index the content of external files." : "Faghe un'ìnditze de su cuntenutu de archìvios esternos.",
-    "Index path only" : "Faghe un'ìnditze petzi de su percursu ",
-    "Index path and content" : "Faghe un'ìnditze de percursos e cuntenutos",
-    "Do not index path nor content" : "Non fatzat ìnditze nen de percursos nen de cuntenutos",
     "Group Folders" : "Cartellas de grupu",
     "Index the content of group folders." : "Faghe un'ìnditze de cuntenutos de cartellas de grupu.",
     "Types" : "Genias",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : " Cumpartzi cun megus tràmite Nextcloud",
     "Could not copy \"{file}\"" : "No at afatu a copiare \"{file}\"",
     "Copied {origin} inside {destination}" : "Copiadu {origin} in {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Copiados {origin} e {nbfiles} àteros archìvios in {destination}"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Copiados {origin} e {nbfiles} àteros archìvios in {destination}",
+    "Index the content of external files." : "Faghe un'ìnditze de su cuntenutu de archìvios esternos."
 },
 "nplurals=2; plural=(n != 1);");

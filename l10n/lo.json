@@ -12,14 +12,13 @@
     "Full text search - Files" : "Full text search - Files",
     "Index the content of your files" : "Index the content of your files",
     "Extension to the _Full text search_ app to index your users' files." : "Extension to the _Full text search_ app to index your users' files.",
+    "Index path only" : "Index path only",
+    "Index path and content" : "Index path and content",
+    "Do not index path nor content" : "Do not index path nor content",
     "Sources" : "Sources",
     "Local Files" : "Local Files",
     "Index the content of local files." : "Index the content of local files.",
     "External Files" : "External Files",
-    "Index the content of external files." : "Index the content of external files.",
-    "Index path only" : "Index path only",
-    "Index path and content" : "Index path and content",
-    "Do not index path nor content" : "Do not index path nor content",
     "Group Folders" : "Group Folders",
     "Index the content of group folders." : "Index the content of group folders.",
     "Types" : "Types",
@@ -41,6 +40,7 @@
     "Could not copy \"{file}\", target exists" : "Could not copy \"{file}\", target exists",
     "Could not copy \"{file}\"" : "Could not copy \"{file}\"",
     "Copied {origin} inside {destination}" : "Copied {origin} inside {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Copied {origin} and {nbfiles} other files inside {destination}"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Copied {origin} and {nbfiles} other files inside {destination}",
+    "Index the content of external files." : "Index the content of external files."
 },"pluralForm" :"nplurals=1; plural=0;"
 }
