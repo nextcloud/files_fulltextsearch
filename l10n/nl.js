@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "Volledige tekst doorzoeken - Bestanden",
     "Index the content of your files" : "Indexeer de inhoud van je bestanden",
     "Extension to the _Full text search_ app to index your users' files." : "Uitbreiding naar de _Full text search_ app om je gebruikers' bestanden te indexeren.",
+    "Index path only" : "Indexeer alleen het pad",
+    "Index path and content" : "Indexeer pad en inhoud",
+    "Do not index path nor content" : "Pad en inhoud niet indexeren",
     "Sources" : "Bronnen",
     "Local Files" : "Lokale bestanden",
     "Index the content of local files." : "Indexeer de inhoud van lokale bestanden",
     "External Files" : "Externe bestanden",
-    "Index the content of external files." : "Indexeer de inhoud van externe bestanden",
-    "Index path only" : "Indexeer alleen het pad",
-    "Index path and content" : "Indexeer pad en inhoud",
-    "Do not index path nor content" : "Pad en inhoud niet indexeren",
     "Group Folders" : "Groepsmappen",
     "Index the content of group folders." : "Indexeer de inhoud van groepsmappen.",
     "Types" : "Types",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "Kon \"{file}\" niet kopiëren, doel bestaat al",
     "Could not copy \"{file}\"" : "Kon \"{file}\" niet kopiëren",
     "Copied {origin} inside {destination}" : "Kopieerde {origin} binnen {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Heeft {origin} en {nbfiles} andere bestanden in {destination} gekopieerd"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Heeft {origin} en {nbfiles} andere bestanden in {destination} gekopieerd",
+    "Index the content of external files." : "Indexeer de inhoud van externe bestanden"
 },
 "nplurals=2; plural=(n != 1);");

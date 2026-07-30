@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "Cuardach téacs iomlán - Comhaid",
     "Index the content of your files" : "Innéacs ábhar do chomhaid",
     "Extension to the _Full text search_ app to index your users' files." : "Síneadh leis an aip _Full text search_ chun comhaid d'úsáideoirí a innéacsú.",
+    "Index path only" : "Conair innéacs amháin",
+    "Index path and content" : "Conair innéacs agus ábhar",
+    "Do not index path nor content" : "Ná innéacs conair ná ábhar",
     "Sources" : "Foinsí",
     "Local Files" : "Comhaid Áitiúla",
     "Index the content of local files." : "Innéacsaigh ábhar na gcomhad áitiúil.",
     "External Files" : "Comhaid Sheachtracha",
-    "Index the content of external files." : "Innéacs ábhar na gcomhad seachtrach.",
-    "Index path only" : "Conair innéacs amháin",
-    "Index path and content" : "Conair innéacs agus ábhar",
-    "Do not index path nor content" : "Ná innéacs conair ná ábhar",
     "Group Folders" : "Fillteáin Ghrúpa",
     "Index the content of group folders." : "Innéacsaigh ábhar na bhfillteán grúpa.",
     "Types" : "Cineálacha",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "Níorbh fhéidir \"{file}\" a chóipeáil, tá an sprioc ann",
     "Could not copy \"{file}\"" : "Níorbh fhéidir \"{file}\" a chóipeáil",
     "Copied {origin} inside {destination}" : "Cóipeáladh {origin} taobh istigh de {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Cóipeáladh {origin} agus {nbfiles} comhaid eile laistigh de {destination}"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Cóipeáladh {origin} agus {nbfiles} comhaid eile laistigh de {destination}",
+    "Index the content of external files." : "Innéacs ábhar na gcomhad seachtrach."
 },
 "nplurals=5; plural=(n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n<11 ? 3 : 4);");

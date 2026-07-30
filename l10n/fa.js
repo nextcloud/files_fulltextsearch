@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "جستجوی متن کامل - پرونده‌ها",
     "Index the content of your files" : "نمایه‌سازی محتوای پرونده‌های شما",
     "Extension to the _Full text search_ app to index your users' files." : "افزونه‌ای برای برنامه _جستجوی متن کامل_ جهت نمایه‌سازی پرونده‌های کاربران شما.",
+    "Index path only" : "فقط نمایه‌سازی مسیر",
+    "Index path and content" : "نمایه‌سازی مسیر و محتوا",
+    "Do not index path nor content" : "عدم نمایه‌سازی مسیر و محتوا",
     "Sources" : "منابع",
     "Local Files" : "پرونده‌های محلی",
     "Index the content of local files." : "نمایه‌سازی محتوای پرونده‌های محلی.",
     "External Files" : "پرونده‌های خارجی",
-    "Index the content of external files." : "نمایه‌سازی محتوای پرونده‌های خارجی.",
-    "Index path only" : "فقط نمایه‌سازی مسیر",
-    "Index path and content" : "نمایه‌سازی مسیر و محتوا",
-    "Do not index path nor content" : "عدم نمایه‌سازی مسیر و محتوا",
     "Group Folders" : "پوشه‌های گروهی",
     "Index the content of group folders." : "نمایه‌سازی محتوای پوشه‌های گروهی.",
     "Types" : "انواع",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "نمی‌توان \"{file}\" را کپی کرد، مقصد وجود دارد",
     "Could not copy \"{file}\"" : "نمی‌توان \"{file}\" را کپی کرد",
     "Copied {origin} inside {destination}" : "{origin} درون {destination} کپی شد",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} و {nbfiles} پرونده دیگر درون {destination} کپی شدند"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} و {nbfiles} پرونده دیگر درون {destination} کپی شدند",
+    "Index the content of external files." : "نمایه‌سازی محتوای پرونده‌های خارجی."
 },
 "nplurals=2; plural=(n > 1);");
