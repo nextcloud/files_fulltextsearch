@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "Πλήρης αναζήτηση κειμένων- Αρχείων",
     "Index the content of your files" : "Ευρετηριοποίηση του περιεχομένου των αρχείων σας",
     "Extension to the _Full text search_ app to index your users' files." : "Επέκταση της εφαρμογής _Full text search_ για να κατατάξετε αρχεία των χρηστών.",
+    "Index path only" : "μόνο διαδρομή ευρετηρίου",
+    "Index path and content" : "Διαδρομή ευρετηρίου και περιεχομένων",
+    "Do not index path nor content" : "Να μην συμπεριλαμβάνετε η διαδρομή ή το περιεχόμενο",
     "Sources" : "Πηγές",
     "Local Files" : "Τοπικά Αρχεία",
     "Index the content of local files." : "Ευρετηριοποίηση περιεχομένου των αρχείων σας",
     "External Files" : "Εξωτερικά αρχεία",
-    "Index the content of external files." : "Ευρετηριοποίηση περιεχομένου των εξωτερικών αρχείων.",
-    "Index path only" : "μόνο διαδρομή ευρετηρίου",
-    "Index path and content" : "Διαδρομή ευρετηρίου και περιεχομένων",
-    "Do not index path nor content" : "Να μην συμπεριλαμβάνετε η διαδρομή ή το περιεχόμενο",
     "Group Folders" : "Φάκελοι Ομάδας",
     "Index the content of group folders." : "Ευρετηριοποίηση περιεχομένου των φακέλων ομάδας.",
     "Types" : "Τύποι",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "Αδυναμία αντιγραφής του \"{file}\", υπάρχει ήδη.",
     "Could not copy \"{file}\"" : "Αδυναμία αντιγραφής του \"{file}\"",
     "Copied {origin} inside {destination}" : "Αντιγράφτηκε το {origin} στο {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Αντιγράφτηκε το {origin} και {nbfiles} άλλα αρχεία στο {destination}"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Αντιγράφτηκε το {origin} και {nbfiles} άλλα αρχεία στο {destination}",
+    "Index the content of external files." : "Ευρετηριοποίηση περιεχομένου των εξωτερικών αρχείων."
 },
 "nplurals=2; plural=(n != 1);");

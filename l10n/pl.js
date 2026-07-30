@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "Wyszukiwanie pełnotekstowe - Pliki",
     "Index the content of your files" : "Indeksuj zawartość plików",
     "Extension to the _Full text search_ app to index your users' files." : "Rozszerzenie do aplikacji \"Wyszukiwanie pełnotekstowe\" do indeksowania plików użytkowników.",
+    "Index path only" : "Tylko ścieżka indeksu",
+    "Index path and content" : "Ścieżka i zawartość indeksu",
+    "Do not index path nor content" : "Nie indeksuj ścieżki i zawartości",
     "Sources" : "Źródła",
     "Local Files" : "Pliki lokalne",
     "Index the content of local files." : "Indeksuj zawartość plików lokalnych.",
     "External Files" : "Pliki zewnętrzne",
-    "Index the content of external files." : "Indeksuj zawartość plików zewnętrznych.",
-    "Index path only" : "Tylko ścieżka indeksu",
-    "Index path and content" : "Ścieżka i zawartość indeksu",
-    "Do not index path nor content" : "Nie indeksuj ścieżki i zawartości",
     "Group Folders" : "Katalogi grupy",
     "Index the content of group folders." : "Indeksuj zawartość katalogów grupy.",
     "Types" : "Rodzaje",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "Nie można skopiować \"{file}\", plik istnieje",
     "Could not copy \"{file}\"" : "Nie można skopiować \"{file}\"",
     "Copied {origin} inside {destination}" : "Skopiowano {origin} wewnątrz {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Skopiowano {origin} i {nbfiles} oraz inne pliki wewnątrz {destination}"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Skopiowano {origin} i {nbfiles} oraz inne pliki wewnątrz {destination}",
+    "Index the content of external files." : "Indeksuj zawartość plików zewnętrznych."
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

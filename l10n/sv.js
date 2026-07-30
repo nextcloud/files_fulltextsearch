@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "Fulltextsökning – Filer",
     "Index the content of your files" : "Indexera innehållet i dina filer",
     "Extension to the _Full text search_ app to index your users' files." : "Tillägg till appen _Fulltextsökning_ som indexerar användarnas filer.",
+    "Index path only" : "Indexera endast sökvägen",
+    "Index path and content" : "Indexera både sökvägen och innehållet",
+    "Do not index path nor content" : "Indexera varken sökvägen eller innehållet",
     "Sources" : "Källor",
     "Local Files" : "Lokala filer",
     "Index the content of local files." : "Indexera innehållet i lokala filer.",
     "External Files" : "Externa filer",
-    "Index the content of external files." : "Indexera innehållet i externa filer.",
-    "Index path only" : "Indexera endast sökvägen",
-    "Index path and content" : "Indexera både sökvägen och innehållet",
-    "Do not index path nor content" : "Indexera varken sökvägen eller innehållet",
     "Group Folders" : "Gruppmappar",
     "Index the content of group folders." : "Indexera innehållet i gruppmappar.",
     "Types" : "Typer",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "Det gick inte att kopiera ”{file}” eftersom målet redan finns",
     "Could not copy \"{file}\"" : "Det gick inte att kopiera ”{file}”",
     "Copied {origin} inside {destination}" : "Kopierade {origin} till {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopierade {origin} och {nbfiles} andra filer till {destination}"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopierade {origin} och {nbfiles} andra filer till {destination}",
+    "Index the content of external files." : "Indexera innehållet i externa filer."
 },
 "nplurals=2; plural=(n != 1);");

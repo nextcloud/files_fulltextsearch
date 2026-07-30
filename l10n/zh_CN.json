@@ -12,14 +12,13 @@
     "Full text search - Files" : "全文搜索 - 文件",
     "Index the content of your files" : "为您的文件内容建立索引",
     "Extension to the _Full text search_ app to index your users' files." : "用于索引您的用户文件的 _全文搜索_ 应用扩展。",
+    "Index path only" : "只为路径建立索引",
+    "Index path and content" : "索引路径和内容",
+    "Do not index path nor content" : "不索引路径和内容",
     "Sources" : "源",
     "Local Files" : "本地文件",
     "Index the content of local files." : "为本地文件内容建立索引。",
     "External Files" : "外部文件",
-    "Index the content of external files." : "索引外部文件内容",
-    "Index path only" : "只为路径建立索引",
-    "Index path and content" : "索引路径和内容",
-    "Do not index path nor content" : "不索引路径和内容",
     "Group Folders" : "组文件夹",
     "Index the content of group folders." : "索引组文件夹内容",
     "Types" : "类型",
@@ -41,6 +40,7 @@
     "Could not copy \"{file}\", target exists" : "无法复制“{file}”，目标已存在",
     "Could not copy \"{file}\"" : "不能复制“{file}”",
     "Copied {origin} inside {destination}" : "在{destination}内复制{origin}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "在{destination}内复制{origin}和{nbfiles}其他文件"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "在{destination}内复制{origin}和{nbfiles}其他文件",
+    "Index the content of external files." : "索引外部文件内容"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

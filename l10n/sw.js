@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "Utafutaji kamili wa maandishi - Faili",
     "Index the content of your files" : "Fahirisha maudhui ya faili zako",
     "Extension to the _Full text search_ app to index your users' files." : "Kiendelezi cha programu ya _Full text search_ ili kuorodhesha faili za watumiaji wako.",
+    "Index path only" : "Njia ya faharasa pekee",
+    "Index path and content" : " Njia ya faharasa na yaliyomo",
+    "Do not index path nor content" : "Usiweke njia ya faharasa wala maudhui",
     "Sources" : "Vyanzo",
     "Local Files" : "Faili za ndani",
     "Index the content of local files." : " Fahirisha maudhui ya faili za ndani.",
     "External Files" : "Faili za nje",
-    "Index the content of external files." : "Fahirisha maudhui ya faili za nje.",
-    "Index path only" : "Njia ya faharasa pekee",
-    "Index path and content" : " Njia ya faharasa na yaliyomo",
-    "Do not index path nor content" : "Usiweke njia ya faharasa wala maudhui",
     "Group Folders" : "Folda za kundi",
     "Index the content of group folders." : "Fahirisha yaliyomo kwenye folda za kikundi.",
     "Types" : "Aina",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "Haiwezi kunakili \"{file}\" lengo lililopo",
     "Could not copy \"{file}\"" : "Haikuweza kunakili {file}",
     "Copied {origin} inside {destination}" : "Imenakili {origin} ndani ya {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Imenakili {origin} na {nbfiles} faili zingine ndani ya {destination}"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Imenakili {origin} na {nbfiles} faili zingine ndani ya {destination}",
+    "Index the content of external files." : "Fahirisha maudhui ya faili za nje."
 },
 "nplurals=2; plural=(n != 1);");

@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "Iskanje po polnem besedilu – datoteke",
     "Index the content of your files" : "Ustvarjaj kazalo vsebine osebnih datotek.",
     "Extension to the _Full text search_ app to index your users' files." : "Razširitev, ki omogoča _Iskalniku po polnem besedilu_ ustvarjanje kazala vsebine datotek.",
+    "Index path only" : "Ustvarjaj le kazalo poti",
+    "Index path and content" : "Ustvarjaj kazalo poti in vsebine",
+    "Do not index path nor content" : "Ne ustvarjaj kazala ne poti ne vsebine",
     "Sources" : "Viri",
     "Local Files" : "Krajevne datoteke",
     "Index the content of local files." : "Ustvarjaj kazalo vsebine krajevnih datotek.",
     "External Files" : "Zunanje datoteke",
-    "Index the content of external files." : "Ustvarjaj kazalo vsebine zunanjih datotek.",
-    "Index path only" : "Ustvarjaj le kazalo poti",
-    "Index path and content" : "Ustvarjaj kazalo poti in vsebine",
-    "Do not index path nor content" : "Ne ustvarjaj kazala ne poti ne vsebine",
     "Group Folders" : "Skupinske mape",
     "Index the content of group folders." : "Ustvarjaj kazalo vsebine krajevnih datotek.",
     "Types" : "Vrste",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "Datoteke »{file}« ni mogoče kopirati, ker ta že obstaja",
     "Could not copy \"{file}\"" : "Datoteke »{file}« ni mogoče kopirati.",
     "Copied {origin} inside {destination}" : "Kopirano {origin} v {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopirano {origin} in {nbfiles} ostale datoteke v {destination}"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopirano {origin} in {nbfiles} ostale datoteke v {destination}",
+    "Index the content of external files." : "Ustvarjaj kazalo vsebine zunanjih datotek."
 },
 "nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);");

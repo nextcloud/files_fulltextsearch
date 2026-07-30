@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "Täistekstiotsing - failid",
     "Index the content of your files" : "Indekseeri oma failide sisu",
     "Extension to the _Full text search_ app to index your users' files." : "Lisamoodul _Täistekstiotsingu_ rakendusele, mis võimaldab indekseerida sinu serveri kasutajate faile.",
+    "Index path only" : "Indekseeri vaid asukoht",
+    "Index path and content" : "Indekseeri asukoht ja sisu",
+    "Do not index path nor content" : "Ära indekseeri asukohta ega sisu",
     "Sources" : "llikad",
     "Local Files" : "Kohalikud failid",
     "Index the content of local files." : "Indekseeri kohalike failide sisu.",
     "External Files" : "Välised failid",
-    "Index the content of external files." : "Indekseeri väliste failide sisu.",
-    "Index path only" : "Indekseeri vaid asukoht",
-    "Index path and content" : "Indekseeri asukoht ja sisu",
-    "Do not index path nor content" : "Ära indekseeri asukohta ega sisu",
     "Group Folders" : "Grupikaustad",
     "Index the content of group folders." : "Indekseeri grupikaustade sisu.",
     "Types" : "Tüübid",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "\"{file}\" kopeerimine ebaõnnestus, sihtfail on juba olemas",
     "Could not copy \"{file}\"" : "\"{file}\" kopeerimine ebaõnnestus",
     "Copied {origin} inside {destination}" : "Kopeeris {origin} {destination} sisse",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopeeris {origin} ja {nbfiles} teist faili {destination} sisse"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopeeris {origin} ja {nbfiles} teist faili {destination} sisse",
+    "Index the content of external files." : "Indekseeri väliste failide sisu."
 },
 "nplurals=2; plural=(n != 1);");

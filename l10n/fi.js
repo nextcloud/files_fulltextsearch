@@ -13,14 +13,13 @@ OC.L10N.register(
     "Extension" : "Tiedostopääte",
     "Full text search - Files" : "Koko tekstin haku - Tiedostot",
     "Index the content of your files" : "Indeksoi tiedostojesi sisältö",
+    "Index path only" : "Indeksoi vain polku",
+    "Index path and content" : "Indeksoi polku ja sisältö",
+    "Do not index path nor content" : "Älä indeksoi polkua tai sisältöä",
     "Sources" : "Lähteet",
     "Local Files" : "Paikalliset tiedostot",
     "Index the content of local files." : "Indeksoi paikallisten tiedostojen sisältö.",
     "External Files" : "Ulkoiset tiedostot",
-    "Index the content of external files." : "Indeksoi ulkoisten tiedostojen sisältö.",
-    "Index path only" : "Indeksoi vain polku",
-    "Index path and content" : "Indeksoi polku ja sisältö",
-    "Do not index path nor content" : "Älä indeksoi polkua tai sisältöä",
     "Group Folders" : "Ryhmäkansiot",
     "Index the content of group folders." : "Indeksoi ryhmäkansioiden sisältö.",
     "Types" : "Tyypit",
@@ -40,6 +39,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "Tiedostoa \"{file}\" ei voitu kopioida, kohde on olemassa",
     "Could not copy \"{file}\"" : "Ei voitu kopioida tiedostoa \"{file}\"",
     "Copied {origin} inside {destination}" : "Kopioitu {origin} kohteeseen {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopioitu {origin} ja {nbfiles} muuta tiedostoa kohteeseen {destination}"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopioitu {origin} ja {nbfiles} muuta tiedostoa kohteeseen {destination}",
+    "Index the content of external files." : "Indeksoi ulkoisten tiedostojen sisältö."
 },
 "nplurals=2; plural=(n != 1);");

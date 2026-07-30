@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "Пълно текстово търсене - по Файлове",
     "Index the content of your files" : "Индексиране на съдържанието на вашите файлове",
     "Extension to the _Full text search_ app to index your users' files." : "Разширение на приложението _Full text search_ за индексиране на файловете на вашите потребители.",
+    "Index path only" : "Само път на индекса",
+    "Index path and content" : "Път на индекса и съдържание",
+    "Do not index path nor content" : "Да не се индексира пътя или съдържанието",
     "Sources" : "Източници",
     "Local Files" : "Локални файлове",
     "Index the content of local files." : "Индексиране на съдържанието на локални файлове.",
     "External Files" : "Външни Файлове",
-    "Index the content of external files." : "Индексиране  на съдържанието на външни файлове.",
-    "Index path only" : "Само път на индекса",
-    "Index path and content" : "Път на индекса и съдържание",
-    "Do not index path nor content" : "Да не се индексира пътя или съдържанието",
     "Group Folders" : "Групови Папки",
     "Index the content of group folders." : "Индексиране на съдържанието на груповите папки.",
     "Types" : "Типове",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "Файлът \"{file}\" не може да бъде копиран, дестинацията съществува",
     "Could not copy \"{file}\"" : "Файлът \"{file}\" не може да бъде копиран",
     "Copied {origin} inside {destination}" : "Копиран {origin} вътре в {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Копирани {origin} и {nbfiles} други файлове вътре в {destination}"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Копирани {origin} и {nbfiles} други файлове вътре в {destination}",
+    "Index the content of external files." : "Индексиране  на съдържанието на външни файлове."
 },
 "nplurals=2; plural=(n != 1);");

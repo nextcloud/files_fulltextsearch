@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "Leit í öllum textanum - Skrár",
     "Index the content of your files" : "Gerðu atriðaskrá yfir efni skránna þinna",
     "Extension to the _Full text search_ app to index your users' files." : "Viðbót fyrir _Full text search_ forritið til að gera atriðaskrár yfir skrár notendanna þinna.",
+    "Index path only" : "Einungis setja slóð í atriðaskrá",
+    "Index path and content" : "Setja slóð og efni í atriðaskrá",
+    "Do not index path nor content" : "Hvorki setja slóð né efni í atriðaskrá",
     "Sources" : "Uppruni",
     "Local Files" : "Skrár á tölvunni",
     "Index the content of local files." : "Gera atriðaskrá yfir efni í skrám á tölvunni.",
     "External Files" : "Ytri skrár",
-    "Index the content of external files." : "Gera atriðaskrá yfir efni í utanaðkomandi skrám.",
-    "Index path only" : "Einungis setja slóð í atriðaskrá",
-    "Index path and content" : "Setja slóð og efni í atriðaskrá",
-    "Do not index path nor content" : "Hvorki setja slóð né efni í atriðaskrá",
     "Group Folders" : "Möppur hóps",
     "Index the content of group folders." : "Gera atriðaskrá yfir efni í hópamöppum.",
     "Types" : "Tegundir",
@@ -41,6 +40,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "Gat ekki afritað \"{file}\", markskrá er til",
     "Could not copy \"{file}\"" : "Gat ekki afritað \"{file}\"",
     "Copied {origin} inside {destination}" : "Afritaði {origin} inn í {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Afritaði {origin} og {nbfiles} aðrar skrár inn í {destination}"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Afritaði {origin} og {nbfiles} aðrar skrár inn í {destination}",
+    "Index the content of external files." : "Gera atriðaskrá yfir efni í utanaðkomandi skrám."
 },
 "nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);");

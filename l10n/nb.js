@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "Fulltekstsøk - Filer",
     "Index the content of your files" : "Indekser innholdet i filene dine",
     "Extension to the _Full text search_ app to index your users' files." : "Utvidelse for _Full text search_-appen for å indeksere dine brukeres filer.",
+    "Index path only" : "Indekser kun sti",
+    "Index path and content" : "Indekser sti og innhold",
+    "Do not index path nor content" : "Indekser verken sti eller innhold",
     "Sources" : "Kilder",
     "Local Files" : "Lokale filer",
     "Index the content of local files." : "Indekser innholdet i lokale filer.",
     "External Files" : "Eksterne filer",
-    "Index the content of external files." : "Indekser innholdet i eksterne filer.",
-    "Index path only" : "Indekser kun sti",
-    "Index path and content" : "Indekser sti og innhold",
-    "Do not index path nor content" : "Indekser verken sti eller innhold",
     "Group Folders" : "Gruppemapper",
     "Index the content of group folders." : "Indekser innholdet i gruppemapper",
     "Types" : "Typer",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "Klarte ikke å kopiere \"{file}\", målfilen finnes",
     "Could not copy \"{file}\"" : "Klarte ikke å kopiere \"{file}\"",
     "Copied {origin} inside {destination}" : "Kopierte {origin} i {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopierte {origin} og {nbfiles} andre filer i {destination}"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Kopierte {origin} og {nbfiles} andre filer i {destination}",
+    "Index the content of external files." : "Indekser innholdet i eksterne filer."
 },
 "nplurals=2; plural=(n != 1);");
