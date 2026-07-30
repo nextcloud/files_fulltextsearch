@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "Pencarian teks lengkap - File",
     "Index the content of your files" : "Indeks konten file Anda",
     "Extension to the _Full text search_ app to index your users' files." : "Ekstensi untuk aplikasi _Pencarian teks lengkap_ untuk mengindeks file pengguna Anda.",
+    "Index path only" : "Indeks hanya jalur",
+    "Index path and content" : "Indeks jalur dan konten",
+    "Do not index path nor content" : "Jangan indeks jalur maupun konten",
     "Sources" : "Sumber",
     "Local Files" : "File lokal",
     "Index the content of local files." : "Indeks konten file lokal.",
     "External Files" : "File eksternal",
-    "Index the content of external files." : "Indeks konten file eksternal.",
-    "Index path only" : "Indeks hanya jalur",
-    "Index path and content" : "Indeks jalur dan konten",
-    "Do not index path nor content" : "Jangan indeks jalur maupun konten",
     "Group Folders" : "Folder grup",
     "Index the content of group folders." : "Indeks konten folder grup.",
     "Types" : "Jenis",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "Tidak dapat menyalin \"{file}\", target sudah ada",
     "Could not copy \"{file}\"" : "Tidak dapat menyalin \"{file}\"",
     "Copied {origin} inside {destination}" : "{origin} disalin ke dalam {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} dan {nbfiles} file lainnya disalin ke dalam {destination}"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} dan {nbfiles} file lainnya disalin ke dalam {destination}",
+    "Index the content of external files." : "Indeks konten file eksternal."
 },
 "nplurals=1; plural=0;");

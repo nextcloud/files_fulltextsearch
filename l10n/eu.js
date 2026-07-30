@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "Testu osoko bilaketa - fitxategiak",
     "Index the content of your files" : "Indexatu zure fitxategien edukia",
     "Extension to the _Full text search_ app to index your users' files." : "_Testu osoko bilakea_ aplikazioaren hedapena zure erabiltzaileen fitxategiak indexatzeko.",
+    "Index path only" : "Indexatu bide-izena soilik",
+    "Index path and content" : "Indexatu bide-izena eta edukia",
+    "Do not index path nor content" : "Ez indexatu bide-izena edota edukia",
     "Sources" : "Iturriak",
     "Local Files" : "Fitxategi lokalak",
     "Index the content of local files." : "Indexatu fitxategi lokalen edukia.",
     "External Files" : "Kanpoko fitxategiak",
-    "Index the content of external files." : "Indexatu kanpoko fitxategien edukia.",
-    "Index path only" : "Indexatu bide-izena soilik",
-    "Index path and content" : "Indexatu bide-izena eta edukia",
-    "Do not index path nor content" : "Ez indexatu bide-izena edota edukia",
     "Group Folders" : "Talde-karpetak",
     "Index the content of group folders." : "Indexatu talde-karpeten edukia.",
     "Types" : "Motak",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "Ezin izan da \"{file}\" kopiatu; helburua existitzen da",
     "Could not copy \"{file}\"" : "Ezin izan da \"{file}\" kopiatu",
     "Copied {origin} inside {destination}" : "{origin} {destination} barruan kopiatu da",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} eta beste {nbfiles} fitxategi {destination} barruan kopiatu dira"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "{origin} eta beste {nbfiles} fitxategi {destination} barruan kopiatu dira",
+    "Index the content of external files." : "Indexatu kanpoko fitxategien edukia."
 },
 "nplurals=2; plural=(n != 1);");

@@ -12,14 +12,13 @@
     "Full text search - Files" : "Fulltextové vyhľadávanie - Súbory",
     "Index the content of your files" : "Indexovať obsah vašich súborov",
     "Extension to the _Full text search_ app to index your users' files." : "Rozšírenie pre _Full text search_ app pre vytváranie indexu obsahu súborov vašich používateľov.",
+    "Index path only" : "Indexovať len cestu",
+    "Index path and content" : "Indexovať cestu a obsah",
+    "Do not index path nor content" : "Neindexovať cestu ani obsah",
     "Sources" : "Zdroje",
     "Local Files" : "Lokálne súbory",
     "Index the content of local files." : "Indexovať obsah lokálnych súborov",
     "External Files" : "Externé súbory",
-    "Index the content of external files." : "Indexovať obsah externých súborov",
-    "Index path only" : "Indexovať len cestu",
-    "Index path and content" : "Indexovať cestu a obsah",
-    "Do not index path nor content" : "Neindexovať cestu ani obsah",
     "Group Folders" : "Skupinové adresáre",
     "Index the content of group folders." : "Indeovať obsah skupinových priečinkov.",
     "Types" : "Typy",
@@ -41,6 +40,7 @@
     "Could not copy \"{file}\", target exists" : "Nie je možné kopírovať \"{file}\", cieľ už existuje",
     "Could not copy \"{file}\"" : "Nie je možné skopírovať \"{file}\"",
     "Copied {origin} inside {destination}" : "Skopírované {origin} do {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Skopírované {origin} a {nbfiles} ostatných súborov do {destination}"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Skopírované {origin} a {nbfiles} ostatných súborov do {destination}",
+    "Index the content of external files." : "Indexovať obsah externých súborov"
 },"pluralForm" :"nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);"
 }

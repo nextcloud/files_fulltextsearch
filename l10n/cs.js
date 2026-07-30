@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "Plnotextové vyhledávání – soubory",
     "Index the content of your files" : "Indexovat obsah vašich souborů",
     "Extension to the _Full text search_ app to index your users' files." : "Rozšíření pro _Full text search_ app pro vytváření rejstříku obsahů souborů vašich uživatelů.",
+    "Index path only" : "Vytvářet pouze rejstřík popisů umístění",
+    "Index path and content" : "Vytvářet rejstřík popisů umístění a obsahu",
+    "Do not index path nor content" : "Nevytvářet rejstřík popisů umístění a obsahu",
     "Sources" : "Zdroje",
     "Local Files" : "Místní soubory",
     "Index the content of local files." : "Vytvořit rejstřík obsahu místních souborů.",
     "External Files" : "Vnější soubory",
-    "Index the content of external files." : "Vytvořit rejstřík obsahu externích souborů.",
-    "Index path only" : "Vytvářet pouze rejstřík popisů umístění",
-    "Index path and content" : "Vytvářet rejstřík popisů umístění a obsahu",
-    "Do not index path nor content" : "Nevytvářet rejstřík popisů umístění a obsahu",
     "Group Folders" : "Skupinové složky",
     "Index the content of group folders." : "Vytvořit rejstřík obsahu skupinových složek.",
     "Types" : "Typy",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "Nelze kopírovat „{file}“, cíl už existuje",
     "Could not copy \"{file}\"" : "„{file}“ se nedaří zkopírovat",
     "Copied {origin} inside {destination}" : "{origin} zkopírováno do {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Zkopírováno {origin} a {nbfiles} dalších souborů uvnitř {destination}"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Zkopírováno {origin} a {nbfiles} dalších souborů uvnitř {destination}",
+    "Index the content of external files." : "Vytvořit rejstřík obsahu externích souborů."
 },
 "nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;");

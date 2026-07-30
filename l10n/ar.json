@@ -12,14 +12,13 @@
     "Full text search - Files" : "البحث النصي الشامل - الملفات",
     "Index the content of your files" : "فهرسة محتويات ملفاتك",
     "Extension to the _Full text search_ app to index your users' files." : "مُلحق لتطبيق _Full text search_ لفهرسة ملفات مستخدميك.",
+    "Index path only" : "فهرسة المسار فقط ",
+    "Index path and content" : "فهرسة المسار و المحتوى",
+    "Do not index path nor content" : "لا تُفهرس المسار و لا المحتوى",
     "Sources" : "المصادر",
     "Local Files" : "الملفات المحلية",
     "Index the content of local files." : "فهرسة محتويات الملفات المحلية.",
     "External Files" : "الملفات الخارجية",
-    "Index the content of external files." : "فهرسة محتويات الملفات الخارجية.",
-    "Index path only" : "فهرسة المسار فقط ",
-    "Index path and content" : "فهرسة المسار و المحتوى",
-    "Do not index path nor content" : "لا تُفهرس المسار و لا المحتوى",
     "Group Folders" : "مجلدات المجموعة",
     "Index the content of group folders." : "فهرسة محتويات مجلدات المجموعة",
     "Types" : "الأنواع",
@@ -41,6 +40,7 @@
     "Could not copy \"{file}\", target exists" : "لم يستطع نسخ \"{file}\"، المستهدف موجود",
     "Could not copy \"{file}\"" : "لم يُمكن نسخ \"{file}\"",
     "Copied {origin} inside {destination}" : "منسوخ {origin} داخل {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "تم نسخ {origin} و {nbfiles} ملفات اخرى داخل {destination}"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "تم نسخ {origin} و {nbfiles} ملفات اخرى داخل {destination}",
+    "Index the content of external files." : "فهرسة محتويات الملفات الخارجية."
 },"pluralForm" :"nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;"
 }

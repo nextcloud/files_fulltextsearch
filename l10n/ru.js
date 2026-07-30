@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "Полнотекстовый поиск по файлам",
     "Index the content of your files" : "Индексирование содержимого файлов",
     "Extension to the _Full text search_ app to index your users' files." : "Дополнение к приложению _Full text search_, выполняющее индексацию файлов пользователей.",
+    "Index path only" : "Индексировать только путь",
+    "Index path and content" : "Индексировать путь и содержимое",
+    "Do not index path nor content" : "Не индексировать путь и содержимое",
     "Sources" : "Источники",
     "Local Files" : "Локальные файлы",
     "Index the content of local files." : "Индексировать содержимое локальных файлов.",
     "External Files" : "Внешние файлы",
-    "Index the content of external files." : "Индексировать содержимое внешних файлов.",
-    "Index path only" : "Индексировать только путь",
-    "Index path and content" : "Индексировать путь и содержимое",
-    "Do not index path nor content" : "Не индексировать путь и содержимое",
     "Group Folders" : "Групповые папки",
     "Index the content of group folders." : "Индексировать содержимое папок групп.",
     "Types" : "Типы",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "Невозможно скопировать «{file}», он уже существует в каталоге назначения",
     "Could not copy \"{file}\"" : "Не удалось скопировать «{file}»",
     "Copied {origin} inside {destination}" : "«{origin}» скопирован в «{destination}»",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "«{origin}» и {nbfiles} других файлов скопированы в «{destination}»"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "«{origin}» и {nbfiles} других файлов скопированы в «{destination}»",
+    "Index the content of external files." : "Индексировать содержимое внешних файлов."
 },
 "nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);");

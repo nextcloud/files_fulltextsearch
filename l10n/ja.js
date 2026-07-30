@@ -14,14 +14,13 @@ OC.L10N.register(
     "Full text search - Files" : "全文検索 - ファイル",
     "Index the content of your files" : "ファイルの内容を索引付けする",
     "Extension to the _Full text search_ app to index your users' files." : "_フルテキスト検索_アプリに拡張して、ユーザーのファイルのインデックスを作成します。",
+    "Index path only" : "インデックスパスのみ",
+    "Index path and content" : "パスとコンテンツをインデックスする",
+    "Do not index path nor content" : "パスもコンテンツもインデックスしない",
     "Sources" : "ソース",
     "Local Files" : "ローカルファイル",
     "Index the content of local files." : "ローカルファイルの内容を索引付けします。",
     "External Files" : "外部ファイル",
-    "Index the content of external files." : "外部ファイルの内容を索引付けする。",
-    "Index path only" : "インデックスパスのみ",
-    "Index path and content" : "パスとコンテンツをインデックスする",
-    "Do not index path nor content" : "パスもコンテンツもインデックスしない",
     "Group Folders" : "グループフォルダー",
     "Index the content of group folders." : "グループフォルダーのコンテンツのインデックスを作成します。",
     "Types" : "タイプ",
@@ -43,6 +42,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "ターゲットが存在するため、\"{file}\"をコピーできません",
     "Could not copy \"{file}\"" : "\"{file}\"をコピーできません",
     "Copied {origin} inside {destination}" : "コピー先{origin} {destination}内",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "コピー先{origin}と{nbfiles}他のファイル{destination}"
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "コピー先{origin}と{nbfiles}他のファイル{destination}",
+    "Index the content of external files." : "外部ファイルの内容を索引付けする。"
 },
 "nplurals=1; plural=0;");
