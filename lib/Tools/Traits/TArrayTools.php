@@ -210,7 +210,6 @@ trait TArrayTools {
 		return false;
 	}
 
-
 	/**
 	 * @param string $k
 	 * @param array $arr
@@ -237,7 +236,6 @@ trait TArrayTools {
 		return $r;
 	}
 
-
 	/**
 	 * @param string $k
 	 * @param string $value
@@ -259,7 +257,6 @@ trait TArrayTools {
 
 		throw new ArrayNotFoundException();
 	}
-
 
 	/**
 	 * @param string $key
@@ -316,7 +313,6 @@ trait TArrayTools {
 		throw new ItemNotFoundException();
 	}
 
-
 	/**
 	 * @param array $keys
 	 * @param array $arr
@@ -332,7 +328,6 @@ trait TArrayTools {
 			}
 		}
 	}
-
 
 	/**
 	 * @param array $arr

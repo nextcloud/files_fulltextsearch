@@ -66,7 +66,6 @@ class FilesService {
 	private ?IRunner $runner = null;
 	private int $sumDocuments;
 
-
 	public function __construct(
 		private IRootFolder $rootFolder,
 		private IAppManager $appManager,
@@ -87,14 +86,12 @@ class FilesService {
 	) {
 	}
 
-
 	/**
 	 * @param IRunner $runner
 	 */
 	public function setRunner(IRunner $runner) {
 		$this->runner = $runner;
 	}
-
 
 	/**
 	 * @param string $userId
@@ -130,7 +127,6 @@ class FilesService {
 
 		return [$this->getPathFromRoot($files->getPath(), $userId, true)];
 	}
-
 
 	/**
 	 * @param string $userId
@@ -173,7 +169,6 @@ class FilesService {
 		return $entries;
 	}
 
-
 	/**
 	 * @param string $userId
 	 * @param string $chunk
@@ -209,7 +204,6 @@ class FilesService {
 
 		return $result;
 	}
-
 
 	/**
 	 * @param string $userId
@@ -264,7 +258,6 @@ class FilesService {
 		return $documents;
 	}
 
-
 	/**
 	 * @param string $userId
 	 */
@@ -281,7 +274,6 @@ class FilesService {
 
 		$this->groupFoldersService->initGroupSharesForUser($userId);
 	}
-
 
 	/**
 	 * @param string $userId
@@ -301,7 +293,6 @@ class FilesService {
 
 		return $documents;
 	}
-
 
 	/**
 	 * @param string $viewerId
@@ -385,7 +376,6 @@ class FilesService {
 		return $document;
 	}
 
-
 	/**
 	 * @param Node $file
 	 *
@@ -406,7 +396,6 @@ class FilesService {
 		return $source;
 	}
 
-
 	/**
 	 * @param string $userId
 	 * @param string $path
@@ -418,7 +407,6 @@ class FilesService {
 		return $this->rootFolder->getUserFolder($userId)
 			->get($path);
 	}
-
 
 	/**
 	 * @param string $userId
@@ -448,7 +436,6 @@ class FilesService {
 		return array_shift($files);
 	}
 
-
 	/**
 	 * @param IIndex $index
 	 *
@@ -459,7 +446,6 @@ class FilesService {
 	public function getFileFromIndex(IIndex $index): Node {
 		return $this->getFileFromId($index->getOwnerId(), (int)$index->getDocumentId());
 	}
-
 
 	/**
 	 * @param int $fileId
@@ -489,7 +475,6 @@ class FilesService {
 		return $path;
 	}
 
-
 	/**
 	 * @param FilesDocument $document
 	 */
@@ -503,7 +488,6 @@ class FilesService {
 			$this->logger->warning('Exception while generateDocument', ['exception' => $e]);
 		}
 	}
-
 
 	/**
 	 * @param IIndex $index
@@ -540,7 +524,6 @@ class FilesService {
 		return $document;
 	}
 
-
 	/**
 	 * @param IIndexDocument $document
 	 *
@@ -550,7 +533,6 @@ class FilesService {
 		$this->extensionService->indexComparing($document);
 
 		$index = $document->getIndex();
-
 
 		if (!$this->configService->compareIndexOptions($index)) {
 			$index->setStatus(IIndex::INDEX_CONTENT);
@@ -570,7 +552,6 @@ class FilesService {
 		return false;
 	}
 
-
 	/**
 	 * @param IIndex $index
 	 *
@@ -589,7 +570,6 @@ class FilesService {
 		return $document;
 	}
 
-
 	/**
 	 * @param FilesDocument $document
 	 *
@@ -607,7 +587,6 @@ class FilesService {
 		}
 	}
 
-
 	/**
 	 * @param FilesDocument $document
 	 * @param Node $file
@@ -623,7 +602,6 @@ class FilesService {
 
 		$document->addMetaTag($document->getSource());
 	}
-
 
 	/**
 	 * @param FilesDocument $document
@@ -644,7 +622,6 @@ class FilesService {
 		$this->externalFilesService->updateDocumentAccess($document, $file);
 		$this->groupFoldersService->updateDocumentAccess($document, $file);
 	}
-
 
 	/**
 	 * @param FilesDocument $document
@@ -691,7 +668,6 @@ class FilesService {
 		$this->updateCommentsFromFile($document);
 	}
 
-
 	/**
 	 * @param FilesDocument $document
 	 */
@@ -724,7 +700,6 @@ class FilesService {
 
 		return $parsed;
 	}
-
 
 	/**
 	 * @param string $mimeType
@@ -770,7 +745,6 @@ class FilesService {
 		$this->parseMimeTypeTextByExtension($mimeType, $extension, $parsed);
 	}
 
-
 	/**
 	 * @param string $mimeType
 	 * @param string $extension
@@ -798,7 +772,6 @@ class FilesService {
 		}
 	}
 
-
 	/**
 	 * @param string $mimeType
 	 * @param string $parsed
@@ -812,7 +785,6 @@ class FilesService {
 		}
 	}
 
-
 	/**
 	 * @param string $mimeType
 	 * @param string $parsed
@@ -825,7 +797,6 @@ class FilesService {
 			throw new KnownFileMimeTypeException();
 		}
 	}
-
 
 	/**
 	 * @param string $mimeType
@@ -852,7 +823,6 @@ class FilesService {
 		}
 	}
 
-
 	/**
 	 * @param FilesDocument $document
 	 * @param File $file
@@ -874,7 +844,6 @@ class FilesService {
 		} catch (NotPermittedException|LockedException $e) {
 		}
 	}
-
 
 	/**
 	 * @param FilesDocument $document
@@ -998,7 +967,6 @@ class FilesService {
 		}
 	}
 
-
 	/**
 	 * @param FilesDocument $document
 	 * @param File $file
@@ -1034,7 +1002,6 @@ class FilesService {
 		}
 	}
 
-
 	/**
 	 * @param FilesDocument $document
 	 *
@@ -1051,7 +1018,6 @@ class FilesService {
 		return true;
 	}
 
-
 	/**
 	 * @param IIndex $index
 	 */
@@ -1063,7 +1029,6 @@ class FilesService {
 		$this->groupFoldersService->impersonateOwner($index);
 		$this->externalFilesService->impersonateOwner($index);
 	}
-
 
 	/**
 	 * @param $action
@@ -1078,7 +1043,6 @@ class FilesService {
 
 		$this->runner->updateAction($action, $force);
 	}
-
 
 	/**
 	 * @param array $data
@@ -1112,7 +1076,6 @@ class FilesService {
 		$this->logger->debug('content error', ['exception' => $t]);
 	}
 
-
 	/**
 	 * @param IIndex $index
 	 */
@@ -1130,7 +1093,6 @@ class FilesService {
 		} catch (Exception $e) {
 		}
 	}
-
 
 	/**
 	 * @param Folder $node
@@ -1153,7 +1115,6 @@ class FilesService {
 		}
 	}
 
-
 	/**
 	 * @param IIndex $index
 	 * @param string $message
@@ -1168,7 +1129,6 @@ class FilesService {
 
 		$this->runner->newIndexError($index, $message, $exception, $sev);
 	}
-
 
 	/**
 	 * @param Node $file
@@ -1194,7 +1154,6 @@ class FilesService {
 			$this->isNodeIndexable($parent);
 		}
 	}
-
 
 	/**
 	 * @param string $path

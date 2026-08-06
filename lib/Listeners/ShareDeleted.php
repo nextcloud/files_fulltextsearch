@@ -23,7 +23,6 @@ use OCP\Share\Events\ShareDeletedEvent;
  */
 class ShareDeleted extends ListenersCore implements IEventListener {
 
-
 	/**
 	 * @param Event $event
 	 */

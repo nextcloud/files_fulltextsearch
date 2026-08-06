@@ -23,7 +23,6 @@ use OCP\FullTextSearch\Model\IIndex;
  */
 class FileChanged extends ListenersCore implements IEventListener {
 
-
 	/**
 	 * @param Event $event
 	 */

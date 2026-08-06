@@ -23,7 +23,6 @@ use OCP\FullTextSearch\Model\IIndex;
  */
 class FileRenamed extends ListenersCore implements IEventListener {
 
-
 	/**
 	 * @param Event $event
 	 */

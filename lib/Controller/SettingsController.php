@@ -30,7 +30,6 @@ class SettingsController extends Controller {
 		parent::__construct(Application::APP_ID, $request);
 	}
 
-
 	/**
 	 * @return DataResponse
 	 * @throws Exception
@@ -40,7 +39,6 @@ class SettingsController extends Controller {
 
 		return new DataResponse($data, Http::STATUS_OK);
 	}
-
 
 	/**
 	 * @param array $data

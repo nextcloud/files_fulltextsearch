@@ -23,7 +23,6 @@ use OCP\FullTextSearch\Model\IIndex;
  */
 class FileDeleted extends ListenersCore implements IEventListener {
 
-
 	/**
 	 * @param Event $event
 	 */

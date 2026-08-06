@@ -45,7 +45,6 @@ class SearchService {
 		$this->userId = $user?->getUID() ?? '';
 	}
 
-
 	/**
 	 * @param ISearchRequest $request
 	 */

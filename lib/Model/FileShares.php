@@ -18,7 +18,6 @@ use JsonSerializable;
  */
 class FileShares implements JsonSerializable {
 
-
 	/** @var array */
 	private $users = [];
 
@@ -30,7 +29,6 @@ class FileShares implements JsonSerializable {
 
 	/** @var array */
 	private $links = [];
-
 
 	/**
 	 * FileShares constructor.
@@ -48,14 +46,12 @@ class FileShares implements JsonSerializable {
 		$this->setLinks($currentShares->getLinks());
 	}
 
-
 	/**
 	 * @return array
 	 */
 	public function getUsers(): array {
 		return $this->users;
 	}
-
 
 	/**
 	 * @param array $users
@@ -80,7 +76,6 @@ class FileShares implements JsonSerializable {
 
 		return $this;
 	}
-
 
 	/**
 	 * @return array
@@ -113,7 +108,6 @@ class FileShares implements JsonSerializable {
 		return $this;
 	}
 
-
 	/**
 	 * @return array
 	 */
@@ -145,7 +139,6 @@ class FileShares implements JsonSerializable {
 		return $this;
 	}
 
-
 	/**
 	 * @return array
 	 */
@@ -176,7 +169,6 @@ class FileShares implements JsonSerializable {
 
 		return $this;
 	}
-
 
 	/**
 	 * @return array
