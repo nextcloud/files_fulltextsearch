@@ -169,13 +169,11 @@ class FilesProvider implements IFullTextSearchProvider {
 		return $template;
 	}
 
-
 	/**
 	 *
 	 */
 	public function loadProvider() {
 	}
-
 
 	/**
 	 * @param string $userId
@@ -191,7 +189,6 @@ class FilesProvider implements IFullTextSearchProvider {
 
 		return $chunks;
 	}
-
 
 	/**
 	 * @param string $userId
@@ -212,7 +209,6 @@ class FilesProvider implements IFullTextSearchProvider {
 		return $documents;
 	}
 
-
 	/**
 	 * @param IIndexDocument $document
 	 */
@@ -229,7 +225,6 @@ class FilesProvider implements IFullTextSearchProvider {
 		$this->logger->debug('fillIndexDocument result', ['document' => $document]);
 	}
 
-
 	/**
 	 * @param IIndexDocument $document
 	 *
@@ -242,7 +237,6 @@ class FilesProvider implements IFullTextSearchProvider {
 
 		return $result;
 	}
-
 
 	/**
 	 * @param IIndex $index
@@ -261,13 +255,11 @@ class FilesProvider implements IFullTextSearchProvider {
 		return $document;
 	}
 
-
 	/**
 	 * @param IFullTextSearchPlatform $platform
 	 */
 	public function onInitializingIndex(IFullTextSearchPlatform $platform) {
 	}
-
 
 	/**
 	 * @param IFullTextSearchPlatform $platform
@@ -275,13 +267,11 @@ class FilesProvider implements IFullTextSearchProvider {
 	public function onResettingIndex(IFullTextSearchPlatform $platform) {
 	}
 
-
 	/**
 	 * not used yet
 	 */
 	public function unloadProvider() {
 	}
-
 
 	/**
 	 * before a search, improve the request
@@ -292,7 +282,6 @@ class FilesProvider implements IFullTextSearchProvider {
 		$this->searchService->improveSearchRequest($searchRequest);
 	}
 
-
 	/**
 	 * after a search, improve results
 	 *
@@ -301,7 +290,6 @@ class FilesProvider implements IFullTextSearchProvider {
 	public function improveSearchResult(ISearchResult $searchResult) {
 		$this->searchService->improveSearchResult($searchResult);
 	}
-
 
 	/**
 	 * @param string $info

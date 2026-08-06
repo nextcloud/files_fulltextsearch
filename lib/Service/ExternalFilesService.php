@@ -68,7 +68,6 @@ class ExternalFilesService {
 		throw new KnownFileSourceException();
 	}
 
-
 	/**
 	 * @param FilesDocument $document
 	 * @param array $users
@@ -80,7 +79,6 @@ class ExternalFilesService {
 
 		$this->localFilesService->getSharedUsersFromAccess($document->getAccess(), $users);
 	}
-
 
 	/**
 	 * @param FilesDocument $document
@@ -114,7 +112,6 @@ class ExternalFilesService {
 		$document->setAccess($access);
 	}
 
-
 	/**
 	 * @param MountPoint $mount
 	 *
@@ -140,7 +137,6 @@ class ExternalFilesService {
 		return false;
 	}
 
-
 	/**
 	 * @param Node $file
 	 *
@@ -161,7 +157,6 @@ class ExternalFilesService {
 			throw new FileIsNotIndexableException('issue while getMountPoint');
 		}
 	}
-
 
 	/**
 	 * @param int $externalMountId
@@ -190,7 +185,6 @@ class ExternalFilesService {
 		return $mountPoint;
 	}
 
-
 	/**
 	 * @param IIndex $index
 	 */
@@ -211,7 +205,6 @@ class ExternalFilesService {
 		} catch (Exception $e) {
 		}
 	}
-
 
 	/**
 	 * @param MountPoint $mount

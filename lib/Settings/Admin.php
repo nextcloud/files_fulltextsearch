@@ -42,14 +42,12 @@ class Admin implements ISettings {
 		return new TemplateResponse(Application::APP_ID, 'settings.admin', []);
 	}
 
-
 	/**
 	 * @return string the section ID, e.g. 'sharing'
 	 */
 	public function getSection(): string {
 		return 'fulltextsearch';
 	}
-
 
 	/**
 	 * @return int whether the form should be rather on the top or bottom of

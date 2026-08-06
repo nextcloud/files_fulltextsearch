@@ -18,7 +18,6 @@ use JsonSerializable;
  */
 class GroupFolderMount implements JsonSerializable {
 
-
 	/** @var int */
 	private $id;
 
@@ -33,7 +32,6 @@ class GroupFolderMount implements JsonSerializable {
 
 	/** @var array */
 	private $users;
-
 
 	/**
 	 * @return int
@@ -53,7 +51,6 @@ class GroupFolderMount implements JsonSerializable {
 		return $this;
 	}
 
-
 	/**
 	 * @return string
 	 */
@@ -71,7 +68,6 @@ class GroupFolderMount implements JsonSerializable {
 
 		return $this;
 	}
-
 
 	/**
 	 * @return bool
@@ -91,7 +87,6 @@ class GroupFolderMount implements JsonSerializable {
 		return $this;
 	}
 
-
 	/**
 	 * @return array
 	 */
@@ -109,7 +104,6 @@ class GroupFolderMount implements JsonSerializable {
 
 		return $this;
 	}
-
 
 	/**
 	 * @return array
@@ -129,7 +123,6 @@ class GroupFolderMount implements JsonSerializable {
 		return $this;
 	}
 
-
 	/**
 	 *
 	 */
@@ -140,7 +133,6 @@ class GroupFolderMount implements JsonSerializable {
 		unset($this->groups);
 		unset($this->users);
 	}
-
 
 	/**
 	 * @return array

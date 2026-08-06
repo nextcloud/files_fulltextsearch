@@ -22,7 +22,6 @@ use OCP\Share\Events\ShareCreatedEvent;
  */
 class ShareCreated extends ListenersCore implements IEventListener {
 
-
 	/**
 	 * @param Event $event
 	 */

@@ -39,7 +39,6 @@ class LocalFilesService {
 	) {
 	}
 
-
 	/**
 	 * @param Node $file
 	 * @param string $source
@@ -56,7 +55,6 @@ class LocalFilesService {
 
 		throw new KnownFileSourceException();
 	}
-
 
 	/**
 	 * @param FilesDocument $document
@@ -84,7 +82,6 @@ class LocalFilesService {
 
 		$document->setAccess($access);
 	}
-
 
 	/**
 	 * @param Node $file
@@ -114,7 +111,6 @@ class LocalFilesService {
 		}
 	}
 
-
 	/**
 	 * same a getShareUsers, but we do it 'manually'
 	 *
@@ -134,7 +130,6 @@ class LocalFilesService {
 			}
 		}
 	}
-
 
 	/**
 	 * @param IDocumentAccess $access
@@ -160,7 +155,6 @@ class LocalFilesService {
 		return $result;
 	}
 
-
 	/**
 	 * // TODO: get users from circles.
 	 *
@@ -173,7 +167,6 @@ class LocalFilesService {
 
 		return $result;
 	}
-
 
 	/**
 	 * @param Node $file
@@ -200,7 +193,6 @@ class LocalFilesService {
 		}
 	}
 
-
 	/**
 	 * @param array $share
 	 * @param FileShares $fileShares
@@ -212,7 +204,6 @@ class LocalFilesService {
 
 		$fileShares->addUser($share['share_with']);
 	}
-
 
 	/**
 	 * @param array $share
@@ -226,7 +217,6 @@ class LocalFilesService {
 		$fileShares->addGroup($share['share_with']);
 	}
 
-
 	/**
 	 * @param array $share
 	 * @param FileShares $fileShares
@@ -238,7 +228,6 @@ class LocalFilesService {
 
 		$fileShares->addCircle($share['share_with']);
 	}
-
 
 	/**
 	 * @param array $share

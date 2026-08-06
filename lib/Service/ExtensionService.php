@@ -23,14 +23,12 @@ class ExtensionService {
 	) {
 	}
 
-
 	/**
 	 * @param array $config
 	 */
 	public function getConfig(array &$config) {
 		$this->dispatch('Files_FullTextSearch.onGetConfig', ['config' => &$config]);
 	}
-
 
 	/**
 	 * @param FilesDocument $document
@@ -40,14 +38,12 @@ class ExtensionService {
 		$this->dispatch('Files_FullTextSearch.onFileIndexing', ['file' => $file, 'document' => $document]);
 	}
 
-
 	/**
 	 * @param ISearchRequest $request
 	 */
 	public function searchRequest(ISearchRequest $request) {
 		$this->dispatch('Files_FullTextSearch.onSearchRequest', ['request' => $request]);
 	}
-
 
 	/**
 	 * @param ISearchResult $result
@@ -56,14 +52,12 @@ class ExtensionService {
 		$this->dispatch('Files_FullTextSearch.onSearchResult', ['result' => $result]);
 	}
 
-
 	/**
 	 * @param IIndexDocument $document
 	 */
 	public function indexComparing(IIndexDocument $document) {
 		$this->dispatch('Files_FullTextSearch.onIndexComparing', ['document' => $document]);
 	}
-
 
 	/**
 	 * @param string $subject

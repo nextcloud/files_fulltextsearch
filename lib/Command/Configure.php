@@ -28,7 +28,6 @@ class Configure extends Base {
 		parent::__construct();
 	}
 
-
 	/**
 	 *
 	 */
@@ -38,7 +37,6 @@ class Configure extends Base {
 			->addArgument('json', InputArgument::REQUIRED, 'set config')
 			->setDescription('Configure the installation');
 	}
-
 
 	/**
 	 * @param InputInterface $input

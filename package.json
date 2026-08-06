@@ -1,6 +1,6 @@
 {
   "name": "files_fulltextsearch",
-  "version": "34.1.0-dev.0",
+  "version": "34.0.1",
   "private": true,
   "description": "Full text search framework for Nextcloud - Files",
   "homepage": "https://github.com/nextcloud/files_fulltextsearch#readme",

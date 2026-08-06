@@ -19,7 +19,6 @@ use OCP\FullTextSearch\Model\IIndexDocument;
  */
 class FilesDocument extends AFilesDocument {
 
-
 	/** @var string */
 	private $ownerId = '';
 
@@ -34,7 +33,6 @@ class FilesDocument extends AFilesDocument {
 
 	/** @var string */
 	private $path = '';
-
 
 	/**
 	 * @param string $ownerId
@@ -54,7 +52,6 @@ class FilesDocument extends AFilesDocument {
 		return $this->ownerId;
 	}
 
-
 	/**
 	 * @param string $viewerId
 	 *
@@ -72,7 +69,6 @@ class FilesDocument extends AFilesDocument {
 	public function getViewerId(): string {
 		return $this->viewerId;
 	}
-
 
 	/**
 	 * @param string $type
@@ -92,7 +88,6 @@ class FilesDocument extends AFilesDocument {
 		return $this->type;
 	}
 
-
 	/**
 	 * @param string $type
 	 *
@@ -110,7 +105,6 @@ class FilesDocument extends AFilesDocument {
 	public function getMimetype(): string {
 		return $this->mimetype;
 	}
-
 
 	/**
 	 * @param string $path
@@ -130,7 +124,6 @@ class FilesDocument extends AFilesDocument {
 		return $this->path;
 	}
 
-
 	/**
 	 * @param IIndexDocument $indexDocument
 	 *
@@ -145,7 +138,6 @@ class FilesDocument extends AFilesDocument {
 
 		return $document;
 	}
-
 
 	/**
 	 *

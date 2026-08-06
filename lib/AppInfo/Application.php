@@ -36,7 +36,6 @@ use Throwable;
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'files_fulltextsearch';
 
-
 	/**
 	 * Application constructor.
 	 *
@@ -45,7 +44,6 @@ class Application extends App implements IBootstrap {
 	public function __construct(array $params = []) {
 		parent::__construct(self::APP_ID, $params);
 	}
-
 
 	/**
 	 * @param IRegistrationContext $context
@@ -60,7 +58,6 @@ class Application extends App implements IBootstrap {
 		$context->registerEventListener(ShareDeletedEvent::class, ShareDeleted::class);
 		$context->registerConfigLexicon(ConfigLexicon::class);
 	}
-
 
 	/**
 	 * @param IBootContext $context
