@@ -153,7 +153,7 @@ class SearchService {
 	 * @param ISearchResult $searchResult
 	 */
 	public function improveSearchResult(ISearchResult $searchResult) {
-		$userId = $this->filesService->secureUsername($searchResult->getRequest()->getAuthor());
+		$userId = $searchResult->getRequest()->getAuthor();
 
 		$indexDocuments = $searchResult->getDocuments();
 		$filesDocuments = [];
