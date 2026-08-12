@@ -52,7 +52,7 @@ class SearchService {
 		$this->searchQueryFiltersExtension($request);
 		$this->searchQueryFiltersSource($request);
 		if ($this->userId === '') {
-			$this->userId = $this->filesService->secureUsername($request->getAuthor());
+			$this->userId = $request->getAuthor();
 		}
 		$request->addPart('comments');
 		$this->extensionService->searchRequest($request);
