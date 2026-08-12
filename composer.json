@@ -8,7 +8,7 @@
     "classmap-authoritative": true,
     "autoloader-suffix": "Files_FullTextSearch",
     "platform": {
-      "php": "8.2"
+      "php": "8.3"
     },
     "allow-plugins": {
       "bamarni/composer-bin-plugin": true
@@ -40,6 +40,6 @@
   },
   "require-dev": {
     "nextcloud/coding-standard": "^v1.5",
-    "nextcloud/ocp": "dev-stable33"
+    "nextcloud/ocp": "dev-master"
   }
 }
