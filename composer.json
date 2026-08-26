@@ -40,6 +40,6 @@
   },
   "require-dev": {
     "nextcloud/coding-standard": "^v1.5",
-    "nextcloud/ocp": "dev-master"
+    "nextcloud/ocp": "dev-stable35"
   }
 }
