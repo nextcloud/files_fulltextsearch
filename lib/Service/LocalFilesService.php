@@ -106,7 +106,7 @@ class LocalFilesService {
 				$this->logger->warning('malformed access list: ' . json_encode($shares));
 				continue;
 			}
-			if (in_array($user, $users) || $this->userManager->get($user) === null) {
+			if (in_array($user, $users, true) || $this->userManager->get($user) === null) {
 				continue;
 			}
 
@@ -129,7 +129,7 @@ class LocalFilesService {
 		);
 
 		foreach ($result as $user) {
-			if (!in_array($user, $users)) {
+			if (!in_array($user, $users, true)) {
 				$users[] = $user;
 			}
 		}
