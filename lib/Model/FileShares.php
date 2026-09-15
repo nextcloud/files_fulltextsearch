@@ -53,7 +53,7 @@ class FileShares implements JsonSerializable {
 	}
 
 	public function addUser(string $user): FileShares {
-		if (!in_array($user, $this->users)) {
+		if (!in_array($user, $this->users, true)) {
 			array_push($this->users, $user);
 		}
 
@@ -71,7 +71,7 @@ class FileShares implements JsonSerializable {
 	}
 
 	public function addGroup(string $group): FileShares {
-		if (!in_array($group, $this->groups)) {
+		if (!in_array($group, $this->groups, true)) {
 			array_push($this->groups, $group);
 		}
 
@@ -89,7 +89,7 @@ class FileShares implements JsonSerializable {
 	}
 
 	public function addCircle(string $circle): FileShares {
-		if (!in_array($circle, $this->circles)) {
+		if (!in_array($circle, $this->circles, true)) {
 			array_push($this->circles, $circle);
 		}
 
@@ -107,7 +107,7 @@ class FileShares implements JsonSerializable {
 	}
 
 	public function addLink(string $link): FileShares {
-		if (!in_array($link, $this->links)) {
+		if (!in_array($link, $this->links, true)) {
 			array_push($this->links, $link);
 		}
 
