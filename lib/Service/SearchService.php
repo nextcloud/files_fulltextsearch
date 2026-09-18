@@ -20,19 +20,10 @@ use OCP\FullTextSearch\Model\ISearchRequest;
 use OCP\FullTextSearch\Model\ISearchResult;
 use OCP\IConfig;
 use OCP\IURLGenerator;
-use OCP\IUserSession;
 use Psr\Log\LoggerInterface;
 
-/**
- * Class SearchService
- *
- * @package OCA\Files_FullTextSearch\Service
- */
 class SearchService {
-	private string $userId;
-
 	public function __construct(
-		IUserSession $userSession,
 		private readonly IMimeTypeDetector $mimeTypeDetector,
 		private readonly IURLGenerator $urlGenerator,
 		private readonly IAppConfig $appConfig,
@@ -41,8 +32,6 @@ class SearchService {
 		private readonly ExtensionService $extensionService,
 		private readonly LoggerInterface $logger,
 	) {
-		$user = $userSession->getUser();
-		$this->userId = $user?->getUID() ?? '';
 	}
 
 	public function improveSearchRequest(ISearchRequest $request): void {
@@ -51,9 +40,6 @@ class SearchService {
 		$this->searchQueryInOptions($request);
 		$this->searchQueryFiltersExtension($request);
 		$this->searchQueryFiltersSource($request);
-		if ($this->userId === '') {
-			$this->userId = $this->filesService->secureUsername($request->getAuthor());
-		}
 		$request->addPart('comments');
 		$this->extensionService->searchRequest($request);
 	}
@@ -106,12 +92,14 @@ class SearchService {
 	}
 
 	public function improveSearchResult(ISearchResult $searchResult): void {
+		$userId = $this->filesService->secureUsername($searchResult->getRequest()->getAuthor());
+
 		$indexDocuments = $searchResult->getDocuments();
 		$filesDocuments = [];
 		foreach ($indexDocuments as $indexDocument) {
 			try {
 				$filesDocument = FilesDocument::fromIndexDocument($indexDocument);
-				$this->setDocumentInfo($filesDocument);
+				$this->setDocumentInfo($filesDocument, $userId);
 				$this->setDocumentTitle($filesDocument);
 				$this->setDocumentLink($filesDocument);
 
@@ -142,21 +130,21 @@ class SearchService {
 	/**
 	 * @throws Exception
 	 */
-	private function setDocumentInfo(FilesDocument $document): void {
+	private function setDocumentInfo(FilesDocument $document, string $userId): void {
 		$document->setInfo('webdav', $this->getWebdavId((int)$document->getId()));
 
-		$file = $this->filesService->getFileFromId($this->userId, (int)$document->getId());
+		$file = $this->filesService->getFileFromId($userId, (int)$document->getId());
 
-		$this->setDocumentInfoFromFile($document, $file);
+		$this->setDocumentInfoFromFile($document, $file, $userId);
 	}
 
-	private function setDocumentInfoFromFile(FilesDocument $document, Node $file): void {
-		if ($this->userId === '') {
+	private function setDocumentInfoFromFile(FilesDocument $document, Node $file, string $userId): void {
+		if ($userId === '') {
 			return;
 		}
 
 		// TODO: better way to do this : we remove the '/userId/files/'
-		$path = substr($file->getPath(), 7 + strlen($this->userId));
+		$path = substr($file->getPath(), 7 + strlen($userId));
 		$path = rtrim(str_replace('//', '/', $path), '/');
 		$pathInfo = pathinfo($path);
 
