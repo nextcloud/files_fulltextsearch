@@ -11,7 +11,6 @@ namespace OCA\Files_FullTextSearch\Service;
 
 use Exception;
 use OC\FullTextSearch\Model\DocumentAccess;
-use OC\User\NoUserException;
 use OCA\Files_FullTextSearch\ConfigLexicon;
 use OCA\Files_FullTextSearch\Exceptions\EmptyUserException;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
@@ -43,6 +42,7 @@ use OCP\Lock\LockedException;
 use OCP\SystemTag\ISystemTag;
 use OCP\SystemTag\ISystemTagManager;
 use OCP\SystemTag\ISystemTagObjectMapper;
+use OCP\User\Exceptions\UserNotFoundException;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -159,7 +159,7 @@ class FilesService {
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 */
 	public function getFilesFromUser(string $userId, string $chunk): array {
 		$this->initFileSystems($userId);
@@ -361,7 +361,7 @@ class FilesService {
 	 *
 	 * @throws FilesNotFoundException
 	 * @throws EmptyUserException
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 */
 	public function getFileFromId(string $userId, int $fileId): Node {
 		if ($userId === '') {
@@ -369,7 +369,7 @@ class FilesService {
 		}
 
 		if ($this->userManager->get($userId) === null) {
-			throw new NoUserException('User does not exist: ' . $userId);
+			throw new UserNotFoundException('User does not exist: ' . $userId);
 		}
 
 		$files = $this->rootFolder->getUserFolder($userId)
