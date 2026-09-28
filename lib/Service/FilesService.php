@@ -310,7 +310,7 @@ class FilesService {
 		$document->setModifiedTime($file->getMTime())
 			->setSource($source);
 
-		$tagIds = $this->systemTagObjectMapper->getTagIdsForObjects([$file->getId()], 'files');
+		$tagIds = $this->systemTagObjectMapper->getTagIdsForObjects([(string)$file->getId()], 'files');
 		if (array_key_exists($file->getId(), $tagIds)) {
 			$tags = array_values(
 				array_map(fn (ISystemTag $tag): string => $tag->getName(), $this->systemTagManager->getTagsByIds($tagIds[$file->getId()]))
