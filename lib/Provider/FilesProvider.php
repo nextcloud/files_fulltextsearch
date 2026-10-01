@@ -11,7 +11,6 @@ namespace OCA\Files_FullTextSearch\Provider;
 
 use OC\FullTextSearch\Model\SearchOption;
 use OC\FullTextSearch\Model\SearchTemplate;
-use OC\User\NoUserException;
 use OCA\Files_FullTextSearch\ConfigLexicon;
 use OCA\Files_FullTextSearch\Exceptions\FileIsNotIndexableException;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
@@ -34,6 +33,7 @@ use OCP\FullTextSearch\Model\ISearchRequest;
 use OCP\FullTextSearch\Model\ISearchResult;
 use OCP\FullTextSearch\Model\ISearchTemplate;
 use OCP\IL10N;
+use OCP\User\Exceptions\UserNotFoundException;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -184,7 +184,7 @@ class FilesProvider implements IFullTextSearchProvider {
 	 * @throws InvalidPathException
 	 * @throws NotFoundException
 	 * @throws NotPermittedException
-	 * @throws NoUserException
+	 * @throws UserNotFoundException
 	 */
 	public function generateIndexableDocuments(string $userId, string $chunk): array {
 		$this->logger->debug('generateIndexableDocuments request', ['userId' => $userId, 'chunk' => $chunk]);
