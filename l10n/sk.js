@@ -21,7 +21,7 @@ OC.L10N.register(
     "Local Files" : "Lokálne súbory",
     "Index the content of local files." : "Indexovať obsah lokálnych súborov",
     "External Files" : "Externé súbory",
-    "Group Folders" : "Skupinové adresáre",
+    "Group Folders" : "Skupinové priečinky",
     "Index the content of group folders." : "Indeovať obsah skupinových priečinkov.",
     "Types" : "Typy",
     "Maximum file size" : "Maximálna veľkosť súboru",
