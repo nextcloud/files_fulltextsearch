@@ -31,6 +31,8 @@ OC.L10N.register(
     "Extract Office" : "Udpak Office",
     "Index the content of office files." : "Indekser indholdet af Office-filer.",
     "Results" : "Resultater",
+    "Open Files" : "Åbn filer",
+    "Directly from search results." : "Direkte fra søgeresultaterne.",
     "files" : "filer",
     "Go to folder" : "Gå til mappe",
     "Open folder" : "Åbn mappe",
