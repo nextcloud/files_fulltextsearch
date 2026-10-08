@@ -8,7 +8,7 @@ OC.L10N.register(
     "Within external files" : "V rámci externých súborov",
     "External files" : "Externé súbory",
     "Within group folders" : "V rámci skupinových priečinkov",
-    "Group folders" : "Skupinové pričinky",
+    "Group folders" : "Skupinové priečinky",
     "Filter by extension" : "Filtrovať podľa prípony",
     "Extension" : "Prípona",
     "Full text search - Files" : "Fulltextové vyhľadávanie - Súbory",
