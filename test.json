@@ -1,0 +1,9 @@
+{
+  "test-string": "test",
+  "test-object": {
+    "obj-key": "obj-value"
+  },
+  "test-array": [
+    "success"
+  ]
+}
