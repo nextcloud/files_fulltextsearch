@@ -31,6 +31,8 @@ OC.L10N.register(
     "Extract Office" : "Екстракт Office",
     "Index the content of office files." : "Индексирај ја содржината на office датотеки.",
     "Results" : "Резултати",
+    "Open Files" : "Отвори датотеки",
+    "Directly from search results." : "Директно од резултатите од пребарувањето.",
     "files" : "датотеки",
     "Go to folder" : "Оди до папката",
     "Open folder" : "Отвори папка",
