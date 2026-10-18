@@ -3,9 +3,11 @@ OC.L10N.register(
     {
     "Files" : "Fișiere",
     "Extension" : "Extensia",
+    "Sources" : "Surse",
     "Maximum file size" : "Dimensiune minimă a fișierelor",
     "Results" : "Rezultate",
     "files" : "files",
+    "Open folder" : "Deschide dosarul",
     "Name" : "Nume",
     "Modified" : "Modificat",
     "Size" : "Mărime",
