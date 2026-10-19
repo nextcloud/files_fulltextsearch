@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_fulltextsearch",
     {
     "Files" : "файлууд",
+    "Group folders" : "Бүлгийн хавтаснууд",
     "Extension" : "Өргөтгөл",
     "Sources" : "Эх сурвалжууд",
     "Maximum file size" : "Хамгийн их файлын хэмжээ",
