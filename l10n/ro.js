@@ -2,6 +2,7 @@ OC.L10N.register(
     "files_fulltextsearch",
     {
     "Files" : "Fișiere",
+    "Group folders" : "Dosare de grup",
     "Extension" : "Extensia",
     "Sources" : "Surse",
     "Maximum file size" : "Dimensiune minimă a fișierelor",
