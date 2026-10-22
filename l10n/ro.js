@@ -8,6 +8,7 @@ OC.L10N.register(
     "Maximum file size" : "Dimensiune minimă a fișierelor",
     "Results" : "Rezultate",
     "files" : "files",
+    "Go to folder" : "Mergi la dosar",
     "Open folder" : "Deschide dosarul",
     "Name" : "Nume",
     "Modified" : "Modificat",
