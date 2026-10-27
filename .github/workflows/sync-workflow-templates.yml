@@ -29,6 +29,7 @@ jobs:
           - 'stable35'
           - 'stable34'
           - 'stable33'
+          - 'stable32'
 
     name: Update workflows in ${{ matrix.branches }}
 
@@ -138,4 +139,3 @@ jobs:
             ${{ env.SUMMARY }}
           labels: |
             dependencies
-            3. to review
