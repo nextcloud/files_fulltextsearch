@@ -9,6 +9,9 @@
     "autoloader-suffix": "Files_FullTextSearch",
     "platform": {
       "php": "8.2"
+    },
+    "allow-plugins": {
+      "bamarni/composer-bin-plugin": true
     }
   },
   "authors": [
@@ -23,9 +26,12 @@
     }
   },
   "scripts": {
+    "post-install-cmd": [
+      "@composer bin all install --ansi"
+    ],
     "cs:fix": "php-cs-fixer fix",
     "cs:check": "php-cs-fixer fix --dry-run --diff",
-    "lint": "find . -name \\*.php -not -path './vendor/*' -not -path './build/*' -not -path './node_modules/*' -print0 | xargs -0 -n1 php -l",
+    "lint": "find . -name \\*.php -not -path './vendor/*' -not -path './vendor-bin/*' -not -path './build/*' -not -path './node_modules/*' -print0 | xargs -0 -n1 php -l",
     "psalm": "psalm",
     "psalm:fix": "psalm --alter --issues=InvalidReturnType,InvalidNullableReturnType,MissingParamType,InvalidFalsableReturnType",
     "psalm:update-baseline": "psalm --threads=1 --update-baseline",
