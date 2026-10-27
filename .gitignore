@@ -8,3 +8,4 @@ node_modules/
 js
 css
 .php-cs-fixer.cache
+.phpunit.cache

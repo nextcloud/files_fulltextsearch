@@ -28,7 +28,11 @@
     "lint": "find . -name \\*.php -not -path './vendor/*' -not -path './build/*' -not -path './node_modules/*' -print0 | xargs -0 -n1 php -l",
     "psalm": "psalm",
     "psalm:fix": "psalm --alter --issues=InvalidReturnType,InvalidNullableReturnType,MissingParamType,InvalidFalsableReturnType",
-    "psalm:update-baseline": "psalm --threads=1 --update-baseline"
+    "psalm:update-baseline": "psalm --threads=1 --update-baseline",
+    "test:unit": "phpunit --color -c tests/phpunit.xml"
+  },
+  "require": {
+    "bamarni/composer-bin-plugin": "^1.8"
   },
   "require-dev": {
     "nextcloud/coding-standard": "^v1.4",
