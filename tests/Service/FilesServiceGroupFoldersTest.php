@@ -9,16 +9,27 @@ declare(strict_types=1);
 
 namespace OCA\Files_FullTextSearch\Tests\Service;
 
+use OC\SystemTag\SystemTagManager;
+use OC\SystemTag\SystemTagObjectMapper;
 use OCA\Files_FullTextSearch\ConfigLexicon;
 use OCA\Files_FullTextSearch\Model\FilesDocument;
+use OCA\Files_FullTextSearch\Service\ConfigService;
+use OCA\Files_FullTextSearch\Service\ExtensionService;
+use OCA\Files_FullTextSearch\Service\ExternalFilesService;
 use OCA\Files_FullTextSearch\Service\FilesService;
 use OCA\Files_FullTextSearch\Service\LocalFilesService;
 use OCA\Files_FullTextSearch\Tests\GroupFoldersTestCase;
+use OCP\App\IAppManager;
 use OCP\AppFramework\Services\IAppConfig;
+use OCP\Comments\ICommentsManager;
+use OCP\FullTextSearch\IFullTextSearchManager;
 use OCP\FullTextSearch\Model\IIndexOptions;
+use OCP\IURLGenerator;
 use OCP\IUserManager;
 use OCP\Server;
+use OCP\Share\IManager as IShareManager;
 use PHPUnit\Framework\Attributes\Group;
+use Psr\Log\LoggerInterface;
 
 #[Group('DB')]
 class FilesServiceGroupFoldersTest extends GroupFoldersTestCase {
@@ -35,13 +46,24 @@ class FilesServiceGroupFoldersTest extends GroupFoldersTestCase {
 				default => 0,
 			});
 
-		$this->service = $this->createInstanceWithMocks(FilesService::class, [
-			'rootFolder' => $this->rootFolder,
-			'appConfig' => $appConfig,
-			'userManager' => Server::get(IUserManager::class),
-			'localFilesService' => Server::get(LocalFilesService::class),
-			'groupFoldersService' => $this->createGroupFoldersService(),
-		]);
+		$this->service = new FilesService(
+			rootFolder: $this->rootFolder,
+			appManager: $this->createMock(IAppManager::class),
+			appConfig: $appConfig,
+			userManager: Server::get(IUserManager::class),
+			shareManager: $this->createMock(IShareManager::class),
+			urlGenerator: $this->createMock(IURLGenerator::class),
+			commentsManager: $this->createMock(ICommentsManager::class),
+			systemTagObjectMapper: $this->createMock(SystemTagObjectMapper::class),
+			systemTagManager: $this->createMock(SystemTagManager::class),
+			configService: $this->createMock(ConfigService::class),
+			localFilesService: Server::get(LocalFilesService::class),
+			externalFilesService: $this->createMock(ExternalFilesService::class),
+			groupFoldersService: $this->createGroupFoldersService(),
+			extensionService: $this->createMock(ExtensionService::class),
+			fullTextSearchManager: $this->createMock(IFullTextSearchManager::class),
+			logger: $this->createMock(LoggerInterface::class),
+		);
 	}
 
 	private function createGroupFolderWithContent(bool $acl = false): void {
