@@ -8,3 +8,4 @@ js
 css
 vendor-bin/*/vendor
 .php-cs-fixer.cache
+.phpunit.cache
