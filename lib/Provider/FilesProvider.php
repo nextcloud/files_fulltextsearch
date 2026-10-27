@@ -35,6 +35,7 @@ use OCP\FullTextSearch\Model\ISearchResult;
 use OCP\FullTextSearch\Model\ISearchTemplate;
 use OCP\IL10N;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 /**
  * Class FilesProvider
@@ -171,7 +172,12 @@ class FilesProvider implements IFullTextSearchProvider {
 	 */
 	public function generateChunks(string $userId): array {
 		$this->logger->debug('generateChunks request', ['userId' => $userId, 'options' => $this->indexOptions]);
-		$chunks = $this->filesService->getChunksFromUser($userId, $this->indexOptions);
+		try {
+			$chunks = $this->filesService->getChunksFromUser($userId, $this->indexOptions);
+		} catch (Throwable $e) {
+			$this->filesService->releaseCrawledGroupFolders($userId);
+			throw $e;
+		}
 		$this->logger->debug('generateChunks result', $chunks);
 
 		return $chunks;
@@ -188,7 +194,12 @@ class FilesProvider implements IFullTextSearchProvider {
 	 */
 	public function generateIndexableDocuments(string $userId, string $chunk): array {
 		$this->logger->debug('generateIndexableDocuments request', ['userId' => $userId, 'chunk' => $chunk]);
-		$documents = $this->filesService->getFilesFromUser($userId, $chunk);
+		try {
+			$documents = $this->filesService->getFilesFromUser($userId, $chunk);
+		} catch (Throwable $e) {
+			$this->filesService->releaseCrawledGroupFolders($userId);
+			throw $e;
+		}
 		$this->logger->debug('generateIndexableDocuments result', ['documents' => count($documents)]);
 
 		return $documents;

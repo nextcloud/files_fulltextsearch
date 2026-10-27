@@ -43,6 +43,12 @@ class GroupFoldersService {
 	private ?FolderManager $folderManager = null;
 	/** @var list<MountPoint> */
 	private array $groupFolders = [];
+	/** @var list<array<string, mixed>>|null */
+	private ?array $allFolders = null;
+	/** @var array<int, true> ids of groupfolders using advanced permissions (ACL) */
+	private array $aclFolders = [];
+	/** @var array<int, string> groupfolder id => user crawling it during this run */
+	private array $crawlOwners = [];
 
 	public function __construct(
 		private IGroupManager $groupManager,
@@ -66,6 +72,50 @@ class GroupFoldersService {
 		$this->logger->debug('initGroupSharesForUser request', ['userId' => $userId]);
 		$this->groupFolders = $this->getMountPoints($userId);
 		$this->logger->debug('initGroupSharesForUser result', ['groupFolders' => $this->groupFolders]);
+	}
+
+	/**
+	 * A groupfolder is mounted in the home of each of its members, and the indexed
+	 * documents are the same for all of them (access relies on the groups of the folder).
+	 * To avoid crawling it once per member, only the first user reaching it during a run
+	 * crawls it.
+	 *
+	 * Groupfolders using advanced permissions (ACL) are always crawled, as the content
+	 * visible to a user can differ from another one.
+	 *
+	 * @return bool true if the node is a groupfolder already handled for another user
+	 */
+	public function isCrawledForOtherUser(Node $node, string $userId): bool {
+		if ($this->folderManager === null
+			|| $node->getMountPoint()->getMountType() !== 'group') {
+			return false;
+		}
+
+		try {
+			$mount = $this->getMountPoint($node);
+		} catch (FileIsNotIndexableException) {
+			return false;
+		}
+
+		if ($node->getPath() !== rtrim($mount->getPath(), '/')
+			|| isset($this->aclFolders[$mount->getId()])) {
+			return false;
+		}
+
+		$this->crawlOwners[$mount->getId()] ??= $userId;
+
+		return $this->crawlOwners[$mount->getId()] !== $userId;
+	}
+
+	/**
+	 * Called when the indexing of a user failed: the groupfolders it was crawling
+	 * can be taken over by the next user reaching them.
+	 */
+	public function releaseCrawledFolders(string $userId): void {
+		$this->crawlOwners = array_filter(
+			$this->crawlOwners,
+			static fn (string $owner): bool => $owner !== $userId
+		);
 	}
 
 	/**
@@ -127,7 +177,8 @@ class GroupFoldersService {
 	 */
 	private function getMountPoint(Node $file): MountPoint {
 		foreach ($this->groupFolders as $mount) {
-			if (str_starts_with($file->getPath(), $mount->getPath())) {
+			$mountPath = rtrim($mount->getPath(), '/');
+			if ($file->getPath() === $mountPath || str_starts_with($file->getPath(), $mountPath . '/')) {
 				return $mount;
 			}
 		}
@@ -140,11 +191,19 @@ class GroupFoldersService {
 	 */
 	private function getMountPoints(string $userId): array {
 		$mountPoints = [];
-		$mounts = $this->folderManager->getAllFolders();
+		if ($this->allFolders === null) {
+			$this->allFolders = [];
+			foreach ($this->folderManager->getAllFolders() as $folder) {
+				$this->allFolders[] = $folder->toArray();
+			}
+		}
 
-		foreach ($mounts as $mount) {
+		foreach ($this->allFolders as $mount) {
+			if ($mount['acl'] ?? false) {
+				$this->aclFolders[$this->getInt('id', $mount, -1)] = true;
+			}
+
 			$mountPoint = new MountPoint();
-			$mount = $mount->toArray();
 			$mountPoint->setId($this->getInt('id', $mount, -1))
 				->setPath('/' . $userId . '/files/' . $mount['mount_point'])
 				->setGroups(array_keys($mount['groups']));
