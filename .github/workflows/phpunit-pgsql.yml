@@ -69,7 +69,7 @@ jobs:
       matrix:
         php-versions: ${{ fromJson(needs.changes-and-matrix.outputs.php-version) }}
         server-versions: ${{ fromJson(needs.changes-and-matrix.outputs.server-max) }}
-        groupfolders-versions: ['master']
+        groupfolders-versions: ['stable35']
 
     name: PostgreSQL PHP ${{ matrix.php-versions }} Nextcloud ${{ matrix.server-versions }}
 

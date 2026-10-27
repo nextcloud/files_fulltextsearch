@@ -57,7 +57,7 @@ jobs:
         id: versions
         uses: nextcloud-libraries/nextcloud-version-matrix@cd0211ffcef1065e2020cd579e4843b8746e7a58 # v1.3.3
         with:
-          matrix: '{"mysql-versions": ["8.4"], "groupfolders-versions": ["master"]}'
+          matrix: '{"mysql-versions": ["8.4"], "groupfolders-versions": ["stable35"]}'
 
   phpunit-mysql:
     runs-on: ubuntu-latest
