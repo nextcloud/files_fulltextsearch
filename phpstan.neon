@@ -8,9 +8,7 @@ parameters:
 	paths:
 		- lib
 		- templates
-		- tests
 	excludePaths:
-		- tests/stubs
 		- templates # will be removed soonish
 		- lib/Listeners/ListenersCore.php # Use fully private APIs
 		- lib/Controller/SettingsController.php # DataResponse in NC33 doesn't play well with phpstan
