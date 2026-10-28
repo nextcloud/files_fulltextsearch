@@ -1231,8 +1231,4 @@ class FilesService {
 
 		return $result;
 	}
-
-	public function secureUsername(string $username): string {
-		return str_replace('.', '\.', $username);
-	}
 }

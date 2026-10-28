@@ -53,7 +53,6 @@ class SearchService {
 			return;
 		}
 
-		$this->filesService->secureUsername($request->getAuthor());
 		$request->addRegexFilters(
 			[
 				['title' => '.*\.' . $extension]
