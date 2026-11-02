@@ -1,7 +1,7 @@
 OC.L10N.register(
     "files_fulltextsearch",
     {
-    "Files" : "Súbory",
+    "Files" : "Files",
     "Within current directory" : "V aktuálnom priečinku",
     "Within local files" : "V rámci lokálnych súborov",
     "Local files" : "Lokálne súbory",
@@ -19,17 +19,17 @@ OC.L10N.register(
     "Do not index path nor content" : "Neindexovať cestu ani obsah",
     "Sources" : "Zdroje",
     "Local Files" : "Lokálne súbory",
-    "Index the content of local files." : "Indexovať obsah lokálnych súborov",
+    "Index the content of local files." : "Indexovať obsah lokálnych súborov.",
     "External Files" : "Externé súbory",
     "Group Folders" : "Skupinové priečinky",
-    "Index the content of group folders." : "Indeovať obsah skupinových priečinkov.",
+    "Index the content of group folders." : "Indexovať obsah skupinových priečinkov.",
     "Types" : "Typy",
     "Maximum file size" : "Maximálna veľkosť súboru",
     "Maximum file size to index (in Mb)." : "Maximálna veľkosť súboru pre indexovanie (v MB).",
     "Extract PDF" : "Extrahovať PDF",
     "Index the content of PDF files." : "Indexovať obsah PDF súborov.",
     "Extract Office" : "Extrahovať Office",
-    "Index the content of office files." : "Indexovať obsah kancelárskych súborov ( napr. dokumenty, tabuľky alebo prezentácie).",
+    "Index the content of office files." : "Indexovať obsah kancelárskych súborov.",
     "Results" : "Výsledky",
     "Open Files" : "Otvoriť Súbory",
     "Directly from search results." : "Priamo z výsledkov hľadania.",
@@ -42,7 +42,7 @@ OC.L10N.register(
     "Could not copy \"{file}\", target exists" : "Nie je možné kopírovať \"{file}\", cieľ už existuje",
     "Could not copy \"{file}\"" : "Nie je možné skopírovať \"{file}\"",
     "Copied {origin} inside {destination}" : "Skopírované {origin} do {destination}",
-    "Copied {origin} and {nbfiles} other files inside {destination}" : "Skopírované {origin} a {nbfiles} ostatných súborov do {destination}",
+    "Copied {origin} and {nbfiles} other files inside {destination}" : "Skopírované {origin} a ďalšie súbory v počte {nbfiles} do {destination}",
     "Index the content of external files." : "Indexovať obsah externých súborov"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
