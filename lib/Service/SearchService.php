@@ -50,7 +50,6 @@ class SearchService {
 			return;
 		}
 
-		$this->filesService->secureUsername($request->getAuthor());
 		$request->addRegexFilters(
 			[
 				['title' => '.*\.' . $extension]
@@ -92,7 +91,7 @@ class SearchService {
 	}
 
 	public function improveSearchResult(ISearchResult $searchResult): void {
-		$userId = $this->filesService->secureUsername($searchResult->getRequest()->getAuthor());
+		$userId = $searchResult->getRequest()->getAuthor();
 
 		$indexDocuments = $searchResult->getDocuments();
 		$filesDocuments = [];
