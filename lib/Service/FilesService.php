@@ -361,7 +361,11 @@ class FilesService {
 		}
 
 		$document->setModifiedTime($file->getMTime());
+		/** @var array|false $stat Node::stat() returns false when the file is missing from its storage */
 		$stat = $file->stat();
+		if ($stat === false) {
+			throw new FileIsNotIndexableException('file is missing from its storage');
+		}
 
 		$document->setMore(
 			[
